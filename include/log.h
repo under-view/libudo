@@ -202,10 +202,10 @@ cando_log_get_tcolor (enum cando_log_level_type type);
  * Macros defined to structure the message
  * timestamp - [file:line] message
  */
-#define cando_log(logType, fmt, ...) \
-	cando_log_time(logType, "[%s:%d] %s" fmt, \
+#define cando_log(log_type, fmt, ...) \
+	cando_log_time(log_type, "[%s:%d] %s" fmt, \
 	               __FILE_NAME__,  __LINE__, \
-	               cando_log_get_tcolor(logType), \
+	               cando_log_get_tcolor(log_type), \
 	               ##__VA_ARGS__)
 
 #define cando_log_success(fmt, ...) \
@@ -232,8 +232,8 @@ cando_log_get_tcolor (enum cando_log_level_type type);
 	               cando_log_get_tcolor(CANDO_LOG_ERROR), \
 	               ##__VA_ARGS__)
 
-#define cando_log_print(logType, fmt, ...) \
-	cando_log_notime(logType, fmt, ##__VA_ARGS__)
+#define cando_log_print(log_type, fmt, ...) \
+	cando_log_notime(log_type, fmt, ##__VA_ARGS__)
 
 #define cando_log_set_error(ptr, code, fmt, ...) \
 	cando_log_set_error_struct(ptr, code, "[%s:%d] " fmt, \

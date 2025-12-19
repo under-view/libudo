@@ -340,7 +340,7 @@ cando_log_notime
 cando_log
 =========
 
-.. c:macro:: cando_log(logType, fmt, ...)
+.. c:macro:: cando_log(log_type, fmt, ...)
 
 | Log format
 |
@@ -353,8 +353,8 @@ cando_log
 
 	.. code-block::
 
-		#define cando_log(logType, fmt, ...) \
-			cando_log_time(logType, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+		#define cando_log(log_type, fmt, ...) \
+			cando_log_time(log_type, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
 =================
 cando_log_success
@@ -440,7 +440,7 @@ cando_log_error
 cando_log_print
 ===============
 
-.. c:macro:: cando_log_print(logType, fmt, ...)
+.. c:macro:: cando_log_print(log_type, fmt, ...)
 
 | Log format
 |
@@ -453,8 +453,8 @@ cando_log_print
 
 	.. code-block::
 
-		#define cando_log_print(logType, fmt, ...) \
-			cando_log_notime(logType, fmt, ##__VA_ARGS__)
+		#define cando_log_print(log_type, fmt, ...) \
+			cando_log_notime(log_type, fmt, ##__VA_ARGS__)
 
 ===================
 cando_log_set_error
