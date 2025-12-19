@@ -66,7 +66,7 @@ cando_log_level_type
 		* :c:macro:`cando_log_error`
 		* :c:macro:`cando_log_print`
 
-	.. c:macro::
+	.. c:enumerator::
 		CANDO_LOG_NONE
 		CANDO_LOG_SUCCESS
 		CANDO_LOG_DANGER
@@ -75,31 +75,31 @@ cando_log_level_type
 		CANDO_LOG_RESET
 		CANDO_LOG_ALL
 
-	:c:macro:`CANDO_LOG_NONE`
+	:c:enumerator:`CANDO_LOG_NONE`
 		| Value set to ``0x00000000``
 		| Term color
 
-	:c:macro:`CANDO_LOG_SUCCESS`
+	:c:enumerator:`CANDO_LOG_SUCCESS`
 		| Value set to ``0x00000001``
 		| Green
 
-	:c:macro:`CANDO_LOG_DANGER`
+	:c:enumerator:`CANDO_LOG_DANGER`
 		| Value set to ``0x00000002``
 		| Red
 
-	:c:macro:`CANDO_LOG_INFO`
+	:c:enumerator:`CANDO_LOG_INFO`
 		| Value set to ``0x00000004``
 		| Light purple
 
-	:c:macro:`CANDO_LOG_WARNING`
+	:c:enumerator:`CANDO_LOG_WARNING`
 		| Value set to ``0x00000008``
 		| Yellow
 
-	:c:macro:`CANDO_LOG_RESET`
+	:c:enumerator:`CANDO_LOG_RESET`
 		| Value set to ``0x00000010``
 		| Term color
 
-	:c:macro:`CANDO_LOG_ALL`
+	:c:enumerator:`CANDO_LOG_ALL`
 		| Value set to ``0xFFFFFFFF``
 		| Term color
 
@@ -184,17 +184,17 @@ cando_log_error_type
 		* :c:func:`cando_log_get_error`
 		* :c:func:`cando_log_get_error_code`
 
-	.. c:macro::
+	.. c:enumerator::
 		CANDO_LOG_ERR_UNCOMMON
 		CANDO_LOG_ERR_INCORRECT_DATA
 
-	:c:macro:`CANDO_LOG_ERR_UNCOMMON`
+	:c:enumerator:`CANDO_LOG_ERR_UNCOMMON`
 		| Value set to ``0x1000``
 		| Errors that can't be given a common
 		| error string are given this error code.
 		| Caller would then need to set buffer themselves.
 
-	:c:macro:`CANDO_LOG_ERR_INCORRECT_DATA`
+	:c:enumerator:`CANDO_LOG_ERR_INCORRECT_DATA`
 		| Value set to ``0x1001``
 		| Code for incorrect data passed in function arguments
 
