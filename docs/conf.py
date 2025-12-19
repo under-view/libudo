@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'libcando'
-copyright = '2024-2026, Vincent Davis Jr.'
-author = 'Vincent Davis Jr.'
+copyright = '2024-2026, Underview LLC'
+author = 'Underview LLC'
 release = '0.1.10'
 
 # -- General configuration ---------------------------------------------------
