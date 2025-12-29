@@ -24,6 +24,10 @@ if sock_udp.enabled()
   fs += ['src/sock-udp.c']
 endif
 
+if tpool.enabled()
+  fs += ['src/tpool.c']
+endif
+
 if csock_raw.enabled()
   fs += ['src/csock-raw.c']
 endif

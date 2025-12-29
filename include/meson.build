@@ -43,6 +43,15 @@ if sock_udp.enabled()
 endif
 
 
+if tpool.enabled()
+  main_headers += ['tpool.h']
+
+  headers = '\n#define UDO_TPOOL_INTERFACE\n#include "tpool.h"'
+
+  main_headers_dict += {'TPOOL_INTERFACE': headers}
+endif
+
+
 if csock_raw.enabled()
   main_headers += ['csock-raw.h']
 

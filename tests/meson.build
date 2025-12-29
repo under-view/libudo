@@ -18,6 +18,10 @@ if sock_udp.enabled()
   progs += ['test-sock-udp.c']
 endif
 
+if tpool.enabled()
+  progs += ['test-tpool.c']
+endif
+
 if csock_raw.enabled()
   progs += ['test-csock-raw.c']
   csock_raw_iface = get_option('vcan-iface')
