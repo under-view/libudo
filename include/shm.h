@@ -4,13 +4,13 @@
 #include "macros.h"
 
 /*
- * Stores information about the cando_sock_tcp instace.
+ * Stores information about the udo_shm instace.
  */
-struct cando_shm;
+struct udo_shm;
 
 
 /*
- * @brief Structure passed to cando_shm_create() used
+ * @brief Structure passed to udo_shm_create() used
  *        to define shared memory file name, shm size,
  *        and process count.
  *
@@ -21,7 +21,7 @@ struct cando_shm;
  *                     write to and from the shared memory
  *                     block.
  */
-struct cando_shm_create_info
+struct udo_shm_create_info
 {
 	const char   *shm_file;
 	size_t       shm_size;
@@ -36,37 +36,37 @@ struct cando_shm_create_info
  *        	2. Write futex (initialized to unlocked)
  *        	3. Segment within shared memory to store data
  *
- * @param shm      - May be NULL or a pointer to a struct cando_shm.
+ * @param shm      - May be NULL or a pointer to a struct udo_shm.
  *                   If NULL memory will be allocated and return to
  *                   caller. If not NULL address passed will be used
- *                   to store the newly created struct cando_shm
+ *                   to store the newly created struct udo_shm
  *                   instance.
  * @param shm_info - Implementation uses a pointer to a
- *                   struct cando_shm_create_info
+ *                   struct udo_shm_create_info
  *                   no other implementation may be passed to
  *                   this parameter.
  *
  * @return
- *	on success: Pointer to a struct cando_shm
+ *	on success: Pointer to a struct udo_shm
  *	on failure: NULL
  */
 UDO_API
-struct cando_shm *
-cando_shm_create (struct cando_shm *shm,
-                  const void *shm_info);
+struct udo_shm *
+udo_shm_create (struct udo_shm *shm,
+                const void *shm_info);
 
 
 /*
  * @brief Structure defining what operations to perform
  *        and data to retrieve during calls to
- *        cando_shm_data_read() and cando_shm_data_write().
+ *        udo_shm_data_read() and udo_shm_data_write().
  *
  * @member data       - Pointer to a buffer that will either be used
  *                      to store shm data or write to shm data.
  * @member size       - Size in bytes to read from or write to shared memory.
  * @member proc_index - Index of process to write data to or read data from.
  */
-struct cando_shm_data_info
+struct udo_shm_data_info
 {
 	void         *data;
 	size_t       size;
@@ -79,8 +79,8 @@ struct cando_shm_data_info
  *        caller defined offset and writes into
  *        a caller defined buffer.
  *
- * @param shm      - Pointer to a valid struct cando_shm.
- * @param shm_info - Must pass a pointer to a struct cando_shm_data_info.
+ * @param shm      - Pointer to a valid struct udo_shm.
+ * @param shm_info - Must pass a pointer to a struct udo_shm_data_info.
  *
  * @return
  *	on success: 0
@@ -88,8 +88,8 @@ struct cando_shm_data_info
  */
 UDO_API
 int
-cando_shm_data_read (struct cando_shm *shm,
-                     const void *shm_info);
+udo_shm_data_read (struct udo_shm *shm,
+                   const void *shm_info);
 
 
 /*
@@ -97,8 +97,8 @@ cando_shm_data_read (struct cando_shm *shm,
  *        into shared memory at a caller defined
  *        shared memory offset.
  *
- * @param shm      - Pointer to a valid struct cando_shm.
- * @param shm_info - Must pass a pointer to a struct cando_shm_data_info.
+ * @param shm      - Pointer to a valid struct udo_shm.
+ * @param shm_info - Must pass a pointer to a struct udo_shm_data_info.
  *
  * @return
  *	on success: 0
@@ -107,15 +107,15 @@ cando_shm_data_read (struct cando_shm *shm,
  */
 UDO_API
 int
-cando_shm_data_write (struct cando_shm *shm,
-                      const void *shm_info);
+udo_shm_data_write (struct udo_shm *shm,
+                    const void *shm_info);
 
 
 /*
  * @brief Returns file descriptor to the POSIX shared memory
- *        created after call to cando_shm_create().
+ *        created after call to udo_shm_create().
  *
- * @param shm - Pointer to a valid struct cando_shm.
+ * @param shm - Pointer to a valid struct udo_shm.
  *
  * @return
  *	on success: File descriptor to POSIX shared memory
@@ -123,15 +123,15 @@ cando_shm_data_write (struct cando_shm *shm,
  */
 UDO_API
 int
-cando_shm_get_fd (struct cando_shm *shm);
+udo_shm_get_fd (struct udo_shm *shm);
 
 
 /*
  * @brief Returns starting address of a processes segment
  *        in the mmap(2) map'd POSIX shared memory buffer
- *        created after call to cando_shm_create().
+ *        created after call to udo_shm_create().
  *
- * @param shm        - Pointer to a valid struct cando_shm.
+ * @param shm        - Pointer to a valid struct udo_shm.
  * @param proc_index - Process index to acquire it's shared
  *                     memory segment starting address.
  *
@@ -141,16 +141,16 @@ cando_shm_get_fd (struct cando_shm *shm);
  */
 UDO_API
 void *
-cando_shm_get_data (struct cando_shm *shm,
-                    const unsigned int proc_index);
+udo_shm_get_data (struct udo_shm *shm,
+                  const unsigned int proc_index);
 
 
 /*
  * @brief Returns size of a given process POSIX shared
  *        memory segment size created after call to
- *        cando_shm_create().
+ *        udo_shm_create().
  *
- * @param shm        - Pointer to a valid struct cando_shm.
+ * @param shm        - Pointer to a valid struct udo_shm.
  * @param proc_index - Process index to acquire it's shared
  *                     memory segment size.
  *
@@ -160,19 +160,19 @@ cando_shm_get_data (struct cando_shm *shm,
  */
 UDO_API
 size_t
-cando_shm_get_data_size (struct cando_shm *shm,
-                         const unsigned int proc_index);
+udo_shm_get_data_size (struct udo_shm *shm,
+                       const unsigned int proc_index);
 
 
 /*
  * @brief Frees any allocated memory and closes FD's (if open) create after
- *        cando_shm_create() call.
+ *        udo_shm_create() call.
  *
- * @param shm - Pointer to a valid struct cando_shm.
+ * @param shm - Pointer to a valid struct udo_shm.
  */
 UDO_API
 void
-cando_shm_destroy (struct cando_shm *shm);
+udo_shm_destroy (struct udo_shm *shm);
 
 
 /*
@@ -182,11 +182,11 @@ cando_shm_destroy (struct cando_shm *shm);
  *        of bytes.
  *
  * @return
- *	on success: sizeof(struct cando_shm)
- *	on failure: sizeof(struct cando_shm)
+ *	on success: sizeof(struct udo_shm)
+ *	on failure: sizeof(struct udo_shm)
  */
 UDO_API
 int
-cando_shm_get_sizeof (void);
+udo_shm_get_sizeof (void);
 
 #endif /* UDO_SHM_H */

@@ -24,8 +24,8 @@
 #define UDO_FUTEX_UNLOCK 0
 
 /*
- * @brief Structure defining the cando_shm_proc
- *        (Cando Shared Memory Process) instance.
+ * @brief Structure defining the udo_shm_proc
+ *        (UDO Shared Memory Process) instance.
  *
  * @member rd_fux  - Pointer to a given process read futex
  *                   stored in front segment of shared memory.
@@ -39,7 +39,7 @@
  * @member data_sz - Stores the size of a given processes
  *                   shared memory segment.
  */
-struct cando_shm_proc
+struct udo_shm_proc
 {
 	udo_atomic_u32  *rd_fux;
 	udo_atomic_u32  *wr_fux;
@@ -49,7 +49,7 @@ struct cando_shm_proc
 
 
 /*
- * @brief Structure defining the cando_shm instance.
+ * @brief Structure defining the udo_shm instance.
  *
  * @member err      - Stores information about the error that occured
  *                    for the given instance and may later be retrieved
@@ -64,7 +64,7 @@ struct cando_shm_proc
  * @member procs    - An array storing the shared memory locations
  *                    of each processes futexes and data.
  */
-struct cando_shm
+struct udo_shm
 {
 	struct udo_log_error_struct err;
 	bool                        free;
@@ -72,17 +72,17 @@ struct cando_shm
 	char                        shm_file[SHM_FILE_NAME_MAX];
 	void                        *data;
 	size_t                      data_sz;
-	struct cando_shm_proc       procs[SHM_PROC_MAX];
+	struct udo_shm_proc         procs[SHM_PROC_MAX];
 };
 
 
-/***************************************
- * Start of cando_shm_create functions *
- ***************************************/
+/*************************************
+ * Start of udo_shm_create functions *
+ *************************************/
 
 static int
-p_shm_create (struct cando_shm *shm,
-              const struct cando_shm_create_info *shm_info)
+p_shm_create (struct udo_shm *shm,
+              const struct udo_shm_create_info *shm_info)
 {
 	unsigned int p;
 
@@ -193,18 +193,18 @@ p_shm_create (struct cando_shm *shm,
 }
 
 
-struct cando_shm *
-cando_shm_create (struct cando_shm *p_shm,
-                  const void *p_shm_info)
+struct udo_shm *
+udo_shm_create (struct udo_shm *p_shm,
+                const void *p_shm_info)
 {
 	int err = -1;
 
-	struct cando_shm *shm = p_shm;
+	struct udo_shm *shm = p_shm;
 
-	const struct cando_shm_create_info *shm_info = p_shm_info;
+	const struct udo_shm_create_info *shm_info = p_shm_info;
 
 	if (!shm) {
-		shm = calloc(1, sizeof(struct cando_shm));
+		shm = calloc(1, sizeof(struct udo_shm));
 		if (!shm) {
 			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
@@ -216,25 +216,25 @@ cando_shm_create (struct cando_shm *p_shm,
 	err = p_shm_create(shm, shm_info);
 	if (err == -1) {
 		udo_log_error("%s\n", udo_log_get_error(shm));
-		cando_shm_destroy(shm);
+		udo_shm_destroy(shm);
 		return NULL;
 	}
 
 	return shm;
 }
 
-/*************************************
- * End of cando_shm_create functions *
- *************************************/
+/***********************************
+ * End of udo_shm_create functions *
+ ***********************************/
 
 
-/*************************************
- * Start of cando_shm_data functions *
- *************************************/
+/***********************************
+ * Start of udo_shm_data functions *
+ ***********************************/
 
 UDO_STATIC_INLINE
 unsigned char
-p_check_proc_index (struct cando_shm *shm,
+p_check_proc_index (struct udo_shm *shm,
                     const unsigned int proc_index)
 {
 	return proc_index > __atomic_load_n((udo_atomic_u32*) \
@@ -243,15 +243,15 @@ p_check_proc_index (struct cando_shm *shm,
 
 
 int
-cando_shm_data_read (struct cando_shm *shm,
-                     const void *p_shm_info)
+udo_shm_data_read (struct udo_shm *shm,
+                   const void *p_shm_info)
 {
 	int data;
 
 	size_t s;
 
-	const struct cando_shm_proc *shm_proc;
-	const struct cando_shm_data_info *shm_info = p_shm_info;
+	const struct udo_shm_proc *shm_proc;
+	const struct udo_shm_data_info *shm_info = p_shm_info;
 
 	if (!shm)
 		return -1;
@@ -291,13 +291,13 @@ cando_shm_data_read (struct cando_shm *shm,
 
 
 int
-cando_shm_data_write (struct cando_shm *shm,
-                      const void *p_shm_info)
+udo_shm_data_write (struct udo_shm *shm,
+                    const void *p_shm_info)
 {
 	size_t s;
 
-	const struct cando_shm_proc *shm_proc;
-	const struct cando_shm_data_info *shm_info = p_shm_info;
+	const struct udo_shm_proc *shm_proc;
+	const struct udo_shm_data_info *shm_info = p_shm_info;
 
 	if (!shm)
 		return -1;
@@ -328,17 +328,17 @@ cando_shm_data_write (struct cando_shm *shm,
 	return 0;
 }
 
-/***********************************
- * End of cando_shm_data functions *
- ***********************************/
+/*********************************
+ * End of udo_shm_data functions *
+ *********************************/
 
 
-/************************************
- * Start of cando_shm_get functions *
- ************************************/
+/**********************************
+ * Start of udo_shm_get functions *
+ **********************************/
 
 int
-cando_shm_get_fd (struct cando_shm *shm)
+udo_shm_get_fd (struct udo_shm *shm)
 {
 	if (!shm)
 		return -1;
@@ -348,8 +348,8 @@ cando_shm_get_fd (struct cando_shm *shm)
 
 
 void *
-cando_shm_get_data (struct cando_shm *shm,
-                    const unsigned int proc_index)
+udo_shm_get_data (struct udo_shm *shm,
+                  const unsigned int proc_index)
 {
 	if (!shm || p_check_proc_index(shm, proc_index))
 		return NULL;
@@ -359,8 +359,8 @@ cando_shm_get_data (struct cando_shm *shm,
 
 
 size_t
-cando_shm_get_data_size (struct cando_shm *shm,
-                         const unsigned int proc_index)
+udo_shm_get_data_size (struct udo_shm *shm,
+                       const unsigned int proc_index)
 {
 	if (!shm || p_check_proc_index(shm, proc_index))
 		return -1;
@@ -368,17 +368,17 @@ cando_shm_get_data_size (struct cando_shm *shm,
 	return shm->procs[proc_index].data_sz;
 }
 
-/************************************
- * Start of cando_shm_get functions *
- ************************************/
+/**********************************
+ * Start of udo_shm_get functions *
+ **********************************/
 
 
-/****************************************
- * Start of cando_shm_destroy functions *
- ****************************************/
+/**************************************
+ * Start of udo_shm_destroy functions *
+ **************************************/
 
 void
-cando_shm_destroy (struct cando_shm *shm)
+udo_shm_destroy (struct udo_shm *shm)
 {
 	int value = -1;
 
@@ -399,25 +399,25 @@ cando_shm_destroy (struct cando_shm *shm)
 	if (shm->free) {
 		free(shm);
 	} else {
-		memset(shm, 0, sizeof(struct cando_shm));
+		memset(shm, 0, sizeof(struct udo_shm));
 	}
 }
 
-/****************************************
- * Start of cando_shm_destroy functions *
- ****************************************/
+/**************************************
+ * Start of udo_shm_destroy functions *
+ **************************************/
 
-
-/*************************************************
- * Start of non struct cando_shm param functions *
- *************************************************/
-
-int
-cando_shm_get_sizeof (void)
-{
-	return sizeof(struct cando_shm);
-}
 
 /***********************************************
- * End of non struct cando_shm param functions *
+ * Start of non struct udo_shm param functions *
  ***********************************************/
+
+int
+udo_shm_get_sizeof (void)
+{
+	return sizeof(struct udo_shm);
+}
+
+/*********************************************
+ * End of non struct udo_shm param functions *
+ *********************************************/

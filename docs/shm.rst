@@ -24,34 +24,34 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_shm`
-#. :c:struct:`cando_shm_create_info`
-#. :c:struct:`cando_shm_data_info`
+1. :c:struct:`udo_shm`
+#. :c:struct:`udo_shm_create_info`
+#. :c:struct:`udo_shm_data_info`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_shm_create`
-#. :c:func:`cando_shm_data_read`
-#. :c:func:`cando_shm_data_write`
-#. :c:func:`cando_shm_get_fd`
-#. :c:func:`cando_shm_get_data`
-#. :c:func:`cando_shm_get_data_size`
-#. :c:func:`cando_shm_destroy`
-#. :c:func:`cando_shm_sizeof`
+1. :c:func:`udo_shm_create`
+#. :c:func:`udo_shm_data_read`
+#. :c:func:`udo_shm_data_write`
+#. :c:func:`udo_shm_get_fd`
+#. :c:func:`udo_shm_get_data`
+#. :c:func:`udo_shm_get_data_size`
+#. :c:func:`udo_shm_destroy`
+#. :c:func:`udo_shm_sizeof`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-========================
-cando_shm_proc (private)
-========================
+======================
+udo_shm_proc (private)
+======================
 
-| Structure defining the cando_shm_proc
-| (Cando Shared Memory Process) instance.
+| Structure defining the udo_shm_proc
+| (UDO Shared Memory Process) instance.
 
-.. c:struct:: cando_shm_proc
+.. c:struct:: udo_shm_proc
 
 	.. c:member::
 		udo_atomic_u32  *rd_fux;
@@ -78,13 +78,13 @@ cando_shm_proc (private)
 		| Stores the size of a given processes
 		| shared memory segment.
 
-===================
-cando_shm (private)
-===================
+=================
+udo_shm (private)
+=================
 
-| Structure defining the cando_shm instance.
+| Structure defining the udo_shm instance.
 
-.. c:struct:: cando_shm
+.. c:struct:: udo_shm
 
 	.. c:member::
 		struct udo_log_error_struct err;
@@ -93,7 +93,7 @@ cando_shm (private)
 		char                        shm_file[SHM_FILE_NAME_MAX];
 		void                        *data;
 		size_t                      data_sz;
-		struct cando_shm_proc       procs[SHM_PROC_MAX];
+		struct udo_shm_proc         procs[SHM_PROC_MAX];
 
 	:c:member:`err`
 		| Stores information about the error that occured
@@ -123,15 +123,15 @@ cando_shm (private)
 
 =========================================================================================================================================
 
-=====================
-cando_shm_create_info
-=====================
+===================
+udo_shm_create_info
+===================
 
-| Structure passed to :c:func:`cando_shm_create` used
+| Structure passed to :c:func:`udo_shm_create` used
 | to define shared memory file name, shm size,
 | and process count.
 
-.. c:struct:: cando_shm_create_info
+.. c:struct:: udo_shm_create_info
 
 	.. c:member::
 		const char *shm_file;
@@ -149,7 +149,7 @@ cando_shm_create_info
 		| write to and from the shared memory
 		| block.
 
-.. c:function:: struct cando_shm *cando_shm_create(struct cando_shm *shm, const void *shm_info);
+.. c:function:: struct udo_shm *udo_shm_create(struct udo_shm *shm, const void *shm_info);
 
 | Creates POSIX shared memory and futexes.
 | Each process gets:
@@ -211,32 +211,32 @@ cando_shm_create_info
 		* - Param
 	          - Decription
 		* - shm
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_shm`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_shm`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_shm`
+		    | to store the newly created ``struct`` :c:struct:`udo_shm`
 		    | instance.
 		* - shm_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_shm_create_info`.
+		    | ``struct`` :c:struct:`udo_shm_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_shm`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_shm`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-===================
-cando_shm_data_info
-===================
+=================
+udo_shm_data_info
+=================
 
 | Structure defining what operations to perform
 | and data to retrieve during calls to
-| :c:func:`cando_shm_data_read` and :c:func:`cando_shm_data_write`.
+| :c:func:`udo_shm_data_read` and :c:func:`udo_shm_data_write`.
 
-.. c:struct:: cando_shm_data_info
+.. c:struct:: udo_shm_data_info
 
 	.. c:member::
 		void         *data;
@@ -253,11 +253,11 @@ cando_shm_data_info
 	:c:member:`proc_index`
 		| Index of process to write data to or read data from.
 
-===================
-cando_shm_data_read
-===================
+=================
+udo_shm_data_read
+=================
 
-.. c:function:: int cando_shm_data_read(struct cando_shm *shm, const void *shm_info);
+.. c:function:: int udo_shm_data_read(struct udo_shm *shm, const void *shm_info);
 
 | Reads data stored in shared memory at
 | caller defined offset and writes into
@@ -269,19 +269,19 @@ cando_shm_data_read
 		* - Param
 	          - Decription
 		* - shm
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_shm`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_shm`.
 		* - shm_info
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_shm_data_info`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_shm_data_info`.
 
 	Returns:
 		| **on success:** 0
 		| **on failure:** -1
 
-====================
-cando_shm_data_write
-====================
+==================
+udo_shm_data_write
+==================
 
-.. c:function:: int cando_shm_data_write(struct cando_shm *shm, const void *shm_info);
+.. c:function:: int udo_shm_data_write(struct udo_shm *shm, const void *shm_info);
 
 | Write data stored in caller defined buffer
 | into shared memory at a caller defined
@@ -293,9 +293,9 @@ cando_shm_data_write
 		* - Param
 	          - Decription
 		* - shm
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_shm`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_shm`.
 		* - shm_info
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_shm_data_info`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_shm_data_info`.
 
 	Returns:
 		| **on success:** 0
@@ -303,14 +303,14 @@ cando_shm_data_write
 
 =========================================================================================================================================
 
-================
-cando_shm_get_fd
-================
+==============
+udo_shm_get_fd
+==============
 
-.. c:function:: int cando_shm_get_fd(struct cando_shm *shm);
+.. c:function:: int udo_shm_get_fd(struct udo_shm *shm);
 
 | Returns file descriptor to the POSIX shared memory
-| created after call to :c:func:`cando_shm_create`.
+| created after call to :c:func:`udo_shm_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -318,7 +318,7 @@ cando_shm_get_fd
 		* - Param
 	          - Decription
 		* - shm
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_shm`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_shm`.
 
 	Returns:
 		| **on success:** File descriptor to POSIX shared memory
@@ -326,15 +326,15 @@ cando_shm_get_fd
 
 =========================================================================================================================================
 
-==================
-cando_shm_get_data
-==================
+================
+udo_shm_get_data
+================
 
-.. c:function:: void *cando_shm_get_data(struct cando_shm *shm, const unsigned int proc_index);
+.. c:function:: void *udo_shm_get_data(struct udo_shm *shm, const unsigned int proc_index);
 
 | Returns starting address of a processes segment
 | in the `mmap(2)`_ map'd POSIX shared memory buffer
-| created after call to :c:func:`cando_shm_create`.
+| created after call to :c:func:`udo_shm_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -342,7 +342,7 @@ cando_shm_get_data
 		* - Param
 	          - Decription
 		* - shm
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_shm`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_shm`.
 		* - proc_index
 		  - | Process index to acquire it's shared
 		    | memory segment starting address.
@@ -353,15 +353,15 @@ cando_shm_get_data
 
 =========================================================================================================================================
 
-=======================
-cando_shm_get_data_size
-=======================
+=====================
+udo_shm_get_data_size
+=====================
 
-.. c:function:: size_t cando_shm_get_data_size(struct cando_shm *shm, const unsigned int proc_index);
+.. c:function:: size_t udo_shm_get_data_size(struct udo_shm *shm, const unsigned int proc_index);
 
 | Returns size of a given process POSIX shared
 | memory segment size created after call to
-| :c:func:`cando_shm_create`.
+| :c:func:`udo_shm_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -369,7 +369,7 @@ cando_shm_get_data_size
 		* - Param
 	          - Decription
 		* - shm
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_shm`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_shm`.
 		* - proc_index
 		  - | Process index to acquire it's shared
 		    | memory segment starting address.
@@ -380,14 +380,14 @@ cando_shm_get_data_size
 
 =========================================================================================================================================
 
-=================
-cando_shm_destroy
-=================
+===============
+udo_shm_destroy
+===============
 
-.. c:function:: void cando_shm_destroy(struct cando_shm *shm);
+.. c:function:: void udo_shm_destroy(struct udo_shm *shm);
 
 | Frees any allocated memory and closes FD's (if open) created after
-| :c:func:`cando_shm_create` call.
+| :c:func:`udo_shm_create` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -395,15 +395,15 @@ cando_shm_destroy
 		* - Param
 	          - Decription
 		* - shm
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_shm`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_shm`.
 
 =========================================================================================================================================
 
-====================
-cando_shm_get_sizeof
-====================
+==================
+udo_shm_get_sizeof
+==================
 
-.. c:function:: int cando_shm_get_sizeof(void);
+.. c:function:: int udo_shm_get_sizeof(void);
 
 | Returns size of the internal structure. So,
 | if caller decides to allocate memory outside
@@ -411,8 +411,8 @@ cando_shm_get_sizeof
 | of bytes.
 
 	Returns:
-		| **on success:** sizeof(``struct`` :c:struct:`cando_shm`)
-		| **on failure:** sizeof(``struct`` :c:struct:`cando_shm`)
+		| **on success:** sizeof(``struct`` :c:struct:`udo_shm`)
+		| **on failure:** sizeof(``struct`` :c:struct:`udo_shm`)
 
 =========================================================================================================================================
 
