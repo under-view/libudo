@@ -24,16 +24,16 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_mm`
+1. :c:struct:`udo_mm`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_mm_alloc`
-#. :c:func:`cando_mm_sub_alloc`
-#. :c:func:`cando_mm_free`
-#. :c:func:`cando_mm_destroy`
+1. :c:func:`udo_mm_alloc`
+#. :c:func:`udo_mm_sub_alloc`
+#. :c:func:`udo_mm_free`
+#. :c:func:`udo_mm_destroy`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
@@ -42,11 +42,11 @@ API Documentation
 | be more consciously concern about virtual
 | heap memory management.
 
-==================
-cando_mm (private)
-==================
+================
+udo_mm (private)
+================
 
-.. c:struct:: cando_mm
+.. c:struct:: udo_mm
 
 	.. c:member::
 		struct udo_log_error_struct err;
@@ -60,7 +60,7 @@ cando_mm (private)
 		| for the given instance and may later be retrieved.
 
 	:c:member:`buff_sz`
-		| Full size of the ``struct`` :struct:`cando_mm` instance.
+		| Full size of the ``struct`` :struct:`udo_mm` instance.
 		| Not all bytes in the buffer are writable.
 
 	:c:member:`data_sz`
@@ -76,11 +76,11 @@ cando_mm (private)
 
 =========================================================================================================================================
 
-==============
-cando_mm_alloc
-==============
+============
+udo_mm_alloc
+============
 
-.. c:function:: struct cando_mm *cando_mm_alloc(struct cando_mm *mm, const size_t size);
+.. c:function:: struct udo_mm *udo_mm_alloc(struct udo_mm *mm, const size_t size);
 
 | Returns pointer to an allocated heap memory.
 | The goal of this is to allocate a large block
@@ -89,7 +89,7 @@ cando_mm_alloc
 |
 | Addresses returned from function should not
 | be used to write to. Writable addresses
-| are return from a call to :c:func:`cando_mm_sub_alloc`.
+| are return from a call to :c:func:`udo_mm_sub_alloc`.
 
 	.. list-table::
 		:header-rows: 1
@@ -98,23 +98,23 @@ cando_mm_alloc
 	          - Decription
 		* - mm
 		  - | If ``NULL`` the inital allocation will be performed.
-		    | If not ``NULL`` must pass a pointer to a ``struct`` :c:struct:`cando_mm`.
+		    | If not ``NULL`` must pass a pointer to a ``struct`` :c:struct:`udo_mm`.
 		* - size
 		  - | Size of data caller may allocate. If the
 		    | size is greater than the larger block
 		    | remapping of memory will occur.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_mm`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_mm`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-==================
-cando_mm_sub_alloc
-==================
+================
+udo_mm_sub_alloc
+================
 
-.. c:function:: void *cando_mm_sub_alloc(struct cando_mm *mm, const size_t size);
+.. c:function:: void *udo_mm_sub_alloc(struct udo_mm *mm, const size_t size);
 
 | Returns pointer to an allocated heap memory
 | segment. From an allocated large block of
@@ -129,7 +129,7 @@ cando_mm_sub_alloc
 		* - Param
 	          - Decription
 		* - mm
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_mm`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_mm`.
 		* - size
 		  - | Size of buffer to sub-allocate.
 
@@ -139,11 +139,11 @@ cando_mm_sub_alloc
 
 =========================================================================================================================================
 
-=============
-cando_mm_free
-=============
+===========
+udo_mm_free
+===========
 
-.. c:function:: void cando_mm_free(struct cando_mm *mm, void *data, const size_t size);
+.. c:function:: void udo_mm_free(struct udo_mm *mm, void *data, const size_t size);
 
 | Wipes the bytes at a given subregion of memory.
 | Shifts the memory after the subregion up to a
@@ -163,7 +163,7 @@ cando_mm_free
 		* - Param
 	          - Decription
 		* - mm
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_mm`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_mm`.
 		* - data
 		  - | Address to the data caller wants to zero out.
 		* - size
@@ -171,14 +171,14 @@ cando_mm_free
 
 =========================================================================================================================================
 
-================
-cando_mm_destroy
-================
+==============
+udo_mm_destroy
+==============
 
-.. c:function:: void cando_mm_destroy(struct cando_mm *mm);
+.. c:function:: void udo_mm_destroy(struct udo_mm *mm);
 
 | Free's the large block of allocated memory created after
-| :c:func:`cando_mm_alloc` call.
+| :c:func:`udo_mm_alloc` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -186,4 +186,4 @@ cando_mm_destroy
 		* - Param
 	          - Decription
 		* - flops
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_mm`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_mm`.

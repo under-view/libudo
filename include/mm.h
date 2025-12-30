@@ -10,9 +10,9 @@
 #include "macros.h"
 
 /*
- * Stores information about the cando_mm instance.
+ * Stores information about the udo_mm instance.
  */
-struct cando_mm;
+struct udo_mm;
 
 
 /*
@@ -23,20 +23,20 @@ struct cando_mm;
  *
  *        Addresses returned from function should not
  *        be used to write to. Writable addresses
- *        are return from a call to cando_mm_sub_alloc(3).
+ *        are return from a call to udo_mm_sub_alloc(3).
  *
  * @param mm   - If NULL the inital allocation will be performed.
- *               If not NULL must pass a pointer to a struct cando_mm.
+ *               If not NULL must pass a pointer to a struct udo_mm.
  * @param size - Size of data caller may allocate. If the
  *               size is greater than the larger block
  *               remapping of memory will occur.
  *
  * @return
- *	on success: Pointer to struct cando_mm
+ *	on success: Pointer to struct udo_mm
  *	on failure: NULL
  */
-struct cando_mm *
-cando_mm_alloc (struct cando_mm *mm, const size_t size);
+struct udo_mm *
+udo_mm_alloc (struct udo_mm *mm, const size_t size);
 
 
 /*
@@ -47,7 +47,7 @@ cando_mm_alloc (struct cando_mm *mm, const size_t size);
  *        Addresses returned from function can be
  *        used for writing.
  *
- * @param mm   - Must pass a pointer to a struct cando_mm.
+ * @param mm   - Must pass a pointer to a struct udo_mm.
  * @param size - Size of buffer to sub-allocate.
  *
  * @return
@@ -55,7 +55,7 @@ cando_mm_alloc (struct cando_mm *mm, const size_t size);
  *	on failure: NULL
  */
 void *
-cando_mm_sub_alloc (struct cando_mm *mm, const size_t size);
+udo_mm_sub_alloc (struct udo_mm *mm, const size_t size);
 
 
 /*
@@ -71,23 +71,23 @@ cando_mm_sub_alloc (struct cando_mm *mm, const size_t size);
  *        the address it resides in won't change. Usages
  *        of bounded buffer for strings is encouraged.
  *
- * @param mm   - Must pass a pointer to a struct cando_mm.
+ * @param mm   - Must pass a pointer to a struct udo_mm.
  * @param data - Address to the data caller wants to zero out.
  * @param size - Size of data to zero out
  */
 void
-cando_mm_free (struct cando_mm *mm,
-               void *data,
-               const size_t size);
+udo_mm_free (struct udo_mm *mm,
+             void *data,
+             const size_t size);
 
 
 /*
  * @brief Free's the large block of allocated memory created after
- *        cando_mm_alloc(3) call.
+ *        udo_mm_alloc(3) call.
  *
- * @param mm - Must pass a pointer to a struct cando_mm.
+ * @param mm - Must pass a pointer to a struct udo_mm.
  */
 void
-cando_mm_destroy (struct cando_mm *mm);
+udo_mm_destroy (struct udo_mm *mm);
 
 #endif /* UDO_MM_H */

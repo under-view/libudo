@@ -8,11 +8,11 @@
 #include "mm.h"
 
 /*
- * @brief Structure defining cando_mm (Cando Memory Mapped) instance
+ * @brief Structure defining udo_mm (UDO Memory Mapped) instance.
  *
  * @member err     - Stores information about the error that occured
  *                   for the given instance and may later be retrieved.
- * @member buff_sz - Full size of the struct cando_mm instance.
+ * @member buff_sz - Full size of the struct udo_mm instance.
  *                   Not all bytes in the buffer are writable.
  * @member data_sz - Full size of the caller writable data.
  * @member ab_sz   - The amount of available bytes the caller
@@ -20,7 +20,7 @@
  * @member offset  - Buffer offset used when allocating new blocks
  *                   in constant time.
  */
-struct cando_mm
+struct udo_mm
 {
 	struct udo_log_error_struct err;
 	size_t                      buff_sz;
@@ -31,13 +31,13 @@ struct cando_mm
 
 
 static void *
-priv_new_virtual_memory_mapping (struct cando_mm *mm, const size_t size)
+priv_new_virtual_memory_mapping (struct udo_mm *mm, const size_t size)
 {
 	void *data = NULL;
 
 	size_t offset = 0, new_data_sz = 0;
 
-	offset = sizeof(struct cando_mm);
+	offset = sizeof(struct udo_mm);
 
 	new_data_sz = (mm) ? mm->buff_sz + size : offset + size;
 
@@ -72,10 +72,10 @@ priv_new_virtual_memory_mapping (struct cando_mm *mm, const size_t size)
 }
 
 
-struct cando_mm *
-cando_mm_alloc (struct cando_mm *mm, const size_t size)
+struct udo_mm *
+udo_mm_alloc (struct udo_mm *mm, const size_t size)
 {
-	struct cando_mm *ret = mm;
+	struct udo_mm *ret = mm;
 
 	if (!mm) {
 		ret = priv_new_virtual_memory_mapping(mm, size);
@@ -88,7 +88,7 @@ cando_mm_alloc (struct cando_mm *mm, const size_t size)
 
 
 void *
-cando_mm_sub_alloc (struct cando_mm *mm, const size_t size)
+udo_mm_sub_alloc (struct udo_mm *mm, const size_t size)
 {
 	void *data = NULL;
 
@@ -114,9 +114,9 @@ cando_mm_sub_alloc (struct cando_mm *mm, const size_t size)
 
 
 void
-cando_mm_free (struct cando_mm *mm,
-               void *data,
-               const size_t size)
+udo_mm_free (struct udo_mm *mm,
+             void *data,
+             const size_t size)
 {
 	size_t copy_sz = 0;
 
@@ -140,7 +140,7 @@ cando_mm_free (struct cando_mm *mm,
 
 
 void
-cando_mm_destroy (struct cando_mm *mm)
+udo_mm_destroy (struct udo_mm *mm)
 {
 	if (!mm)
 		return;
