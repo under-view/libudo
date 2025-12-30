@@ -17,7 +17,7 @@
 #include "sock-tcp.h"
 
 /*
- * @brief Structure defining Cando Socket TCP interface implementation.
+ * @brief Structure defining UDO Socket TCP instance.
  *
  * @member err     - Stores information about the error that occured
  *                   for the given instance and may later be retrieved
@@ -31,7 +31,7 @@
  * @member addr    - Stores network byte information about the TCP socket context.
  *                   Is used for client connect(2) and server accept(2).
  */
-struct cando_sock_tcp
+struct udo_sock_tcp
 {
 	struct udo_log_error_struct err;
 	bool                        free;
@@ -47,7 +47,7 @@ struct cando_sock_tcp
  *****************************************/
 
 static int
-p_set_sock_opts (struct cando_sock_tcp *sock,
+p_set_sock_opts (struct udo_sock_tcp *sock,
                  const int sock_fd,
                  const bool ipv6)
 {
@@ -81,15 +81,15 @@ p_set_sock_opts (struct cando_sock_tcp *sock,
 }
 
 
-static struct cando_sock_tcp *
-p_create_sock (struct cando_sock_tcp *p_sock,
+static struct udo_sock_tcp *
+p_create_sock (struct udo_sock_tcp *p_sock,
                const void *p_sock_info)
 {
 	int err = -1;
 
-	struct cando_sock_tcp *sock = p_sock;
+	struct udo_sock_tcp *sock = p_sock;
 
-	const struct cando_sock_tcp_create_info
+	const struct udo_sock_tcp_create_info
 	{
 		unsigned char ipv6 : 1;
 		const char    *ip_addr;
@@ -97,7 +97,7 @@ p_create_sock (struct cando_sock_tcp *p_sock,
 	} *sock_info = p_sock_info;
 
 	if (!sock) {
-		sock = calloc(1, sizeof(struct cando_sock_tcp));
+		sock = calloc(1, sizeof(struct udo_sock_tcp));
 		if (!sock) {
 			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
@@ -109,14 +109,14 @@ p_create_sock (struct cando_sock_tcp *p_sock,
 	sock->fd = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
 	if (sock->fd == -1) {
 		udo_log_error("socket: %s\n", strerror(errno));
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		return NULL;
 	}
 
 	err = p_set_sock_opts(sock, sock->fd, sock_info->ipv6);
 	if (err == -1) {
 		udo_log_error("%s\n", udo_log_get_error(sock));
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		return NULL;
 	}
 
@@ -129,11 +129,11 @@ p_create_sock (struct cando_sock_tcp *p_sock,
 	err = inet_pton(AF_INET6, sock->ip_addr, &(sock->addr.sin6_addr));
 	if (err == 0) {
 		udo_log_error("'%s' invalid\n", sock->ip_addr);
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		return NULL;
 	} else if (err == -1) {
 		udo_log_error("inet_pton: %s\n", strerror(errno));
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		return NULL;
 	}
 
@@ -145,19 +145,19 @@ p_create_sock (struct cando_sock_tcp *p_sock,
  ***************************************/
 
 
-/********************************************
- * Start of cando_sock_tcp_server functions *
- ********************************************/
+/******************************************
+ * Start of udo_sock_tcp_server functions *
+ ******************************************/
 
-struct cando_sock_tcp *
-cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
-                              const void *p_sock_info)
+struct udo_sock_tcp *
+udo_sock_tcp_server_create (struct udo_sock_tcp *p_sock,
+                            const void *p_sock_info)
 {
 	int err = -1, flags = 0;
 
-	struct cando_sock_tcp *sock = NULL;
+	struct udo_sock_tcp *sock = NULL;
 
-	const struct cando_sock_tcp_server_create_info *sock_info = p_sock_info;
+	const struct udo_sock_tcp_server_create_info *sock_info = p_sock_info;
 
 	sock = p_create_sock(p_sock, p_sock_info);
 	if (!sock)
@@ -166,7 +166,7 @@ cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
 	flags = sock_info->connections;
 	err = setsockopt(sock->fd, SOL_TCP, TCP_KEEPCNT, &flags, sizeof(int));
 	if (err == -1) {
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		udo_log_error("setsockopt: %s\n", strerror(errno));
 		return NULL;
 	}
@@ -174,14 +174,14 @@ cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
 	flags = 5; // 5 seconds
 	err = setsockopt(sock->fd, SOL_TCP, TCP_KEEPIDLE, &flags, sizeof(int));
 	if (err == -1) {
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		udo_log_error("setsockopt: %s\n", strerror(errno));
 		return NULL;
 	}
 
 	err = setsockopt(sock->fd, SOL_TCP, TCP_KEEPINTVL, &flags, sizeof(int));
 	if (err == -1) {
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		udo_log_error("setsockopt: %s\n", strerror(errno));
 		return NULL;
 	}
@@ -189,14 +189,14 @@ cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
 	err = bind(sock->fd, (struct sockaddr*) &(sock->addr),
 			sizeof(struct sockaddr_in6));
 	if (err == -1) {
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		udo_log_error("bind: %s\n", strerror(errno));
 		return NULL;
 	}
 
 	err = listen(sock->fd, sock_info->connections);
 	if (err == -1) {
-		cando_sock_tcp_destroy(sock);
+		udo_sock_tcp_destroy(sock);
 		udo_log_error("listen: %s\n", strerror(errno));
 		return NULL;
 	}
@@ -206,8 +206,8 @@ cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
 
 
 int
-cando_sock_tcp_server_accept (struct cando_sock_tcp *sock,
-                              struct sockaddr_in6 *p_addr)
+udo_sock_tcp_server_accept (struct udo_sock_tcp *sock,
+                            struct sockaddr_in6 *p_addr)
 {
 	const char *ip_addr = NULL;
 
@@ -244,20 +244,20 @@ cando_sock_tcp_server_accept (struct cando_sock_tcp *sock,
 	return client_sock;
 }
 
+/****************************************
+ * End of udo_sock_tcp_server functions *
+ ****************************************/
+
+
 /******************************************
- * End of cando_sock_tcp_server functions *
+ * Start of udo_sock_tcp_client functions *
  ******************************************/
 
-
-/********************************************
- * Start of cando_sock_tcp_client functions *
- ********************************************/
-
-struct cando_sock_tcp *
-cando_sock_tcp_client_create (struct cando_sock_tcp *p_sock,
-                              const void *sock_info)
+struct udo_sock_tcp *
+udo_sock_tcp_client_create (struct udo_sock_tcp *p_sock,
+                            const void *sock_info)
 {
-	struct cando_sock_tcp *sock = NULL;
+	struct udo_sock_tcp *sock = NULL;
 
 	sock = p_create_sock(p_sock, sock_info);
 	if (!sock)
@@ -268,7 +268,7 @@ cando_sock_tcp_client_create (struct cando_sock_tcp *p_sock,
 
 
 int
-cando_sock_tcp_client_connect (struct cando_sock_tcp *sock)
+udo_sock_tcp_client_connect (struct udo_sock_tcp *sock)
 {
 	int err = -1;
 
@@ -295,28 +295,28 @@ cando_sock_tcp_client_connect (struct cando_sock_tcp *sock)
 
 
 ssize_t
-cando_sock_tcp_client_send_data (struct cando_sock_tcp *sock,
-                                 const void *data,
-                                 const size_t size,
-                                 const void *sock_info)
+udo_sock_tcp_client_send_data (struct udo_sock_tcp *sock,
+                               const void *data,
+                               const size_t size,
+                               const void *sock_info)
 {
 	if (!sock)
 		return -1;
 
-	return cando_sock_tcp_send_data(sock->fd, data, size, sock_info);
+	return udo_sock_tcp_send_data(sock->fd, data, size, sock_info);
 }
 
-/******************************************
- * End of cando_sock_tcp_client functions *
- ******************************************/
+/****************************************
+ * End of udo_sock_tcp_client functions *
+ ****************************************/
 
 
-/*****************************************
- * Start of cando_sock_tcp_get functions *
- *****************************************/
+/***************************************
+ * Start of udo_sock_tcp_get functions *
+ ***************************************/
 
 int
-cando_sock_tcp_get_fd (struct cando_sock_tcp *sock)
+udo_sock_tcp_get_fd (struct udo_sock_tcp *sock)
 {
 	if (!sock)
 		return -1;
@@ -326,7 +326,7 @@ cando_sock_tcp_get_fd (struct cando_sock_tcp *sock)
 
 
 const char *
-cando_sock_tcp_get_ip_addr (struct cando_sock_tcp *sock)
+udo_sock_tcp_get_ip_addr (struct udo_sock_tcp *sock)
 {
 	if (!sock || \
 	    !(*sock->ip_addr))
@@ -339,7 +339,7 @@ cando_sock_tcp_get_ip_addr (struct cando_sock_tcp *sock)
 
 
 int
-cando_sock_tcp_get_port (struct cando_sock_tcp *sock)
+udo_sock_tcp_get_port (struct udo_sock_tcp *sock)
 {
 	if (!sock)
 		return -1;
@@ -347,17 +347,17 @@ cando_sock_tcp_get_port (struct cando_sock_tcp *sock)
 	return sock->port;
 }
 
-/***************************************
- * End of cando_sock_tcp_get functions *
- ***************************************/
+/*************************************
+ * End of udo_sock_tcp_get functions *
+ *************************************/
 
 
-/*********************************************
- * Start of cando_sock_tcp_destroy functions *
- *********************************************/
+/*******************************************
+ * Start of udo_sock_tcp_destroy functions *
+ *******************************************/
 
 void
-cando_sock_tcp_destroy (struct cando_sock_tcp *sock)
+udo_sock_tcp_destroy (struct udo_sock_tcp *sock)
 {
 	if (!sock)
 		return;
@@ -367,32 +367,32 @@ cando_sock_tcp_destroy (struct cando_sock_tcp *sock)
 	if (sock->free) {
 		free(sock);
 	} else {
-		memset(sock, 0, sizeof(struct cando_sock_tcp));
+		memset(sock, 0, sizeof(struct udo_sock_tcp));
 		sock->fd = -1;
 	}
 }
 
-/*******************************************
- * End of cando_sock_tcp_destroy functions *
- *******************************************/
+/*****************************************
+ * End of udo_sock_tcp_destroy functions *
+ *****************************************/
 
 
-/******************************************************
- * Start of non struct cando_sock_tcp param functions *
- ******************************************************/
+/****************************************************
+ * Start of non struct udo_sock_tcp param functions *
+ ****************************************************/
 
 int
-cando_sock_tcp_get_sizeof (void)
+udo_sock_tcp_get_sizeof (void)
 {
-	return sizeof(struct cando_sock_tcp);
+	return sizeof(struct udo_sock_tcp);
 }
 
 
 ssize_t
-cando_sock_tcp_recv_data (const int sock_fd,
-                          void *data,
-                          const size_t size,
-                          const void *sock_info)
+udo_sock_tcp_recv_data (const int sock_fd,
+                        void *data,
+                        const size_t size,
+                        const void *sock_info)
 {
 	ssize_t ret = 0;
 
@@ -418,10 +418,10 @@ cando_sock_tcp_recv_data (const int sock_fd,
 
 
 ssize_t
-cando_sock_tcp_send_data (const int sock_fd,
-                          const void *data,
-                          const size_t size,
-                          const void *sock_info)
+udo_sock_tcp_send_data (const int sock_fd,
+                        const void *data,
+                        const size_t size,
+                        const void *sock_info)
 {
 	ssize_t ret = 0;
 
@@ -445,6 +445,6 @@ cando_sock_tcp_send_data (const int sock_fd,
 	return ret;
 }
 
-/****************************************************
- * End of non struct cando_sock_tcp param functions *
- ****************************************************/
+/**************************************************
+ * End of non struct udo_sock_tcp param functions *
+ **************************************************/
