@@ -37,12 +37,12 @@ futex (void *uaddr,
  ***************************************/
 
 
-/*****************************************
- * Start of cando_futex_create functions *
- *****************************************/
+/***************************************
+ * Start of udo_futex_create functions *
+ ***************************************/
 
 udo_atomic_u32 *
-cando_futex_create (const unsigned int count)
+udo_futex_create (const unsigned int count)
 {
 	unsigned int f;
 
@@ -72,14 +72,14 @@ cando_futex_create (const unsigned int count)
 	return fux;
 }
 
-/*****************************************
- * Start of cando_futex_create functions *
- *****************************************/
+/*************************************
+ * End of udo_futex_create functions *
+ *************************************/
 
 
-/***************************************
- * Start of cando_futex_lock functions *
- ***************************************/
+/*************************************
+ * Start of udo_futex_lock functions *
+ *************************************/
 
 UDO_STATIC_INLINE
 unsigned char
@@ -90,7 +90,7 @@ p_is_futex_funlock (udo_atomic_u32 *fux)
 
 
 void
-cando_futex_lock (udo_atomic_u32 *fux)
+udo_futex_lock (udo_atomic_u32 *fux)
 {
 	int i;
 
@@ -131,17 +131,17 @@ cando_futex_lock (udo_atomic_u32 *fux)
 	}
 }
 
-/*************************************
- * End of cando_futex_lock functions *
- *************************************/
+/***********************************
+ * End of udo_futex_lock functions *
+ ***********************************/
 
 
-/*****************************************
- * Start of cando_futex_unlock functions *
- *****************************************/
+/***************************************
+ * Start of udo_futex_unlock functions *
+ ***************************************/
 
 void
-cando_futex_unlock (udo_atomic_u32 *fux)
+udo_futex_unlock (udo_atomic_u32 *fux)
 {
 	if (!fux)
 		return;
@@ -152,7 +152,7 @@ cando_futex_unlock (udo_atomic_u32 *fux)
 
 
 void
-cando_futex_unlock_force (udo_atomic_u32 *fux)
+udo_futex_unlock_force (udo_atomic_u32 *fux)
 {
 	if (!fux)
 		return;
@@ -161,17 +161,17 @@ cando_futex_unlock_force (udo_atomic_u32 *fux)
 	futex(fux, FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
 }
 
-/***************************************
- * End of cando_futex_unlock functions *
- ***************************************/
+/*************************************
+ * End of udo_futex_unlock functions *
+ *************************************/
 
 
-/******************************************
- * Start of cando_futex_destroy functions *
- ******************************************/
+/****************************************
+ * Start of udo_futex_destroy functions *
+ ****************************************/
 
 void
-cando_futex_destroy (udo_atomic_u32 *fux)
+udo_futex_destroy (udo_atomic_u32 *fux)
 {
 	if (!fux)
 		return;
@@ -179,6 +179,6 @@ cando_futex_destroy (udo_atomic_u32 *fux)
 	munmap(fux, sizeof(udo_atomic_u32));
 }
 
-/****************************************
- * End of cando_futex_destroy functions *
- ****************************************/
+/**************************************
+ * End of udo_futex_destroy functions *
+ **************************************/

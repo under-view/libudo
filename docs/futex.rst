@@ -28,28 +28,28 @@ Structs
 Functions
 =========
 
-1. :c:func:`cando_futex_create`
-#. :c:func:`cando_futex_lock`
-#. :c:func:`cando_futex_unlock`
-#. :c:func:`cando_futex_unlock_force`
-#. :c:func:`cando_futex_destroy`
+1. :c:func:`udo_futex_create`
+#. :c:func:`udo_futex_lock`
+#. :c:func:`udo_futex_unlock`
+#. :c:func:`udo_futex_unlock_force`
+#. :c:func:`udo_futex_destroy`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-==================
-cando_futex_create
-==================
+================
+udo_futex_create
+================
 
-.. c:function:: udo_atomic_u32 *cando_futex_create(const unsigned int count);
+.. c:function:: udo_atomic_u32 *udo_futex_create(const unsigned int count);
 
 | Allocates shared memory space that may be used
 | to store a futex. This function usage should
 | be limited to processes/threads that were created
 | via `fork()`_ or `pthread_create()`_. For processes
-| created without `fork()`_ see `shm.c`_ implementation.
-| By default all futexes are initialize in the locked
-| state.
+| created without `fork()`_ (i.e seperate application)
+| see `shm.c`_ implementation. By default all futexes
+| are initialize in the locked state.
 
 	.. list-table:: Futex Memory Block (3 futexes)
 		:header-rows: 1
@@ -86,16 +86,16 @@ cando_futex_create
 
 =========================================================================================================================================
 
-================
-cando_futex_lock
-================
+==============
+udo_futex_lock
+==============
 
-.. c:function:: void cando_futex_lock(udo_atomic_u32 *fux);
+.. c:function:: void udo_futex_lock(udo_atomic_u32 *fux);
 
 | Atomically updates futex value to the locked state.
 | If value can't be changed inform kernel that a
 | process needs to be put to sleep. Sets errno to
-| `EINTR`_ if a call to :c:func:`cando_futex_unlock_force`
+| `EINTR`_ if a call to :c:func:`udo_futex_unlock_force`
 | is made.
 
 	.. list-table::
@@ -108,11 +108,11 @@ cando_futex_lock
 
 =========================================================================================================================================
 
-==================
-cando_futex_unlock
-==================
+================
+udo_futex_unlock
+================
 
-.. c:function:: void cando_futex_unlock(udo_atomic_u32 *fux);
+.. c:function:: void udo_futex_unlock(udo_atomic_u32 *fux);
 
 | Atomically update futex value to the unlocked state.
 | Then inform kernel to wake up all processes/threads
@@ -126,11 +126,11 @@ cando_futex_unlock
 		* - fux
 		  - | Pointer to 32-bit integer storing futex.
 
-========================
-cando_futex_unlock_force
-========================
+======================
+udo_futex_unlock_force
+======================
 
-.. c:function:: void cando_futex_unlock_force(udo_atomic_u32 *fux);
+.. c:function:: void udo_futex_unlock_force(udo_atomic_u32 *fux);
 
 | Atomically update futex value to the force unlocked state.
 | Then inform kernel to wake up all processes/threads
@@ -149,14 +149,14 @@ cando_futex_unlock_force
 
 =========================================================================================================================================
 
-===================
-cando_futex_destroy
-===================
+=================
+udo_futex_destroy
+=================
 
-.. c:function:: void cando_futex_destroy(udo_atomic_u32 *fux);
+.. c:function:: void udo_futex_destroy(udo_atomic_u32 *fux);
 
 | Frees any allocated memory and closes FD's (if open)
-| created after :c:func:`cando_futex_create` call.
+| created after :c:func:`udo_futex_create` call.
 
 	.. list-table::
 		:header-rows: 1

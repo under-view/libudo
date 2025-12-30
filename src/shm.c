@@ -266,7 +266,7 @@ cando_shm_data_read (struct cando_shm *shm,
 
 	shm_proc = &(shm->procs[shm_info->proc_index]);
 
-	cando_futex_lock(shm_proc->rd_fux);
+	udo_futex_lock(shm_proc->rd_fux);
 	if (errno == EINTR)
 		return -errno;
 
@@ -284,7 +284,7 @@ cando_shm_data_read (struct cando_shm *shm,
 			__ATOMIC_RELEASE);
 	}
 
-	cando_futex_unlock(shm_proc->wr_fux);
+	udo_futex_unlock(shm_proc->wr_fux);
 
 	return 0;
 }
@@ -312,7 +312,7 @@ cando_shm_data_write (struct cando_shm *shm,
 
 	shm_proc = &(shm->procs[shm_info->proc_index]);
 
-	cando_futex_lock(shm_proc->wr_fux);
+	udo_futex_lock(shm_proc->wr_fux);
 	if (errno == EINTR)
 		return -errno;
 
@@ -323,7 +323,7 @@ cando_shm_data_write (struct cando_shm *shm,
 			__ATOMIC_RELEASE);
 	}
 
-	cando_futex_unlock(shm_proc->rd_fux);
+	udo_futex_unlock(shm_proc->rd_fux);
 
 	return 0;
 }
