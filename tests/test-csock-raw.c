@@ -20,8 +20,8 @@
  * Start of test_csock_raw_create functions *
  ********************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_create (void UDO_UNUSED **state)
 {
 	struct udo_csock_raw *csock = NULL;
 
@@ -72,8 +72,8 @@ p_test_csock_raw_send_recv_client (void)
 }
 
 
-static void CANDO_UNUSED
-test_csock_raw_send_recv (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_send_recv (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -85,7 +85,7 @@ test_csock_raw_send_recv (void CANDO_UNUSED **state)
 
 	struct udo_csock_raw_create_info csock_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	cando_log_set_level(UDO_LOG_ALL);
 
 	pid = fork();
 	if (pid == 0) {
@@ -116,8 +116,8 @@ test_csock_raw_send_recv (void CANDO_UNUSED **state)
  * Start of test_csock_raw_get_fd functions *
  ********************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_get_fd (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_get_fd (void UDO_UNUSED **state)
 {
 	int sock_fd = -1;
 
@@ -147,8 +147,8 @@ test_csock_raw_get_fd (void CANDO_UNUSED **state)
  * Start of test_csock_raw_get_iface functions *
  ***********************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_get_iface (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_get_iface (void UDO_UNUSED **state)
 {
 	const char *iface = NULL;
 
@@ -178,8 +178,8 @@ test_csock_raw_get_iface (void CANDO_UNUSED **state)
  * Start of test_csock_raw_get_sizeof functions *
  ************************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_get_sizeof (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_get_sizeof (void UDO_UNUSED **state)
 {
 	int size = 0;
 	size = udo_csock_raw_get_sizeof();

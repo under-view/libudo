@@ -222,7 +222,7 @@ cando_usock_tcp_client_connect (struct cando_usock_tcp *usock)
 		return -1;
 
 	if (usock->fd <= 0) {
-		cando_log_set_error(usock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(usock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 

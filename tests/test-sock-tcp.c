@@ -19,8 +19,8 @@
  * Start of test_sock_tcp_server_create functions *
  **************************************************/
 
-static void CANDO_UNUSED
-test_sock_tcp_server_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_server_create (void UDO_UNUSED **state)
 {
 	struct cando_sock_tcp *server = NULL;
 
@@ -45,8 +45,8 @@ test_sock_tcp_server_create (void CANDO_UNUSED **state)
  * Start of test_sock_tcp_client_create functions *
  **************************************************/
 
-static void CANDO_UNUSED
-test_sock_tcp_client_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_client_create (void UDO_UNUSED **state)
 {
 	struct cando_sock_tcp *client = NULL;
 
@@ -94,8 +94,8 @@ p_test_sock_tcp_accept_connect_client (void)
 }
 
 
-static void CANDO_UNUSED
-test_sock_tcp_accept_connect (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_accept_connect (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -105,7 +105,7 @@ test_sock_tcp_accept_connect (void CANDO_UNUSED **state)
 
 	struct cando_sock_tcp_server_create_info server_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	cando_log_set_level(UDO_LOG_ALL);
 
 	server_info.ipv6 = 0;
 	server_info.port = 7777;
@@ -171,8 +171,8 @@ p_test_sock_tcp_send_recv_client (void)
 }
 
 
-static void CANDO_UNUSED
-test_sock_tcp_send_recv (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_send_recv (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -184,7 +184,7 @@ test_sock_tcp_send_recv (void CANDO_UNUSED **state)
 
 	struct cando_sock_tcp_server_create_info server_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	cando_log_set_level(UDO_LOG_ALL);
 
 	server_info.ipv6 = 1;
 	server_info.port = 7777;
@@ -225,8 +225,8 @@ test_sock_tcp_send_recv (void CANDO_UNUSED **state)
  * Start of test_sock_tcp_get_fd functions *
  *******************************************/
 
-static void CANDO_UNUSED
-test_sock_tcp_get_fd (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_get_fd (void UDO_UNUSED **state)
 {
 	int sock_fd = -1;
 
@@ -258,8 +258,8 @@ test_sock_tcp_get_fd (void CANDO_UNUSED **state)
  * Start of test_sock_tcp_get_ip_addr functions *
  ************************************************/
 
-static void CANDO_UNUSED
-test_sock_tcp_get_ip_addr (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_get_ip_addr (void UDO_UNUSED **state)
 {
 	const char *ip_addr = NULL;
 
@@ -292,8 +292,8 @@ test_sock_tcp_get_ip_addr (void CANDO_UNUSED **state)
  * Start of test_sock_tcp_get_port functions *
  *********************************************/
 
-static void CANDO_UNUSED
-test_sock_tcp_get_port (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_get_port (void UDO_UNUSED **state)
 {
 	int port = -1;
 
@@ -325,8 +325,8 @@ test_sock_tcp_get_port (void CANDO_UNUSED **state)
  * Start of test_sock_tcp_get_sizeof functions *
  ***********************************************/
 
-static void CANDO_UNUSED
-test_sock_tcp_get_sizeof (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_tcp_get_sizeof (void UDO_UNUSED **state)
 {
 	int size = 0;
 	size = cando_sock_tcp_get_sizeof();

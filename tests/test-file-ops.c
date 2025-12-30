@@ -18,8 +18,8 @@
  * Start of test_file_ops_create functions *
  *******************************************/
 
-static void CANDO_UNUSED
-test_file_ops_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_create (void UDO_UNUSED **state)
 {
 	int ret = -1;
 
@@ -44,8 +44,8 @@ test_file_ops_create (void CANDO_UNUSED **state)
 }
 
 
-static void CANDO_UNUSED
-test_file_ops_create_empty_file (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_create_empty_file (void UDO_UNUSED **state)
 {
 	int ret = -1;
 
@@ -58,7 +58,7 @@ test_file_ops_create_empty_file (void CANDO_UNUSED **state)
 	memset(&fstats, 0, sizeof(fstats));
 	memset(&file_info, 0, sizeof(file_info));
 
-	cando_log_set_level(CANDO_LOG_ERROR);
+	cando_log_set_level(UDO_LOG_ERROR);
 
 	file_info.size = (1<<12);
 	file_info.fname = "/tmp/some-file.txt";
@@ -82,8 +82,8 @@ test_file_ops_create_empty_file (void CANDO_UNUSED **state)
  * Start of test_file_ops_zero_copy functions *
  **********************************************/
 
-static void CANDO_UNUSED
-test_file_ops_zero_copy (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_zero_copy (void UDO_UNUSED **state)
 {
 	int ret = -1;
 
@@ -150,8 +150,8 @@ test_file_ops_zero_copy (void CANDO_UNUSED **state)
  * Start of test_file_ops_get functions *
  ****************************************/
 
-static void CANDO_UNUSED
-test_file_ops_get_data (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_get_data (void UDO_UNUSED **state)
 {
 	struct stat fstats;
 
@@ -175,8 +175,8 @@ test_file_ops_get_data (void CANDO_UNUSED **state)
 }
 
 
-static void CANDO_UNUSED
-test_file_ops_get_line (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_get_line (void UDO_UNUSED **state)
 {
 	char buffer[32];
 
@@ -217,8 +217,8 @@ test_file_ops_get_line (void CANDO_UNUSED **state)
 }
 
 
-static void CANDO_UNUSED
-test_file_ops_get_line_count (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_get_line_count (void UDO_UNUSED **state)
 {
 	unsigned long int line_count = 0;
 
@@ -239,8 +239,8 @@ test_file_ops_get_line_count (void CANDO_UNUSED **state)
 }
 
 
-static void CANDO_UNUSED
-test_file_ops_get_fd (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_get_fd (void UDO_UNUSED **state)
 {
 	int fd = -1;
 
@@ -264,8 +264,8 @@ test_file_ops_get_fd (void CANDO_UNUSED **state)
 }
 
 
-static void CANDO_UNUSED
-test_file_ops_get_filename (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_get_filename (void UDO_UNUSED **state)
 {
 	const char *fname = NULL;
 
@@ -289,8 +289,8 @@ test_file_ops_get_filename (void CANDO_UNUSED **state)
 }
 
 
-static void CANDO_UNUSED
-test_file_ops_get_data_size (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_get_data_size (void UDO_UNUSED **state)
 {
 	size_t size = 0;
 
@@ -322,8 +322,8 @@ test_file_ops_get_data_size (void CANDO_UNUSED **state)
  * Start of test_file_ops_set functions *
  ****************************************/
 
-static void CANDO_UNUSED
-test_file_ops_set_data (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_set_data (void UDO_UNUSED **state)
 {
 	int ret = -1;
 
@@ -363,8 +363,8 @@ test_file_ops_set_data (void CANDO_UNUSED **state)
  * Start of test_file_ops_get_sizeof functions *
  ***********************************************/
 
-static void CANDO_UNUSED
-test_file_ops_get_sizeof (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_get_sizeof (void UDO_UNUSED **state)
 {
 	int size = 0;
 	size = udo_file_ops_get_sizeof();
@@ -380,8 +380,8 @@ test_file_ops_get_sizeof (void CANDO_UNUSED **state)
  * Start of test_file_ops_set_fd_flags functions *
  *************************************************/
 
-static void CANDO_UNUSED
-test_file_ops_set_fd_flags (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_file_ops_set_fd_flags (void UDO_UNUSED **state)
 {
 	int err = 0, fd = -1;
 

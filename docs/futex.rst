@@ -41,7 +41,7 @@ API Documentation
 cando_futex_create
 ==================
 
-.. c:function:: cando_atomic_u32 *cando_futex_create(const unsigned int count);
+.. c:function:: udo_atomic_u32 *cando_futex_create(const unsigned int count);
 
 | Allocates shared memory space that may be used
 | to store a futex. This function usage should
@@ -81,7 +81,7 @@ cando_futex_create
 		    | shared memory block.
 
 	Returns:
-		| **on success:** Pointer to a ``cando_atomic_u32``
+		| **on success:** Pointer to a ``udo_atomic_u32``
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
@@ -90,7 +90,7 @@ cando_futex_create
 cando_futex_lock
 ================
 
-.. c:function:: void cando_futex_lock(cando_atomic_u32 *fux);
+.. c:function:: void cando_futex_lock(udo_atomic_u32 *fux);
 
 | Atomically updates futex value to the locked state.
 | If value can't be changed inform kernel that a
@@ -112,7 +112,7 @@ cando_futex_lock
 cando_futex_unlock
 ==================
 
-.. c:function:: void cando_futex_unlock(cando_atomic_u32 *fux);
+.. c:function:: void cando_futex_unlock(udo_atomic_u32 *fux);
 
 | Atomically update futex value to the unlocked state.
 | Then inform kernel to wake up all processes/threads
@@ -130,7 +130,7 @@ cando_futex_unlock
 cando_futex_unlock_force
 ========================
 
-.. c:function:: void cando_futex_unlock_force(cando_atomic_u32 *fux);
+.. c:function:: void cando_futex_unlock_force(udo_atomic_u32 *fux);
 
 | Atomically update futex value to the force unlocked state.
 | Then inform kernel to wake up all processes/threads
@@ -153,7 +153,7 @@ cando_futex_unlock_force
 cando_futex_destroy
 ===================
 
-.. c:function:: void cando_futex_destroy(cando_atomic_u32 *fux);
+.. c:function:: void cando_futex_destroy(udo_atomic_u32 *fux);
 
 | Frees any allocated memory and closes FD's (if open)
 | created after :c:func:`cando_futex_create` call.

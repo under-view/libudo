@@ -1,5 +1,5 @@
-#ifndef CANDO_FUTEX_H
-#define CANDO_FUTEX_H
+#ifndef UDO_FUTEX_H
+#define UDO_FUTEX_H
 
 #include "macros.h"
 
@@ -16,11 +16,11 @@
  *                shared memory block.
  *
  * @return
- *	on success: Pointer to a cando_atomic_u32
+ *	on success: Pointer to a udo_atomic_u32
  *	on failure: NULL
  */
-CANDO_API
-cando_atomic_u32 *
+UDO_API
+udo_atomic_u32 *
 cando_futex_create (const unsigned int count);
 
 
@@ -33,9 +33,9 @@ cando_futex_create (const unsigned int count);
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_lock (cando_atomic_u32 *fux);
+cando_futex_lock (udo_atomic_u32 *fux);
 
 
 /*
@@ -45,9 +45,9 @@ cando_futex_lock (cando_atomic_u32 *fux);
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_unlock (cando_atomic_u32 *fux);
+cando_futex_unlock (udo_atomic_u32 *fux);
 
 
 /*
@@ -60,9 +60,9 @@ cando_futex_unlock (cando_atomic_u32 *fux);
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_unlock_force (cando_atomic_u32 *fux);
+cando_futex_unlock_force (udo_atomic_u32 *fux);
 
 
 /*
@@ -71,8 +71,8 @@ cando_futex_unlock_force (cando_atomic_u32 *fux);
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_destroy (cando_atomic_u32 *fux);
+cando_futex_destroy (udo_atomic_u32 *fux);
 
-#endif /* CANDO_FUTEX_H */
+#endif /* UDO_FUTEX_H */

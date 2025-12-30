@@ -199,7 +199,7 @@ cando_vsock_udp_server_accept (struct cando_vsock_udp *vsock,
 		return -1;
 
 	if (!addr) {
-		cando_log_set_error(vsock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(vsock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -278,7 +278,7 @@ cando_vsock_udp_client_connect (struct cando_vsock_udp *vsock)
 		return -1;
 
 	if (vsock->fd <= 0) {
-		cando_log_set_error(vsock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(vsock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 

@@ -67,39 +67,39 @@ cando_log_level_type
 		* :c:macro:`cando_log_print`
 
 	.. c:enumerator::
-		CANDO_LOG_NONE
-		CANDO_LOG_SUCCESS
-		CANDO_LOG_DANGER
-		CANDO_LOG_INFO
-		CANDO_LOG_WARNING
-		CANDO_LOG_RESET
-		CANDO_LOG_ALL
+		UDO_LOG_NONE
+		UDO_LOG_SUCCESS
+		UDO_LOG_DANGER
+		UDO_LOG_INFO
+		UDO_LOG_WARNING
+		UDO_LOG_RESET
+		UDO_LOG_ALL
 
-	:c:enumerator:`CANDO_LOG_NONE`
+	:c:enumerator:`UDO_LOG_NONE`
 		| Value set to ``0x00000000``
 		| Term color
 
-	:c:enumerator:`CANDO_LOG_SUCCESS`
+	:c:enumerator:`UDO_LOG_SUCCESS`
 		| Value set to ``0x00000001``
 		| Green
 
-	:c:enumerator:`CANDO_LOG_DANGER`
+	:c:enumerator:`UDO_LOG_DANGER`
 		| Value set to ``0x00000002``
 		| Red
 
-	:c:enumerator:`CANDO_LOG_INFO`
+	:c:enumerator:`UDO_LOG_INFO`
 		| Value set to ``0x00000004``
 		| Light purple
 
-	:c:enumerator:`CANDO_LOG_WARNING`
+	:c:enumerator:`UDO_LOG_WARNING`
 		| Value set to ``0x00000008``
 		| Yellow
 
-	:c:enumerator:`CANDO_LOG_RESET`
+	:c:enumerator:`UDO_LOG_RESET`
 		| Value set to ``0x00000010``
 		| Term color
 
-	:c:enumerator:`CANDO_LOG_ALL`
+	:c:enumerator:`UDO_LOG_ALL`
 		| Value set to ``0xFFFFFFFF``
 		| Term color
 
@@ -113,7 +113,7 @@ cando_log_set_level
 
 | Sets which type of messages that are allowed to be printed to an open file.
 |
-| Default is set to ``CANDO_LOG_NONE``.
+| Default is set to ``UDO_LOG_NONE``.
 
 	.. list-table::
 		:header-rows: 1
@@ -185,16 +185,16 @@ cando_log_error_type
 		* :c:func:`cando_log_get_error_code`
 
 	.. c:enumerator::
-		CANDO_LOG_ERR_UNCOMMON
-		CANDO_LOG_ERR_INCORRECT_DATA
+		UDO_LOG_ERR_UNCOMMON
+		UDO_LOG_ERR_INCORRECT_DATA
 
-	:c:enumerator:`CANDO_LOG_ERR_UNCOMMON`
+	:c:enumerator:`UDO_LOG_ERR_UNCOMMON`
 		| Value set to ``0x1000``
 		| Errors that can't be given a common
 		| error string are given this error code.
 		| Caller would then need to set buffer themselves.
 
-	:c:enumerator:`CANDO_LOG_ERR_INCORRECT_DATA`
+	:c:enumerator:`UDO_LOG_ERR_INCORRECT_DATA`
 		| Value set to ``0x1001``
 		| Code for incorrect data passed in function arguments
 
@@ -210,7 +210,7 @@ cando_log_error_struct
 
 	.. c:member::
 		unsigned int code;
-		char         buffer[CANDO_PAGE_SIZE];
+		char         buffer[UDO_PAGE_SIZE];
 
 	:c:member:`code`
 		| Error code or errno
@@ -374,7 +374,7 @@ cando_log_success
 	.. code-block::
 
 		#define cando_log_success(fmt, ...) \
-			cando_log_time(CANDO_LOG_SUCCESS, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+			cando_log_time(UDO_LOG_SUCCESS, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
 ==============
 cando_log_info
@@ -394,7 +394,7 @@ cando_log_info
 	.. code-block::
 
 		#define cando_log_info(fmt, ...) \
-			cando_log_time(CANDO_LOG_INFO, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+			cando_log_time(UDO_LOG_INFO, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
 =================
 cando_log_warning
@@ -414,7 +414,7 @@ cando_log_warning
 	.. code-block::
 
 		#define cando_log_warning(fmt, ...) \
-			cando_log_time(CANDO_LOG_WARNING, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+			cando_log_time(UDO_LOG_WARNING, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
 ===============
 cando_log_error
@@ -434,7 +434,7 @@ cando_log_error
 	.. code-block::
 
 		#define cando_log_error(fmt, ...) \
-			cando_log_time(CANDO_LOG_ERROR, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+			cando_log_time(UDO_LOG_ERROR, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
 ===============
 cando_log_print

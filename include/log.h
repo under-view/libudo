@@ -1,5 +1,5 @@
-#ifndef CANDO_LOG_H
-#define CANDO_LOG_H
+#ifndef UDO_LOG_H
+#define UDO_LOG_H
 
 #include "macros.h"
 
@@ -10,23 +10,23 @@
  *        Sets which messages of a given type to print and is used to
  *        help determine which ANSI Escape Codes to utilize.
  *
- * @macro CANDO_LOG_NONE    - Term color
- * @macro CANDO_LOG_SUCCESS - Green
- * @macro CANDO_LOG_ERROR   - Red
- * @macro CANDO_LOG_INFO    - Light purple
- * @macro CANDO_LOG_WARNING - Yellow
- * @macro CANDO_LOG_RESET   - Term color
- * @macro CANDO_LOG_ALL     - All above colors
+ * @macro UDO_LOG_NONE    - Term color
+ * @macro UDO_LOG_SUCCESS - Green
+ * @macro UDO_LOG_ERROR   - Red
+ * @macro UDO_LOG_INFO    - Light purple
+ * @macro UDO_LOG_WARNING - Yellow
+ * @macro UDO_LOG_RESET   - Term color
+ * @macro UDO_LOG_ALL     - All above colors
  */
 enum cando_log_level_type
 {
-	CANDO_LOG_NONE    = 0x00000000,
-	CANDO_LOG_SUCCESS = 0x00000001,
-	CANDO_LOG_ERROR   = 0x00000002,
-	CANDO_LOG_INFO    = 0x00000004,
-	CANDO_LOG_WARNING = 0x00000008,
-	CANDO_LOG_RESET   = 0x00000010,
-	CANDO_LOG_ALL     = 0xFFFFFFFF
+	UDO_LOG_NONE    = 0x00000000,
+	UDO_LOG_SUCCESS = 0x00000001,
+	UDO_LOG_ERROR   = 0x00000002,
+	UDO_LOG_INFO    = 0x00000004,
+	UDO_LOG_WARNING = 0x00000008,
+	UDO_LOG_RESET   = 0x00000010,
+	UDO_LOG_ALL     = 0xFFFFFFFF
 };
 
 
@@ -37,7 +37,7 @@ enum cando_log_level_type
  * @param level - 32-bit integer representing the type of log to print to
  *                an open file. Each log type has a different color.
  */
-CANDO_API
+UDO_API
 void
 cando_log_set_level (enum cando_log_level_type level);
 
@@ -50,7 +50,7 @@ cando_log_set_level (enum cando_log_level_type level);
  *
  * @param fd - File descriptor to an open file
  */
-CANDO_API
+UDO_API
 void
 cando_log_set_write_fd (const int fd);
 
@@ -60,7 +60,7 @@ cando_log_set_write_fd (const int fd);
  *        storage array to remove the ansi colors
  *        and replace with "[LOG_TYPE] ".
  */
-CANDO_API
+UDO_API
 void
 cando_log_remove_colors (void);
 
@@ -69,7 +69,7 @@ cando_log_remove_colors (void);
  * @brief Sets the internal global ansi color
  *        storage array to it's original values.
  */
-CANDO_API
+UDO_API
 void
 cando_log_reset_colors (void);
 
@@ -81,15 +81,15 @@ cando_log_reset_colors (void);
  *        Add on userspace error codes should be well out
  *        of range of any known common error code.
  *
- * @macro CANDO_LOG_ERR_UNCOMMON       - Errors that can't be given a common
+ * @macro UDO_LOG_ERR_UNCOMMON       - Errors that can't be given a common
  *                                       error string are given this error code.
  *                                       Caller would then need to set buffer themselves.
- * @macro CANDO_LOG_ERR_INCORRECT_DATA - Code for incorrect data passed in function arguments
+ * @macro UDO_LOG_ERR_INCORRECT_DATA - Code for incorrect data passed in function arguments
  */
 enum cando_log_error_type
 {
-	CANDO_LOG_ERR_UNCOMMON       = 0x1000,
-	CANDO_LOG_ERR_INCORRECT_DATA = 0x1001,
+	UDO_LOG_ERR_UNCOMMON       = 0x1000,
+	UDO_LOG_ERR_INCORRECT_DATA = 0x1001,
 };
 
 
@@ -120,7 +120,7 @@ struct cando_log_error_struct
  * 	on success: Passed context error string
  * 	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
 cando_log_get_error (const void *context);
 
@@ -137,7 +137,7 @@ cando_log_get_error (const void *context);
  * 	on success: Passed context error code or errno
  * 	on failure: UINT32_MAX
  */
-CANDO_API
+UDO_API
 unsigned int
 cando_log_get_error_code (const void *context);
 
@@ -152,7 +152,7 @@ cando_log_get_error_code (const void *context);
  * @param fmt     - Format of the log passed to va_args.
  * @param ...     - Variable list arguments
  */
-CANDO_API
+UDO_API
 void
 cando_log_set_error_struct (void *context,
                             const unsigned int code,
@@ -169,7 +169,7 @@ cando_log_set_error_struct (void *context,
  * @param fmt  - Format of the log passed to va_args
  * @param ...  - Variable list arguments
  */
-CANDO_API
+UDO_API
 void
 cando_log_time (enum cando_log_level_type type,
 		const char *fmt,
@@ -185,7 +185,7 @@ cando_log_time (enum cando_log_level_type type,
  * @param fmt  - Format of the log passed to va_args
  * @param ...  - Variable list arguments
  */
-CANDO_API
+UDO_API
 void
 cando_log_notime (enum cando_log_level_type type,
 		  const char *fmt,
@@ -209,27 +209,27 @@ cando_log_get_tcolor (enum cando_log_level_type type);
 	               ##__VA_ARGS__)
 
 #define cando_log_success(fmt, ...) \
-	cando_log_time(CANDO_LOG_SUCCESS, "[%s:%d] %s" fmt, \
+	cando_log_time(UDO_LOG_SUCCESS, "[%s:%d] %s" fmt, \
 	               __FILE_NAME__, __LINE__, \
-	               cando_log_get_tcolor(CANDO_LOG_SUCCESS), \
+	               cando_log_get_tcolor(UDO_LOG_SUCCESS), \
 	               ##__VA_ARGS__)
 
 #define cando_log_info(fmt, ...) \
-	cando_log_time(CANDO_LOG_INFO, "[%s:%d] %s" fmt, \
+	cando_log_time(UDO_LOG_INFO, "[%s:%d] %s" fmt, \
 	               __FILE_NAME__, __LINE__, \
-	               cando_log_get_tcolor(CANDO_LOG_INFO), \
+	               cando_log_get_tcolor(UDO_LOG_INFO), \
 	               ##__VA_ARGS__)
 
 #define cando_log_warning(fmt, ...) \
-	cando_log_time(CANDO_LOG_WARNING, "[%s:%d] %s" fmt, \
+	cando_log_time(UDO_LOG_WARNING, "[%s:%d] %s" fmt, \
 	               __FILE_NAME__, __LINE__, \
-	               cando_log_get_tcolor(CANDO_LOG_WARNING), \
+	               cando_log_get_tcolor(UDO_LOG_WARNING), \
 	               ##__VA_ARGS__)
 
 #define cando_log_error(fmt, ...) \
-	cando_log_time(CANDO_LOG_ERROR, "[%s:%d] %s" fmt, \
+	cando_log_time(UDO_LOG_ERROR, "[%s:%d] %s" fmt, \
 	               __FILE_NAME__, __LINE__, \
-	               cando_log_get_tcolor(CANDO_LOG_ERROR), \
+	               cando_log_get_tcolor(UDO_LOG_ERROR), \
 	               ##__VA_ARGS__)
 
 #define cando_log_print(log_type, fmt, ...) \
@@ -239,4 +239,4 @@ cando_log_get_tcolor (enum cando_log_level_type type);
 	cando_log_set_error_struct(ptr, code, "[%s:%d] " fmt, \
 	                           __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
-#endif /* CANDO_LOG_H */
+#endif /* UDO_LOG_H */

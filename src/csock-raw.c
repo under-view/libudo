@@ -128,13 +128,13 @@ udo_csock_raw_send_data (struct udo_csock_raw *csock,
 
 	if (csock->fd < 0 || !frame)
 	{
-		cando_log_set_error(csock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(csock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	ret = send(csock->fd, frame, size, flags);
 	if (ret != size) {
-		cando_log_set_error(csock, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(csock, UDO_LOG_ERR_UNCOMMON,
 			"send: incomplete CAN frame");
 		return -1;
 	} else if (errno == EINTR || errno == EAGAIN) {
@@ -172,13 +172,13 @@ udo_csock_raw_recv_data (struct udo_csock_raw *csock,
 
 	if (csock->fd < 0 || !frame)
 	{
-		cando_log_set_error(csock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(csock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	ret = recv(csock->fd, frame, size, flags);
 	if (ret != size) {
-		cando_log_set_error(csock, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(csock, UDO_LOG_ERR_UNCOMMON,
 			"recv: incomplete CAN frame");
 		return -1;
 	} else if (errno == EINTR || errno == EAGAIN) {

@@ -150,7 +150,7 @@ udo_file_ops_truncate_file (struct udo_file_ops *flops,
 
 	if (size == 0)
 	{
-		cando_log_set_error(flops, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -186,14 +186,14 @@ udo_file_ops_zero_copy (struct udo_file_ops *flops,
 	if (!file_info || \
 	    file_info->size == 0)
 	{
-		cando_log_set_error(flops, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	ret = splice(file_info->in_fd,
 		     file_info->in_off,
 		     flops->pipe_fds[1], 0,
-		     CANDO_MIN(file_info->size, PIPE_MAX_BUFF_SIZE),
+		     UDO_MIN(file_info->size, PIPE_MAX_BUFF_SIZE),
 		     SPLICE_F_MOVE|SPLICE_F_MORE);
 	if (ret == 0) {
 		return 0;
@@ -205,7 +205,7 @@ udo_file_ops_zero_copy (struct udo_file_ops *flops,
 	ret = splice(flops->pipe_fds[0], 0,
 		     file_info->out_fd,
 		     file_info->out_off,
-		     CANDO_MIN(file_info->size, PIPE_MAX_BUFF_SIZE),
+		     UDO_MIN(file_info->size, PIPE_MAX_BUFF_SIZE),
 		     SPLICE_F_MOVE|SPLICE_F_MORE);
 	if (ret == -1) {
 		cando_log_set_error(flops, errno, "splice: %s", strerror(errno));
@@ -234,7 +234,7 @@ udo_file_ops_get_data (struct udo_file_ops *flops,
 	if (!(flops->data) || \
 	    offset >= flops->data_sz)
 	{
-		cando_log_set_error(flops, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return NULL;
 	}
 
@@ -254,7 +254,7 @@ udo_file_ops_get_line (struct udo_file_ops *flops,
 	if (!(flops->data) || \
 	    !p_line)
 	{
-		cando_log_set_error(flops, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return NULL;
 	}
 
@@ -285,7 +285,7 @@ udo_file_ops_get_line_count (struct udo_file_ops *flops)
 
 	if (!(flops->data))
 	{
-		cando_log_set_error(flops, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -353,13 +353,13 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
 	    !(file_info->data) || \
 	    (file_info->size+file_info->offset) >= flops->data_sz)
 	{
-		cando_log_set_error(flops, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	data = (void*)(((char*)flops->data)+file_info->offset);
 
-	ret = CANDO_PAGE_SET_WRITE(data, file_info->size);
+	ret = UDO_PAGE_SET_WRITE(data, file_info->size);
 	if (ret == -1) {
 		cando_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
 		return -1;
@@ -367,7 +367,7 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
 
 	memcpy(data, file_info->data, file_info->size);
 
-	ret = CANDO_PAGE_SET_READ(data, file_info->size);
+	ret = UDO_PAGE_SET_READ(data, file_info->size);
 	if (ret == -1) {
 		cando_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
 		return -1;

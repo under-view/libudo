@@ -20,8 +20,8 @@
 #define SHM_PROC_MAX (1<<4)
 #define SHM_FILE_NAME_MAX (1<<5)
 
-#define CANDO_FUTEX_LOCK 1
-#define CANDO_FUTEX_UNLOCK 0
+#define UDO_FUTEX_LOCK 1
+#define UDO_FUTEX_UNLOCK 0
 
 /*
  * @brief Structure defining the cando_shm_proc
@@ -41,9 +41,9 @@
  */
 struct cando_shm_proc
 {
-	cando_atomic_u32  *rd_fux;
-	cando_atomic_u32  *wr_fux;
-	cando_atomic_addr data;
+	udo_atomic_u32  *rd_fux;
+	udo_atomic_u32  *wr_fux;
+	udo_atomic_addr data;
 	size_t            data_sz;
 };
 
@@ -93,21 +93,21 @@ p_shm_create (struct cando_shm *shm,
 	if (!(shm_info->proc_count) || \
 	    shm_info->proc_count >= SHM_PROC_MAX)
 	{
-		cando_log_set_error(shm, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
 		                    "Unsupported process count (%u:%u)",
 		                    shm_info->proc_count, SHM_PROC_MAX);
 		return -1;
 	}
 
 	if (!(shm_info->shm_size)) {
-		cando_log_set_error(shm, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
 		                    "Shared memory size must not be zero",
 		                    shm_info->shm_size);
 		return -1;
 	}
 
 	if (shm_info->shm_file[0] != '/') {
-		cando_log_set_error(shm, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
 		                    "Shared memory file name '%s' doesn't start with '/'",
 		                    shm_info->shm_file);
 		return -1;
@@ -115,7 +115,7 @@ p_shm_create (struct cando_shm *shm,
 
 	len = strnlen(shm_info->shm_file, SHM_FILE_NAME_MAX);
 	if (len >= SHM_FILE_NAME_MAX) {
-		cando_log_set_error(shm, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
 		                    "Shared memory '%s' name length to long",
 		                    shm_info->shm_file);
 		return -1;
@@ -150,43 +150,43 @@ p_shm_create (struct cando_shm *shm,
 	 * The next X amount of bytes (2 * 4 * proc_count)
 	 * stores each processes read/write futexes.
 	 */
-	if (__atomic_load_n((cando_atomic_u32*)shm->data, \
+	if (__atomic_load_n((udo_atomic_u32*)shm->data, \
 	    __ATOMIC_ACQUIRE) >= shm_info->proc_count)
 	{
-		cando_log_set_error(shm, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
 		                    "Unsupported process count (%u:%u)",
 		                    shm_info->proc_count, SHM_PROC_MAX);
 		return -1;
 	}
 
-	__atomic_add_fetch((cando_atomic_u32*)shm->data, 1, __ATOMIC_SEQ_CST);
+	__atomic_add_fetch((udo_atomic_u32*)shm->data, 1, __ATOMIC_SEQ_CST);
 
-	fux_off = sizeof(cando_atomic_u32);
-	data_off = fux_off + (2 * sizeof(cando_atomic_u32) * shm_info->proc_count);
+	fux_off = sizeof(udo_atomic_u32);
+	data_off = fux_off + (2 * sizeof(udo_atomic_u32) * shm_info->proc_count);
 	proc_data_sz = (shm->data_sz - data_off) / shm_info->proc_count;
 
 	for (p = 0; p < shm_info->proc_count; p++) {
 		shm->procs[p].data_sz = proc_data_sz;
-		shm->procs[p].data = (cando_atomic_addr)((char*)shm->data + data_off);
+		shm->procs[p].data = (udo_atomic_addr)((char*)shm->data + data_off);
 
-		shm->procs[p].rd_fux = (cando_atomic_u32*)((char*)shm->data + fux_off);
-		shm->procs[p].wr_fux = (cando_atomic_u32*)((char*)shm->data + \
-				fux_off + sizeof(cando_atomic_u32));
+		shm->procs[p].rd_fux = (udo_atomic_u32*)((char*)shm->data + fux_off);
+		shm->procs[p].wr_fux = (udo_atomic_u32*)((char*)shm->data + \
+				fux_off + sizeof(udo_atomic_u32));
 
 		/* Initialize read futex to lock state */
 		__atomic_compare_exchange_n(shm->procs[p].rd_fux, \
-			&(cando_atomic_u32){CANDO_FUTEX_UNLOCK}, \
-			CANDO_FUTEX_LOCK, 0, __ATOMIC_SEQ_CST, \
+			&(udo_atomic_u32){UDO_FUTEX_UNLOCK}, \
+			UDO_FUTEX_LOCK, 0, __ATOMIC_SEQ_CST, \
 			__ATOMIC_SEQ_CST);
 
 		/* Initialize write futex to unlocked state (just in case). */
 		__atomic_compare_exchange_n(shm->procs[p].wr_fux, \
-			&(cando_atomic_u32){CANDO_FUTEX_UNLOCK}, \
-			CANDO_FUTEX_UNLOCK, 0, __ATOMIC_SEQ_CST, \
+			&(udo_atomic_u32){UDO_FUTEX_UNLOCK}, \
+			UDO_FUTEX_UNLOCK, 0, __ATOMIC_SEQ_CST, \
 			__ATOMIC_SEQ_CST);
 
 		data_off += proc_data_sz;
-		fux_off += (2 * sizeof(cando_atomic_u32));
+		fux_off += (2 * sizeof(udo_atomic_u32));
 	}
 
 	return 0;
@@ -232,12 +232,12 @@ cando_shm_create (struct cando_shm *p_shm,
  * Start of cando_shm_data functions *
  *************************************/
 
-CANDO_STATIC_INLINE
+UDO_STATIC_INLINE
 unsigned char
 p_check_proc_index (struct cando_shm *shm,
                     const unsigned int proc_index)
 {
-	return proc_index > __atomic_load_n((cando_atomic_u32*) \
+	return proc_index > __atomic_load_n((udo_atomic_u32*) \
 			shm->data, __ATOMIC_ACQUIRE);
 }
 
@@ -260,7 +260,7 @@ cando_shm_data_read (struct cando_shm *shm,
 	    !(shm_info->data) || \
 	    p_check_proc_index(shm, shm_info->proc_index))
 	{
-		cando_log_set_error(shm, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(shm, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -271,15 +271,15 @@ cando_shm_data_read (struct cando_shm *shm,
 		return -errno;
 
 	for (s = 0; s < shm_info->size; s += sizeof(int)) {
-		data = __atomic_load_n((cando_atomic_int*) \
+		data = __atomic_load_n((udo_atomic_int*) \
 			((char*)shm_proc->data + s), \
 			__ATOMIC_ACQUIRE);
 
-		__atomic_store_n((cando_atomic_int*) \
+		__atomic_store_n((udo_atomic_int*) \
 			((char*)shm_info->data + s), \
 			data, __ATOMIC_RELEASE);
 
-		__atomic_clear((cando_atomic_int*) \
+		__atomic_clear((udo_atomic_int*) \
 			((char*)shm_proc->data + s),
 			__ATOMIC_RELEASE);
 	}
@@ -306,7 +306,7 @@ cando_shm_data_write (struct cando_shm *shm,
 	    !(shm_info->data) || \
 	    p_check_proc_index(shm, shm_info->proc_index))
 	{
-		cando_log_set_error(shm, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(shm, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -317,7 +317,7 @@ cando_shm_data_write (struct cando_shm *shm,
 		return -errno;
 
 	for (s = 0; s < shm_info->size; s += sizeof(int)) {
-		__atomic_store_n((cando_atomic_int*) \
+		__atomic_store_n((udo_atomic_int*) \
 			((char*)shm_proc->data + s), \
 			*((int*)((char*)shm_info->data + s)), \
 			__ATOMIC_RELEASE);
@@ -386,7 +386,7 @@ cando_shm_destroy (struct cando_shm *shm)
 		return;
 
 	if (shm->data) {
-		value = (int) __atomic_sub_fetch((cando_atomic_u32*) \
+		value = (int) __atomic_sub_fetch((udo_atomic_u32*) \
 			shm->data, 1, __ATOMIC_SEQ_CST);
 		munmap(shm->data, shm->data_sz);
 	}

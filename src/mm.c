@@ -98,7 +98,7 @@ cando_mm_sub_alloc (struct cando_mm *mm, const size_t size)
 	}
 
 	if (mm->ab_sz <= size) {
-		cando_log_set_error(mm, CANDO_LOG_ERR_UNCOMMON,
+		cando_log_set_error(mm, UDO_LOG_ERR_UNCOMMON,
 		                    "Cannot allocate %lu bytes only %lu bytes left.",
 		                    size, mm->ab_sz);
 		return NULL;

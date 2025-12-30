@@ -1,5 +1,5 @@
-#ifndef CANDO_SOCK_UDP_H
-#define CANDO_SOCK_UDP_H
+#ifndef UDO_SOCK_UDP_H
+#define UDO_SOCK_UDP_H
 
 #include "macros.h"
 
@@ -45,7 +45,7 @@ struct cando_sock_udp_server_create_info
  *	on success: Pointer to a struct cando_sock_udp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_sock_udp *
 cando_sock_udp_server_create (struct cando_sock_udp *sock,
                               const void *sock_info);
@@ -67,7 +67,7 @@ cando_sock_udp_server_create (struct cando_sock_udp *sock,
  *	on success: File descriptor to accepted client
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_sock_udp_server_accept (struct cando_sock_udp *sock,
                               const struct sockaddr_in6 *addr,
@@ -90,7 +90,7 @@ cando_sock_udp_server_accept (struct cando_sock_udp *sock,
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_sock_udp_server_recv_data (struct cando_sock_udp *sock,
                                  void *data,
@@ -133,7 +133,7 @@ struct cando_sock_udp_client_create_info
  *	on success: Pointer to a struct cando_sock_udp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_sock_udp *
 cando_sock_udp_client_create (struct cando_sock_udp *sock,
                               const void *sock_info);
@@ -150,7 +150,7 @@ cando_sock_udp_client_create (struct cando_sock_udp *sock,
  *	on success: 0
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_sock_udp_client_connect (struct cando_sock_udp *sock);
 
@@ -169,7 +169,7 @@ cando_sock_udp_client_connect (struct cando_sock_udp *sock);
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_sock_udp_client_send_data (struct cando_sock_udp *sock,
                                  const void *data,
@@ -187,7 +187,7 @@ cando_sock_udp_client_send_data (struct cando_sock_udp *sock,
  *	on success: Socket file descriptor
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_sock_udp_get_fd (struct cando_sock_udp *sock);
 
@@ -202,7 +202,7 @@ cando_sock_udp_get_fd (struct cando_sock_udp *sock);
  *	on success: Textual network ip address
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
 cando_sock_udp_get_ip_addr (struct cando_sock_udp *sock);
 
@@ -217,7 +217,7 @@ cando_sock_udp_get_ip_addr (struct cando_sock_udp *sock);
  *	on success: Network port connected to instance
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_sock_udp_get_port (struct cando_sock_udp *sock);
 
@@ -228,7 +228,7 @@ cando_sock_udp_get_port (struct cando_sock_udp *sock);
  *
  * @param sock - Pointer to a valid struct cando_sock_udp.
  */
-CANDO_API
+UDO_API
 void
 cando_sock_udp_destroy (struct cando_sock_udp *sock);
 
@@ -243,7 +243,7 @@ cando_sock_udp_destroy (struct cando_sock_udp *sock);
  *	on success: sizeof(struct cando_sock_udp)
  *	on failure: sizeof(struct cando_sock_udp)
  */
-CANDO_API
+UDO_API
 int
 cando_sock_udp_get_sizeof (void);
 
@@ -264,7 +264,7 @@ cando_sock_udp_get_sizeof (void);
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_sock_udp_recv_data (const int sock_fd,
                           void *data,
@@ -289,7 +289,7 @@ cando_sock_udp_recv_data (const int sock_fd,
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_sock_udp_send_data (const int sock_fd,
                           const void *data,
@@ -297,4 +297,4 @@ cando_sock_udp_send_data (const int sock_fd,
                           const struct sockaddr_in6 *addr,
                           const void *sock_info);
 
-#endif /* CANDO_SOCK_UDP_H */
+#endif /* UDO_SOCK_UDP_H */

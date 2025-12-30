@@ -197,7 +197,7 @@ cando_sock_udp_server_accept (struct cando_sock_udp *sock,
 		return -1;
 
 	if (!addr) {
-		cando_log_set_error(sock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(sock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -277,7 +277,7 @@ cando_sock_udp_client_connect (struct cando_sock_udp *sock)
 		return -1;
 
 	if (sock->fd <= 0) {
-		cando_log_set_error(sock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(sock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 

@@ -1,5 +1,5 @@
-#ifndef CANDO_USOCK_UDP_H
-#define CANDO_USOCK_UDP_H
+#ifndef UDO_USOCK_UDP_H
+#define UDO_USOCK_UDP_H
 
 #include "macros.h"
 
@@ -43,7 +43,7 @@ struct cando_usock_udp_server_create_info
  *	on success: Pointer to a struct cando_usock_udp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_usock_udp *
 cando_usock_udp_server_create (struct cando_usock_udp *usock,
                                const void *usock_info);
@@ -65,7 +65,7 @@ cando_usock_udp_server_create (struct cando_usock_udp *usock,
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_usock_udp_server_recv_data (struct cando_usock_udp *usock,
                                   void *data,
@@ -109,7 +109,7 @@ struct cando_usock_udp_client_create_info
  *	on success: Pointer to a struct cando_usock_udp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_usock_udp *
 cando_usock_udp_client_create (struct cando_usock_udp *usock,
                                const void *usock_info);
@@ -129,7 +129,7 @@ cando_usock_udp_client_create (struct cando_usock_udp *usock,
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_usock_udp_client_send_data (struct cando_usock_udp *usock,
                                   const void *data,
@@ -147,7 +147,7 @@ cando_usock_udp_client_send_data (struct cando_usock_udp *usock,
  *	on success: Unix domain socket file descriptor
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_usock_udp_get_fd (struct cando_usock_udp *usock);
 
@@ -162,7 +162,7 @@ cando_usock_udp_get_fd (struct cando_usock_udp *usock);
  *	on success: Textual path to unix domain socket
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
 cando_usock_udp_get_unix_path (struct cando_usock_udp *usock);
 
@@ -173,7 +173,7 @@ cando_usock_udp_get_unix_path (struct cando_usock_udp *usock);
  *
  * @param usock - Pointer to a valid struct cando_usock_udp.
  */
-CANDO_API
+UDO_API
 void
 cando_usock_udp_destroy (struct cando_usock_udp *usock);
 
@@ -188,7 +188,7 @@ cando_usock_udp_destroy (struct cando_usock_udp *usock);
  *	on success: sizeof(struct cando_usock_udp)
  *	on failure: sizeof(struct cando_usock_udp)
  */
-CANDO_API
+UDO_API
 int
 cando_usock_udp_get_sizeof (void);
 
@@ -209,7 +209,7 @@ cando_usock_udp_get_sizeof (void);
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_usock_udp_recv_data (const int sock_fd,
                            void *data,
@@ -234,7 +234,7 @@ cando_usock_udp_recv_data (const int sock_fd,
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_usock_udp_send_data (const int sock_fd,
                            const void *data,
@@ -242,4 +242,4 @@ cando_usock_udp_send_data (const int sock_fd,
                            const struct sockaddr_un *addr,
                            const void *usock_info);
 
-#endif /* CANDO_USOCK_UDP_H */
+#endif /* UDO_USOCK_UDP_H */

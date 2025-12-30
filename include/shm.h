@@ -1,5 +1,5 @@
-#ifndef CANDO_SHM_H
-#define CANDO_SHM_H
+#ifndef UDO_SHM_H
+#define UDO_SHM_H
 
 #include "macros.h"
 
@@ -50,7 +50,7 @@ struct cando_shm_create_info
  *	on success: Pointer to a struct cando_shm
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_shm *
 cando_shm_create (struct cando_shm *shm,
                   const void *shm_info);
@@ -86,7 +86,7 @@ struct cando_shm_data_info
  *	on success: 0
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_shm_data_read (struct cando_shm *shm,
                      const void *shm_info);
@@ -105,7 +105,7 @@ cando_shm_data_read (struct cando_shm *shm,
  *	on failure: -1
  *
  */
-CANDO_API
+UDO_API
 int
 cando_shm_data_write (struct cando_shm *shm,
                       const void *shm_info);
@@ -121,7 +121,7 @@ cando_shm_data_write (struct cando_shm *shm,
  *	on success: File descriptor to POSIX shared memory
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_shm_get_fd (struct cando_shm *shm);
 
@@ -139,7 +139,7 @@ cando_shm_get_fd (struct cando_shm *shm);
  *	on success: Pointer to processes SHM segment
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 void *
 cando_shm_get_data (struct cando_shm *shm,
                     const unsigned int proc_index);
@@ -158,7 +158,7 @@ cando_shm_get_data (struct cando_shm *shm,
  *	on success: Size of processes SHM segment
  *	on failure: Maximum size or -1
  */
-CANDO_API
+UDO_API
 size_t
 cando_shm_get_data_size (struct cando_shm *shm,
                          const unsigned int proc_index);
@@ -170,7 +170,7 @@ cando_shm_get_data_size (struct cando_shm *shm,
  *
  * @param shm - Pointer to a valid struct cando_shm.
  */
-CANDO_API
+UDO_API
 void
 cando_shm_destroy (struct cando_shm *shm);
 
@@ -185,8 +185,8 @@ cando_shm_destroy (struct cando_shm *shm);
  *	on success: sizeof(struct cando_shm)
  *	on failure: sizeof(struct cando_shm)
  */
-CANDO_API
+UDO_API
 int
 cando_shm_get_sizeof (void);
 
-#endif /* CANDO_SHM_H */
+#endif /* UDO_SHM_H */

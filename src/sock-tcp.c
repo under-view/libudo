@@ -276,7 +276,7 @@ cando_sock_tcp_client_connect (struct cando_sock_tcp *sock)
 		return -1;
 
 	if (sock->fd <= 0) {
-		cando_log_set_error(sock, CANDO_LOG_ERR_INCORRECT_DATA, "");
+		cando_log_set_error(sock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 

@@ -1,5 +1,5 @@
-#ifndef CANDO_VSOCK_UDP_H
-#define CANDO_VSOCK_UDP_H
+#ifndef UDO_VSOCK_UDP_H
+#define UDO_VSOCK_UDP_H
 
 #include "macros.h"
 
@@ -43,7 +43,7 @@ struct cando_vsock_udp_server_create_info
  *	on success: Pointer to a struct cando_vsock_udp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_vsock_udp *
 cando_vsock_udp_server_create (struct cando_vsock_udp *vsock,
                                const void *vsock_info);
@@ -63,7 +63,7 @@ cando_vsock_udp_server_create (struct cando_vsock_udp *vsock,
  *	on success: File descriptor to filtered socket
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_vsock_udp_server_accept (struct cando_vsock_udp *vsock,
                                const struct sockaddr_vm *addr);
@@ -85,7 +85,7 @@ cando_vsock_udp_server_accept (struct cando_vsock_udp *vsock,
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_vsock_udp_server_recv_data (struct cando_vsock_udp *vsock,
                                   void *data,
@@ -125,7 +125,7 @@ struct cando_vsock_udp_client_create_info
  *	on success: Pointer to a struct cando_vsock_udp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_vsock_udp *
 cando_vsock_udp_client_create (struct cando_vsock_udp *vsock,
                                const void *vsock_info);
@@ -142,7 +142,7 @@ cando_vsock_udp_client_create (struct cando_vsock_udp *vsock,
  *	on success: 0
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_vsock_udp_client_connect (struct cando_vsock_udp *vsock);
 
@@ -161,7 +161,7 @@ cando_vsock_udp_client_connect (struct cando_vsock_udp *vsock);
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_vsock_udp_client_send_data (struct cando_vsock_udp *vsock,
                                   const void *data,
@@ -179,7 +179,7 @@ cando_vsock_udp_client_send_data (struct cando_vsock_udp *vsock,
  *	on success: VM socket file descriptor
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_vsock_udp_get_fd (struct cando_vsock_udp *vsock);
 
@@ -194,7 +194,7 @@ cando_vsock_udp_get_fd (struct cando_vsock_udp *vsock);
  *	on success: VM socket context identifier
  *	on failure: UINT32_MAX
  */
-CANDO_API
+UDO_API
 unsigned int
 cando_vsock_udp_get_vcid (struct cando_vsock_udp *vsock);
 
@@ -209,7 +209,7 @@ cando_vsock_udp_get_vcid (struct cando_vsock_udp *vsock);
  *	on success: UDP port connected to instance
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_vsock_udp_get_port (struct cando_vsock_udp *vsock);
 
@@ -220,7 +220,7 @@ cando_vsock_udp_get_port (struct cando_vsock_udp *vsock);
  *
  * @param vsock - Pointer to a valid struct cando_vsock_udp.
  */
-CANDO_API
+UDO_API
 void
 cando_vsock_udp_destroy (struct cando_vsock_udp *vsock);
 
@@ -235,7 +235,7 @@ cando_vsock_udp_destroy (struct cando_vsock_udp *vsock);
  *	on success: sizeof(struct cando_vsock_udp)
  *	on failure: sizeof(struct cando_vsock_udp)
  */
-CANDO_API
+UDO_API
 int
 cando_vsock_udp_get_sizeof (void);
 
@@ -248,7 +248,7 @@ cando_vsock_udp_get_sizeof (void);
  *	on success: Local VM context identifer
  *	on failure: UINT32_MAX
  */
-CANDO_API
+UDO_API
 unsigned int
 cando_vsock_udp_get_local_vcid (void);
 
@@ -269,7 +269,7 @@ cando_vsock_udp_get_local_vcid (void);
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_vsock_udp_recv_data (const int sock_fd,
                            void *data,
@@ -294,7 +294,7 @@ cando_vsock_udp_recv_data (const int sock_fd,
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_vsock_udp_send_data (const int sock_fd,
                            const void *data,
@@ -302,4 +302,4 @@ cando_vsock_udp_send_data (const int sock_fd,
                            const struct sockaddr_vm *addr,
                            const void *vsock_info);
 
-#endif /* CANDO_VSOCK_UDP_H */
+#endif /* UDO_VSOCK_UDP_H */

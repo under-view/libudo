@@ -18,15 +18,15 @@
  * Start of test_log functions *
  *******************************/
 
-static void CANDO_UNUSED
-test_log (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_log (void UDO_UNUSED **state)
 {
 	cando_log_success("SUCCESS\n");
 	cando_log_error("DANGER\n");
 	cando_log_info("INFO\n");
 	cando_log_warning("WARNING\n");
 
-	cando_log_set_level(CANDO_LOG_ERROR|CANDO_LOG_INFO);
+	cando_log_set_level(UDO_LOG_ERROR|UDO_LOG_INFO);
 	cando_log_success("SUCCESS: After log level set\n");
 	cando_log_error("DANGER: After log level set\n");
 	cando_log_info("INFO: After log level set\n");
@@ -42,10 +42,10 @@ test_log (void CANDO_UNUSED **state)
  * Start of test_log_remove_colors functions *
  *********************************************/
 
-static void CANDO_UNUSED
-test_log_remove_reset_colors (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_log_remove_reset_colors (void UDO_UNUSED **state)
 {
-	cando_log_set_level(CANDO_LOG_ALL);
+	cando_log_set_level(UDO_LOG_ALL);
 
 	cando_log_remove_colors();
 
@@ -71,19 +71,19 @@ test_log_remove_reset_colors (void CANDO_UNUSED **state)
  * Start of test_log_print functions *
  *************************************/
 
-static void CANDO_UNUSED
-test_log_print (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_log_print (void UDO_UNUSED **state)
 {
-	cando_log_print(CANDO_LOG_SUCCESS, "SUCCESS\n");
-	cando_log_print(CANDO_LOG_ERROR, "DANGER\n");
-	cando_log_print(CANDO_LOG_INFO, "INFO\n");
-	cando_log_print(CANDO_LOG_WARNING, "WARNING\n");
+	cando_log_print(UDO_LOG_SUCCESS, "SUCCESS\n");
+	cando_log_print(UDO_LOG_ERROR, "DANGER\n");
+	cando_log_print(UDO_LOG_INFO, "INFO\n");
+	cando_log_print(UDO_LOG_WARNING, "WARNING\n");
 
-	cando_log_set_level(CANDO_LOG_SUCCESS|CANDO_LOG_WARNING);
-	cando_log_print(CANDO_LOG_SUCCESS, "SUCCESS: After log level set\n");
-	cando_log_print(CANDO_LOG_ERROR, "DANGER: After log level set\n");
-	cando_log_print(CANDO_LOG_INFO, "INFO: After log level set\n");
-	cando_log_print(CANDO_LOG_WARNING, "WARNING: After log level set\n");
+	cando_log_set_level(UDO_LOG_SUCCESS|UDO_LOG_WARNING);
+	cando_log_print(UDO_LOG_SUCCESS, "SUCCESS: After log level set\n");
+	cando_log_print(UDO_LOG_ERROR, "DANGER: After log level set\n");
+	cando_log_print(UDO_LOG_INFO, "INFO: After log level set\n");
+	cando_log_print(UDO_LOG_WARNING, "WARNING: After log level set\n");
 }
 
 /***********************************
@@ -95,8 +95,8 @@ test_log_print (void CANDO_UNUSED **state)
  * Start of test_log_set_write_fd functions *
  ********************************************/
 
-static void CANDO_UNUSED
-test_log_set_write_fd (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_log_set_write_fd (void UDO_UNUSED **state)
 {
 	int fd = -1;
 
@@ -106,16 +106,16 @@ test_log_set_write_fd (void CANDO_UNUSED **state)
 
 	cando_log_set_write_fd(fd);
 
-	cando_log_print(CANDO_LOG_SUCCESS, "SUCCESS\n");
-	cando_log_print(CANDO_LOG_ERROR, "DANGER\n");
-	cando_log_print(CANDO_LOG_INFO, "INFO\n");
-	cando_log_print(CANDO_LOG_WARNING, "WARNING\n");
+	cando_log_print(UDO_LOG_SUCCESS, "SUCCESS\n");
+	cando_log_print(UDO_LOG_ERROR, "DANGER\n");
+	cando_log_print(UDO_LOG_INFO, "INFO\n");
+	cando_log_print(UDO_LOG_WARNING, "WARNING\n");
 
-	cando_log_set_level(CANDO_LOG_SUCCESS|CANDO_LOG_WARNING);
-	cando_log_print(CANDO_LOG_SUCCESS, "SUCCESS: After log level set\n");
-	cando_log_print(CANDO_LOG_ERROR, "DANGER: After log level set\n");
-	cando_log_print(CANDO_LOG_INFO, "INFO: After log level set\n");
-	cando_log_print(CANDO_LOG_WARNING, "WARNING: After log level set\n");
+	cando_log_set_level(UDO_LOG_SUCCESS|UDO_LOG_WARNING);
+	cando_log_print(UDO_LOG_SUCCESS, "SUCCESS: After log level set\n");
+	cando_log_print(UDO_LOG_ERROR, "DANGER: After log level set\n");
+	cando_log_print(UDO_LOG_INFO, "INFO: After log level set\n");
+	cando_log_print(UDO_LOG_WARNING, "WARNING: After log level set\n");
 
 	close(fd);
 	remove(test_file);
@@ -130,8 +130,8 @@ test_log_set_write_fd (void CANDO_UNUSED **state)
  * Start of test_log_error functions *
  *************************************/
 
-static void CANDO_UNUSED
-test_log_error (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_log_error (void UDO_UNUSED **state)
 {
 	const char *error = NULL;
 	unsigned int err_code = 0;
@@ -149,20 +149,20 @@ test_log_error (void CANDO_UNUSED **state)
 	assert_null(error);
 
 	/* Test common error passed */
-	cando_log_set_error(&context, CANDO_LOG_ERR_INCORRECT_DATA, "");
+	cando_log_set_error(&context, UDO_LOG_ERR_INCORRECT_DATA, "");
 	err_code = cando_log_get_error_code(&context);
 	error = cando_log_get_error(&context);
-	assert_int_equal(err_code, CANDO_LOG_ERR_INCORRECT_DATA);
+	assert_int_equal(err_code, UDO_LOG_ERR_INCORRECT_DATA);
 	assert_string_equal(error, "[test-log.c:152] Incorrect data passed");
 
 	/* Test context passed */
 	memset(&context, 0, sizeof(context));
 
-	context.err.code = CANDO_LOG_ERR_UNCOMMON;
+	context.err.code = UDO_LOG_ERR_UNCOMMON;
 	strncpy(context.err.buffer, "BUFFFER 2 Copy", sizeof(context.err.buffer)-1);
 	err_code = cando_log_get_error_code(&context);
 	error = cando_log_get_error(&context);
-	assert_int_equal(err_code, CANDO_LOG_ERR_UNCOMMON);
+	assert_int_equal(err_code, UDO_LOG_ERR_UNCOMMON);
 	assert_string_equal(error, "BUFFFER 2 Copy");
 }
 

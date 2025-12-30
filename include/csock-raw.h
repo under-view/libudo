@@ -43,7 +43,7 @@ struct udo_csock_raw_create_info
  *	on success: Pointer to a struct udo_csock_raw
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct udo_csock_raw *
 udo_csock_raw_create (struct udo_csock_raw *csock,
                       const void *csock_info);
@@ -62,7 +62,7 @@ udo_csock_raw_create (struct udo_csock_raw *csock,
  *	on success: Size of CAN frame
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 udo_csock_raw_send_data (struct udo_csock_raw *csock,
                          const struct can_frame *frame,
@@ -82,7 +82,7 @@ udo_csock_raw_send_data (struct udo_csock_raw *csock,
  *	on success: Size of CAN frame
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 udo_csock_raw_recv_data (struct udo_csock_raw *csock,
                          struct can_frame *frame,
@@ -99,7 +99,7 @@ udo_csock_raw_recv_data (struct udo_csock_raw *csock,
  *	on success: RAW socket file descriptor
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 udo_csock_raw_get_fd (struct udo_csock_raw *csock);
 
@@ -114,7 +114,7 @@ udo_csock_raw_get_fd (struct udo_csock_raw *csock);
  *	on success: Textual CAN interface name in string format
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
 udo_csock_raw_get_iface (struct udo_csock_raw *csock);
 
@@ -125,7 +125,7 @@ udo_csock_raw_get_iface (struct udo_csock_raw *csock);
  *
  * @param csock - Pointer to a valid struct udo_csock_raw.
  */
-CANDO_API
+UDO_API
 void
 udo_csock_raw_destroy (struct udo_csock_raw *csock);
 
@@ -140,7 +140,7 @@ udo_csock_raw_destroy (struct udo_csock_raw *csock);
  *	on success: sizeof(struct udo_csock_raw)
  *	on failure: sizeof(struct udo_csock_raw)
  */
-CANDO_API
+UDO_API
 int
 udo_csock_raw_get_sizeof (void);
 

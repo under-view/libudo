@@ -1,5 +1,5 @@
-#ifndef CANDO_USOCK_TCP_H
-#define CANDO_USOCK_TCP_H
+#ifndef UDO_USOCK_TCP_H
+#define UDO_USOCK_TCP_H
 
 #include "macros.h"
 
@@ -45,7 +45,7 @@ struct cando_usock_tcp_server_create_info
  *	on success: Pointer to a struct cando_usock_tcp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_usock_tcp *
 cando_usock_tcp_server_create (struct cando_usock_tcp *usock,
                                const void *usock_info);
@@ -63,7 +63,7 @@ cando_usock_tcp_server_create (struct cando_usock_tcp *usock,
  *	on success: File descriptor to accepted client
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_usock_tcp_server_accept (struct cando_usock_tcp *usock,
                                struct sockaddr_un *addr);
@@ -98,7 +98,7 @@ struct cando_usock_tcp_client_create_info
  *	on success: Pointer to a struct cando_usock_tcp
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct cando_usock_tcp *
 cando_usock_tcp_client_create (struct cando_usock_tcp *usock,
                                const void *usock_info);
@@ -114,7 +114,7 @@ cando_usock_tcp_client_create (struct cando_usock_tcp *usock,
  *	on success: 0
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_usock_tcp_client_connect (struct cando_usock_tcp *usock);
 
@@ -133,7 +133,7 @@ cando_usock_tcp_client_connect (struct cando_usock_tcp *usock);
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_usock_tcp_client_send_data (struct cando_usock_tcp *usock,
                                   const void *data,
@@ -151,7 +151,7 @@ cando_usock_tcp_client_send_data (struct cando_usock_tcp *usock,
  *	on success: TCP unix domain socket file descriptor
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 cando_usock_tcp_get_fd (struct cando_usock_tcp *usock);
 
@@ -166,7 +166,7 @@ cando_usock_tcp_get_fd (struct cando_usock_tcp *usock);
  *	on success: Textual path to unix domain socket
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
 cando_usock_tcp_get_unix_path (struct cando_usock_tcp *usock);
 
@@ -177,7 +177,7 @@ cando_usock_tcp_get_unix_path (struct cando_usock_tcp *usock);
  *
  * @param usock - Pointer to a valid struct cando_usock_tcp.
  */
-CANDO_API
+UDO_API
 void
 cando_usock_tcp_destroy (struct cando_usock_tcp *usock);
 
@@ -192,7 +192,7 @@ cando_usock_tcp_destroy (struct cando_usock_tcp *usock);
  *	on success: sizeof(struct cando_usock_tcp)
  *	on failure: sizeof(struct cando_usock_tcp)
  */
-CANDO_API
+UDO_API
 int
 cando_usock_tcp_get_sizeof (void);
 
@@ -210,7 +210,7 @@ cando_usock_tcp_get_sizeof (void);
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_usock_tcp_recv_data (const int sock_fd,
                            void *data,
@@ -231,11 +231,11 @@ cando_usock_tcp_recv_data (const int sock_fd,
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
 cando_usock_tcp_send_data (const int sock_fd,
                            const void *data,
                            const size_t size,
                            const void *usock_info);
 
-#endif /* CANDO_USOCK_TCP_H */
+#endif /* UDO_USOCK_TCP_H */

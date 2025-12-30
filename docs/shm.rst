@@ -54,10 +54,10 @@ cando_shm_proc (private)
 .. c:struct:: cando_shm_proc
 
 	.. c:member::
-		cando_atomic_u32  *rd_fux;
-		cando_atomic_u32  *wr_fux;
-		cando_atomic_addr data;
-		size_t            data_sz;
+		udo_atomic_u32  *rd_fux;
+		udo_atomic_u32  *wr_fux;
+		udo_atomic_addr data;
+		size_t          data_sz;
 
 	:c:member:`rd_fux`
 		| Pointer to a given process read futex

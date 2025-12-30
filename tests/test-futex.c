@@ -17,10 +17,10 @@
  * Start of test_futex_create functions *
  ****************************************/
 
-static void CANDO_UNUSED
-test_futex_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_futex_create (void UDO_UNUSED **state)
 {
-	cando_atomic_u32 *fux;
+	udo_atomic_u32 *fux;
 
 	fux = cando_futex_create(0);
 	assert_null(fux);
@@ -40,12 +40,12 @@ test_futex_create (void CANDO_UNUSED **state)
  * Start of test_futex_lock_unlock functions *
  *********************************************/
 
-static void CANDO_UNUSED
-test_futex_lock_unlock (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_futex_lock_unlock (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
-	cando_atomic_u32 *fux;
+	udo_atomic_u32 *fux;
 
 	fux = cando_futex_create(1);
 	assert_non_null(fux);
@@ -73,12 +73,12 @@ test_futex_lock_unlock (void CANDO_UNUSED **state)
  * Start of test_futex_lock_unlock_force functions *
  ***************************************************/
 
-static void CANDO_UNUSED
-test_futex_lock_unlock_force (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_futex_lock_unlock_force (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
-	cando_atomic_u32 *fux;
+	udo_atomic_u32 *fux;
 
 	fux = cando_futex_create(1);
 	assert_non_null(fux);

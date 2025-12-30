@@ -16,26 +16,26 @@
 #include "log.h"
 
 static int writefd = STDOUT_FILENO;
-static enum cando_log_level_type logLevel = CANDO_LOG_NONE;
+static enum cando_log_level_type logLevel = UDO_LOG_NONE;
 
 /* ANSI Escape Codes, terminal colors */
 static const char *tcolors[] =
 {
-	[CANDO_LOG_NONE]    = "",
-	[CANDO_LOG_SUCCESS] = "\e[32;1m",
-	[CANDO_LOG_ERROR]   = "\e[31;1m",
-	[CANDO_LOG_INFO]    = "\e[35;1m",
-	[CANDO_LOG_WARNING] = "\e[33;1m",
-	[CANDO_LOG_RESET]   = "\x1b[0m"
+	[UDO_LOG_NONE]    = "",
+	[UDO_LOG_SUCCESS] = "\e[32;1m",
+	[UDO_LOG_ERROR]   = "\e[31;1m",
+	[UDO_LOG_INFO]    = "\e[35;1m",
+	[UDO_LOG_WARNING] = "\e[33;1m",
+	[UDO_LOG_RESET]   = "\x1b[0m"
 };
 
 
-CANDO_STATIC_INLINE
+UDO_STATIC_INLINE
 const char *
 p_get_error (const unsigned int code)
 {
 	switch (code) {
-		case CANDO_LOG_ERR_INCORRECT_DATA:
+		case UDO_LOG_ERR_INCORRECT_DATA:
 			return "Incorrect data passed";
 		default:
 			return NULL;
@@ -62,20 +62,20 @@ cando_log_set_write_fd (const int fd)
 void
 cando_log_remove_colors (void)
 {
-	tcolors[CANDO_LOG_SUCCESS] = "[SUCCESS] ";
-	tcolors[CANDO_LOG_ERROR]   = "[ERROR] ";
-	tcolors[CANDO_LOG_INFO]    = "[INFO] ";
-	tcolors[CANDO_LOG_WARNING] = "[WARN] ";
+	tcolors[UDO_LOG_SUCCESS] = "[SUCCESS] ";
+	tcolors[UDO_LOG_ERROR]   = "[ERROR] ";
+	tcolors[UDO_LOG_INFO]    = "[INFO] ";
+	tcolors[UDO_LOG_WARNING] = "[WARN] ";
 }
 
 
 void
 cando_log_reset_colors (void)
 {
-	tcolors[CANDO_LOG_SUCCESS] = "\e[32;1m";
-	tcolors[CANDO_LOG_ERROR]   = "\e[31;1m";
-	tcolors[CANDO_LOG_INFO]    = "\e[35;1m";
-	tcolors[CANDO_LOG_WARNING] = "\e[33;1m";
+	tcolors[UDO_LOG_SUCCESS] = "\e[32;1m";
+	tcolors[UDO_LOG_ERROR]   = "\e[31;1m";
+	tcolors[UDO_LOG_INFO]    = "\e[35;1m";
+	tcolors[UDO_LOG_WARNING] = "\e[33;1m";
 }
 
 
@@ -155,7 +155,7 @@ cando_log_time (enum cando_log_level_type type,
 	va_end(args);
 
 	/* Reset terminal colors */
-	dprintf(writefd, "%s", tcolors[CANDO_LOG_RESET]);
+	dprintf(writefd, "%s", tcolors[UDO_LOG_RESET]);
 	fsync(writefd);
 }
 
@@ -178,7 +178,7 @@ cando_log_notime (enum cando_log_level_type type,
 	va_end(args);
 
 	/* Reset terminal colors */
-	dprintf(writefd, "%s", tcolors[CANDO_LOG_RESET]);
+	dprintf(writefd, "%s", tcolors[UDO_LOG_RESET]);
 	fsync(writefd);
 }
 

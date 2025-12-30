@@ -21,8 +21,8 @@
  * Start of test_usock_tcp_server_create functions *
  ***************************************************/
 
-static void CANDO_UNUSED
-test_usock_tcp_server_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_usock_tcp_server_create (void UDO_UNUSED **state)
 {
 	struct cando_usock_tcp *server = NULL;
 
@@ -45,8 +45,8 @@ test_usock_tcp_server_create (void CANDO_UNUSED **state)
  * Start of test_usock_tcp_client_create functions *
  ***************************************************/
 
-static void CANDO_UNUSED
-test_usock_tcp_client_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_usock_tcp_client_create (void UDO_UNUSED **state)
 {
 	struct cando_usock_tcp *client = NULL;
 
@@ -90,8 +90,8 @@ p_test_usock_tcp_accept_connect_client (void)
 }
 
 
-static void CANDO_UNUSED
-test_usock_tcp_accept_connect (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_usock_tcp_accept_connect (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -101,7 +101,7 @@ test_usock_tcp_accept_connect (void CANDO_UNUSED **state)
 
 	struct cando_usock_tcp_server_create_info server_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	cando_log_set_level(UDO_LOG_ALL);
 
 	server_info.connections = 1;
 	server_info.unix_path = TESTING_UNIX_SOCK;
@@ -163,8 +163,8 @@ p_test_usock_tcp_send_recv_client (void)
 }
 
 
-static void CANDO_UNUSED
-test_usock_tcp_send_recv (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_usock_tcp_send_recv (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -176,7 +176,7 @@ test_usock_tcp_send_recv (void CANDO_UNUSED **state)
 
 	struct cando_usock_tcp_server_create_info server_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	cando_log_set_level(UDO_LOG_ALL);
 
 	server_info.connections = 1;
 	server_info.unix_path = TESTING_UNIX_SOCK;
@@ -215,8 +215,8 @@ test_usock_tcp_send_recv (void CANDO_UNUSED **state)
  * Start of test_usock_tcp_get_fd functions *
  ********************************************/
 
-static void CANDO_UNUSED
-test_usock_tcp_get_fd (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_usock_tcp_get_fd (void UDO_UNUSED **state)
 {
 	int sock_fd = -1;
 
@@ -246,8 +246,8 @@ test_usock_tcp_get_fd (void CANDO_UNUSED **state)
  * Start of test_usock_tcp_get_unix_path functions *
  ***************************************************/
 
-static void CANDO_UNUSED
-test_usock_tcp_get_unix_path (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_usock_tcp_get_unix_path (void UDO_UNUSED **state)
 {
 	const char *unix_path = NULL;
 
@@ -278,8 +278,8 @@ test_usock_tcp_get_unix_path (void CANDO_UNUSED **state)
  * Start of test_usock_tcp_get_sizeof functions *
  ************************************************/
 
-static void CANDO_UNUSED
-test_usock_tcp_get_sizeof (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_usock_tcp_get_sizeof (void UDO_UNUSED **state)
 {
 	int size = 0;
 	size = cando_usock_tcp_get_sizeof();

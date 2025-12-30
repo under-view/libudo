@@ -17,8 +17,8 @@
  * Start of test_shm_create functions *
  **************************************/
 
-static void CANDO_UNUSED
-test_shm_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_shm_create (void UDO_UNUSED **state)
 {
 	struct cando_shm *shm = NULL;
 
@@ -33,7 +33,7 @@ test_shm_create (void CANDO_UNUSED **state)
 
 	/* Test shm no leading '/' */
 	shm_info.shm_file = "kms-shm-testing";
-	shm_info.shm_size = CANDO_PAGE_SIZE;
+	shm_info.shm_size = UDO_PAGE_SIZE;
 	shm = cando_shm_create(NULL, &shm_info);
 	assert_null(shm);
 
@@ -44,7 +44,7 @@ test_shm_create (void CANDO_UNUSED **state)
 
 	/* Test process count invalid */
 	shm_info.shm_file   = "/kms-shm-testing";
-	shm_info.shm_size   = CANDO_PAGE_SIZE;
+	shm_info.shm_size   = UDO_PAGE_SIZE;
 	shm_info.proc_count = (1<<5);
 	shm = cando_shm_create(NULL, &shm_info);
 	assert_null(shm);
@@ -66,8 +66,8 @@ test_shm_create (void CANDO_UNUSED **state)
  * Start of test_shm_data functions *
  ************************************/
 
-static void CANDO_UNUSED
-test_shm_data (void **state CANDO_UNUSED)
+static void UDO_UNUSED
+test_shm_data (void **state UDO_UNUSED)
 {
 	pid_t pid;
 
@@ -88,7 +88,7 @@ test_shm_data (void **state CANDO_UNUSED)
 
 		shm_info.proc_count = 2;
 		shm_info.shm_file   = "/kms-shm-testing";
-		shm_info.shm_size   = CANDO_PAGE_SIZE;
+		shm_info.shm_size   = UDO_PAGE_SIZE;
 		shm = cando_shm_create(NULL, &shm_info);
 		assert_non_null(shm);
 
@@ -117,7 +117,7 @@ test_shm_data (void **state CANDO_UNUSED)
 
 		shm_info.proc_count = 2;
 		shm_info.shm_file   = "/kms-shm-testing";
-		shm_info.shm_size   = CANDO_PAGE_SIZE;
+		shm_info.shm_size   = UDO_PAGE_SIZE;
 		shm = cando_shm_create(NULL, &shm_info);
 		assert_non_null(shm);
 
@@ -142,8 +142,8 @@ test_shm_data (void **state CANDO_UNUSED)
  * Start of test_shm_get_fd functions *
  **************************************/
 
-static void CANDO_UNUSED
-test_shm_get_fd (void **state CANDO_UNUSED)
+static void UDO_UNUSED
+test_shm_get_fd (void **state UDO_UNUSED)
 {
 	int fd = -1;
 
@@ -154,7 +154,7 @@ test_shm_get_fd (void **state CANDO_UNUSED)
 
 	shm_info.proc_count = 2;
 	shm_info.shm_file   = "/kms-shm-testing";
-	shm_info.shm_size   = CANDO_PAGE_SIZE;
+	shm_info.shm_size   = UDO_PAGE_SIZE;
 	shm = cando_shm_create(NULL, &shm_info);
 	assert_non_null(shm);
 
@@ -176,8 +176,8 @@ test_shm_get_fd (void **state CANDO_UNUSED)
  * Start of test_shm_get_data functions *
  ****************************************/
 
-static void CANDO_UNUSED
-test_shm_get_data (void **state CANDO_UNUSED)
+static void UDO_UNUSED
+test_shm_get_data (void **state UDO_UNUSED)
 {
 	char buffer[512];
 
@@ -192,7 +192,7 @@ test_shm_get_data (void **state CANDO_UNUSED)
 
 	shm_info.proc_count = 2;
 	shm_info.shm_file   = "/kms-shm-testing";
-	shm_info.shm_size   = CANDO_PAGE_SIZE;
+	shm_info.shm_size   = UDO_PAGE_SIZE;
 	shm = cando_shm_create(NULL, &shm_info);
 	assert_non_null(shm);
 
@@ -220,8 +220,8 @@ test_shm_get_data (void **state CANDO_UNUSED)
  * Start of test_shm_get_data_size functions *
  *********************************************/
 
-static void CANDO_UNUSED
-test_shm_get_data_size (void **state CANDO_UNUSED)
+static void UDO_UNUSED
+test_shm_get_data_size (void **state UDO_UNUSED)
 {
 	struct cando_shm *shm = NULL;
 
@@ -232,14 +232,14 @@ test_shm_get_data_size (void **state CANDO_UNUSED)
 
 	shm_info.proc_count = 2;
 	shm_info.shm_file   = "/kms-shm-testing";
-	shm_info.shm_size   = CANDO_PAGE_SIZE;
+	shm_info.shm_size   = UDO_PAGE_SIZE;
 	shm = cando_shm_create(NULL, &shm_info);
 	assert_non_null(shm);
 
 	data_sz = cando_shm_get_data_size(NULL, 0);
 	assert_int_equal(data_sz, -1);
 
-	data_sz = sizeof(cando_atomic_u32) + (2 * sizeof(cando_atomic_u32) * shm_info.proc_count);
+	data_sz = sizeof(udo_atomic_u32) + (2 * sizeof(udo_atomic_u32) * shm_info.proc_count);
 	seg_sz = (shm_info.shm_size - data_sz) / shm_info.proc_count;
 
 	data_sz = cando_shm_get_data_size(shm, 0);
@@ -257,8 +257,8 @@ test_shm_get_data_size (void **state CANDO_UNUSED)
  * Start of test_shm_get_sizeof functions *
  ******************************************/
 
-static void CANDO_UNUSED
-test_shm_get_sizeof (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_shm_get_sizeof (void UDO_UNUSED **state)
 {
 	int size = 0;
 	size = cando_shm_get_sizeof();

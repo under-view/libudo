@@ -1,5 +1,5 @@
-#ifndef CANDO_MM_H
-#define CANDO_MM_H
+#ifndef UDO_MM_H
+#define UDO_MM_H
 
 /*
  * This interface was built to force caller to
@@ -90,4 +90,4 @@ cando_mm_free (struct cando_mm *mm,
 void
 cando_mm_destroy (struct cando_mm *mm);
 
-#endif /* CANDO_MM_H */
+#endif /* UDO_MM_H */

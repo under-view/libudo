@@ -82,7 +82,7 @@ p_create_sock_fd (struct cando_usock_udp *usock)
 
 static struct cando_usock_udp *
 p_create_usock (struct cando_usock_udp *p_usock,
-                const void CANDO_UNUSED *p_usock_info)
+                const void UDO_UNUSED *p_usock_info)
 {
 	struct cando_usock_udp *usock = p_usock;
 

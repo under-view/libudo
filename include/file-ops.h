@@ -46,7 +46,7 @@ struct udo_file_ops_create_info
  * 	on success: Pointer to a struct udo_file_ops
  * 	on failure: NULL
  */
-CANDO_API
+UDO_API
 struct udo_file_ops *
 udo_file_ops_create (struct udo_file_ops *flops,
                      const void *file_info);
@@ -62,7 +62,7 @@ udo_file_ops_create (struct udo_file_ops *flops,
  * 	on success: 0
  * 	on failure: # < 0
  */
-CANDO_API
+UDO_API
 int
 udo_file_ops_truncate_file (struct udo_file_ops *flops,
                             const off_t size);
@@ -103,7 +103,7 @@ struct udo_file_ops_zero_copy_info
  * 	on success: Amount of bytes splice(2) to/from a pipe(2)
  * 	on failure: -1
  */
-CANDO_API
+UDO_API
 ssize_t
 udo_file_ops_zero_copy (struct udo_file_ops *flops,
                         const void *file_info);
@@ -138,7 +138,7 @@ udo_file_ops_zero_copy (struct udo_file_ops *flops,
  * 	on success: Pointer to file data at a given offset
  * 	on failure: NULL
  */
-CANDO_API
+UDO_API
 const void *
 udo_file_ops_get_data (struct udo_file_ops *flops,
                        const size_t offset);
@@ -173,7 +173,7 @@ udo_file_ops_get_data (struct udo_file_ops *flops,
  * 	on success: Pointer to file data at a given line
  * 	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
 udo_file_ops_get_line (struct udo_file_ops *flops,
                        const size_t line);
@@ -188,7 +188,7 @@ udo_file_ops_get_line (struct udo_file_ops *flops,
  * 	on success: Line count
  * 	on failure: size_t max size or -1
  */
-CANDO_API
+UDO_API
 size_t
 udo_file_ops_get_line_count (struct udo_file_ops *flops);
 
@@ -202,7 +202,7 @@ udo_file_ops_get_line_count (struct udo_file_ops *flops);
  * 	on success: File descriptor to open file
  * 	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 udo_file_ops_get_fd (struct udo_file_ops *flops);
 
@@ -217,7 +217,7 @@ udo_file_ops_get_fd (struct udo_file_ops *flops);
  * 	on success: Size of the mmap(2) buffer
  * 	on failure: size_t max size or -1
  */
-CANDO_API
+UDO_API
 size_t
 udo_file_ops_get_data_size (struct udo_file_ops *flops);
 
@@ -232,7 +232,7 @@ udo_file_ops_get_data_size (struct udo_file_ops *flops);
  * 	on success: File name of open file
  * 	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
 udo_file_ops_get_filename (struct udo_file_ops *flops);
 
@@ -264,7 +264,7 @@ struct udo_file_ops_set_data_info
  * 	on success: 0
  * 	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 udo_file_ops_set_data (struct udo_file_ops *flops,
                        const void *file_info);
@@ -276,7 +276,7 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
  *
  * @param flops - Pointer to a valid struct udo_file_ops.
  */
-CANDO_API
+UDO_API
 void
 udo_file_ops_destroy (struct udo_file_ops *flops);
 
@@ -291,7 +291,7 @@ udo_file_ops_destroy (struct udo_file_ops *flops);
  *	on success: sizeof(struct udo_file_ops)
  *	on failure: sizeof(struct udo_file_ops)
  */
-CANDO_API
+UDO_API
 int
 udo_file_ops_get_sizeof (void);
 
@@ -308,7 +308,7 @@ udo_file_ops_get_sizeof (void);
  *	on success: 0
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
 udo_file_ops_set_fd_flags (const int fd, const int flags);
 
