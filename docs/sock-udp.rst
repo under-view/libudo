@@ -24,38 +24,38 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_sock_udp`
-#. :c:struct:`cando_sock_udp_server_create_info`
-#. :c:struct:`cando_sock_udp_client_create_info`
+1. :c:struct:`udo_sock_udp`
+#. :c:struct:`udo_sock_udp_server_create_info`
+#. :c:struct:`udo_sock_udp_client_create_info`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_sock_udp_server_create`
-#. :c:func:`cando_sock_udp_server_accept`
-#. :c:func:`cando_sock_udp_server_recv_data`
-#. :c:func:`cando_sock_udp_client_create`
-#. :c:func:`cando_sock_udp_client_connect`
-#. :c:func:`cando_sock_udp_client_send_data`
-#. :c:func:`cando_sock_udp_get_fd`
-#. :c:func:`cando_sock_udp_get_ip_addr`
-#. :c:func:`cando_sock_udp_get_port`
-#. :c:func:`cando_sock_udp_destroy`
-#. :c:func:`cando_sock_udp_get_sizeof`
-#. :c:func:`cando_sock_udp_recv_data`
-#. :c:func:`cando_sock_udp_send_data`
+1. :c:func:`udo_sock_udp_server_create`
+#. :c:func:`udo_sock_udp_server_accept`
+#. :c:func:`udo_sock_udp_server_recv_data`
+#. :c:func:`udo_sock_udp_client_create`
+#. :c:func:`udo_sock_udp_client_connect`
+#. :c:func:`udo_sock_udp_client_send_data`
+#. :c:func:`udo_sock_udp_get_fd`
+#. :c:func:`udo_sock_udp_get_ip_addr`
+#. :c:func:`udo_sock_udp_get_port`
+#. :c:func:`udo_sock_udp_destroy`
+#. :c:func:`udo_sock_udp_get_sizeof`
+#. :c:func:`udo_sock_udp_recv_data`
+#. :c:func:`udo_sock_udp_send_data`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-========================
-cando_sock_udp (private)
-========================
+======================
+udo_sock_udp (private)
+======================
 
-| Structure defining Cando Socket UDP interface implementation.
+| Structure defining UDO Socket UDP instance.
 
-.. c:struct:: cando_sock_udp
+.. c:struct:: udo_sock_udp
 
 	.. c:member::
 		struct udo_log_error_struct err;
@@ -90,14 +90,14 @@ cando_sock_udp (private)
 
 =========================================================================================================================================
 
-=================================
-cando_sock_udp_server_create_info
-=================================
+===============================
+udo_sock_udp_server_create_info
+===============================
 
-| Structure passed to :c:func:`cando_sock_udp_server_create`
+| Structure passed to :c:func:`udo_sock_udp_server_create`
 | used to define how to create the server.
 
-.. c:struct:: cando_sock_udp_server_create_info
+.. c:struct:: udo_sock_udp_server_create_info
 
 	.. c:member::
 		unsigned char ipv6 : 1;
@@ -114,11 +114,11 @@ cando_sock_udp_server_create_info
 	:c:member:`port`
 		| Network port to `recvfrom(2)`_/`sendto(2)`_ data with.
 
-============================
-cando_sock_udp_server_create
-============================
+==========================
+udo_sock_udp_server_create
+==========================
 
-.. c:function:: struct cando_sock_udp *cando_sock_udp_server_create(struct cando_sock_udp *sock, const void *sock_info);
+.. c:function:: struct udo_sock_udp *udo_sock_udp_server_create(struct udo_sock_udp *sock, const void *sock_info);
 
 | Creates a socket that may be utilized for server socket operations.
 
@@ -128,28 +128,28 @@ cando_sock_udp_server_create
 		* - Param
 	          - Decription
 		* - sock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_sock_udp`
+		    | to store the newly created ``struct`` :c:struct:`udo_sock_udp`
 		    | instance.
 		* - sock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_sock_udp_server_create_info`.
+		    | ``struct`` :c:struct:`udo_sock_udp_server_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_sock_udp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_udp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-============================
-cando_sock_udp_server_accept
-============================
+==========================
+udo_sock_udp_server_accept
+==========================
 
-.. c:function:: int cando_sock_udp_server_accept(struct cando_sock_udp *sock, const struct sockaddr_in6 *addr, const unsigned char ipv6);
+.. c:function:: int udo_sock_udp_server_accept(struct udo_sock_udp *sock, const struct sockaddr_in6 *addr, const unsigned char ipv6);
 
 | Creates file descriptor that can filter for
 | ``addr`` data comming to server file descriptor.
@@ -163,7 +163,7 @@ cando_sock_udp_server_accept
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 		* - addr
 		  - | Must pass a pointer to a populated ``struct`` `sockaddr_in6`_.
 		* - ipv6
@@ -176,11 +176,11 @@ cando_sock_udp_server_accept
 
 =========================================================================================================================================
 
-===============================
-cando_sock_udp_server_recv_data
-===============================
+=============================
+udo_sock_udp_server_recv_data
+=============================
 
-.. c:function:: ssize_t cando_sock_udp_server_recv_data(struct cando_sock_udp *sock, void *data, const size_t size, struct sockaddr_in6 *addr, const void *sock_info);
+.. c:function:: ssize_t udo_sock_udp_server_recv_data(struct udo_sock_udp *sock, void *data, const size_t size, struct sockaddr_in6 *addr, const void *sock_info);
 
 | Receive data from server socket file descriptor.
 
@@ -190,7 +190,7 @@ cando_sock_udp_server_recv_data
 		* - Param
 	          - Decription
 		* - sock
-		  - | Pointer to a ``struct`` :c:struct:`cando_sock_udp` instance.
+		  - | Pointer to a ``struct`` :c:struct:`udo_sock_udp` instance.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
@@ -209,14 +209,14 @@ cando_sock_udp_server_recv_data
 
 =========================================================================================================================================
 
-=================================
-cando_sock_udp_client_create_info
-=================================
+===============================
+udo_sock_udp_client_create_info
+===============================
 
-| Structure passed to :c:func:`cando_sock_udp_client_create`
+| Structure passed to :c:func:`udo_sock_udp_client_create`
 | used to define how to create the client.
 
-.. c:struct:: cando_sock_udp_client_create_info
+.. c:struct:: udo_sock_udp_client_create_info
 
 	.. c:member::
 		unsigned char ipv6 : 1;
@@ -233,11 +233,11 @@ cando_sock_udp_client_create_info
 	:c:member:`port`
 		| Network port to `recvfrom(2)`_/`sendto(2)`_ data with.
 
-============================
-cando_sock_udp_client_create
-============================
+==========================
+udo_sock_udp_client_create
+==========================
 
-.. c:function:: struct cando_sock_udp *cando_sock_udp_client_create(struct cando_sock_udp *sock, const void *sock_info);
+.. c:function:: struct udo_sock_udp *udo_sock_udp_client_create(struct udo_sock_udp *sock, const void *sock_info);
 
 | Creates a socket that may be utilized for client socket operations.
 
@@ -247,32 +247,32 @@ cando_sock_udp_client_create
 		* - Param
 	          - Decription
 		* - sock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_sock_udp`
+		    | to store the newly created ``struct`` :c:struct:`udo_sock_udp`
 		    | instance.
 		* - sock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_sock_udp_client_create_info`.
+		    | ``struct`` :c:struct:`udo_sock_udp_client_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_sock_udp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_udp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-=============================
-cando_sock_udp_client_connect
-=============================
+===========================
+udo_sock_udp_client_connect
+===========================
 
-.. c:function:: int cando_sock_udp_client_connect(struct cando_sock_udp *sock);
+.. c:function:: int udo_sock_udp_client_connect(struct udo_sock_udp *sock);
 
 | Fliters client socket to allow sending data
 | without passing a ``struct`` `sockaddr_in6`_ to `sendto(2)`_.
-| Address is populated with a call to :c:func:`cando_sock_udp_client_create`.
+| Address is populated with a call to :c:func:`udo_sock_udp_client_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -280,7 +280,7 @@ cando_sock_udp_client_connect
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 
 	Returns:
 		| **on success:** 0
@@ -288,20 +288,20 @@ cando_sock_udp_client_connect
 
 =========================================================================================================================================
 
-===============================
-cando_sock_udp_client_send_data
-===============================
+=============================
+udo_sock_udp_client_send_data
+=============================
 
-.. c:function:: ssize_t cando_sock_udp_client_send_data(struct cando_sock_udp *sock, const void *data, const size_t size, const void *sock_info);
+.. c:function:: ssize_t udo_sock_udp_client_send_data(struct udo_sock_udp *sock, const void *data, const size_t size, const void *sock_info);
 
 | Send data to client socket address provided via
-| call to :c:func:`cando_sock_udp_client_create`.
+| call to :c:func:`udo_sock_udp_client_create`.
 
 	.. list-table::
 		:header-rows: 1
 
 		* - Param
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 		* - data
 		  - | Pointer to buffer to send through socket.
 		* - size
@@ -316,14 +316,14 @@ cando_sock_udp_client_send_data
 
 =========================================================================================================================================
 
-=====================
-cando_sock_udp_get_fd
-=====================
+===================
+udo_sock_udp_get_fd
+===================
 
-.. c:function:: int cando_sock_udp_get_fd(struct cando_sock_udp *sock);
+.. c:function:: int udo_sock_udp_get_fd(struct udo_sock_udp *sock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`cando_sock_udp` instance.
+| ``struct`` :c:struct:`udo_sock_udp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -331,7 +331,7 @@ cando_sock_udp_get_fd
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 
 	Returns:
 		| **on success:** UDP socket file descriptor
@@ -339,14 +339,14 @@ cando_sock_udp_get_fd
 
 =========================================================================================================================================
 
-==========================
-cando_sock_udp_get_ip_addr
-==========================
+========================
+udo_sock_udp_get_ip_addr
+========================
 
-.. c:function:: unsigned int cando_sock_udp_get_ip_addr(struct cando_sock_udp *sock);
+.. c:function:: unsigned int udo_sock_udp_get_ip_addr(struct udo_sock_udp *sock);
 
 | Acquire textual network ip address associated
-| with ``struct`` :c:struct:`cando_sock_udp` instance.
+| with ``struct`` :c:struct:`udo_sock_udp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -354,7 +354,7 @@ cando_sock_udp_get_ip_addr
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 
 	Returns:
 		| **on success:** Textual network ip address
@@ -362,14 +362,14 @@ cando_sock_udp_get_ip_addr
 
 =========================================================================================================================================
 
-=======================
-cando_sock_udp_get_port
-=======================
+=====================
+udo_sock_udp_get_port
+=====================
 
-.. c:function:: int cando_sock_udp_get_port(struct cando_sock_udp *sock);
+.. c:function:: int udo_sock_udp_get_port(struct udo_sock_udp *sock);
 
 | Acquire network port associated with
-| ``struct`` :c:struct:`cando_sock_udp` instance.
+| ``struct`` :c:struct:`udo_sock_udp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -377,7 +377,7 @@ cando_sock_udp_get_port
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 
 	Returns:
 		| **on success:** Network port connected to instance
@@ -385,14 +385,14 @@ cando_sock_udp_get_port
 
 =========================================================================================================================================
 
-======================
-cando_sock_udp_destroy
-======================
+====================
+udo_sock_udp_destroy
+====================
 
-.. c:function:: void cando_sock_udp_destroy(struct cando_sock_udp *sock);
+.. c:function:: void udo_sock_udp_destroy(struct udo_sock_udp *sock);
 
 | Frees any allocated memory and closes FD's (if open) created after
-| :c:func:`cando_sock_udp_server_create` or :c:func:`cando_sock_udp_client_create` call.
+| :c:func:`udo_sock_udp_server_create` or :c:func:`udo_sock_udp_client_create` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -400,15 +400,15 @@ cando_sock_udp_destroy
 		* - Param
 	          - Decription
 		* - sock
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_sock_udp`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_sock_udp`.
 
 =========================================================================================================================================
 
-=========================
-cando_sock_udp_get_sizeof
-=========================
+=======================
+udo_sock_udp_get_sizeof
+=======================
 
-.. c:function:: int cando_sock_udp_get_sizeof(void);
+.. c:function:: int udo_sock_udp_get_sizeof(void);
 
 | Returns size of the internal structure. So,
 | if caller decides to allocate memory outside
@@ -416,16 +416,16 @@ cando_sock_udp_get_sizeof
 | of bytes.
 
 	Returns:
-		| **on success:** sizeof(``struct`` :c:struct:`cando_sock_udp`)
-		| **on failure:** sizeof(``struct`` :c:struct:`cando_sock_udp`)
+		| **on success:** sizeof(``struct`` :c:struct:`udo_sock_udp`)
+		| **on failure:** sizeof(``struct`` :c:struct:`udo_sock_udp`)
 
 =========================================================================================================================================
 
-========================
-cando_sock_udp_recv_data
-========================
+======================
+udo_sock_udp_recv_data
+======================
 
-.. c:function:: ssize_t cando_sock_udp_recv_data(const int sock_fd, void *data, const size_t size, struct sockaddr_in6 *addr, const void *sock_info);
+.. c:function:: ssize_t udo_sock_udp_recv_data(const int sock_fd, void *data, const size_t size, struct sockaddr_in6 *addr, const void *sock_info);
 
 | Receive data from socket file descriptor.
 
@@ -454,11 +454,11 @@ cando_sock_udp_recv_data
 
 =========================================================================================================================================
 
-========================
-cando_sock_udp_send_data
-========================
+======================
+udo_sock_udp_send_data
+======================
 
-.. c:function:: ssize_t cando_sock_udp_send_data(const int sock_fd, const void *data, const size_t size, const struct sockaddr_in6 *addr, const void *sock_info);
+.. c:function:: ssize_t udo_sock_udp_send_data(const int sock_fd, const void *data, const size_t size, const struct sockaddr_in6 *addr, const void *sock_info);
 
 | Send data to socket file descriptor.
 

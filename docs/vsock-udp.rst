@@ -284,7 +284,7 @@ cando_vsock_udp_client_connect
 
 | Fliters client socket to allow sending data
 | without passing a ``struct`` `sockaddr_vm`_ to `sendto(2)`_.
-| Address is populated with a call to :c:func:`cando_sock_udp_client_create`.
+| Address is populated with a call to :c:func:`udo_sock_udp_client_create`.
 
 	.. list-table::
 		:header-rows: 1

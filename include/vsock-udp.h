@@ -72,7 +72,7 @@ cando_vsock_udp_server_accept (struct cando_vsock_udp *vsock,
 /*
  * @brief Receive data from server socket file descriptor.
  *
- * @param vsock      - Pointer to a struct cando_sock_udp instance.
+ * @param vsock      - Pointer to a struct udo_sock_udp instance.
  * @param data       - Pointer to buffer to store data received from a socket.
  * @param size       - Size of data to receive from a socket.
  * @param addr       - Pointer to struct sockaddr_vm which stores the
@@ -134,7 +134,7 @@ cando_vsock_udp_client_create (struct cando_vsock_udp *vsock,
 /*
  * @brief Fliters client socket to allow sending data
  *        without passing a struct sockaddr_vm to sendto(2).
- *        Address is populated with a call to cando_sock_udp_client_create.
+ *        Address is populated with a call to udo_sock_udp_client_create.
  *
  * @param vsock - Must pass a pointer to a struct cando_vsock_udp.
  *
