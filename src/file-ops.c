@@ -17,7 +17,7 @@
 #define PIPE_MAX_BUFF_SIZE (size_t)(1<<16)
 
 /*
- * @brief struct defining cando_file_ops instance
+ * @brief Structure defining UDO File Operations instance.
  *
  * @member err      - Stores information about the error that occured
  *                    for the given instance and may later be retrieved
@@ -33,7 +33,7 @@
  * @member data_sz  - Total size of the file that was mapped with mmap(2).
  * @member data     - Pointer to mmap(2) file data.
  */
-struct cando_file_ops
+struct udo_file_ops
 {
 	struct cando_log_error_struct err;
 	bool                          free;
@@ -45,21 +45,21 @@ struct cando_file_ops
 };
 
 
-/********************************************
- * Start of cando_file_ops_create functions *
- ********************************************/
+/******************************************
+ * Start of udo_file_ops_create functions *
+ ******************************************/
 
-struct cando_file_ops *
-cando_file_ops_create (struct cando_file_ops *p_flops,
-                       const void *p_file_info)
+struct udo_file_ops *
+udo_file_ops_create (struct udo_file_ops *p_flops,
+                     const void *p_file_info)
 {
 	int ret = -1;
 
 	struct stat fstats;
 
-	struct cando_file_ops *flops = p_flops;
+	struct udo_file_ops *flops = p_flops;
 
-	const struct cando_file_ops_create_info *file_info = p_file_info;
+	const struct udo_file_ops_create_info *file_info = p_file_info;
 
 	if (!file_info) {
 		cando_log_error("Incorrect data passed\n");
@@ -67,7 +67,7 @@ cando_file_ops_create (struct cando_file_ops *p_flops,
 	}
 
 	if (!flops) {
-		flops = calloc(1, sizeof(struct cando_file_ops));
+		flops = calloc(1, sizeof(struct udo_file_ops));
 		if (!flops) {
 			cando_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
@@ -85,7 +85,7 @@ cando_file_ops_create (struct cando_file_ops *p_flops,
 		flops->fd = open(flops->fname, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
 			cando_log_error("open: %s\n", strerror(errno));
-			cando_file_ops_destroy(flops);
+			udo_file_ops_destroy(flops);
 			return NULL;
 		}
 
@@ -103,14 +103,14 @@ cando_file_ops_create (struct cando_file_ops *p_flops,
 		ret = pipe(flops->pipe_fds);
 		if (ret == -1) {
 			cando_log_error("pipe: %s\n", strerror(errno));
-			cando_file_ops_destroy(flops);
+			udo_file_ops_destroy(flops);
 			return NULL;
 		}
 	} else {
-		ret = cando_file_ops_truncate_file(flops, flops->data_sz);
+		ret = udo_file_ops_truncate_file(flops, flops->data_sz);
 		if (ret < 0 && flops->data_sz) {
 			cando_log_error("%s\n", cando_log_get_error(flops));
-			cando_file_ops_destroy(flops);
+			udo_file_ops_destroy(flops);
 			return NULL;
 		}
 
@@ -122,7 +122,7 @@ cando_file_ops_create (struct cando_file_ops *p_flops,
 				   file_info->offset);
 		if (flops->data == (void*)-1 && flops->data_sz) {
 			cando_log_error("mmap: %s\n", strerror(errno));
-			cando_file_ops_destroy(flops);
+			udo_file_ops_destroy(flops);
 			return NULL;
 		}
 	}
@@ -130,18 +130,18 @@ cando_file_ops_create (struct cando_file_ops *p_flops,
 	return flops;
 }
 
-/******************************************
- * End of cando_file_ops_create functions *
- ******************************************/
+/****************************************
+ * End of udo_file_ops_create functions *
+ ****************************************/
 
 
-/***************************************************
- * Start of cando_file_ops_truncate_file functions *
- ***************************************************/
+/*************************************************
+ * Start of udo_file_ops_truncate_file functions *
+ *************************************************/
 
 int
-cando_file_ops_truncate_file (struct cando_file_ops *flops,
-                              const off_t size)
+udo_file_ops_truncate_file (struct udo_file_ops *flops,
+                            const off_t size)
 {
 	int ret = -1;
 
@@ -163,22 +163,22 @@ cando_file_ops_truncate_file (struct cando_file_ops *flops,
 	return 0;
 }
 
-/*************************************************
- * End of cando_file_ops_truncate_file functions *
- *************************************************/
-
-
 /***********************************************
- * Start of cando_file_ops_zero_copy functions *
+ * End of udo_file_ops_truncate_file functions *
  ***********************************************/
 
+
+/*********************************************
+ * Start of udo_file_ops_zero_copy functions *
+ *********************************************/
+
 ssize_t
-cando_file_ops_zero_copy (struct cando_file_ops *flops,
-                          const void *p_file_info)
+udo_file_ops_zero_copy (struct udo_file_ops *flops,
+                        const void *p_file_info)
 {
 	ssize_t ret;
 
-	const struct cando_file_ops_zero_copy_info *file_info = p_file_info;
+	const struct udo_file_ops_zero_copy_info *file_info = p_file_info;
 
 	if (!flops)
 		return -1;
@@ -215,18 +215,18 @@ cando_file_ops_zero_copy (struct cando_file_ops *flops,
 	return ret;
 }
 
-/*********************************************
- * End of cando_file_ops_zero_copy functions *
- *********************************************/
+/*******************************************
+ * End of udo_file_ops_zero_copy functions *
+ *******************************************/
 
 
-/*****************************************
- * Start of cando_file_ops_get functions *
- *****************************************/
+/***************************************
+ * Start of udo_file_ops_get functions *
+ ***************************************/
 
 const void *
-cando_file_ops_get_data (struct cando_file_ops *flops,
-                         const size_t offset)
+udo_file_ops_get_data (struct udo_file_ops *flops,
+                       const size_t offset)
 {
 	if (!flops)
 		return NULL;
@@ -243,8 +243,8 @@ cando_file_ops_get_data (struct cando_file_ops *flops,
 
 
 const char *
-cando_file_ops_get_line (struct cando_file_ops *flops,
-			 const size_t p_line)
+udo_file_ops_get_line (struct udo_file_ops *flops,
+                       const size_t p_line)
 {
 	size_t offset, c, line = 0;
 
@@ -276,7 +276,7 @@ cando_file_ops_get_line (struct cando_file_ops *flops,
 
 
 size_t
-cando_file_ops_get_line_count (struct cando_file_ops *flops)
+udo_file_ops_get_line_count (struct udo_file_ops *flops)
 {
 	size_t offset, line = 0;
 
@@ -298,7 +298,7 @@ cando_file_ops_get_line_count (struct cando_file_ops *flops)
 
 
 int
-cando_file_ops_get_fd (struct cando_file_ops *flops)
+udo_file_ops_get_fd (struct udo_file_ops *flops)
 {
 	if (!flops)
 		return -1;
@@ -308,7 +308,7 @@ cando_file_ops_get_fd (struct cando_file_ops *flops)
 
 
 size_t
-cando_file_ops_get_data_size (struct cando_file_ops *flops)
+udo_file_ops_get_data_size (struct udo_file_ops *flops)
 {
 	if (!flops)
 		return -1;
@@ -318,7 +318,7 @@ cando_file_ops_get_data_size (struct cando_file_ops *flops)
 
 
 const char *
-cando_file_ops_get_filename (struct cando_file_ops *flops)
+udo_file_ops_get_filename (struct udo_file_ops *flops)
 {
 	if (!flops)
 		return NULL;
@@ -326,24 +326,24 @@ cando_file_ops_get_filename (struct cando_file_ops *flops)
 	return flops->fname;
 }
 
+/*************************************
+ * End of udo_file_ops_get functions *
+ *************************************/
+
+
 /***************************************
- * End of cando_file_ops_get functions *
+ * Start of udo_file_ops_set functions *
  ***************************************/
 
-
-/*****************************************
- * Start of cando_file_ops_set functions *
- *****************************************/
-
 int
-cando_file_ops_set_data (struct cando_file_ops *flops,
-                         const void *p_file_info)
+udo_file_ops_set_data (struct udo_file_ops *flops,
+                       const void *p_file_info)
 {
 	int ret = -1;
 
 	void *data = NULL;
 
-	const struct cando_file_ops_set_data_info *file_info = p_file_info;
+	const struct udo_file_ops_set_data_info *file_info = p_file_info;
 
 	if (!flops)
 		return -1;
@@ -376,17 +376,17 @@ cando_file_ops_set_data (struct cando_file_ops *flops,
 	return 0;
 }
 
-/***************************************
- * End of cando_file_ops_set functions *
- ***************************************/
+/*************************************
+ * End of udo_file_ops_set functions *
+ *************************************/
 
 
-/*********************************************
- * Start of cando_file_ops_destroy functions *
- *********************************************/
+/*******************************************
+ * Start of udo_file_ops_destroy functions *
+ *******************************************/
 
 void
-cando_file_ops_destroy (struct cando_file_ops *flops)
+udo_file_ops_destroy (struct udo_file_ops *flops)
 {
 	if (!flops)
 		return;
@@ -399,28 +399,28 @@ cando_file_ops_destroy (struct cando_file_ops *flops)
 	if (flops->free) {
 		free(flops);
 	} else {
-		memset(flops, 0, sizeof(struct cando_file_ops));
+		memset(flops, 0, sizeof(struct udo_file_ops));
 	}
 }
 
-/*******************************************
- * End of cando_file_ops_destroy functions *
- *******************************************/
+/*****************************************
+ * End of udo_file_ops_destroy functions *
+ *****************************************/
 
 
-/******************************************************
- * Start of non struct cando_file_ops param functions *
- ******************************************************/
+/****************************************************
+ * Start of non struct udo_file_ops param functions *
+ ****************************************************/
 
 int
-cando_file_ops_get_sizeof (void)
+udo_file_ops_get_sizeof (void)
 {
-	return sizeof(struct cando_file_ops);
+	return sizeof(struct udo_file_ops);
 }
 
 
 int
-cando_file_ops_set_fd_flags (const int fd, const int flags)
+udo_file_ops_set_fd_flags (const int fd, const int flags)
 {
 	int opt = 0, err = -1;
 
@@ -440,6 +440,6 @@ cando_file_ops_set_fd_flags (const int fd, const int flags)
 	return 0;
 }
 
-/****************************************************
- * End of non struct cando_file_ops param functions *
- ****************************************************/
+/**************************************************
+ * End of non struct udo_file_ops param functions *
+ **************************************************/
