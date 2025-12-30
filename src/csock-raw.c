@@ -20,7 +20,7 @@
 #include "csock-raw.h"
 
 /*
- * @brief Structure defining Cando CAN Socket Raw interface implementation.
+ * @brief Structure defining UDO CAN Socket Raw instance.
  *
  * @member err   - Stores information about the error that occured
  *                 for the given instance and may later be retrieved
@@ -31,7 +31,7 @@
  * @member fd    - File descriptor to the open CAN socket.
  * @member iface - Textual CAN interface name in string format to bind(2) to.
  */
-struct cando_csock_raw
+struct udo_csock_raw
 {
 	struct cando_log_error_struct err;
 	bool                          free;
@@ -40,22 +40,22 @@ struct cando_csock_raw
 };
 
 
-/*********************************************
- * Start of cando_csock_raw_create functions *
- *********************************************/
+/*******************************************
+ * Start of udo_csock_raw_create functions *
+ *******************************************/
 
-struct cando_csock_raw *
-cando_csock_raw_create (struct cando_csock_raw *p_csock,
-                        const void *p_csock_info)
+struct udo_csock_raw *
+udo_csock_raw_create (struct udo_csock_raw *p_csock,
+                      const void *p_csock_info)
 {
 	int err = -1;
 
 	struct ifreq ifr;
 	struct sockaddr_can addr;
 
-	struct cando_csock_raw *csock = p_csock;
+	struct udo_csock_raw *csock = p_csock;
 
-	const struct cando_csock_raw_create_info *csock_info = p_csock_info;
+	const struct udo_csock_raw_create_info *csock_info = p_csock_info;
 
 	if (!csock_info) {
 		cando_log_error("Incorrect data passed\n");
@@ -63,7 +63,7 @@ cando_csock_raw_create (struct cando_csock_raw *p_csock,
 	}
 
 	if (!csock) {
-		csock = calloc(1, sizeof(struct cando_csock_raw));
+		csock = calloc(1, sizeof(struct udo_csock_raw));
 		if (!csock) {
 			cando_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
@@ -73,7 +73,7 @@ cando_csock_raw_create (struct cando_csock_raw *p_csock,
 	csock->fd = socket(PF_CAN, SOCK_RAW, CAN_RAW);
 	if (csock->fd < 0) {
 		cando_log_error("socket: %s\n", strerror(errno));
-		cando_csock_raw_destroy(csock);
+		udo_csock_raw_destroy(csock);
 		return NULL;
 	}
 
@@ -84,7 +84,7 @@ cando_csock_raw_create (struct cando_csock_raw *p_csock,
 	err = ioctl(csock->fd, SIOCGIFINDEX, &ifr);
 	if (err == -1) {
 		cando_log_error("ioctl: %s\n", strerror(errno));
-		cando_csock_raw_destroy(csock);
+		udo_csock_raw_destroy(csock);
 		return NULL;
 	}
 
@@ -94,7 +94,7 @@ cando_csock_raw_create (struct cando_csock_raw *p_csock,
 			sizeof(struct sockaddr_can));
 	if (err == -1) {
 		cando_log_error("bind: %s\n", strerror(errno));
-		cando_csock_raw_destroy(csock);
+		udo_csock_raw_destroy(csock);
 		return NULL;
 	}
 
@@ -103,19 +103,19 @@ cando_csock_raw_create (struct cando_csock_raw *p_csock,
 	return csock;
 }
 
-/*******************************************
- * End of cando_csock_raw_create functions *
- *******************************************/
-
-
 /*****************************************
- * End of cando_csock_raw_send functions *
+ * End of udo_csock_raw_create functions *
  *****************************************/
 
+
+/***************************************
+ * End of udo_csock_raw_send functions *
+ ***************************************/
+
 ssize_t
-cando_csock_raw_send_data (struct cando_csock_raw *csock,
-                           const struct can_frame *frame,
-                           const void *csock_info)
+udo_csock_raw_send_data (struct udo_csock_raw *csock,
+                         const struct can_frame *frame,
+                         const void *csock_info)
 {
 	ssize_t ret = 0;
 
@@ -147,19 +147,19 @@ cando_csock_raw_send_data (struct cando_csock_raw *csock,
 	return ret;
 }
 
+/***************************************
+ * End of udo_csock_raw_send functions *
+ ***************************************/
+
+
 /*****************************************
- * End of cando_csock_raw_send functions *
+ * Start of udo_csock_raw_recv functions *
  *****************************************/
 
-
-/*******************************************
- * Start of cando_csock_raw_recv functions *
- *******************************************/
-
 ssize_t
-cando_csock_raw_recv_data (struct cando_csock_raw *csock,
-                           struct can_frame *frame,
-                           const void *p_csock_info)
+udo_csock_raw_recv_data (struct udo_csock_raw *csock,
+                         struct can_frame *frame,
+                         const void *p_csock_info)
 {
 	ssize_t ret = 0;
 
@@ -191,17 +191,17 @@ cando_csock_raw_recv_data (struct cando_csock_raw *csock,
 	return ret;
 }
 
-/*****************************************
- * End of cando_csock_raw_recv functions *
- *****************************************/
+/***************************************
+ * End of udo_csock_raw_recv functions *
+ ***************************************/
 
 
-/******************************************
- * Start of cando_csock_raw_get functions *
- ******************************************/
+/****************************************
+ * Start of udo_csock_raw_get functions *
+ ****************************************/
 
 int
-cando_csock_raw_get_fd (struct cando_csock_raw *csock)
+udo_csock_raw_get_fd (struct udo_csock_raw *csock)
 {
 	if (!csock)
 		return -1;
@@ -211,7 +211,7 @@ cando_csock_raw_get_fd (struct cando_csock_raw *csock)
 
 
 const char *
-cando_csock_raw_get_iface (struct cando_csock_raw *csock)
+udo_csock_raw_get_iface (struct udo_csock_raw *csock)
 {
 	if (!csock || \
 	    !(*csock->iface))
@@ -222,17 +222,17 @@ cando_csock_raw_get_iface (struct cando_csock_raw *csock)
 	return csock->iface;
 }
 
-/****************************************
- * End of cando_csock_raw_get functions *
- ****************************************/
+/**************************************
+ * End of udo_csock_raw_get functions *
+ **************************************/
 
 
-/**********************************************
- * Start of cando_csock_raw_destroy functions *
- **********************************************/
+/********************************************
+ * Start of udo_csock_raw_destroy functions *
+ ********************************************/
 
 void
-cando_csock_raw_destroy (struct cando_csock_raw *csock)
+udo_csock_raw_destroy (struct udo_csock_raw *csock)
 {
 	if (!csock)
 		return;
@@ -242,27 +242,26 @@ cando_csock_raw_destroy (struct cando_csock_raw *csock)
 	if (csock->free) {
 		free(csock);
 	} else {
-		memset(csock, 0, sizeof(struct cando_csock_raw));
+		memset(csock, 0, sizeof(struct udo_csock_raw));
 		csock->fd = -1;
 	}
 }
 
-/********************************************
- * End of cando_csock_raw_destroy functions *
- ********************************************/
-
-
-/*******************************************************
- * Start of non struct cando_csock_raw param functions *
- *******************************************************/
-
-int
-cando_csock_raw_get_sizeof (void)
-{
-	return sizeof(struct cando_csock_raw);
-}
+/******************************************
+ * End of udo_csock_raw_destroy functions *
+ ******************************************/
 
 
 /*****************************************************
- * End of non struct cando_csock_raw param functions *
+ * Start of non struct udo_csock_raw param functions *
  *****************************************************/
+
+int
+udo_csock_raw_get_sizeof (void)
+{
+	return sizeof(struct udo_csock_raw);
+}
+
+/***************************************************
+ * End of non struct udo_csock_raw param functions *
+ ***************************************************/

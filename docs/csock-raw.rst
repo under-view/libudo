@@ -24,20 +24,20 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_csock_raw`
-#. :c:struct:`cando_csock_raw_create_info`
+1. :c:struct:`udo_csock_raw`
+#. :c:struct:`udo_csock_raw_create_info`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_csock_raw_create`
-#. :c:func:`cando_csock_raw_send_data`
-#. :c:func:`cando_csock_raw_recv_data`
-#. :c:func:`cando_csock_raw_get_fd`
-#. :c:func:`cando_csock_raw_get_iface`
-#. :c:func:`cando_csock_raw_destroy`
-#. :c:func:`cando_csock_raw_get_sizeof`
+1. :c:func:`udo_csock_raw_create`
+#. :c:func:`udo_csock_raw_send_data`
+#. :c:func:`udo_csock_raw_recv_data`
+#. :c:func:`udo_csock_raw_get_fd`
+#. :c:func:`udo_csock_raw_get_iface`
+#. :c:func:`udo_csock_raw_destroy`
+#. :c:func:`udo_csock_raw_get_sizeof`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
@@ -54,13 +54,13 @@ Kernel Modules
 	sudo ip link add dev vcan0 type vcan
 	sudo ip link set vcan0 up
 
-=========================
-cando_csock_raw (private)
-=========================
+=======================
+udo_csock_raw (private)
+=======================
 
-| Structure defining Cando CAN Socket Raw interface implementation
+| Structure defining UDO CAN Socket Raw instance.
 
-.. c:struct:: cando_csock_raw
+.. c:struct:: udo_csock_raw
 
 	.. c:member::
 		struct cando_log_error_struct err;
@@ -86,14 +86,14 @@ cando_csock_raw (private)
 
 =========================================================================================================================================
 
-===========================
-cando_csock_raw_create_info
-===========================
+=========================
+udo_csock_raw_create_info
+=========================
 
-| Structure passed to :c:func:`cando_csock_raw_create`
+| Structure passed to :c:func:`udo_csock_raw_create`
 | used to define how to create the CAN socket.
 
-.. c:struct:: cando_csock_raw_create_info
+.. c:struct:: udo_csock_raw_create_info
 
 	.. c:member::
 		const char *iface;
@@ -102,11 +102,11 @@ cando_csock_raw_create_info
 		| Must pass textual CAN interface
     		| name in string format.
 
-======================
-cando_csock_raw_create
-======================
+====================
+udo_csock_raw_create
+====================
 
-.. c:function:: struct cando_csock_raw *cando_csock_raw_create(struct cando_csock_raw *csock, const void *csock_info);
+.. c:function:: struct udo_csock_raw *udo_csock_raw_create(struct udo_csock_raw *csock, const void *csock_info);
 
 | Creates a socket that may be utilized
 | for sending & receiving CAN frames. On
@@ -118,31 +118,31 @@ cando_csock_raw_create
 		* - Param
 	          - Decription
 		* - csock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_csock_raw`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_csock_raw`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_csock_raw`
+		    | to store the newly created ``struct`` :c:struct:`udo_csock_raw`
 		    | instance.
 		* - csock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_csock_raw_create_info`.
+		    | ``struct`` :c:struct:`udo_csock_raw_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_csock_raw`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_csock_raw`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-=========================
-cando_csock_raw_send_data
-=========================
+=======================
+udo_csock_raw_send_data
+=======================
 
-.. c:function:: ssize_t cando_csock_raw_send_data(struct cando_csock_raw *csock, const struct can_frame *frame, const void *csock_info);
+.. c:function:: ssize_t udo_csock_raw_send_data(struct udo_csock_raw *csock, const struct can_frame *frame, const void *csock_info);
 
 | Send CAN frame through socket bounded to CAN interface
-| specified by a call to :c:func:`cando_csock_raw_create`.
+| specified by a call to :c:func:`udo_csock_raw_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -150,7 +150,7 @@ cando_csock_raw_send_data
 		* - Param
 	          - Decription
 		* - csock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_csock_raw`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_csock_raw`.
 		* - frame
 		  - | Pointer to frame buffer to send through socket.
 		* - csock_info
@@ -163,14 +163,14 @@ cando_csock_raw_send_data
 
 =========================================================================================================================================
 
-=========================
-cando_csock_raw_recv_data
-=========================
+=======================
+udo_csock_raw_recv_data
+=======================
 
-.. c:function:: ssize_t cando_csock_raw_recv_data(struct cando_csock_raw *csock, struct can_frame *frame, const void *csock_info);
+.. c:function:: ssize_t udo_csock_raw_recv_data(struct udo_csock_raw *csock, struct can_frame *frame, const void *csock_info);
 
 | Receive CAN frame from socket bounded to CAN interface
-| specified by a call to :c:func:`cando_csock_raw_create`.
+| specified by a call to :c:func:`udo_csock_raw_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -178,7 +178,7 @@ cando_csock_raw_recv_data
 		* - Param
 	          - Decription
 		* - csock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_csock_raw`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_csock_raw`.
 		* - frame
 		  - | Pointer to buffer to store data received from a socket.
 		* - csock_info
@@ -191,14 +191,14 @@ cando_csock_raw_recv_data
 
 =========================================================================================================================================
 
-======================
-cando_csock_raw_get_fd
-======================
+====================
+udo_csock_raw_get_fd
+====================
 
-.. c:function:: int cando_csock_raw_get_fd(struct cando_csock_raw *csock);
+.. c:function:: int udo_csock_raw_get_fd(struct udo_csock_raw *csock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`cando_csock_raw` instance.
+| ``struct`` :c:struct:`udo_csock_raw` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -206,7 +206,7 @@ cando_csock_raw_get_fd
 		* - Param
 	          - Decription
 		* - csock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_csock_raw`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_csock_raw`.
 
 	Returns:
 		| **on success:** RAW socket file descriptor
@@ -214,14 +214,14 @@ cando_csock_raw_get_fd
 
 =========================================================================================================================================
 
-=========================
-cando_csock_raw_get_iface
-=========================
+=======================
+udo_csock_raw_get_iface
+=======================
 
-.. c:function:: unsigned int cando_csock_raw_get_iface(struct cando_csock_raw *csock);
+.. c:function:: unsigned int udo_csock_raw_get_iface(struct udo_csock_raw *csock);
 
 | Acquire textual CAN interface name in string format
-| associated with ``struct`` :c:struct:`cando_csock_raw` instance.
+| associated with ``struct`` :c:struct:`udo_csock_raw` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -229,7 +229,7 @@ cando_csock_raw_get_iface
 		* - Param
 	          - Decription
 		* - csock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_csock_raw`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_csock_raw`.
 
 	Returns:
 		| **on success:** Textual CAN interface name in string format
@@ -237,14 +237,14 @@ cando_csock_raw_get_iface
 
 =========================================================================================================================================
 
-=======================
-cando_csock_raw_destroy
-=======================
+=====================
+udo_csock_raw_destroy
+=====================
 
-.. c:function:: void cando_csock_raw_destroy(struct cando_csock_raw *csock);
+.. c:function:: void udo_csock_raw_destroy(struct udo_csock_raw *csock);
 
 | Frees any allocated memory and closes FD's (if open)
-| created after :c:func:`cando_csock_raw_create` call.
+| created after :c:func:`udo_csock_raw_create` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -252,15 +252,15 @@ cando_csock_raw_destroy
 		* - Param
 	          - Decription
 		* - csock
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_csock_raw`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_csock_raw`.
 
 =========================================================================================================================================
 
-==========================
-cando_csock_raw_get_sizeof
-==========================
+========================
+udo_csock_raw_get_sizeof
+========================
 
-.. c:function:: int cando_csock_raw_get_sizeof(void);
+.. c:function:: int udo_csock_raw_get_sizeof(void);
 
 | Returns size of the internal structure. So,
 | if caller decides to allocate memory outside
@@ -268,8 +268,8 @@ cando_csock_raw_get_sizeof
 | of bytes.
 
 	Returns:
-		| **on success:** sizeof(``struct`` :c:struct:`cando_csock_raw`)
-		| **on failure:** sizeof(``struct`` :c:struct:`cando_csock_raw`)
+		| **on success:** sizeof(``struct`` :c:struct:`udo_csock_raw`)
+		| **on failure:** sizeof(``struct`` :c:struct:`udo_csock_raw`)
 
 =========================================================================================================================================
 
