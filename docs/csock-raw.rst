@@ -63,10 +63,10 @@ udo_csock_raw (private)
 .. c:struct:: udo_csock_raw
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		char                          iface[IFNAMSIZ];
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		char                        iface[IFNAMSIZ];
 
 	:c:member:`err`
 		| Stores information about the error that occured

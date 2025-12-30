@@ -22,7 +22,7 @@ test_mm_alloc (void UDO_UNUSED **state)
 {
 	struct cando_mm *mm = NULL;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	mm = cando_mm_alloc(NULL, UDO_PAGE_SIZE*2);
 	assert_non_null(mm);
@@ -50,7 +50,7 @@ test_mm_sub_alloc (void UDO_UNUSED **state)
 
 	char *red = NULL, *blue = NULL;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	mm = cando_mm_alloc(NULL, UDO_PAGE_SIZE*5);
 	assert_non_null(mm);
@@ -73,7 +73,7 @@ test_mm_sub_alloc (void UDO_UNUSED **state)
 	blue = cando_mm_sub_alloc(mm, UDO_PAGE_SIZE*10);
 	assert_null(blue);
 
-	cando_log_print(UDO_LOG_ERROR, "%s\n", cando_log_get_error(mm));
+	udo_log_print(UDO_LOG_ERROR, "%s\n", udo_log_get_error(mm));
 
 	cando_mm_destroy(mm);
 }
@@ -94,7 +94,7 @@ test_mm_free (void UDO_UNUSED **state)
 
 	char *red = NULL, *blue = NULL, *green = NULL;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	mm = cando_mm_alloc(NULL, UDO_PAGE_SIZE*8);
 	assert_non_null(mm);

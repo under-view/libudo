@@ -44,7 +44,7 @@ struct cando_shm_proc
 	udo_atomic_u32  *rd_fux;
 	udo_atomic_u32  *wr_fux;
 	udo_atomic_addr data;
-	size_t            data_sz;
+	size_t          data_sz;
 };
 
 
@@ -66,13 +66,13 @@ struct cando_shm_proc
  */
 struct cando_shm
 {
-	struct cando_log_error_struct err;
-	bool                          free;
-	int                           fd;
-	char                          shm_file[SHM_FILE_NAME_MAX];
-	void                          *data;
-	size_t                        data_sz;
-	struct cando_shm_proc         procs[SHM_PROC_MAX];
+	struct udo_log_error_struct err;
+	bool                        free;
+	int                         fd;
+	char                        shm_file[SHM_FILE_NAME_MAX];
+	void                        *data;
+	size_t                      data_sz;
+	struct cando_shm_proc       procs[SHM_PROC_MAX];
 };
 
 
@@ -93,45 +93,45 @@ p_shm_create (struct cando_shm *shm,
 	if (!(shm_info->proc_count) || \
 	    shm_info->proc_count >= SHM_PROC_MAX)
 	{
-		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
-		                    "Unsupported process count (%u:%u)",
-		                    shm_info->proc_count, SHM_PROC_MAX);
+		udo_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
+		                  "Unsupported process count (%u:%u)",
+		                  shm_info->proc_count, SHM_PROC_MAX);
 		return -1;
 	}
 
 	if (!(shm_info->shm_size)) {
-		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
-		                    "Shared memory size must not be zero",
-		                    shm_info->shm_size);
+		udo_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
+		                  "Shared memory size must not be zero",
+		                  shm_info->shm_size);
 		return -1;
 	}
 
 	if (shm_info->shm_file[0] != '/') {
-		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
-		                    "Shared memory file name '%s' doesn't start with '/'",
-		                    shm_info->shm_file);
+		udo_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
+		                  "Shared memory file name '%s' doesn't start with '/'",
+		                  shm_info->shm_file);
 		return -1;
 	}
 
 	len = strnlen(shm_info->shm_file, SHM_FILE_NAME_MAX);
 	if (len >= SHM_FILE_NAME_MAX) {
-		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
-		                    "Shared memory '%s' name length to long",
-		                    shm_info->shm_file);
+		udo_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
+		                  "Shared memory '%s' name length to long",
+		                  shm_info->shm_file);
 		return -1;
 	}
 
 	strncpy(shm->shm_file, shm_info->shm_file, len);
 	shm->fd = shm_open(shm->shm_file, O_RDWR|O_CREAT, 0644);
 	if (shm->fd == -1) {
-		cando_log_set_error(shm, errno, "shm_open: %s", strerror(errno));
+		udo_log_set_error(shm, errno, "shm_open: %s", strerror(errno));
 		return -1;
 	}
 
 	shm->data_sz = shm_info->shm_size;
 	err = ftruncate(shm->fd, shm->data_sz);
 	if (err == -1) {
-		cando_log_set_error(shm, errno, "ftruncate: %s", strerror(errno));
+		udo_log_set_error(shm, errno, "ftruncate: %s", strerror(errno));
 		return -1;
 	}
 
@@ -139,7 +139,7 @@ p_shm_create (struct cando_shm *shm,
 	                 PROT_READ|PROT_WRITE,
 	                 MAP_SHARED, shm->fd, 0);
 	if (err == -1) {
-		cando_log_set_error(shm, errno, "mmap: %s", strerror(errno));
+		udo_log_set_error(shm, errno, "mmap: %s", strerror(errno));
 		return -1;
 	}
 
@@ -153,9 +153,9 @@ p_shm_create (struct cando_shm *shm,
 	if (__atomic_load_n((udo_atomic_u32*)shm->data, \
 	    __ATOMIC_ACQUIRE) >= shm_info->proc_count)
 	{
-		cando_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
-		                    "Unsupported process count (%u:%u)",
-		                    shm_info->proc_count, SHM_PROC_MAX);
+		udo_log_set_error(shm, UDO_LOG_ERR_UNCOMMON,
+		                  "Unsupported process count (%u:%u)",
+		                  shm_info->proc_count, SHM_PROC_MAX);
 		return -1;
 	}
 
@@ -206,7 +206,7 @@ cando_shm_create (struct cando_shm *p_shm,
 	if (!shm) {
 		shm = calloc(1, sizeof(struct cando_shm));
 		if (!shm) {
-			cando_log_error("calloc: %s\n", strerror(errno));
+			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
 		}
 
@@ -215,7 +215,7 @@ cando_shm_create (struct cando_shm *p_shm,
 
 	err = p_shm_create(shm, shm_info);
 	if (err == -1) {
-		cando_log_error("%s\n", cando_log_get_error(shm));
+		udo_log_error("%s\n", udo_log_get_error(shm));
 		cando_shm_destroy(shm);
 		return NULL;
 	}
@@ -260,7 +260,7 @@ cando_shm_data_read (struct cando_shm *shm,
 	    !(shm_info->data) || \
 	    p_check_proc_index(shm, shm_info->proc_index))
 	{
-		cando_log_set_error(shm, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(shm, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -306,7 +306,7 @@ cando_shm_data_write (struct cando_shm *shm,
 	    !(shm_info->data) || \
 	    p_check_proc_index(shm, shm_info->proc_index))
 	{
-		cando_log_set_error(shm, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(shm, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 

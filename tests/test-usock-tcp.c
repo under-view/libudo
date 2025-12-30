@@ -101,7 +101,7 @@ test_usock_tcp_accept_connect (void UDO_UNUSED **state)
 
 	struct cando_usock_tcp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.connections = 1;
 	server_info.unix_path = TESTING_UNIX_SOCK;
@@ -176,7 +176,7 @@ test_usock_tcp_send_recv (void UDO_UNUSED **state)
 
 	struct cando_usock_tcp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.connections = 1;
 	server_info.unix_path = TESTING_UNIX_SOCK;

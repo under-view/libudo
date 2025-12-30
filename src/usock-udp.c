@@ -36,11 +36,11 @@
  */
 struct cando_usock_udp
 {
-	struct cando_log_error_struct err;
-	bool                          free;
-	int                           fd;
-	struct sockaddr_un            addr;
-	struct sockaddr_un            saddr;
+	struct udo_log_error_struct err;
+	bool                        free;
+	int                         fd;
+	struct sockaddr_un          addr;
+	struct sockaddr_un          saddr;
 };
 
 
@@ -64,14 +64,14 @@ p_create_sock_fd (struct cando_usock_udp *usock)
 
 	sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
 	if (sock_fd == -1) {
-		cando_log_set_error(usock, errno, "socket: %s\n", strerror(errno));
+		udo_log_set_error(usock, errno, "socket: %s\n", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
 
 	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(usock, errno, "setsockopt: %s", strerror(errno));
+		udo_log_set_error(usock, errno, "setsockopt: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
@@ -89,7 +89,7 @@ p_create_usock (struct cando_usock_udp *p_usock,
 	if (!usock) {
 		usock = calloc(1, sizeof(struct cando_usock_udp));
 		if (!usock) {
-			cando_log_error("calloc: %s\n", strerror(errno));
+			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
 		}
 
@@ -98,7 +98,7 @@ p_create_usock (struct cando_usock_udp *p_usock,
 
 	usock->fd = p_create_sock_fd(usock);
 	if (usock->fd == -1) {
-		cando_log_error("%s\n", cando_log_get_error(usock));
+		udo_log_error("%s\n", udo_log_get_error(usock));
 		cando_usock_udp_destroy(usock);
 		return NULL;
 	}
@@ -128,7 +128,7 @@ cando_usock_udp_server_create (struct cando_usock_udp *p_usock,
 	if (!usock_info || \
 	    !(usock_info->unix_path))
 	{
-		cando_log_error("Incorrect data passed\n");
+		udo_log_error("Incorrect data passed\n");
 		return NULL;
 	}
 
@@ -142,7 +142,7 @@ cando_usock_udp_server_create (struct cando_usock_udp *p_usock,
 	err = bind(usock->fd, (const struct sockaddr*)&(usock->addr),
 			sizeof(struct sockaddr_un));
 	if (err == -1) {
-		cando_log_error("bind: %s\n", strerror(errno));
+		udo_log_error("bind: %s\n", strerror(errno));
 		cando_usock_udp_destroy(usock);
 		return NULL;
 	}
@@ -188,7 +188,7 @@ cando_usock_udp_client_create (struct cando_usock_udp *p_usock,
 	    !(usock_info->unix_path) || \
 	    !(usock_info->cli_unix_path))
 	{
-		cando_log_error("Incorrect data passed\n");
+		udo_log_error("Incorrect data passed\n");
 		return NULL;
 	}
 
@@ -204,7 +204,7 @@ cando_usock_udp_client_create (struct cando_usock_udp *p_usock,
 	err = bind(usock->fd, (const struct sockaddr*)&(usock->addr),
 			sizeof(struct sockaddr_un));
 	if (err == -1) {
-		cando_log_error("bind: %s\n", strerror(errno));
+		udo_log_error("bind: %s\n", strerror(errno));
 		cando_usock_udp_destroy(usock);
 		return NULL;
 	}
@@ -212,7 +212,7 @@ cando_usock_udp_client_create (struct cando_usock_udp *p_usock,
 	err = connect(usock->fd, (struct sockaddr*)&(usock->saddr),
 			sizeof(struct sockaddr_un));
 	if (err == -1) {
-		cando_log_set_error(usock, errno, "connect: %s", strerror(errno));
+		udo_log_set_error(usock, errno, "connect: %s", strerror(errno));
 		cando_usock_udp_destroy(usock);
 		return NULL;
 	}
@@ -339,7 +339,7 @@ cando_usock_udp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("recvfrom: %s\n", strerror(errno));
+		udo_log_error("recvfrom: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -348,7 +348,7 @@ cando_usock_udp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (err == -1) {
-		cando_log_error("sendto: %s\n", strerror(errno));
+		udo_log_error("sendto: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -385,7 +385,7 @@ cando_usock_udp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("sendto: %s\n", strerror(errno));
+		udo_log_error("sendto: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -394,12 +394,12 @@ cando_usock_udp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (err == -1) {
-		cando_log_error("recvfrom: %s\n", strerror(errno));
+		udo_log_error("recvfrom: %s\n", strerror(errno));
 		return -1;
 	}
 
 	if (received_data != VERIFIER) {
-		cando_log_error("Data not received\n");
+		udo_log_error("Data not received\n");
 		return -1;
 	}
 

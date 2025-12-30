@@ -83,12 +83,12 @@ cando_vsock_udp (private)
 .. c:struct:: cando_vsock_udp
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		unsigned int                  vcid;
-		int                           port;
-		struct sockaddr_vm            addr;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		unsigned int                vcid;
+		int                         port;
+		struct sockaddr_vm          addr;
 
 	:c:member:`err`
 		| Stores information about the error that occured

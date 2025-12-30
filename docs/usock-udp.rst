@@ -55,11 +55,11 @@ cando_usock_udp (private)
 .. c:struct:: cando_usock_udp
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		struct sockaddr_un            addr;
-		struct sockaddr_un            saddr;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		struct sockaddr_un          addr;
+		struct sockaddr_un          saddr;
 
 	:c:member:`err`
 		| Stores information about the error that occured

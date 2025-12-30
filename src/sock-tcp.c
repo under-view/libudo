@@ -33,12 +33,12 @@
  */
 struct cando_sock_tcp
 {
-	struct cando_log_error_struct err;
-	bool                          free;
-	int                           fd;
-	char                          ip_addr[INET6_ADDRSTRLEN];
-	int                           port;
-	struct sockaddr_in6           addr;
+	struct udo_log_error_struct err;
+	bool                        free;
+	int                         fd;
+	char                        ip_addr[INET6_ADDRSTRLEN];
+	int                         port;
+	struct sockaddr_in6         addr;
 };
 
 
@@ -57,14 +57,14 @@ p_set_sock_opts (struct cando_sock_tcp *sock,
 
 	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
 
 	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
@@ -72,7 +72,7 @@ p_set_sock_opts (struct cando_sock_tcp *sock,
 	err = setsockopt(sock_fd, IPPROTO_IPV6, IPV6_V6ONLY,
 		(ipv6) ? &enable : &disable, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
@@ -99,7 +99,7 @@ p_create_sock (struct cando_sock_tcp *p_sock,
 	if (!sock) {
 		sock = calloc(1, sizeof(struct cando_sock_tcp));
 		if (!sock) {
-			cando_log_error("calloc: %s\n", strerror(errno));
+			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
 		}
 
@@ -108,14 +108,14 @@ p_create_sock (struct cando_sock_tcp *p_sock,
 
 	sock->fd = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
 	if (sock->fd == -1) {
-		cando_log_error("socket: %s\n", strerror(errno));
+		udo_log_error("socket: %s\n", strerror(errno));
 		cando_sock_tcp_destroy(sock);
 		return NULL;
 	}
 
 	err = p_set_sock_opts(sock, sock->fd, sock_info->ipv6);
 	if (err == -1) {
-		cando_log_error("%s\n", cando_log_get_error(sock));
+		udo_log_error("%s\n", udo_log_get_error(sock));
 		cando_sock_tcp_destroy(sock);
 		return NULL;
 	}
@@ -128,11 +128,11 @@ p_create_sock (struct cando_sock_tcp *p_sock,
 	sock->addr.sin6_port = htons(sock_info->port);
 	err = inet_pton(AF_INET6, sock->ip_addr, &(sock->addr.sin6_addr));
 	if (err == 0) {
-		cando_log_error("'%s' invalid\n", sock->ip_addr);
+		udo_log_error("'%s' invalid\n", sock->ip_addr);
 		cando_sock_tcp_destroy(sock);
 		return NULL;
 	} else if (err == -1) {
-		cando_log_error("inet_pton: %s\n", strerror(errno));
+		udo_log_error("inet_pton: %s\n", strerror(errno));
 		cando_sock_tcp_destroy(sock);
 		return NULL;
 	}
@@ -167,7 +167,7 @@ cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
 	err = setsockopt(sock->fd, SOL_TCP, TCP_KEEPCNT, &flags, sizeof(int));
 	if (err == -1) {
 		cando_sock_tcp_destroy(sock);
-		cando_log_error("setsockopt: %s\n", strerror(errno));
+		udo_log_error("setsockopt: %s\n", strerror(errno));
 		return NULL;
 	}
 
@@ -175,14 +175,14 @@ cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
 	err = setsockopt(sock->fd, SOL_TCP, TCP_KEEPIDLE, &flags, sizeof(int));
 	if (err == -1) {
 		cando_sock_tcp_destroy(sock);
-		cando_log_error("setsockopt: %s\n", strerror(errno));
+		udo_log_error("setsockopt: %s\n", strerror(errno));
 		return NULL;
 	}
 
 	err = setsockopt(sock->fd, SOL_TCP, TCP_KEEPINTVL, &flags, sizeof(int));
 	if (err == -1) {
 		cando_sock_tcp_destroy(sock);
-		cando_log_error("setsockopt: %s\n", strerror(errno));
+		udo_log_error("setsockopt: %s\n", strerror(errno));
 		return NULL;
 	}
 
@@ -190,14 +190,14 @@ cando_sock_tcp_server_create (struct cando_sock_tcp *p_sock,
 			sizeof(struct sockaddr_in6));
 	if (err == -1) {
 		cando_sock_tcp_destroy(sock);
-		cando_log_error("bind: %s\n", strerror(errno));
+		udo_log_error("bind: %s\n", strerror(errno));
 		return NULL;
 	}
 
 	err = listen(sock->fd, sock_info->connections);
 	if (err == -1) {
 		cando_sock_tcp_destroy(sock);
-		cando_log_error("listen: %s\n", strerror(errno));
+		udo_log_error("listen: %s\n", strerror(errno));
 		return NULL;
 	}
 
@@ -226,20 +226,20 @@ cando_sock_tcp_server_accept (struct cando_sock_tcp *sock,
 	addr = (p_addr) ? p_addr : &inaddr;
 	client_sock = accept(sock->fd, (struct sockaddr*)addr, &len);
 	if (client_sock == -1) {
-		cando_log_set_error(sock, errno, "accept: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "accept: %s", strerror(errno));
 		return -1;
 	}
 
 	err = setsockopt(client_sock, SOL_SOCKET, SO_KEEPALIVE, &enabled, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(sock, errno, "accept: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "accept: %s", strerror(errno));
 		close(client_sock);
 		return -1;
 	}
 
 	ip_addr = inet_ntop(AF_INET6, addr, buff, len);
-	cando_log_info("[+] Connected client fd '%d' at '%s:%u'\n",
-	               client_sock, ip_addr, ntohs(addr->sin6_port));
+	udo_log_info("[+] Connected client fd '%d' at '%s:%u'\n",
+	             client_sock, ip_addr, ntohs(addr->sin6_port));
 
 	return client_sock;
 }
@@ -276,19 +276,19 @@ cando_sock_tcp_client_connect (struct cando_sock_tcp *sock)
 		return -1;
 
 	if (sock->fd <= 0) {
-		cando_log_set_error(sock, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(sock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	err = connect(sock->fd, (struct sockaddr*)&(sock->addr),
 			sizeof(struct sockaddr_in6));
 	if (err == -1) {
-		cando_log_set_error(sock, errno, "connect: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "connect: %s", strerror(errno));
 		return -1;
 	}
 
-	cando_log_success("[+] Connected to <ip_addr:port> '%s:%d'\n",
-	                  sock->ip_addr, sock->port);
+	udo_log_success("[+] Connected to <ip_addr:port> '%s:%d'\n",
+	                sock->ip_addr, sock->port);
 
 	return 0;
 }
@@ -409,7 +409,7 @@ cando_sock_tcp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("recv: %s", strerror(errno));
+		udo_log_error("recv: %s", strerror(errno));
 		return -1;
 	}
 
@@ -438,7 +438,7 @@ cando_sock_tcp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("send: %s", strerror(errno));
+		udo_log_error("send: %s", strerror(errno));
 		return -1;
 	}
 

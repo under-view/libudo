@@ -49,11 +49,11 @@ cando_mm (private)
 .. c:struct:: cando_mm
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		size_t                        buff_sz;
-		size_t                        data_sz;
-		size_t                        ab_sz;
-		size_t                        offset;
+		struct udo_log_error_struct err;
+		size_t                      buff_sz;
+		size_t                      data_sz;
+		size_t                      ab_sz;
+		size_t                      offset;
 
 	:c:member:`err`
 		| Stores information about the error that occured

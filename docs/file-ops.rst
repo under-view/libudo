@@ -58,13 +58,13 @@ udo_file_ops (private)
 .. c:struct:: udo_file_ops
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		int                           pipe_fds[2];
-		char                          fname[FILE_NAME_LEN_MAX];
-		size_t                        data_sz;
-		void                          *data;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		int                         pipe_fds[2];
+		char                        fname[FILE_NAME_LEN_MAX];
+		size_t                      data_sz;
+		void                        *data;
 
 	:c:member:`err`
 		| Stores information about the error that occured

@@ -35,13 +35,13 @@
  */
 struct udo_file_ops
 {
-	struct cando_log_error_struct err;
-	bool                          free;
-	int                           fd;
-	int                           pipe_fds[2];
-	char                          fname[FILE_NAME_LEN_MAX];
-	size_t                        data_sz;
-	void                          *data;
+	struct udo_log_error_struct err;
+	bool                        free;
+	int                         fd;
+	int                         pipe_fds[2];
+	char                        fname[FILE_NAME_LEN_MAX];
+	size_t                      data_sz;
+	void                        *data;
 };
 
 
@@ -62,14 +62,14 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 	const struct udo_file_ops_create_info *file_info = p_file_info;
 
 	if (!file_info) {
-		cando_log_error("Incorrect data passed\n");
+		udo_log_error("Incorrect data passed\n");
 		return NULL;
 	}
 
 	if (!flops) {
 		flops = calloc(1, sizeof(struct udo_file_ops));
 		if (!flops) {
-			cando_log_error("calloc: %s\n", strerror(errno));
+			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
 		}
 
@@ -84,7 +84,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 
 		flops->fd = open(flops->fname, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
-			cando_log_error("open: %s\n", strerror(errno));
+			udo_log_error("open: %s\n", strerror(errno));
 			udo_file_ops_destroy(flops);
 			return NULL;
 		}
@@ -102,14 +102,14 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 	if (file_info->create_pipe) {
 		ret = pipe(flops->pipe_fds);
 		if (ret == -1) {
-			cando_log_error("pipe: %s\n", strerror(errno));
+			udo_log_error("pipe: %s\n", strerror(errno));
 			udo_file_ops_destroy(flops);
 			return NULL;
 		}
 	} else {
 		ret = udo_file_ops_truncate_file(flops, flops->data_sz);
 		if (ret < 0 && flops->data_sz) {
-			cando_log_error("%s\n", cando_log_get_error(flops));
+			udo_log_error("%s\n", udo_log_get_error(flops));
 			udo_file_ops_destroy(flops);
 			return NULL;
 		}
@@ -121,7 +121,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 				   flops->fd,
 				   file_info->offset);
 		if (flops->data == (void*)-1 && flops->data_sz) {
-			cando_log_error("mmap: %s\n", strerror(errno));
+			udo_log_error("mmap: %s\n", strerror(errno));
 			udo_file_ops_destroy(flops);
 			return NULL;
 		}
@@ -150,13 +150,13 @@ udo_file_ops_truncate_file (struct udo_file_ops *flops,
 
 	if (size == 0)
 	{
-		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	ret = ftruncate(flops->fd, size);
 	if (ret == -1) {
-		cando_log_set_error(flops, errno, "ftruncate: %s", strerror(errno));
+		udo_log_set_error(flops, errno, "ftruncate: %s", strerror(errno));
 		return -errno;
 	}
 
@@ -186,7 +186,7 @@ udo_file_ops_zero_copy (struct udo_file_ops *flops,
 	if (!file_info || \
 	    file_info->size == 0)
 	{
-		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -198,7 +198,7 @@ udo_file_ops_zero_copy (struct udo_file_ops *flops,
 	if (ret == 0) {
 		return 0;
 	} else if (ret == -1) {
-		cando_log_set_error(flops, errno, "splice: %s", strerror(errno));
+		udo_log_set_error(flops, errno, "splice: %s", strerror(errno));
 		return -1;
 	}
 
@@ -208,7 +208,7 @@ udo_file_ops_zero_copy (struct udo_file_ops *flops,
 		     UDO_MIN(file_info->size, PIPE_MAX_BUFF_SIZE),
 		     SPLICE_F_MOVE|SPLICE_F_MORE);
 	if (ret == -1) {
-		cando_log_set_error(flops, errno, "splice: %s", strerror(errno));
+		udo_log_set_error(flops, errno, "splice: %s", strerror(errno));
 		return -1;
 	}
 
@@ -234,7 +234,7 @@ udo_file_ops_get_data (struct udo_file_ops *flops,
 	if (!(flops->data) || \
 	    offset >= flops->data_sz)
 	{
-		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return NULL;
 	}
 
@@ -254,7 +254,7 @@ udo_file_ops_get_line (struct udo_file_ops *flops,
 	if (!(flops->data) || \
 	    !p_line)
 	{
-		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return NULL;
 	}
 
@@ -285,7 +285,7 @@ udo_file_ops_get_line_count (struct udo_file_ops *flops)
 
 	if (!(flops->data))
 	{
-		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -353,7 +353,7 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
 	    !(file_info->data) || \
 	    (file_info->size+file_info->offset) >= flops->data_sz)
 	{
-		cando_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
@@ -361,7 +361,7 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
 
 	ret = UDO_PAGE_SET_WRITE(data, file_info->size);
 	if (ret == -1) {
-		cando_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
+		udo_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
 		return -1;
 	}
 
@@ -369,7 +369,7 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
 
 	ret = UDO_PAGE_SET_READ(data, file_info->size);
 	if (ret == -1) {
-		cando_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
+		udo_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
 		return -1;
 	}
 
@@ -426,14 +426,14 @@ udo_file_ops_set_fd_flags (const int fd, const int flags)
 
 	opt = fcntl(fd, F_GETFL);
 	if (opt < 0) {
-		cando_log_error("fcntl: %s\n", strerror(errno));
+		udo_log_error("fcntl: %s\n", strerror(errno));
 		return -1;
 	}
 
 	opt |= flags;
 	err = fcntl(fd, F_SETFL, opt);
 	if (err < 0) {
-		cando_log_error("fcntl: %s\n", strerror(errno));
+		udo_log_error("fcntl: %s\n", strerror(errno));
 		return -1;
 	}
 

@@ -102,7 +102,7 @@ test_vsock_tcp_accept_connect (void UDO_UNUSED **state)
 
 	struct cando_vsock_tcp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.vcid = 1;
 	server_info.port = 7777;
@@ -179,7 +179,7 @@ test_vsock_tcp_send_recv (void UDO_UNUSED **state)
 
 	struct cando_vsock_tcp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.vcid = 1;
 	server_info.port = 7777;
@@ -334,7 +334,7 @@ static void UDO_UNUSED
 test_vsock_tcp_get_local_vcid (void UDO_UNUSED **state)
 {
 	unsigned int vcid = -1;
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 	vcid = cando_vsock_tcp_get_local_vcid();
 	assert_int_equal(vcid, 2);
 }

@@ -33,12 +33,12 @@
  */
 struct cando_vsock_tcp
 {
-	struct cando_log_error_struct err;
-	bool                          free;
-	int                           fd;
-	unsigned int                  vcid;
-	int                           port;
-	struct sockaddr_vm            addr;
+	struct udo_log_error_struct err;
+	bool                        free;
+	int                         fd;
+	unsigned int                vcid;
+	int                         port;
+	struct sockaddr_vm          addr;
 };
 
 
@@ -55,14 +55,14 @@ p_vsock_get_local_vcid (void)
 
 	fd = open("/dev/vsock", O_RDONLY);
 	if (fd == -1) {
-		cando_log_error("open('/dev/vsock'): %s\n", strerror(errno));
+		udo_log_error("open('/dev/vsock'): %s\n", strerror(errno));
 		return UINT32_MAX;
 	}
 
 	err = ioctl(fd, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &vcid);
 	if (err == -1 || vcid == UINT32_MAX) {
 		close(fd);
-		cando_log_error("ioctl: %s\n", strerror(errno));
+		udo_log_error("ioctl: %s\n", strerror(errno));
 		return UINT32_MAX;
 	}
 
@@ -82,14 +82,14 @@ p_set_sock_opts (struct cando_vsock_tcp *sock,
 
 	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
 
 	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
+		udo_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
@@ -115,7 +115,7 @@ p_create_vsock (struct cando_vsock_tcp *p_vsock,
 	if (!vsock) {
 		vsock = calloc(1, sizeof(struct cando_vsock_tcp));
 		if (!vsock) {
-			cando_log_error("calloc: %s\n", strerror(errno));
+			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
 		}
 
@@ -130,7 +130,7 @@ p_create_vsock (struct cando_vsock_tcp *p_vsock,
 
 	err = p_set_sock_opts(vsock, vsock->fd);
 	if (err == -1) {
-		cando_log_error("%s\n", cando_log_get_error(vsock));
+		udo_log_error("%s\n", udo_log_get_error(vsock));
 		cando_vsock_tcp_destroy(vsock);
 		return NULL;
 	}
@@ -173,14 +173,14 @@ cando_vsock_tcp_server_create (struct cando_vsock_tcp *p_vsock,
 	err = bind(vsock->fd, (struct sockaddr*) &(vsock->addr),
 			sizeof(struct sockaddr_vm));
 	if (err == -1) {
-		cando_log_error("bind: %s\n", strerror(errno));
+		udo_log_error("bind: %s\n", strerror(errno));
 		cando_vsock_tcp_destroy(vsock);
 		return NULL;
 	}
 
 	err = listen(vsock->fd, vsock_info->connections);
 	if (err == -1) {
-		cando_log_error("listen: %s\n", strerror(errno));
+		udo_log_error("listen: %s\n", strerror(errno));
 		cando_vsock_tcp_destroy(vsock);
 		return NULL;
 	}
@@ -206,12 +206,12 @@ cando_vsock_tcp_server_accept (struct cando_vsock_tcp *vsock,
 	addr = (p_addr) ? p_addr : &inaddr;
 	client_sock = accept(vsock->fd, (struct sockaddr*)addr, &len);
 	if (client_sock == -1) {
-		cando_log_set_error(vsock, errno, "accept: %s", strerror(errno));
+		udo_log_set_error(vsock, errno, "accept: %s", strerror(errno));
 		return -1;
 	}
 
-	cando_log_info("[+] Connected client fd '%d' at '%lu:%u'\n",
-	               client_sock, addr->svm_cid, ntohs(addr->svm_port));
+	udo_log_info("[+] Connected client fd '%d' at '%lu:%u'\n",
+	             client_sock, addr->svm_cid, ntohs(addr->svm_port));
 
 	return client_sock;
 }
@@ -248,19 +248,19 @@ cando_vsock_tcp_client_connect (struct cando_vsock_tcp *vsock)
 		return -1;
 
 	if (vsock->fd <= 0) {
-		cando_log_set_error(vsock, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(vsock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	err = connect(vsock->fd, (struct sockaddr*)&(vsock->addr),
 			sizeof(struct sockaddr_vm));
 	if (err == -1) {
-		cando_log_set_error(vsock, errno, "connect: %s", strerror(errno));
+		udo_log_set_error(vsock, errno, "connect: %s", strerror(errno));
 		return -1;
 	}
 
-	cando_log_success("[+] Connected to <VM cid:port> '%lu:%d'\n",
-	                  vsock->vcid, vsock->port);
+	udo_log_success("[+] Connected to <VM cid:port> '%lu:%d'\n",
+	                vsock->vcid, vsock->port);
 
 	return 0;
 }
@@ -385,7 +385,7 @@ cando_vsock_tcp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("recv: %s", strerror(errno));
+		udo_log_error("recv: %s", strerror(errno));
 		return -1;
 	}
 
@@ -414,7 +414,7 @@ cando_vsock_tcp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("send: %s", strerror(errno));
+		udo_log_error("send: %s", strerror(errno));
 		return -1;
 	}
 

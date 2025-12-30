@@ -49,7 +49,7 @@ udo_futex_create (const unsigned int count)
 	udo_atomic_u32 *fux;
 
 	if (!count) {
-		cando_log_error("Incorrect data passed\n");
+		udo_log_error("Incorrect data passed\n");
 		return NULL;
 	}
 
@@ -59,7 +59,7 @@ udo_futex_create (const unsigned int count)
 	           MAP_SHARED|MAP_ANONYMOUS,
 	           -1, 0);
 	if (fux == (void*)-1) {
-		cando_log_error("mmap: %s\n", strerror(errno));
+		udo_log_error("mmap: %s\n", strerror(errno));
 		return NULL;
 	}
 

@@ -57,12 +57,12 @@ cando_sock_tcp (private)
 .. c:struct:: cando_sock_tcp
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		char                          ip_addr[INET6_ADDRSTRLEN];
-		int                           port;
-		struct sockaddr_in6            addr;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		char                        ip_addr[INET6_ADDRSTRLEN];
+		int                         port;
+		struct sockaddr_in6         addr;
 
 	:c:member:`err`
 		| Stores information about the error that occured

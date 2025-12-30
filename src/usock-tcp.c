@@ -22,22 +22,22 @@
 /*
  * @brief Structure defining Cando Unix Socket TCP interface implementation.
  *
- * @member err       - Stores information about the error that occured
- *                     for the given instance and may later be retrieved
- *                     by caller.
- * @member free      - If structure allocated with calloc(3) member will be
- *                     set to true so that, we know to call free(3) when
- *                     destroying the instance.
- * @member fd        - File descriptor to the open TCP unix domain socket.
- * @member addr      - Stores byte information about the TCP unix domain socket
- *                     context. Is used for client connect(2) and server accept(2).
+ * @member err  - Stores information about the error that occured
+ *                for the given instance and may later be retrieved
+ *                by caller.
+ * @member free - If structure allocated with calloc(3) member will be
+ *                set to true so that, we know to call free(3) when
+ *                destroying the instance.
+ * @member fd   - File descriptor to the open TCP unix domain socket.
+ * @member addr - Stores byte information about the TCP unix domain socket
+ *                context. Is used for client connect(2) and server accept(2).
  */
 struct cando_usock_tcp
 {
-	struct cando_log_error_struct err;
-	bool                          free;
-	int                           fd;
-	struct sockaddr_un            addr;
+	struct udo_log_error_struct err;
+	bool                        free;
+	int                         fd;
+	struct sockaddr_un          addr;
 };
 
 
@@ -55,7 +55,7 @@ p_set_sock_opts (struct cando_usock_tcp *usock,
 
 	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(usock, errno, "setsockopt: %s", strerror(errno));
+		udo_log_set_error(usock, errno, "setsockopt: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
@@ -80,14 +80,14 @@ p_create_sock (struct cando_usock_tcp *p_sock,
 	if (!usock_info || \
 	    !(usock_info->unix_path))
 	{
-		cando_log_error("Incorrect data passed\n");
+		udo_log_error("Incorrect data passed\n");
 		return NULL;
 	}
 
 	if (!usock) {
 		usock = calloc(1, sizeof(struct cando_usock_tcp));
 		if (!usock) {
-			cando_log_error("calloc: %s\n", strerror(errno));
+			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
 		}
 
@@ -96,14 +96,14 @@ p_create_sock (struct cando_usock_tcp *p_sock,
 
 	usock->fd = socket(AF_UNIX, SOCK_STREAM, 0);
 	if (usock->fd == -1) {
-		cando_log_error("socket: %s\n", strerror(errno));
+		udo_log_error("socket: %s\n", strerror(errno));
 		cando_usock_tcp_destroy(usock);
 		return NULL;
 	}
 
 	err = p_set_sock_opts(usock, usock->fd);
 	if (err == -1) {
-		cando_log_error("%s\n", cando_log_get_error(usock));
+		udo_log_error("%s\n", udo_log_get_error(usock));
 		cando_usock_tcp_destroy(usock);
 		return NULL;
 	}
@@ -141,14 +141,14 @@ cando_usock_tcp_server_create (struct cando_usock_tcp *p_sock,
 			sizeof(struct sockaddr_un));
 	if (err == -1) {
 		cando_usock_tcp_destroy(usock);
-		cando_log_error("bind: %s\n", strerror(errno));
+		udo_log_error("bind: %s\n", strerror(errno));
 		return NULL;
 	}
 
 	err = listen(usock->fd, usock_info->connections);
 	if (err == -1) {
 		cando_usock_tcp_destroy(usock);
-		cando_log_error("listen: %s\n", strerror(errno));
+		udo_log_error("listen: %s\n", strerror(errno));
 		return NULL;
 	}
 
@@ -173,19 +173,19 @@ cando_usock_tcp_server_accept (struct cando_usock_tcp *usock,
 	addr = (p_addr) ? p_addr : &inaddr;
 	client_sock = accept(usock->fd, (struct sockaddr*)addr, &len);
 	if (client_sock == -1) {
-		cando_log_set_error(usock, errno, "accept: %s", strerror(errno));
+		udo_log_set_error(usock, errno, "accept: %s", strerror(errno));
 		return -1;
 	}
 
 	err = setsockopt(client_sock, SOL_SOCKET, SO_KEEPALIVE, &enabled, sizeof(int));
 	if (err == -1) {
-		cando_log_set_error(usock, errno, "accept: %s", strerror(errno));
+		udo_log_set_error(usock, errno, "accept: %s", strerror(errno));
 		close(client_sock);
 		return -1;
 	}
 
-	cando_log_info("[+] Connected client fd '%d' at '%s'\n",
-	               client_sock, usock->addr.sun_path);
+	udo_log_info("[+] Connected client fd '%d' at '%s'\n",
+	             client_sock, usock->addr.sun_path);
 
 	return client_sock;
 }
@@ -222,18 +222,18 @@ cando_usock_tcp_client_connect (struct cando_usock_tcp *usock)
 		return -1;
 
 	if (usock->fd <= 0) {
-		cando_log_set_error(usock, UDO_LOG_ERR_INCORRECT_DATA, "");
+		udo_log_set_error(usock, UDO_LOG_ERR_INCORRECT_DATA, "");
 		return -1;
 	}
 
 	err = connect(usock->fd, (struct sockaddr*)&(usock->addr),
 			sizeof(struct sockaddr_un));
 	if (err == -1) {
-		cando_log_set_error(usock, errno, "connect: %s", strerror(errno));
+		udo_log_set_error(usock, errno, "connect: %s", strerror(errno));
 		return -1;
 	}
 
-	cando_log_success("[+] Connected to <unix_path> '%s'\n", usock->addr.sun_path);
+	udo_log_success("[+] Connected to <unix_path> '%s'\n", usock->addr.sun_path);
 
 	return 0;
 }
@@ -345,7 +345,7 @@ cando_usock_tcp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("recv: %s", strerror(errno));
+		udo_log_error("recv: %s", strerror(errno));
 		return -1;
 	}
 
@@ -374,7 +374,7 @@ cando_usock_tcp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		cando_log_error("send: %s", strerror(errno));
+		udo_log_error("send: %s", strerror(errno));
 		return -1;
 	}
 

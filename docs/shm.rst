@@ -87,13 +87,13 @@ cando_shm (private)
 .. c:struct:: cando_shm
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		char                          shm_file[SHM_FILE_NAME_MAX];
-		void                          *data;
-		size_t                        data_sz;
-		struct cando_shm_proc         procs[SHM_PROC_MAX];
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		char                        shm_file[SHM_FILE_NAME_MAX];
+		void                        *data;
+		size_t                      data_sz;
+		struct cando_shm_proc       procs[SHM_PROC_MAX];
 
 	:c:member:`err`
 		| Stores information about the error that occured

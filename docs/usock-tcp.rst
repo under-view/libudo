@@ -56,10 +56,10 @@ cando_usock_tcp (private)
 .. c:struct:: cando_usock_tcp
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		struct sockaddr_un            addr;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		struct sockaddr_un          addr;
 
 	:c:member:`err`
 		| Stores information about the error that occured

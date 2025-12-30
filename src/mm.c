@@ -22,11 +22,11 @@
  */
 struct cando_mm
 {
-	struct cando_log_error_struct err;
-	size_t                        buff_sz;
-	size_t                        data_sz;
-	size_t                        ab_sz;
-	size_t                        offset;
+	struct udo_log_error_struct err;
+	size_t                      buff_sz;
+	size_t                      data_sz;
+	size_t                      ab_sz;
+	size_t                      offset;
 };
 
 
@@ -46,7 +46,7 @@ priv_new_virtual_memory_mapping (struct cando_mm *mm, const size_t size)
 		    MAP_PRIVATE|MAP_ANONYMOUS,
 		    -1, 0);
 	if (data == (void*)-1) {
-		cando_log_error("mmap: %s\n", strerror(errno));
+		udo_log_error("mmap: %s\n", strerror(errno));
 		return NULL;
 	} else {
 		memset(data, 0, new_data_sz);
@@ -93,14 +93,14 @@ cando_mm_sub_alloc (struct cando_mm *mm, const size_t size)
 	void *data = NULL;
 
 	if (!mm) {
-		cando_log_error("Incorrect data passed\n");
+		udo_log_error("Incorrect data passed\n");
 		return NULL;
 	}
 
 	if (mm->ab_sz <= size) {
-		cando_log_set_error(mm, UDO_LOG_ERR_UNCOMMON,
-		                    "Cannot allocate %lu bytes only %lu bytes left.",
-		                    size, mm->ab_sz);
+		udo_log_set_error(mm, UDO_LOG_ERR_UNCOMMON,
+		                  "Cannot allocate %lu bytes only %lu bytes left.",
+		                  size, mm->ab_sz);
 		return NULL;
 	}
 
@@ -123,7 +123,7 @@ cando_mm_free (struct cando_mm *mm,
 	void *mv_data = NULL;
 
 	if (!mm || !data || !size) {
-		cando_log_error("Incorrect data passed\n");
+		udo_log_error("Incorrect data passed\n");
 		return;
 	}
 

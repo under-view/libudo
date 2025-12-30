@@ -85,7 +85,7 @@ test_csock_raw_send_recv (void UDO_UNUSED **state)
 
 	struct udo_csock_raw_create_info csock_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	pid = fork();
 	if (pid == 0) {

@@ -105,7 +105,7 @@ test_sock_tcp_accept_connect (void UDO_UNUSED **state)
 
 	struct cando_sock_tcp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.ipv6 = 0;
 	server_info.port = 7777;
@@ -184,7 +184,7 @@ test_sock_tcp_send_recv (void UDO_UNUSED **state)
 
 	struct cando_sock_tcp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.ipv6 = 1;
 	server_info.port = 7777;

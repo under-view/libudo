@@ -29,7 +29,7 @@ test_usock_udp_server_create (void UDO_UNUSED **state)
 
 	struct cando_usock_udp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.unix_path = TESTING_UNIX_SOCK;
 	server = cando_usock_udp_server_create(NULL, &server_info);
@@ -120,7 +120,7 @@ test_usock_udp_send_recv (void UDO_UNUSED **state)
 
 	struct cando_usock_udp_server_create_info server_info;
 
-	cando_log_set_level(UDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.unix_path = TESTING_UNIX_SOCK;
 	server = cando_usock_udp_server_create(NULL, &server_info);
