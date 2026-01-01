@@ -17,7 +17,7 @@
 #include "vsock-udp.h"
 
 /*
- * @brief Structure defining Cando VM Socket UDP interface implementation.
+ * @brief Structure defining UDO VM Socket UDP instance.
  *
  * @member err  - Stores information about the error that occured
  *                for the given instance and may later be retrieved
@@ -31,7 +31,7 @@
  * @member addr - Stores byte information about the VM socket context.
  *                Is used for client connect(2) and server bind(2)/connect(2).
  */
-struct cando_vsock_udp
+struct udo_vsock_udp
 {
 	struct udo_log_error_struct err;
 	bool                        free;
@@ -46,7 +46,7 @@ struct cando_vsock_udp
  * Start of global to C source functions *
  *****************************************/
 
-struct cando_vsock_udp_create_info
+struct udo_vsock_udp_create_info
 {
 	unsigned int vcid;
 	int          port;
@@ -80,7 +80,7 @@ p_vsock_get_local_vcid (void)
 
 
 static int
-p_create_sock_fd (struct cando_vsock_udp *vsock)
+p_create_sock_fd (struct udo_vsock_udp *vsock)
 {
 	const int enable = 1;
 
@@ -111,14 +111,14 @@ p_create_sock_fd (struct cando_vsock_udp *vsock)
 }
 
 
-static struct cando_vsock_udp *
-p_create_vsock (struct cando_vsock_udp *p_vsock,
+static struct udo_vsock_udp *
+p_create_vsock (struct udo_vsock_udp *p_vsock,
                 const void *p_vsock_info,
                 const bool server)
 {
-	struct cando_vsock_udp *vsock = p_vsock;
+	struct udo_vsock_udp *vsock = p_vsock;
 
-	const struct cando_vsock_udp_create_info *vsock_info = p_vsock_info;
+	const struct udo_vsock_udp_create_info *vsock_info = p_vsock_info;
 
 	if (!vsock_info) {
 		udo_log_error("Incorrect data passed\n");
@@ -126,7 +126,7 @@ p_create_vsock (struct cando_vsock_udp *p_vsock,
 	}
 
 	if (!vsock) {
-		vsock = calloc(1, sizeof(struct cando_vsock_udp));
+		vsock = calloc(1, sizeof(struct udo_vsock_udp));
 		if (!vsock) {
 			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
@@ -138,7 +138,7 @@ p_create_vsock (struct cando_vsock_udp *p_vsock,
 	vsock->fd = p_create_sock_fd(vsock);
 	if (vsock->fd == -1) {
 		udo_log_error("%s\n", udo_log_get_error(vsock));
-		cando_vsock_udp_destroy(vsock);
+		udo_vsock_udp_destroy(vsock);
 		return NULL;
 	}
 
@@ -159,17 +159,17 @@ p_create_vsock (struct cando_vsock_udp *p_vsock,
  ***************************************/
 
 
-/*********************************************
- * Start of cando_vsock_udp_server functions *
- *********************************************/
+/*******************************************
+ * Start of udo_vsock_udp_server functions *
+ *******************************************/
 
-struct cando_vsock_udp *
-cando_vsock_udp_server_create (struct cando_vsock_udp *p_vsock,
-                               const void *p_vsock_info)
+struct udo_vsock_udp *
+udo_vsock_udp_server_create (struct udo_vsock_udp *p_vsock,
+                             const void *p_vsock_info)
 {
 	int err = -1;
 
-	struct cando_vsock_udp *vsock = NULL;
+	struct udo_vsock_udp *vsock = NULL;
 
 	vsock = p_create_vsock(p_vsock, p_vsock_info, 1);
 	if (!vsock)
@@ -178,7 +178,7 @@ cando_vsock_udp_server_create (struct cando_vsock_udp *p_vsock,
 	err = bind(vsock->fd, (struct sockaddr*) &(vsock->addr),
 			sizeof(struct sockaddr_vm));
 	if (err == -1) {
-		cando_vsock_udp_destroy(vsock);
+		udo_vsock_udp_destroy(vsock);
 		udo_log_error("bind: %s\n", strerror(errno));
 		return NULL;
 	}
@@ -188,8 +188,8 @@ cando_vsock_udp_server_create (struct cando_vsock_udp *p_vsock,
 
 
 int
-cando_vsock_udp_server_accept (struct cando_vsock_udp *vsock,
-                               const struct sockaddr_vm *addr)
+udo_vsock_udp_server_accept (struct udo_vsock_udp *vsock,
+                             const struct sockaddr_vm *addr)
 {
 	int err = -1, client_sock = -1;
 
@@ -233,33 +233,33 @@ cando_vsock_udp_server_accept (struct cando_vsock_udp *vsock,
 
 
 ssize_t
-cando_vsock_udp_server_recv_data (struct cando_vsock_udp *vsock,
-                                  void *data,
-                                  const size_t size,
-                                  struct sockaddr_vm *addr,
-                                  const void *vsock_info)
+udo_vsock_udp_server_recv_data (struct udo_vsock_udp *vsock,
+                                void *data,
+                                const size_t size,
+                                struct sockaddr_vm *addr,
+                                const void *vsock_info)
 {
 	if (!vsock)
 		return -1;
 
-	return cando_vsock_udp_recv_data(vsock->fd, data,
+	return udo_vsock_udp_recv_data(vsock->fd, data,
 	                          size, addr, vsock_info);
 }
 
+/*****************************************
+ * End of udo_vsock_udp_server functions *
+ *****************************************/
+
+
 /*******************************************
- * End of cando_vsock_udp_server functions *
+ * Start of udo_vsock_udp_client functions *
  *******************************************/
 
-
-/*********************************************
- * Start of cando_vsock_udp_client functions *
- *********************************************/
-
-struct cando_vsock_udp *
-cando_vsock_udp_client_create (struct cando_vsock_udp *p_vsock,
-                               const void *vsock_info)
+struct udo_vsock_udp *
+udo_vsock_udp_client_create (struct udo_vsock_udp *p_vsock,
+                             const void *vsock_info)
 {
-	struct cando_vsock_udp *vsock = NULL;
+	struct udo_vsock_udp *vsock = NULL;
 
 	vsock = p_create_vsock(p_vsock, vsock_info, 0);
 	if (!vsock)
@@ -270,7 +270,7 @@ cando_vsock_udp_client_create (struct cando_vsock_udp *p_vsock,
 
 
 int
-cando_vsock_udp_client_connect (struct cando_vsock_udp *vsock)
+udo_vsock_udp_client_connect (struct udo_vsock_udp *vsock)
 {
 	int err = -1;
 
@@ -297,29 +297,29 @@ cando_vsock_udp_client_connect (struct cando_vsock_udp *vsock)
 
 
 ssize_t
-cando_vsock_udp_client_send_data (struct cando_vsock_udp *vsock,
-                                  const void *data,
-                                  const size_t size,
-                                  const void *vsock_info)
+udo_vsock_udp_client_send_data (struct udo_vsock_udp *vsock,
+                                const void *data,
+                                const size_t size,
+                                const void *vsock_info)
 {
 	if (!vsock)
 		return -1;
 
-	return cando_vsock_udp_send_data(vsock->fd, data, size,
+	return udo_vsock_udp_send_data(vsock->fd, data, size,
 	                            &(vsock->addr), vsock_info);
 }
 
-/*******************************************
- * End of cando_vsock_udp_client functions *
- *******************************************/
+/*****************************************
+ * End of udo_vsock_udp_client functions *
+ *****************************************/
 
 
-/******************************************
- * Start of cando_vsock_udp_get functions *
- ******************************************/
+/****************************************
+ * Start of udo_vsock_udp_get functions *
+ ****************************************/
 
 int
-cando_vsock_udp_get_fd (struct cando_vsock_udp *vsock)
+udo_vsock_udp_get_fd (struct udo_vsock_udp *vsock)
 {
 	if (!vsock)
 		return -1;
@@ -329,7 +329,7 @@ cando_vsock_udp_get_fd (struct cando_vsock_udp *vsock)
 
 
 unsigned int
-cando_vsock_udp_get_vcid (struct cando_vsock_udp *vsock)
+udo_vsock_udp_get_vcid (struct udo_vsock_udp *vsock)
 {
 	if (!vsock)
 		return UINT32_MAX;
@@ -339,7 +339,7 @@ cando_vsock_udp_get_vcid (struct cando_vsock_udp *vsock)
 
 
 int
-cando_vsock_udp_get_port (struct cando_vsock_udp *vsock)
+udo_vsock_udp_get_port (struct udo_vsock_udp *vsock)
 {
 	if (!vsock)
 		return -1;
@@ -347,17 +347,17 @@ cando_vsock_udp_get_port (struct cando_vsock_udp *vsock)
 	return vsock->port;
 }
 
-/****************************************
- * End of cando_vsock_udp_get functions *
- ****************************************/
+/**************************************
+ * End of udo_vsock_udp_get functions *
+ **************************************/
 
 
-/**********************************************
- * Start of cando_vsock_udp_destroy functions *
- **********************************************/
+/********************************************
+ * Start of udo_vsock_udp_destroy functions *
+ ********************************************/
 
 void
-cando_vsock_udp_destroy (struct cando_vsock_udp *vsock)
+udo_vsock_udp_destroy (struct udo_vsock_udp *vsock)
 {
 	if (!vsock)
 		return;
@@ -367,29 +367,29 @@ cando_vsock_udp_destroy (struct cando_vsock_udp *vsock)
 	if (vsock->free) {
 		free(vsock);
 	} else {
-		memset(vsock, 0, sizeof(struct cando_vsock_udp));
+		memset(vsock, 0, sizeof(struct udo_vsock_udp));
 		vsock->fd = -1;
 	}
 }
 
-/********************************************
- * End of cando_vsock_udp_destroy functions *
- ********************************************/
+/******************************************
+ * End of udo_vsock_udp_destroy functions *
+ ******************************************/
 
 
-/***************************************************
- * Start of non struct cando_vsock param functions *
- ***************************************************/
+/*****************************************************
+ * Start of non struct udo_vsock_udp param functions *
+ *****************************************************/
 
 int
-cando_vsock_udp_get_sizeof (void)
+udo_vsock_udp_get_sizeof (void)
 {
-	return sizeof(struct cando_vsock_udp);
+	return sizeof(struct udo_vsock_udp);
 }
 
 
 unsigned int
-cando_vsock_udp_get_local_vcid (void)
+udo_vsock_udp_get_local_vcid (void)
 {
 	return p_vsock_get_local_vcid();
 }
@@ -399,11 +399,11 @@ cando_vsock_udp_get_local_vcid (void)
 #define VERIFIER 0xFA4C62B5
 
 ssize_t
-cando_vsock_udp_recv_data (const int sock_fd,
-                           void *data,
-                           const size_t size,
-                           struct sockaddr_vm *addr,
-                           const void *vsock_info)
+udo_vsock_udp_recv_data (const int sock_fd,
+                         void *data,
+                         const size_t size,
+                         struct sockaddr_vm *addr,
+                         const void *vsock_info)
 {
 	int err = -1;
 
@@ -445,11 +445,11 @@ cando_vsock_udp_recv_data (const int sock_fd,
 
 
 ssize_t
-cando_vsock_udp_send_data (const int sock_fd,
-                           const void *data,
-                           const size_t size,
-                           const struct sockaddr_vm *addr,
-                           const void *vsock_info)
+udo_vsock_udp_send_data (const int sock_fd,
+                         const void *data,
+                         const size_t size,
+                         const struct sockaddr_vm *addr,
+                         const void *vsock_info)
 {
 	int err = -1;
 
@@ -494,6 +494,6 @@ cando_vsock_udp_send_data (const int sock_fd,
 	return ret;
 }
 
-/*************************************************
- * End of non struct cando_vsock param functions *
- *************************************************/
+/***************************************************
+ * End of non struct udo_vsock_udp param functions *
+ ***************************************************/

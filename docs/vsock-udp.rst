@@ -24,28 +24,28 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_vsock_udp`
-#. :c:struct:`cando_vsock_udp_server_create_info`
-#. :c:struct:`cando_vsock_udp_client_create_info`
+1. :c:struct:`udo_vsock_udp`
+#. :c:struct:`udo_vsock_udp_server_create_info`
+#. :c:struct:`udo_vsock_udp_client_create_info`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_vsock_udp_server_create`
-#. :c:func:`cando_vsock_udp_server_accept`
-#. :c:func:`cando_vsock_udp_server_recv_data`
-#. :c:func:`cando_vsock_udp_client_create`
-#. :c:func:`cando_vsock_udp_client_connect`
-#. :c:func:`cando_vsock_udp_client_send_data`
-#. :c:func:`cando_vsock_udp_get_fd`
-#. :c:func:`cando_vsock_udp_get_vcid`
-#. :c:func:`cando_vsock_udp_get_port`
-#. :c:func:`cando_vsock_udp_destroy`
-#. :c:func:`cando_vsock_udp_get_sizeof`
-#. :c:func:`cando_vsock_udp_get_local_vcid`
-#. :c:func:`cando_vsock_udp_recv_data`
-#. :c:func:`cando_vsock_udp_send_data`
+1. :c:func:`udo_vsock_udp_server_create`
+#. :c:func:`udo_vsock_udp_server_accept`
+#. :c:func:`udo_vsock_udp_server_recv_data`
+#. :c:func:`udo_vsock_udp_client_create`
+#. :c:func:`udo_vsock_udp_client_connect`
+#. :c:func:`udo_vsock_udp_client_send_data`
+#. :c:func:`udo_vsock_udp_get_fd`
+#. :c:func:`udo_vsock_udp_get_vcid`
+#. :c:func:`udo_vsock_udp_get_port`
+#. :c:func:`udo_vsock_udp_destroy`
+#. :c:func:`udo_vsock_udp_get_sizeof`
+#. :c:func:`udo_vsock_udp_get_local_vcid`
+#. :c:func:`udo_vsock_udp_recv_data`
+#. :c:func:`udo_vsock_udp_send_data`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
@@ -74,13 +74,13 @@ Kernel Modules
 	CONFIG_VSOCKETS=y
 	CONFIG_VIRTIO_VSOCKETS=y
 
-=========================
-cando_vsock_udp (private)
-=========================
+=======================
+udo_vsock_udp (private)
+=======================
 
-| Structure defining Cando VM Socket UDP interface implementation.
+| Structure defining UDO VM Socket UDP instance.
 
-.. c:struct:: cando_vsock_udp
+.. c:struct:: udo_vsock_udp
 
 	.. c:member::
 		struct udo_log_error_struct err;
@@ -115,14 +115,14 @@ cando_vsock_udp (private)
 
 =========================================================================================================================================
 
-==================================
-cando_vsock_udp_server_create_info
-==================================
+================================
+udo_vsock_udp_server_create_info
+================================
 
-| Structure passed to :c:func:`cando_vsock_udp_server_create`
+| Structure passed to :c:func:`udo_vsock_udp_server_create`
 | used to define how to create the server.
 
-.. c:struct:: cando_vsock_udp_server_create_info
+.. c:struct:: udo_vsock_udp_server_create_info
 
 	.. c:member::
 		unsigned int vcid;
@@ -134,11 +134,11 @@ cando_vsock_udp_server_create_info
 	:c:member:`port`
 		| Network port to `recvfrom(2)`_/`sendto(2)`_ data with.
 
-=============================
-cando_vsock_udp_server_create
-=============================
+===========================
+udo_vsock_udp_server_create
+===========================
 
-.. c:function:: struct cando_vsock_udp *cando_vsock_udp_server_create(struct cando_vsock_udp *vsock, const void *vsock_info);
+.. c:function:: struct udo_vsock_udp *udo_vsock_udp_server_create(struct udo_vsock_udp *vsock, const void *vsock_info);
 
 | Creates a VM socket that may be utilized for server socket operations.
 
@@ -148,28 +148,28 @@ cando_vsock_udp_server_create
 		* - Param
 	          - Decription
 		* - vsock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_vsock_udp`
+		    | to store the newly created ``struct`` :c:struct:`udo_vsock_udp`
 		    | instance.
 		* - vsock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_vsock_udp_server_create_info`.
+		    | ``struct`` :c:struct:`udo_vsock_udp_server_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_vsock_udp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_udp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-=============================
-cando_vsock_udp_server_accept
-=============================
+===========================
+udo_vsock_udp_server_accept
+===========================
 
-.. c:function:: int cando_vsock_udp_server_accept(struct cando_vsock_udp *vsock, const struct sockaddr_vm *addr);
+.. c:function:: int udo_vsock_udp_server_accept(struct udo_vsock_udp *vsock, const struct sockaddr_vm *addr);
 
 | Creates file descriptor that can filter for
 | ``addr`` data comming to server file descriptor.
@@ -183,7 +183,7 @@ cando_vsock_udp_server_accept
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 		* - addr
 		  - | Must pass a pointer to a populated ``struct`` `sockaddr_vm`_.
 
@@ -193,11 +193,11 @@ cando_vsock_udp_server_accept
 
 =========================================================================================================================================
 
-================================
-cando_vsock_udp_server_recv_data
-================================
+==============================
+udo_vsock_udp_server_recv_data
+==============================
 
-.. c:function:: ssize_t cando_vsock_udp_server_recv_data(struct cando_vsock_udp *vsock, void *data, const size_t size, struct sockaddr_vm *addr, const void *sock_info);
+.. c:function:: ssize_t udo_vsock_udp_server_recv_data(struct udo_vsock_udp *vsock, void *data, const size_t size, struct sockaddr_vm *addr, const void *sock_info);
 
 | Receive data from server socket file descriptor.
 
@@ -207,7 +207,7 @@ cando_vsock_udp_server_recv_data
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Pointer to a ``struct`` :c:struct:`cando_vsock_udp` instance.
+		  - | Pointer to a ``struct`` :c:struct:`udo_vsock_udp` instance.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
@@ -226,14 +226,14 @@ cando_vsock_udp_server_recv_data
 
 =========================================================================================================================================
 
-==================================
-cando_vsock_udp_client_create_info
-==================================
+================================
+udo_vsock_udp_client_create_info
+================================
 
-| Structure passed to :c:func:`cando_vsock_udp_client_create`
+| Structure passed to :c:func:`udo_vsock_udp_client_create`
 | used to define how to create the client.
 
-.. c:struct:: cando_vsock_udp_client_create_info
+.. c:struct:: udo_vsock_udp_client_create_info
 
 	.. c:member::
 		unsigned int vcid;
@@ -245,11 +245,11 @@ cando_vsock_udp_client_create_info
 	:c:member:`port`
 		| Network port to `sendto(2)`_/`recvfrom(2)`_ data with.
 
-=============================
-cando_vsock_udp_client_create
-=============================
+===========================
+udo_vsock_udp_client_create
+===========================
 
-.. c:function:: struct cando_vsock_udp *cando_vsock_udp_client_create(struct cando_vsock_udp *vsock, const void *vsock_info);
+.. c:function:: struct udo_vsock_udp *udo_vsock_udp_client_create(struct udo_vsock_udp *vsock, const void *vsock_info);
 
 | Creates a VM socket that may be utilized for client socket operations.
 
@@ -259,28 +259,28 @@ cando_vsock_udp_client_create
 		* - Param
 	          - Decription
 		* - vsock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_vsock_udp`
+		    | to store the newly created ``struct`` :c:struct:`udo_vsock_udp`
 		    | instance.
 		* - vsock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_vsock_udp_client_create_info`.
+		    | ``struct`` :c:struct:`udo_vsock_udp_client_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_vsock_udp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_udp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-==============================
-cando_vsock_udp_client_connect
-==============================
+============================
+udo_vsock_udp_client_connect
+============================
 
-.. c:function:: int cando_vsock_udp_client_connect(struct cando_vsock_udp *vsock);
+.. c:function:: int udo_vsock_udp_client_connect(struct udo_vsock_udp *vsock);
 
 | Fliters client socket to allow sending data
 | without passing a ``struct`` `sockaddr_vm`_ to `sendto(2)`_.
@@ -292,7 +292,7 @@ cando_vsock_udp_client_connect
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 
 	Returns:
 		| **on success:** 0
@@ -300,14 +300,14 @@ cando_vsock_udp_client_connect
 
 =========================================================================================================================================
 
-================================
-cando_vsock_udp_client_send_data
-================================
+==============================
+udo_vsock_udp_client_send_data
+==============================
 
-.. c:function:: ssize_t cando_vsock_udp_client_send_data(struct cando_vsock_udp *vsock, const void *data, const size_t size, const void *vsock_info);
+.. c:function:: ssize_t udo_vsock_udp_client_send_data(struct udo_vsock_udp *vsock, const void *data, const size_t size, const void *vsock_info);
 
 | Send data to client socket address provided via
-| call to :c:func:`cando_vsock_udp_client_create`.
+| call to :c:func:`udo_vsock_udp_client_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -315,7 +315,7 @@ cando_vsock_udp_client_send_data
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 		* - data
 		  - | Pointer to buffer to send through socket.
 		* - size
@@ -330,14 +330,14 @@ cando_vsock_udp_client_send_data
 
 =========================================================================================================================================
 
-======================
-cando_vsock_udp_get_fd
-======================
+====================
+udo_vsock_udp_get_fd
+====================
 
-.. c:function:: int cando_vsock_udp_get_fd(struct cando_vsock_udp *vsock);
+.. c:function:: int udo_vsock_udp_get_fd(struct udo_vsock_udp *vsock);
 
 | Acquire VM socket file descriptor associated with
-| ``struct`` :c:struct:`cando_vsock_udp` instance.
+| ``struct`` :c:struct:`udo_vsock_udp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -345,7 +345,7 @@ cando_vsock_udp_get_fd
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 
 	Returns:
 		| **on success:** VM socket file descriptor
@@ -353,14 +353,14 @@ cando_vsock_udp_get_fd
 
 =========================================================================================================================================
 
-========================
-cando_vsock_udp_get_vcid
-========================
+======================
+udo_vsock_udp_get_vcid
+======================
 
-.. c:function:: unsigned int cando_vsock_udp_get_vcid(struct cando_vsock_udp *vsock);
+.. c:function:: unsigned int udo_vsock_udp_get_vcid(struct udo_vsock_udp *vsock);
 
 | Acquire VM socket context identifier associated with
-| ``struct`` :c:struct:`cando_vsock_udp` instance.
+| ``struct`` :c:struct:`udo_vsock_udp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -368,7 +368,7 @@ cando_vsock_udp_get_vcid
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 
 	Returns:
 		| **on success:** VM socket context identifier
@@ -376,14 +376,14 @@ cando_vsock_udp_get_vcid
 
 =========================================================================================================================================
 
-========================
-cando_vsock_udp_get_port
-========================
+======================
+udo_vsock_udp_get_port
+======================
 
-.. c:function:: int cando_vsock_udp_get_port(struct cando_vsock_udp *vsock);
+.. c:function:: int udo_vsock_udp_get_port(struct udo_vsock_udp *vsock);
 
 | Acquire network port associated with
-| ``struct`` :c:struct:`cando_vsock_udp` instance.
+| ``struct`` :c:struct:`udo_vsock_udp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -391,7 +391,7 @@ cando_vsock_udp_get_port
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_udp`.
 
 	Returns:
 		| **on success:** Network port connected to instance
@@ -399,14 +399,14 @@ cando_vsock_udp_get_port
 
 =========================================================================================================================================
 
-=======================
-cando_vsock_udp_destroy
-=======================
+=====================
+udo_vsock_udp_destroy
+=====================
 
-.. c:function:: void cando_vsock_udp_destroy(struct cando_vsock_udp *vsock);
+.. c:function:: void udo_vsock_udp_destroy(struct udo_vsock_udp *vsock);
 
 | Frees any allocated memory and closes FD's (if open) created after
-| :c:func:`cando_vsock_udp_server_create` or :c:func:`cando_vsock_udp_client_create` call.
+| :c:func:`udo_vsock_udp_server_create` or :c:func:`udo_vsock_udp_client_create` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -414,15 +414,15 @@ cando_vsock_udp_destroy
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_vsock_udp`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_vsock_udp`.
 
 =========================================================================================================================================
 
-==========================
-cando_vsock_udp_get_sizeof
-==========================
+========================
+udo_vsock_udp_get_sizeof
+========================
 
-.. c:function:: int cando_vsock_udp_get_sizeof(void);
+.. c:function:: int udo_vsock_udp_get_sizeof(void);
 
 | Returns size of the internal structure. So,
 | if caller decides to allocate memory outside
@@ -430,16 +430,16 @@ cando_vsock_udp_get_sizeof
 | of bytes.
 
 	Returns:
-		| **on success:** sizeof(``struct`` :c:struct:`cando_vsock_udp`)
-		| **on failure:** sizeof(``struct`` :c:struct:`cando_vsock_udp`)
+		| **on success:** sizeof(``struct`` :c:struct:`udo_vsock_udp`)
+		| **on failure:** sizeof(``struct`` :c:struct:`udo_vsock_udp`)
 
 =========================================================================================================================================
 
-==============================
-cando_vsock_udp_get_local_vcid
-==============================
+============================
+udo_vsock_udp_get_local_vcid
+============================
 
-.. c:function:: unsigned int cando_vsock_udp_get_local_vcid(void);
+.. c:function:: unsigned int udo_vsock_udp_get_local_vcid(void);
 
 | Returns the local CID of the VM/Hypervisor after
 | acquiring it from ``/dev/vsock``.
@@ -450,11 +450,11 @@ cando_vsock_udp_get_local_vcid
 
 =========================================================================================================================================
 
-=========================
-cando_vsock_udp_recv_data
-=========================
+=======================
+udo_vsock_udp_recv_data
+=======================
 
-.. c:function:: ssize_t cando_vsock_udp_recv_data(const int sock_fd, void *data, const size_t size, struct sockaddr_vm *addr, const void *vsock_info);
+.. c:function:: ssize_t udo_vsock_udp_recv_data(const int sock_fd, void *data, const size_t size, struct sockaddr_vm *addr, const void *vsock_info);
 
 | Receive data from socket file descriptor.
 
@@ -483,11 +483,11 @@ cando_vsock_udp_recv_data
 
 =========================================================================================================================================
 
-=========================
-cando_vsock_udp_send_data
-=========================
+=======================
+udo_vsock_udp_send_data
+=======================
 
-.. c:function:: ssize_t cando_vsock_udp_send_data(const int sock_fd, const void *data, const size_t size, const struct sockaddr_vm *addr, const void *vsock_info);
+.. c:function:: ssize_t udo_vsock_udp_send_data(const int sock_fd, const void *data, const size_t size, const struct sockaddr_vm *addr, const void *vsock_info);
 
 | Send data to socket file descriptor.
 
