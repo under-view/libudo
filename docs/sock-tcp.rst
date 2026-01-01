@@ -3,7 +3,7 @@
 sock-tcp (Socket TCP)
 =====================
 
-Header: cando/sock-tcp.h
+Header: udo/sock-tcp.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,45 +24,45 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_sock_tcp`
-#. :c:struct:`cando_sock_tcp_server_create_info`
-#. :c:struct:`cando_sock_tcp_client_create_info`
+1. :c:struct:`udo_sock_tcp`
+#. :c:struct:`udo_sock_tcp_server_create_info`
+#. :c:struct:`udo_sock_tcp_client_create_info`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_sock_tcp_server_create`
-#. :c:func:`cando_sock_tcp_server_accept`
-#. :c:func:`cando_sock_tcp_client_create`
-#. :c:func:`cando_sock_tcp_client_connect`
-#. :c:func:`cando_sock_tcp_client_send_data`
-#. :c:func:`cando_sock_tcp_get_fd`
-#. :c:func:`cando_sock_tcp_get_ip_addr`
-#. :c:func:`cando_sock_tcp_get_port`
-#. :c:func:`cando_sock_tcp_destroy`
-#. :c:func:`cando_sock_tcp_get_sizeof`
-#. :c:func:`cando_sock_tcp_recv_data`
-#. :c:func:`cando_sock_tcp_send_data`
+1. :c:func:`udo_sock_tcp_server_create`
+#. :c:func:`udo_sock_tcp_server_accept`
+#. :c:func:`udo_sock_tcp_client_create`
+#. :c:func:`udo_sock_tcp_client_connect`
+#. :c:func:`udo_sock_tcp_client_send_data`
+#. :c:func:`udo_sock_tcp_get_fd`
+#. :c:func:`udo_sock_tcp_get_ip_addr`
+#. :c:func:`udo_sock_tcp_get_port`
+#. :c:func:`udo_sock_tcp_destroy`
+#. :c:func:`udo_sock_tcp_get_sizeof`
+#. :c:func:`udo_sock_tcp_recv_data`
+#. :c:func:`udo_sock_tcp_send_data`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-========================
-cando_sock_tcp (private)
-========================
+======================
+udo_sock_tcp (private)
+======================
 
-| Structure defining Cando Socket TCP interface implementation.
+| Structure defining UDO Socket TCP instance.
 
-.. c:struct:: cando_sock_tcp
+.. c:struct:: udo_sock_tcp
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		char                          ip_addr[INET6_ADDRSTRLEN];
-		int                           port;
-		struct sockaddr_in6            addr;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		char                        ip_addr[INET6_ADDRSTRLEN];
+		int                         port;
+		struct sockaddr_in6         addr;
 
 	:c:member:`err`
 		| Stores information about the error that occured
@@ -89,14 +89,14 @@ cando_sock_tcp (private)
 
 =========================================================================================================================================
 
-=================================
-cando_sock_tcp_server_create_info
-=================================
+===============================
+udo_sock_tcp_server_create_info
+===============================
 
-| Structure passed to :c:func:`cando_sock_tcp_server_create`
+| Structure passed to :c:func:`udo_sock_tcp_server_create`
 | used to define how to create the server.
 
-.. c:struct:: cando_sock_tcp_server_create_info
+.. c:struct:: udo_sock_tcp_server_create_info
 
 	.. c:member::
 		unsigned char ipv6 : 1;
@@ -118,11 +118,11 @@ cando_sock_tcp_server_create_info
 		| Amount of connections that may be queued
 		| at a given moment.
 
-============================
-cando_sock_tcp_server_create
-============================
+==========================
+udo_sock_tcp_server_create
+==========================
 
-.. c:function:: struct cando_sock_tcp *cando_sock_tcp_server_create(struct cando_sock_tcp *sock, const void *sock_info);
+.. c:function:: struct udo_sock_tcp *udo_sock_tcp_server_create(struct udo_sock_tcp *sock, const void *sock_info);
 
 | Creates a socket that may be utilized for server socket operations.
 
@@ -132,28 +132,28 @@ cando_sock_tcp_server_create
 		* - Param
 	          - Decription
 		* - sock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_sock_tcp`
+		    | to store the newly created ``struct`` :c:struct:`udo_sock_tcp`
 		    | instance.
 		* - sock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_sock_tcp_server_create_info`.
+		    | ``struct`` :c:struct:`udo_sock_tcp_server_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_sock_tcp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_tcp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-============================
-cando_sock_tcp_server_accept
-============================
+==========================
+udo_sock_tcp_server_accept
+==========================
 
-.. c:function:: int cando_sock_tcp_server_accept(struct cando_sock_tcp *sock, struct sockaddr_in6 *addr);
+.. c:function:: int udo_sock_tcp_server_accept(struct udo_sock_tcp *sock, struct sockaddr_in6 *addr);
 
 | Accepts client connections returns file descriptor
 | to the connected client.
@@ -164,7 +164,7 @@ cando_sock_tcp_server_accept
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 		* - addr
 		  - | May be ``NULL`` or a pointer to a ``struct`` `sockaddr_in6`_
 		    | If not NULL ``addr`` is filled in via `accept(2)`_ call.
@@ -175,14 +175,14 @@ cando_sock_tcp_server_accept
 
 =========================================================================================================================================
 
-=================================
-cando_sock_tcp_client_create_info
-=================================
+===============================
+udo_sock_tcp_client_create_info
+===============================
 
-| Structure passed to :c:func:`cando_sock_tcp_client_create`
+| Structure passed to :c:func:`udo_sock_tcp_client_create`
 | used to define how to create the client.
 
-.. c:struct:: cando_sock_tcp_client_create_info
+.. c:struct:: udo_sock_tcp_client_create_info
 
 	.. c:member::
 		unsigned char ipv6 : 1;
@@ -199,11 +199,11 @@ cando_sock_tcp_client_create_info
 	:c:member:`port`
 		| Network port to `connect(2)`_/`send(2)`_ to.
 
-============================
-cando_sock_tcp_client_create
-============================
+==========================
+udo_sock_tcp_client_create
+==========================
 
-.. c:function:: struct cando_sock_tcp *cando_sock_tcp_client_create(struct cando_sock_tcp *sock, const void *sock_info);
+.. c:function:: struct udo_sock_tcp *udo_sock_tcp_client_create(struct udo_sock_tcp *sock, const void *sock_info);
 
 | Creates a socket that may be utilized for client socket operations.
 
@@ -213,31 +213,31 @@ cando_sock_tcp_client_create
 		* - Param
 	          - Decription
 		* - sock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_sock_tcp`
+		    | to store the newly created ``struct`` :c:struct:`udo_sock_tcp`
 		    | instance.
 		* - sock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_sock_tcp_client_create_info`.
+		    | ``struct`` :c:struct:`udo_sock_tcp_client_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_sock_tcp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_tcp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-==============================
-cando_sock_tcp_client_connect
-==============================
+===========================
+udo_sock_tcp_client_connect
+===========================
 
-.. c:function:: int cando_sock_tcp_client_connect(struct cando_sock_tcp *sock);
+.. c:function:: int udo_sock_tcp_client_connect(struct udo_sock_tcp *sock);
 
 | Connects client socket to address provided via
-| call to :c:func:`cando_sock_tcp_client_create`.
+| call to :c:func:`udo_sock_tcp_client_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -245,7 +245,7 @@ cando_sock_tcp_client_connect
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 
 	Returns:
 		| **on success:** 0
@@ -253,14 +253,14 @@ cando_sock_tcp_client_connect
 
 =========================================================================================================================================
 
-===============================
-cando_sock_tcp_client_send_data
-===============================
+=============================
+udo_sock_tcp_client_send_data
+=============================
 
-.. c:function:: ssize_t cando_sock_tcp_client_send_data(struct cando_sock_tcp *sock, const void *data, const size_t size, const void *sock_info);
+.. c:function:: ssize_t udo_sock_tcp_client_send_data(struct udo_sock_tcp *sock, const void *data, const size_t size, const void *sock_info);
 
 | Send data to client socket address provided via
-| call to :c:func:`cando_sock_tcp_client_create`.
+| call to :c:func:`udo_sock_tcp_client_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -268,7 +268,7 @@ cando_sock_tcp_client_send_data
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 		* - data
 		  - | Pointer to buffer to send through socket.
 		* - size
@@ -283,14 +283,14 @@ cando_sock_tcp_client_send_data
 
 =========================================================================================================================================
 
-=====================
-cando_sock_tcp_get_fd
-=====================
+===================
+udo_sock_tcp_get_fd
+===================
 
-.. c:function:: int cando_sock_tcp_get_fd(struct cando_sock_tcp *sock);
+.. c:function:: int udo_sock_tcp_get_fd(struct udo_sock_tcp *sock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`cando_sock_tcp` instance.
+| ``struct`` :c:struct:`udo_sock_tcp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -298,7 +298,7 @@ cando_sock_tcp_get_fd
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 
 	Returns:
 		| **on success:** TCP socket file descriptor
@@ -306,14 +306,14 @@ cando_sock_tcp_get_fd
 
 =========================================================================================================================================
 
-==========================
-cando_sock_tcp_get_ip_addr
-==========================
+========================
+udo_sock_tcp_get_ip_addr
+========================
 
-.. c:function:: unsigned int cando_sock_tcp_get_ip_addr(struct cando_sock_tcp *sock);
+.. c:function:: unsigned int udo_sock_tcp_get_ip_addr(struct udo_sock_tcp *sock);
 
 | Acquire textual network address in string format
-| associated with ``struct`` :c:struct:`cando_sock_tcp` instance.
+| associated with ``struct`` :c:struct:`udo_sock_tcp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -321,7 +321,7 @@ cando_sock_tcp_get_ip_addr
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 
 	Returns:
 		| **on success:** Textual network address
@@ -329,14 +329,14 @@ cando_sock_tcp_get_ip_addr
 
 =========================================================================================================================================
 
-=======================
-cando_sock_tcp_get_port
-=======================
+=====================
+udo_sock_tcp_get_port
+=====================
 
-.. c:function:: int cando_sock_tcp_get_port(struct cando_sock_tcp *sock);
+.. c:function:: int udo_sock_tcp_get_port(struct udo_sock_tcp *sock);
 
 | Acquire network port associated with
-| ``struct`` :c:struct:`cando_sock_tcp` instance.
+| ``struct`` :c:struct:`udo_sock_tcp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -344,7 +344,7 @@ cando_sock_tcp_get_port
 		* - Param
 	          - Decription
 		* - sock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 
 	Returns:
 		| **on success:** Network port connected to instance
@@ -352,14 +352,14 @@ cando_sock_tcp_get_port
 
 =========================================================================================================================================
 
-======================
-cando_sock_tcp_destroy
-======================
+====================
+udo_sock_tcp_destroy
+====================
 
-.. c:function:: void cando_sock_tcp_destroy(struct cando_sock_tcp *sock);
+.. c:function:: void udo_sock_tcp_destroy(struct udo_sock_tcp *sock);
 
 | Frees any allocated memory and closes FD's (if open) created after
-| :c:func:`cando_sock_tcp_server_create` or :c:func:`cando_sock_tcp_client_create` call.
+| :c:func:`udo_sock_tcp_server_create` or :c:func:`udo_sock_tcp_client_create` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -367,15 +367,15 @@ cando_sock_tcp_destroy
 		* - Param
 	          - Decription
 		* - sock
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_sock_tcp`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_sock_tcp`.
 
 =========================================================================================================================================
 
-=========================
-cando_sock_tcp_get_sizeof
-=========================
+=======================
+udo_sock_tcp_get_sizeof
+=======================
 
-.. c:function:: int cando_sock_tcp_get_sizeof(void);
+.. c:function:: int udo_sock_tcp_get_sizeof(void);
 
 | Returns size of the internal structure. So,
 | if caller decides to allocate memory outside
@@ -383,16 +383,16 @@ cando_sock_tcp_get_sizeof
 | of bytes.
 
 	Returns:
-		| **on success:** sizeof(``struct`` :c:struct:`cando_sock_tcp`)
-		| **on failure:** sizeof(``struct`` :c:struct:`cando_sock_tcp`)
+		| **on success:** sizeof(``struct`` :c:struct:`udo_sock_tcp`)
+		| **on failure:** sizeof(``struct`` :c:struct:`udo_sock_tcp`)
 
 =========================================================================================================================================
 
-========================
-cando_sock_tcp_recv_data
-========================
+======================
+udo_sock_tcp_recv_data
+======================
 
-.. c:function:: ssize_t cando_sock_tcp_recv_data(const int sock_fd, void *data, const size_t size, const void *sock_info);
+.. c:function:: ssize_t udo_sock_tcp_recv_data(const int sock_fd, void *data, const size_t size, const void *sock_info);
 
 | Receive data from socket file descriptor.
 
@@ -417,11 +417,11 @@ cando_sock_tcp_recv_data
 
 =========================================================================================================================================
 
-========================
-cando_sock_tcp_send_data
-========================
+======================
+udo_sock_tcp_send_data
+======================
 
-.. c:function:: ssize_t cando_sock_tcp_send_data(const int sock_fd, const void *data, const size_t size, const void *sock_info);
+.. c:function:: ssize_t udo_sock_tcp_send_data(const int sock_fd, const void *data, const size_t size, const void *sock_info);
 
 | Send data to socket file descriptor.
 

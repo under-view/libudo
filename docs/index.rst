@@ -1,7 +1,7 @@
-.. libcando documentation master file, created by
+.. libudo documentation master file, created by
    sphinx-quickstart on Tue July 21 20:21:30 2023.
 
-libcando Documentation
+libudo Documentation
 ======================
 
 .. toctree::

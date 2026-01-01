@@ -17,18 +17,18 @@
  * Start of test_futex_create functions *
  ****************************************/
 
-static void CANDO_UNUSED
-test_futex_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_futex_create (void UDO_UNUSED **state)
 {
-	cando_atomic_u32 *fux;
+	udo_atomic_u32 *fux;
 
-	fux = cando_futex_create(0);
+	fux = udo_futex_create(0);
 	assert_null(fux);
 
-	fux = cando_futex_create(1);
+	fux = udo_futex_create(1);
 	assert_non_null(fux);
 
-	cando_futex_destroy(fux);
+	udo_futex_destroy(fux);
 }
 
 /**************************************
@@ -40,28 +40,28 @@ test_futex_create (void CANDO_UNUSED **state)
  * Start of test_futex_lock_unlock functions *
  *********************************************/
 
-static void CANDO_UNUSED
-test_futex_lock_unlock (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_futex_lock_unlock (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
-	cando_atomic_u32 *fux;
+	udo_atomic_u32 *fux;
 
-	fux = cando_futex_create(1);
+	fux = udo_futex_create(1);
 	assert_non_null(fux);
 
 	pid = fork();
 	if (pid == 0) {
-		cando_futex_unlock(fux);
+		udo_futex_unlock(fux);
 
 		exit(0);
 	}
 
-	cando_futex_lock(fux);
+	udo_futex_lock(fux);
 
 	wait(NULL);
 
-	cando_futex_destroy(fux);
+	udo_futex_destroy(fux);
 }
 
 /*******************************************
@@ -73,29 +73,29 @@ test_futex_lock_unlock (void CANDO_UNUSED **state)
  * Start of test_futex_lock_unlock_force functions *
  ***************************************************/
 
-static void CANDO_UNUSED
-test_futex_lock_unlock_force (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_futex_lock_unlock_force (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
-	cando_atomic_u32 *fux;
+	udo_atomic_u32 *fux;
 
-	fux = cando_futex_create(1);
+	fux = udo_futex_create(1);
 	assert_non_null(fux);
 
 	pid = fork();
 	if (pid == 0) {
-		cando_futex_unlock_force(fux);
+		udo_futex_unlock_force(fux);
 
 		exit(0);
 	}
 
-	cando_futex_lock(fux);
+	udo_futex_lock(fux);
 	assert_int_equal(errno, EINTR);
 
 	wait(NULL);
 
-	cando_futex_destroy(fux);
+	udo_futex_destroy(fux);
 }
 
 /*************************************************

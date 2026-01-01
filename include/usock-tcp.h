@@ -1,5 +1,5 @@
-#ifndef CANDO_USOCK_TCP_H
-#define CANDO_USOCK_TCP_H
+#ifndef UDO_USOCK_TCP_H
+#define UDO_USOCK_TCP_H
 
 #include "macros.h"
 
@@ -7,21 +7,21 @@
 #include <sys/un.h>
 
 /*
- * Stores information about the cando_usock_tcp instace.
+ * Stores information about the udo_usock_tcp instance.
  * usock - Unix domain socket.
  */
-struct cando_usock_tcp;
+struct udo_usock_tcp;
 
 
 /*
- * @brief Structure passed to cando_usock_tcp_server_create(3)
+ * @brief Structure passed to udo_usock_tcp_server_create(3)
  *        used to define how to create the server.
  *
  * @member unix_path   - Absolute path to unix domain socket.
  * @member connections - Amount of connections that may be queued
  *                       at a given moment.
  */
-struct cando_usock_tcp_server_create_info
+struct udo_usock_tcp_server_create_info
 {
 	const char *unix_path;
 	int        connections;
@@ -31,31 +31,31 @@ struct cando_usock_tcp_server_create_info
 /*
  * @brief Creates a socket that may be utilized for server socket operations.
  *
- * @param usock      - May be NULL or a pointer to a struct cando_usock_tcp.
+ * @param usock      - May be NULL or a pointer to a struct udo_usock_tcp.
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
- *                     to store the newly created struct cando_usock_tcp
+ *                     to store the newly created struct udo_usock_tcp
  *                     instance.
  * @param usock_info - Implementation uses a pointer to a
- *                     struct cando_usock_tcp_server_create_info
+ *                     struct udo_usock_tcp_server_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
  * @return
- *	on success: Pointer to a struct cando_usock_tcp
+ *	on success: Pointer to a struct udo_usock_tcp
  *	on failure: NULL
  */
-CANDO_API
-struct cando_usock_tcp *
-cando_usock_tcp_server_create (struct cando_usock_tcp *usock,
-                               const void *usock_info);
+UDO_API
+struct udo_usock_tcp *
+udo_usock_tcp_server_create (struct udo_usock_tcp *usock,
+                             const void *usock_info);
 
 
 /*
  * @brief Accepts client connections returns file descriptor
  *        to the connected client.
  *
- * @param usock - Must pass a pointer to a struct cando_usock_tcp.
+ * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  * @param addr  - May be NULL or a pointer to a struct sockaddr_un.
  *                If not NULL @addr is filled in via accept(2) call.
  *
@@ -63,19 +63,19 @@ cando_usock_tcp_server_create (struct cando_usock_tcp *usock,
  *	on success: File descriptor to accepted client
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
-cando_usock_tcp_server_accept (struct cando_usock_tcp *usock,
-                               struct sockaddr_un *addr);
+udo_usock_tcp_server_accept (struct udo_usock_tcp *usock,
+                             struct sockaddr_un *addr);
 
 
 /*
- * @brief Structure passed to cando_usock_tcp_client_create(3)
+ * @brief Structure passed to udo_usock_tcp_client_create(3)
  *        used to define how to create the client.
  *
  * @member unix_path - Absolute path to unix domain socket.
  */
-struct cando_usock_tcp_client_create_info
+struct udo_usock_tcp_client_create_info
 {
 	const char *unix_path;
 };
@@ -84,46 +84,46 @@ struct cando_usock_tcp_client_create_info
 /*
  * @brief Creates a socket that may be utilized for client socket operations.
  *
- * @param usock      - May be NULL or a pointer to a struct cando_usock_tcp.
+ * @param usock      - May be NULL or a pointer to a struct udo_usock_tcp.
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
- *                     to store the newly created struct cando_usock_tcp
+ *                     to store the newly created struct udo_usock_tcp
  *                     instance.
  * @param usock_info - Implementation uses a pointer to a
- *                     struct cando_usock_tcp_client_create_info
+ *                     struct udo_usock_tcp_client_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
  * @return
- *	on success: Pointer to a struct cando_usock_tcp
+ *	on success: Pointer to a struct udo_usock_tcp
  *	on failure: NULL
  */
-CANDO_API
-struct cando_usock_tcp *
-cando_usock_tcp_client_create (struct cando_usock_tcp *usock,
-                               const void *usock_info);
+UDO_API
+struct udo_usock_tcp *
+udo_usock_tcp_client_create (struct udo_usock_tcp *usock,
+                             const void *usock_info);
 
 
 /*
  * @brief Connects client socket to address provided via
- *        call to cando_usock_tcp_client_create.
+ *        call to udo_usock_tcp_client_create.
  *
- * @param usock - Must pass a pointer to a struct cando_usock_tcp.
+ * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
  * @return
  *	on success: 0
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
-cando_usock_tcp_client_connect (struct cando_usock_tcp *usock);
+udo_usock_tcp_client_connect (struct udo_usock_tcp *usock);
 
 
 /*
  * @brief Send data to client socket address provided via
- *        call to cando_usock_tcp_client_create(3).
+ *        call to udo_usock_tcp_client_create(3).
  *
- * @param usock      - Must pass a pointer to a struct cando_usock_tcp.
+ * @param usock      - Must pass a pointer to a struct udo_usock_tcp.
  * @param data       - Pointer to buffer to send through socket.
  * @param size       - Size of data to send through socket.
  * @param usock_info - Reserved for future usage. For now used
@@ -133,53 +133,53 @@ cando_usock_tcp_client_connect (struct cando_usock_tcp *usock);
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
-cando_usock_tcp_client_send_data (struct cando_usock_tcp *usock,
-                                  const void *data,
-                                  const size_t size,
-                                  const void *usock_info);
+udo_usock_tcp_client_send_data (struct udo_usock_tcp *usock,
+                                const void *data,
+                                const size_t size,
+                                const void *usock_info);
 
 
 /*
  * @brief Acquire socket file descriptor associated with
- *        struct cando_usock_tcp instance.
+ *        struct udo_usock_tcp instance.
  *
- * @param usock - Must pass a pointer to a struct cando_usock_tcp.
+ * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
  * @return
  *	on success: TCP unix domain socket file descriptor
  *	on failure: -1
  */
-CANDO_API
+UDO_API
 int
-cando_usock_tcp_get_fd (struct cando_usock_tcp *usock);
+udo_usock_tcp_get_fd (struct udo_usock_tcp *usock);
 
 
 /*
  * @brief Acquire textual path to unix domain socket file in string
- *        format associated with struct cando_usock_tcp instance.
+ *        format associated with struct udo_usock_tcp instance.
  *
- * @param usock - Must pass a pointer to a struct cando_usock_tcp.
+ * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
  * @return
  *	on success: Textual path to unix domain socket
  *	on failure: NULL
  */
-CANDO_API
+UDO_API
 const char *
-cando_usock_tcp_get_unix_path (struct cando_usock_tcp *usock);
+udo_usock_tcp_get_unix_path (struct udo_usock_tcp *usock);
 
 
 /*
  * @brief Frees any allocated memory and closes FD's (if open) created after
- *        cando_usock_tcp_server_create() or cando_usock_tcp_client_create() call.
+ *        udo_usock_tcp_server_create() or udo_usock_tcp_client_create() call.
  *
- * @param usock - Pointer to a valid struct cando_usock_tcp.
+ * @param usock - Pointer to a valid struct udo_usock_tcp.
  */
-CANDO_API
+UDO_API
 void
-cando_usock_tcp_destroy (struct cando_usock_tcp *usock);
+udo_usock_tcp_destroy (struct udo_usock_tcp *usock);
 
 
 /*
@@ -189,12 +189,12 @@ cando_usock_tcp_destroy (struct cando_usock_tcp *usock);
  *        of bytes.
  *
  * @return
- *	on success: sizeof(struct cando_usock_tcp)
- *	on failure: sizeof(struct cando_usock_tcp)
+ *	on success: sizeof(struct udo_usock_tcp)
+ *	on failure: sizeof(struct udo_usock_tcp)
  */
-CANDO_API
+UDO_API
 int
-cando_usock_tcp_get_sizeof (void);
+udo_usock_tcp_get_sizeof (void);
 
 
 /*
@@ -210,12 +210,12 @@ cando_usock_tcp_get_sizeof (void);
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
-cando_usock_tcp_recv_data (const int sock_fd,
-                           void *data,
-                           const size_t size,
-                           const void *usock_info);
+udo_usock_tcp_recv_data (const int sock_fd,
+                         void *data,
+                         const size_t size,
+                         const void *usock_info);
 
 
 /*
@@ -231,11 +231,11 @@ cando_usock_tcp_recv_data (const int sock_fd,
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
-CANDO_API
+UDO_API
 ssize_t
-cando_usock_tcp_send_data (const int sock_fd,
-                           const void *data,
-                           const size_t size,
-                           const void *usock_info);
+udo_usock_tcp_send_data (const int sock_fd,
+                         const void *data,
+                         const size_t size,
+                         const void *usock_info);
 
-#endif /* CANDO_USOCK_TCP_H */
+#endif /* UDO_USOCK_TCP_H */

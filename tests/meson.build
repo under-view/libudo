@@ -52,7 +52,7 @@ foreach p : progs
   endif
 
   exec = executable(exec_name, p,
-                    link_with: libcando_a,
+                    link_with: libudo_a,
                     dependencies: [libcmocka],
                     include_directories: [inc],
                     c_args: pargs,

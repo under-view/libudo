@@ -20,18 +20,18 @@
  * Start of test_csock_raw_create functions *
  ********************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_create (void UDO_UNUSED **state)
 {
-	struct cando_csock_raw *csock = NULL;
+	struct udo_csock_raw *csock = NULL;
 
-	struct cando_csock_raw_create_info csock_info;
+	struct udo_csock_raw_create_info csock_info;
 
 	csock_info.iface = TEST_VCAN_IFACE;
-	csock = cando_csock_raw_create(NULL, &csock_info);
+	csock = udo_csock_raw_create(NULL, &csock_info);
 	assert_non_null(csock);
 
-	cando_csock_raw_destroy(csock);
+	udo_csock_raw_destroy(csock);
 }
 
 /******************************************
@@ -50,12 +50,12 @@ p_test_csock_raw_send_recv_client (void)
 
 	struct can_frame frame;
 
-	struct cando_csock_raw *csock = NULL;
+	struct udo_csock_raw *csock = NULL;
 
-	struct cando_csock_raw_create_info csock_info;
+	struct udo_csock_raw_create_info csock_info;
 
 	csock_info.iface = TEST_VCAN_IFACE;
-	csock = cando_csock_raw_create(NULL, &csock_info);
+	csock = udo_csock_raw_create(NULL, &csock_info);
 	assert_non_null(csock);
 
 	usleep(2000);
@@ -63,17 +63,17 @@ p_test_csock_raw_send_recv_client (void)
 	frame.len = 5;
 	frame.can_id = 0x555;
 	snprintf((char*)frame.data, sizeof(frame.data), "Hello");
-	err = cando_csock_raw_send_data(csock, &frame, NULL);
+	err = udo_csock_raw_send_data(csock, &frame, NULL);
 	assert_int_equal(err, sizeof(struct can_frame));
 
-	cando_csock_raw_destroy(csock);
+	udo_csock_raw_destroy(csock);
 
 	exit(0);
 }
 
 
-static void CANDO_UNUSED
-test_csock_raw_send_recv (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_send_recv (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -81,11 +81,11 @@ test_csock_raw_send_recv (void CANDO_UNUSED **state)
 
 	struct can_frame frame;
 
-	struct cando_csock_raw *csock = NULL;
+	struct udo_csock_raw *csock = NULL;
 
-	struct cando_csock_raw_create_info csock_info;
+	struct udo_csock_raw_create_info csock_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	pid = fork();
 	if (pid == 0) {
@@ -93,10 +93,10 @@ test_csock_raw_send_recv (void CANDO_UNUSED **state)
 	}
 
 	csock_info.iface = TEST_VCAN_IFACE;
-	csock = cando_csock_raw_create(NULL, &csock_info);
+	csock = udo_csock_raw_create(NULL, &csock_info);
 	assert_non_null(csock);
 
-	err = cando_csock_raw_recv_data(csock, &frame, NULL);
+	err = udo_csock_raw_recv_data(csock, &frame, NULL);
 	assert_int_equal(err, sizeof(struct can_frame));
 
 	assert_int_equal(frame.can_id, 0x555);
@@ -104,7 +104,7 @@ test_csock_raw_send_recv (void CANDO_UNUSED **state)
 
 	waitpid(pid, NULL, 0);
 
-	cando_csock_raw_destroy(csock);
+	udo_csock_raw_destroy(csock);
 }
 
 /*********************************************
@@ -116,26 +116,26 @@ test_csock_raw_send_recv (void CANDO_UNUSED **state)
  * Start of test_csock_raw_get_fd functions *
  ********************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_get_fd (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_get_fd (void UDO_UNUSED **state)
 {
 	int sock_fd = -1;
 
-	struct cando_csock_raw *csock = NULL;
+	struct udo_csock_raw *csock = NULL;
 
-	struct cando_csock_raw_create_info csock_info;
+	struct udo_csock_raw_create_info csock_info;
 
 	csock_info.iface = TEST_VCAN_IFACE;
-	csock = cando_csock_raw_create(NULL, &csock_info);
+	csock = udo_csock_raw_create(NULL, &csock_info);
 	assert_non_null(csock);
 
-	sock_fd = cando_csock_raw_get_fd(NULL);
+	sock_fd = udo_csock_raw_get_fd(NULL);
 	assert_int_equal(sock_fd, -1);
 
-	sock_fd = cando_csock_raw_get_fd(csock);
+	sock_fd = udo_csock_raw_get_fd(csock);
 	assert_int_not_equal(sock_fd, -1);
 
-	cando_csock_raw_destroy(csock);
+	udo_csock_raw_destroy(csock);
 }
 
 /******************************************
@@ -147,26 +147,26 @@ test_csock_raw_get_fd (void CANDO_UNUSED **state)
  * Start of test_csock_raw_get_iface functions *
  ***********************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_get_iface (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_get_iface (void UDO_UNUSED **state)
 {
 	const char *iface = NULL;
 
-	struct cando_csock_raw *csock = NULL;
+	struct udo_csock_raw *csock = NULL;
 
-	struct cando_csock_raw_create_info csock_info;
+	struct udo_csock_raw_create_info csock_info;
 
 	csock_info.iface = TEST_VCAN_IFACE;
-	csock = cando_csock_raw_create(NULL, &csock_info);
+	csock = udo_csock_raw_create(NULL, &csock_info);
 	assert_non_null(csock);
 
-	iface = cando_csock_raw_get_iface(NULL);
+	iface = udo_csock_raw_get_iface(NULL);
 	assert_null(iface);
 
-	iface = cando_csock_raw_get_iface(csock);
+	iface = udo_csock_raw_get_iface(csock);
 	assert_string_equal(iface, csock_info.iface);
 
-	cando_csock_raw_destroy(csock);
+	udo_csock_raw_destroy(csock);
 }
 
 /*********************************************
@@ -178,11 +178,11 @@ test_csock_raw_get_iface (void CANDO_UNUSED **state)
  * Start of test_csock_raw_get_sizeof functions *
  ************************************************/
 
-static void CANDO_UNUSED
-test_csock_raw_get_sizeof (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_csock_raw_get_sizeof (void UDO_UNUSED **state)
 {
 	int size = 0;
-	size = cando_csock_raw_get_sizeof();
+	size = udo_csock_raw_get_sizeof();
 	assert_int_not_equal(size, 0);
 }
 

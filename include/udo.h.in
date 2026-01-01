@@ -1,5 +1,5 @@
-#ifndef CANDO_H
-#define CANDO_H
+#ifndef UDO_H
+#define UDO_H
 
 #include "macros.h"
 #include "futex.h"
@@ -12,4 +12,4 @@
 @VSOCK_TCP_INTERFACE@
 @VSOCK_UDP_INTERFACE@
 
-#endif /* CANDO_H */
+#endif /* UDO_H */

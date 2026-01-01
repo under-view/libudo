@@ -16,26 +16,26 @@
 #include "log.h"
 
 static int writefd = STDOUT_FILENO;
-static enum cando_log_level_type logLevel = CANDO_LOG_NONE;
+static enum udo_log_level_type log_level = UDO_LOG_NONE;
 
 /* ANSI Escape Codes, terminal colors */
 static const char *tcolors[] =
 {
-	[CANDO_LOG_NONE]    = "",
-	[CANDO_LOG_SUCCESS] = "\e[32;1m",
-	[CANDO_LOG_ERROR]   = "\e[31;1m",
-	[CANDO_LOG_INFO]    = "\e[35;1m",
-	[CANDO_LOG_WARNING] = "\e[33;1m",
-	[CANDO_LOG_RESET]   = "\x1b[0m"
+	[UDO_LOG_NONE]    = "",
+	[UDO_LOG_SUCCESS] = "\e[32;1m",
+	[UDO_LOG_ERROR]   = "\e[31;1m",
+	[UDO_LOG_INFO]    = "\e[35;1m",
+	[UDO_LOG_WARNING] = "\e[33;1m",
+	[UDO_LOG_RESET]   = "\x1b[0m"
 };
 
 
-CANDO_STATIC_INLINE
+UDO_STATIC_INLINE
 const char *
 p_get_error (const unsigned int code)
 {
 	switch (code) {
-		case CANDO_LOG_ERR_INCORRECT_DATA:
+		case UDO_LOG_ERR_INCORRECT_DATA:
 			return "Incorrect data passed";
 		default:
 			return NULL;
@@ -46,64 +46,64 @@ p_get_error (const unsigned int code)
 
 
 void
-cando_log_set_level (enum cando_log_level_type level)
+udo_log_set_level (enum udo_log_level_type level)
 {
-	logLevel = level;
+	log_level = level;
 }
 
 
 void
-cando_log_set_write_fd (const int fd)
+udo_log_set_write_fd (const int fd)
 {
 	writefd = fd;
 }
 
 
 void
-cando_log_remove_colors (void)
+udo_log_remove_colors (void)
 {
-	tcolors[CANDO_LOG_SUCCESS] = "[SUCCESS] ";
-	tcolors[CANDO_LOG_ERROR]   = "[ERROR] ";
-	tcolors[CANDO_LOG_INFO]    = "[INFO] ";
-	tcolors[CANDO_LOG_WARNING] = "[WARN] ";
+	tcolors[UDO_LOG_SUCCESS] = "[SUCCESS] ";
+	tcolors[UDO_LOG_ERROR]   = "[ERROR] ";
+	tcolors[UDO_LOG_INFO]    = "[INFO] ";
+	tcolors[UDO_LOG_WARNING] = "[WARN] ";
 }
 
 
 void
-cando_log_reset_colors (void)
+udo_log_reset_colors (void)
 {
-	tcolors[CANDO_LOG_SUCCESS] = "\e[32;1m";
-	tcolors[CANDO_LOG_ERROR]   = "\e[31;1m";
-	tcolors[CANDO_LOG_INFO]    = "\e[35;1m";
-	tcolors[CANDO_LOG_WARNING] = "\e[33;1m";
+	tcolors[UDO_LOG_SUCCESS] = "\e[32;1m";
+	tcolors[UDO_LOG_ERROR]   = "\e[31;1m";
+	tcolors[UDO_LOG_INFO]    = "\e[35;1m";
+	tcolors[UDO_LOG_WARNING] = "\e[33;1m";
 }
 
 
 const char *
-cando_log_get_error (const void *context)
+udo_log_get_error (const void *context)
 {
 	if (!context)
 		return NULL;
 
-	return ((struct cando_log_error_struct*)context)->buffer;
+	return ((struct udo_log_error_struct*)context)->buffer;
 }
 
 
 unsigned int
-cando_log_get_error_code (const void *context)
+udo_log_get_error_code (const void *context)
 {
 	if (!context)
 		return UINT32_MAX;
 
-	return ((struct cando_log_error_struct*)context)->code;
+	return ((struct udo_log_error_struct*)context)->code;
 }
 
 
 void
-cando_log_set_error_struct (void *context,
-                            const unsigned int code,
-                            const char *fmt,
-                            ...)
+udo_log_set_error_struct (void *context,
+                          const unsigned int code,
+                          const char *fmt,
+                          ...)
 {
 	va_list args;
 
@@ -111,7 +111,7 @@ cando_log_set_error_struct (void *context,
 
 	const char *string = NULL;
 
-	struct cando_log_error_struct *error = context;
+	struct udo_log_error_struct *error = context;
 
 	if (!error)
 		return;
@@ -131,16 +131,16 @@ cando_log_set_error_struct (void *context,
 
 
 void
-cando_log_time (enum cando_log_level_type type,
-		const char *fmt,
-		...)
+udo_log_time (enum udo_log_level_type type,
+              const char *fmt,
+              ...)
 {
 	va_list args;
 	time_t rawtime;
 
 	char buffer[26];
 
-	if (!(type & logLevel))
+	if (!(type & log_level))
 		return;
 
 	/* create message time stamp */
@@ -155,19 +155,19 @@ cando_log_time (enum cando_log_level_type type,
 	va_end(args);
 
 	/* Reset terminal colors */
-	dprintf(writefd, "%s", tcolors[CANDO_LOG_RESET]);
+	dprintf(writefd, "%s", tcolors[UDO_LOG_RESET]);
 	fsync(writefd);
 }
 
 
 void
-cando_log_notime (enum cando_log_level_type type,
-		  const char *fmt,
-		  ...)
+udo_log_notime (enum udo_log_level_type type,
+                const char *fmt,
+                ...)
 {
 	va_list args;
 
-	if (!(type & logLevel))
+	if (!(type & log_level))
 		return;
 
 	/* Set terminal color */
@@ -178,13 +178,13 @@ cando_log_notime (enum cando_log_level_type type,
 	va_end(args);
 
 	/* Reset terminal colors */
-	dprintf(writefd, "%s", tcolors[CANDO_LOG_RESET]);
+	dprintf(writefd, "%s", tcolors[UDO_LOG_RESET]);
 	fsync(writefd);
 }
 
 
 const char *
-cando_log_get_tcolor (enum cando_log_level_type type)
+udo_log_get_tcolor (enum udo_log_level_type type)
 {
 	return tcolors[type];
 }

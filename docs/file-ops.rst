@@ -3,7 +3,7 @@
 file-ops (File Operations)
 ==========================
 
-Header: cando/file-ops.h
+Header: udo/file-ops.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,45 +24,47 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_file_ops`
-#. :c:struct:`cando_file_ops_create_info`
-#. :c:struct:`cando_file_ops_zero_copy_info`
-#. :c:struct:`cando_file_ops_set_data_info`
+1. :c:struct:`udo_file_ops`
+#. :c:struct:`udo_file_ops_create_info`
+#. :c:struct:`udo_file_ops_zero_copy_info`
+#. :c:struct:`udo_file_ops_set_data_info`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_file_ops_create`
-#. :c:func:`cando_file_ops_truncate_file`
-#. :c:func:`cando_file_ops_zero_copy`
-#. :c:func:`cando_file_ops_get_data`
-#. :c:func:`cando_file_ops_get_line`
-#. :c:func:`cando_file_ops_get_line_count`
-#. :c:func:`cando_file_ops_get_fd`
-#. :c:func:`cando_file_ops_get_data_size`
-#. :c:func:`cando_file_ops_get_filename`
-#. :c:func:`cando_file_ops_set_data`
-#. :c:func:`cando_file_ops_destroy`
-#. :c:func:`cando_file_ops_get_sizeof`
+1. :c:func:`udo_file_ops_create`
+#. :c:func:`udo_file_ops_truncate_file`
+#. :c:func:`udo_file_ops_zero_copy`
+#. :c:func:`udo_file_ops_get_data`
+#. :c:func:`udo_file_ops_get_line`
+#. :c:func:`udo_file_ops_get_line_count`
+#. :c:func:`udo_file_ops_get_fd`
+#. :c:func:`udo_file_ops_get_data_size`
+#. :c:func:`udo_file_ops_get_filename`
+#. :c:func:`udo_file_ops_set_data`
+#. :c:func:`udo_file_ops_destroy`
+#. :c:func:`udo_file_ops_get_sizeof`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-========================
-cando_file_ops (private)
-========================
+======================
+udo_file_ops (private)
+======================
 
-.. c:struct:: cando_file_ops
+| Structure defining UDO File Operations instance.
+
+.. c:struct:: udo_file_ops
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		int                           pipe_fds[2];
-		char                          fname[FILE_NAME_LEN_MAX];
-		size_t                        data_sz;
-		void                          *data;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		int                         pipe_fds[2];
+		char                        fname[FILE_NAME_LEN_MAX];
+		size_t                      data_sz;
+		void                        *data;
 
 	:c:member:`err`
 		| Stores information about the error that occured
@@ -91,11 +93,11 @@ cando_file_ops (private)
 	:c:member:`data`
 		| Pointer to `mmap(2)`_ file data.
 
-==========================
-cando_file_ops_create_info
-==========================
+========================
+udo_file_ops_create_info
+========================
 
-.. c:struct:: cando_file_ops_create_info
+.. c:struct:: udo_file_ops_create_info
 
 	.. c:member::
 		const char        *fname;
@@ -117,11 +119,11 @@ cando_file_ops_create_info
 	:c:member:`create_pipe`
 		| Boolean to enable/disable creation of a `pipe(2)`_.
 
-=====================
-cando_file_ops_create
-=====================
+===================
+udo_file_ops_create
+===================
 
-.. c:function:: struct cando_file_ops *cando_file_ops_create(struct cando_file_ops *flops, const void *file_info);
+.. c:function:: struct udo_file_ops *udo_file_ops_create(struct udo_file_ops *flops, const void *file_info);
 
 | Creates or opens caller define file.
 
@@ -131,27 +133,27 @@ cando_file_ops_create
 		* - Param
 	          - Decription
 		* - flops
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_file_ops`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_file_ops`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_file_ops`
+		    | to store the newly created ``struct`` :c:struct:`udo_file_ops`
 		    | instance.
 		* - file_info
-		  - | Pointer to a ``struct`` :c:struct:`cando_file_ops_create_info`.
+		  - | Pointer to a ``struct`` :c:struct:`udo_file_ops_create_info`.
 		    | The use of pointer to a void is to limit amount
 		    | of columns required to define a function.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_file_ops`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_file_ops`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-============================
-cando_file_ops_truncate_file
-============================
+==========================
+udo_file_ops_truncate_file
+==========================
 
-.. c:function:: int cando_file_ops_truncate_file(struct cando_file_ops *flops, const off_t size);
+.. c:function:: int udo_file_ops_truncate_file(struct udo_file_ops *flops, const off_t size);
 
 | Adjust file to a size of precisely length bytes.
 
@@ -161,7 +163,7 @@ cando_file_ops_truncate_file
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 		* - size
 		  - | Size in bytes file will be `truncate(2)`_'d to.
 
@@ -171,11 +173,11 @@ cando_file_ops_truncate_file
 
 =========================================================================================================================================
 
-=============================
-cando_file_ops_zero_copy_info
-=============================
+===========================
+udo_file_ops_zero_copy_info
+===========================
 
-.. c:struct:: cando_file_ops_zero_copy_info
+.. c:struct:: udo_file_ops_zero_copy_info
 
 	.. c:member::
 		size_t size;
@@ -202,11 +204,11 @@ cando_file_ops_zero_copy_info
 		| of data from the given offset.
 		| **NOTE:** `splice(2)`_ may updates the variable
 
-========================
-cando_file_ops_zero_copy
-========================
+======================
+udo_file_ops_zero_copy
+======================
 
-.. c:function:: ssize_t cando_file_ops_zero_copy(struct cando_file_ops *flops, const void *file_info);
+.. c:function:: ssize_t udo_file_ops_zero_copy(struct udo_file_ops *flops, const void *file_info);
 
 | Sets the data in a file at a given offset up to a given size
 | without copying the buffer into userspace.
@@ -217,9 +219,9 @@ cando_file_ops_zero_copy
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 		* - file_info
-		  - | Pointer to a ``struct`` :c:struct:`cando_file_ops_zero_copy_info`.
+		  - | Pointer to a ``struct`` :c:struct:`udo_file_ops_zero_copy_info`.
 		    | The use of pointer to a void is to limit amount
 		    | of columns required to define a function.
 
@@ -229,11 +231,11 @@ cando_file_ops_zero_copy
 
 =========================================================================================================================================
 
-=======================
-cando_file_ops_get_data
-=======================
+=====================
+udo_file_ops_get_data
+=====================
 
-.. c:function:: const void *cando_file_ops_get_data(struct cando_file_ops *flops, const size_t offset);
+.. c:function:: const void *udo_file_ops_get_data(struct udo_file_ops *flops, const size_t offset);
 
 | Returns file data stored at a given offset.
 | Caller would have to copy into a secondary
@@ -246,14 +248,14 @@ cando_file_ops_get_data
 		const void *data = NULL;
 
 		memset(buffer, 0, sizeof(buffer));
-		data = cando_file_ops_get_data(flops, 54);
+		data = udo_file_ops_get_data(flops, 54);
 		memccpy(buffer, data, '\n', sizeof(buffer));
 		len = strnlen(buffer, sizeof(buffer));
 		buffer[len-1] = '\0';
 		fprintf(stdout, "%s", buffer);
 
 		// OR
-		data = cando_file_ops_get_data(flops, 54);
+		data = udo_file_ops_get_data(flops, 54);
 		fprintf(stdout, "%.*s\n", 32, data);
 
 	.. list-table::
@@ -262,7 +264,7 @@ cando_file_ops_get_data
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 		* - offset
 		  - | Byte offset within the file.
 
@@ -272,11 +274,11 @@ cando_file_ops_get_data
 
 =========================================================================================================================================
 
-=======================
-cando_file_ops_get_line
-=======================
+=====================
+udo_file_ops_get_line
+=====================
 
-.. c:function:: const char *cando_file_ops_get_line(struct cando_file_ops *flops, const size_t line);
+.. c:function:: const char *udo_file_ops_get_line(struct udo_file_ops *flops, const size_t line);
 
 | Returns file data stored at a given line.
 | Caller would have to copy into a secondary
@@ -289,14 +291,14 @@ cando_file_ops_get_line
 		const char *line = NULL;
 
 		memset(buffer, 0, sizeof(buffer));
-		line = cando_file_ops_get_line(flops, 4);
+		line = udo_file_ops_get_line(flops, 4);
 		memccpy(buffer, line, '\n', sizeof(buffer));
 		len = strnlen(buffer, sizeof(buffer));
 		buffer[len-1] = '\0';
 		fprintf(stdout, "%s", buffer);
 
 		// OR
-		line = cando_file_ops_get_line(flops, 4);
+		line = udo_file_ops_get_line(flops, 4);
 		fprintf(stdout, "%.*s\n", 32, line);
 
 	.. list-table::
@@ -305,7 +307,7 @@ cando_file_ops_get_line
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 		* - line
 		  - | Line in file to get data from.
 
@@ -315,11 +317,11 @@ cando_file_ops_get_line
 
 =========================================================================================================================================
 
-=============================
-cando_file_ops_get_line_count
-=============================
+===========================
+udo_file_ops_get_line_count
+===========================
 
-.. c:function:: size_t cando_file_ops_get_line_count(struct cando_file_ops *flops);
+.. c:function:: size_t udo_file_ops_get_line_count(struct udo_file_ops *flops);
 
 | Returns the amount of lines a file contains.
 
@@ -329,7 +331,7 @@ cando_file_ops_get_line_count
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 
 	Returns:
 		| **on success:** Line count
@@ -337,11 +339,11 @@ cando_file_ops_get_line_count
 
 =========================================================================================================================================
 
-=====================
-cando_file_ops_get_fd
-=====================
+===================
+udo_file_ops_get_fd
+===================
 
-.. c:function:: int cando_file_ops_get_fd(struct cando_file_ops *flops);
+.. c:function:: int udo_file_ops_get_fd(struct udo_file_ops *flops);
 
 | Returns file descriptor to open file.
 
@@ -351,7 +353,7 @@ cando_file_ops_get_fd
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 
 	Returns:
 		| **on success:** File descriptor to open file
@@ -359,11 +361,11 @@ cando_file_ops_get_fd
 
 =========================================================================================================================================
 
-============================
-cando_file_ops_get_data_size
-============================
+==========================
+udo_file_ops_get_data_size
+==========================
 
-.. c:function:: size_t cando_file_ops_get_data_size(struct cando_file_ops *flops);
+.. c:function:: size_t udo_file_ops_get_data_size(struct udo_file_ops *flops);
 
 | Returns size of the `mmap(2)`_'d buffer associated
 | with the open file.
@@ -374,7 +376,7 @@ cando_file_ops_get_data_size
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 
 	Returns:
 		| **on success:** Size of the `mmap(2)`_ buffer
@@ -382,14 +384,14 @@ cando_file_ops_get_data_size
 
 =========================================================================================================================================
 
-===========================
-cando_file_ops_get_filename
-===========================
+=========================
+udo_file_ops_get_filename
+=========================
 
-.. c:function:: const char *cando_file_ops_get_filename(struct cando_file_ops *flops);
+.. c:function:: const char *udo_file_ops_get_filename(struct udo_file_ops *flops);
 
 | Return file name of open file associated with
-| the ``struct`` :c:struct:`cando_file_ops` context.
+| the ``struct`` :c:struct:`udo_file_ops` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -397,7 +399,7 @@ cando_file_ops_get_filename
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 
 	Returns:
 		| **on success:** File name of open file
@@ -405,11 +407,11 @@ cando_file_ops_get_filename
 
 =========================================================================================================================================
 
-============================
-cando_file_ops_set_data_info
-============================
+==========================
+udo_file_ops_set_data_info
+==========================
 
-.. c:struct:: cando_file_ops_set_data_info
+.. c:struct:: udo_file_ops_set_data_info
 
 	.. c:member::
 		size_t     offset;
@@ -425,11 +427,11 @@ cando_file_ops_set_data_info
 	:c:member:`data`
 		| Data to copy at the given file offset.
 
-=======================
-cando_file_ops_set_data
-=======================
+=====================
+udo_file_ops_set_data
+=====================
 
-.. c:function:: int cando_file_ops_set_data(struct cando_file_ops *flops, const void *file_info);
+.. c:function:: int udo_file_ops_set_data(struct udo_file_ops *flops, const void *file_info);
 
 | Sets data in a file at a given offset up to a given size.
 
@@ -439,9 +441,9 @@ cando_file_ops_set_data
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 		* - file_info
-		  - | Pointer to a ``struct`` :c:struct:`cando_file_ops_set_data_info`.
+		  - | Pointer to a ``struct`` :c:struct:`udo_file_ops_set_data_info`.
 		    | The use of pointer to a void is to limit amount
 		    | of columns required to define a function.
 
@@ -451,14 +453,14 @@ cando_file_ops_set_data
 
 =========================================================================================================================================
 
-======================
-cando_file_ops_destroy
-======================
+====================
+udo_file_ops_destroy
+====================
 
-.. c:function:: void cando_file_ops_destroy(struct cando_file_ops *flops);
+.. c:function:: void udo_file_ops_destroy(struct udo_file_ops *flops);
 
 | Frees any allocated memory and closes FD's (if open) created after
-| :c:func:`cando_file_ops_create` call.
+| :c:func:`udo_file_ops_create` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -466,15 +468,15 @@ cando_file_ops_destroy
 		* - Param
 	          - Decription
 		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_file_ops`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 
 =========================================================================================================================================
 
-=========================
-cando_file_ops_get_sizeof
-=========================
+=======================
+udo_file_ops_get_sizeof
+=======================
 
-.. c:function:: int cando_file_ops_get_sizeof(void);
+.. c:function:: int udo_file_ops_get_sizeof(void);
 
 | Returns size of the internal structure. So,
 | if caller decides to allocate memory outside
@@ -482,16 +484,16 @@ cando_file_ops_get_sizeof
 | of bytes.
 
 	Returns:
-		| **on success:** sizeof(struct cando_file_ops)
-		| **on failure:** sizeof(struct cando_file_ops)
+		| **on success:** sizeof(struct udo_file_ops)
+		| **on failure:** sizeof(struct udo_file_ops)
 
 =========================================================================================================================================
 
-===========================
-cando_file_ops_set_fd_flags
-===========================
+=========================
+udo_file_ops_set_fd_flags
+=========================
 
-.. c:function:: int cando_file_ops_set_fd_flags(const int fd, const int flags);
+.. c:function:: int udo_file_ops_set_fd_flags(const int fd, const int flags);
 
 | Updates the file descriptor to new status flags.
 

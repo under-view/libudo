@@ -19,22 +19,22 @@
  * Start of test_sock_udp_server_create functions *
  **************************************************/
 
-static void CANDO_UNUSED
-test_sock_udp_server_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_server_create (void UDO_UNUSED **state)
 {
-	struct cando_sock_udp *server = NULL;
+	struct udo_sock_udp *server = NULL;
 
-	struct cando_sock_udp_server_create_info server_info;
+	struct udo_sock_udp_server_create_info server_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.ipv6 = 0;
 	server_info.port = 7777;
 	server_info.ip_addr = "127.0.0.1";
-	server = cando_sock_udp_server_create(NULL, &server_info);
+	server = udo_sock_udp_server_create(NULL, &server_info);
 	assert_non_null(server);
 
-	cando_sock_udp_destroy(server);
+	udo_sock_udp_destroy(server);
 }
 
 /************************************************
@@ -46,20 +46,20 @@ test_sock_udp_server_create (void CANDO_UNUSED **state)
  * Start of test_sock_udp_client_create functions *
  **************************************************/
 
-static void CANDO_UNUSED
-test_sock_udp_client_create (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_client_create (void UDO_UNUSED **state)
 {
-	struct cando_sock_udp *client = NULL;
+	struct udo_sock_udp *client = NULL;
 
-	struct cando_sock_udp_client_create_info client_info;
+	struct udo_sock_udp_client_create_info client_info;
 
 	client_info.ipv6 = 0;
 	client_info.port = 7777;
 	client_info.ip_addr = "127.0.0.1";
-	client = cando_sock_udp_client_create(NULL, &client_info);
+	client = udo_sock_udp_client_create(NULL, &client_info);
 	assert_non_null(client);
 
-	cando_sock_udp_destroy(client);
+	udo_sock_udp_destroy(client);
 }
 
 /************************************************
@@ -78,31 +78,31 @@ p_test_sock_udp_accept_connect_client (void)
 
 	const int accept = 0x44;
 
-	struct cando_sock_udp *client = NULL;
+	struct udo_sock_udp *client = NULL;
 
-	struct cando_sock_udp_client_create_info client_info;
+	struct udo_sock_udp_client_create_info client_info;
 
 	client_info.ipv6 = 0;
 	client_info.port = 7777;
 	client_info.ip_addr = "127.0.0.1";
-	client = cando_sock_udp_client_create(NULL, &client_info);
+	client = udo_sock_udp_client_create(NULL, &client_info);
 	assert_non_null(client);
 
-	err = cando_sock_udp_client_connect(client);
+	err = udo_sock_udp_client_connect(client);
 	assert_int_equal(err, 0);
 
 	/* Connect client to server */
-	err = cando_sock_udp_client_send_data(client, &accept, sizeof(int), NULL);
+	err = udo_sock_udp_client_send_data(client, &accept, sizeof(int), NULL);
 	assert_int_equal(err, sizeof(int));
 
-	cando_sock_udp_destroy(client);
+	udo_sock_udp_destroy(client);
 
 	exit(0);
 }
 
 
-static void CANDO_UNUSED
-test_sock_udp_accept_connect (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_accept_connect (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -110,16 +110,16 @@ test_sock_udp_accept_connect (void CANDO_UNUSED **state)
 
 	int client_sock = -1, err = -1, data;
 
-	struct cando_sock_udp *server = NULL;
+	struct udo_sock_udp *server = NULL;
 
-	struct cando_sock_udp_server_create_info server_info;
+	struct udo_sock_udp_server_create_info server_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.ipv6 = 0;
 	server_info.port = 7777;
 	server_info.ip_addr = "127.0.0.1";
-	server = cando_sock_udp_server_create(NULL, &server_info);
+	server = udo_sock_udp_server_create(NULL, &server_info);
 	assert_non_null(server);
 
 	pid = fork();
@@ -127,18 +127,18 @@ test_sock_udp_accept_connect (void CANDO_UNUSED **state)
 		p_test_sock_udp_accept_connect_client();
 	}
 
-	err = cando_sock_udp_server_recv_data(server, &data,
+	err = udo_sock_udp_server_recv_data(server, &data,
 					sizeof(int), &addr, NULL);
 	assert_int_equal(err, sizeof(int));
 	assert_int_equal(data, 0x44);
 
-	client_sock = cando_sock_udp_server_accept(server, &addr, server_info.ipv6);
+	client_sock = udo_sock_udp_server_accept(server, &addr, server_info.ipv6);
 	assert_int_not_equal(client_sock, -1);
 
 	waitpid(pid, NULL, -1);
 
 	close(client_sock);
-	cando_sock_udp_destroy(server);
+	udo_sock_udp_destroy(server);
 }
 
 /*************************************************
@@ -161,37 +161,37 @@ p_test_sock_udp_send_recv_client (void)
 
 	const int accept = 0x44;
 
-	struct cando_sock_udp *client = NULL;
+	struct udo_sock_udp *client = NULL;
 
-	struct cando_sock_udp_client_create_info client_info;
+	struct udo_sock_udp_client_create_info client_info;
 
 	client_info.ipv6 = 1;
 	client_info.port = 7777;
 	client_info.ip_addr = "::1";
-	client = cando_sock_udp_client_create(NULL, &client_info);
+	client = udo_sock_udp_client_create(NULL, &client_info);
 	assert_non_null(client);
 
-	err = cando_sock_udp_client_connect(client);
+	err = udo_sock_udp_client_connect(client);
 	assert_int_equal(err, 0);
 
 	/* Connect client to server */
-	err = cando_sock_udp_client_send_data(client, &accept, sizeof(int), NULL);
+	err = udo_sock_udp_client_send_data(client, &accept, sizeof(int), NULL);
 	assert_int_equal(err, sizeof(int));
 
 	usleep(1000);
 
 	memset(buffer, 'T', sizeof(buffer));
-	size = cando_sock_udp_client_send_data(client, buffer, sizeof(buffer), 0);
+	size = udo_sock_udp_client_send_data(client, buffer, sizeof(buffer), 0);
 	assert_int_equal(size, sizeof(buffer));
 
-	cando_sock_udp_destroy(client);
+	udo_sock_udp_destroy(client);
 
 	exit(0);
 }
 
 
-static void CANDO_UNUSED
-test_sock_udp_send_recv (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_send_recv (void UDO_UNUSED **state)
 {
 	pid_t pid;
 
@@ -201,16 +201,16 @@ test_sock_udp_send_recv (void CANDO_UNUSED **state)
 
 	int client_sock = -1, err = -1, data;
 
-	struct cando_sock_udp *server = NULL;
+	struct udo_sock_udp *server = NULL;
 
-	struct cando_sock_udp_server_create_info server_info;
+	struct udo_sock_udp_server_create_info server_info;
 
-	cando_log_set_level(CANDO_LOG_ALL);
+	udo_log_set_level(UDO_LOG_ALL);
 
 	server_info.ipv6 = 1;
 	server_info.port = 7777;
 	server_info.ip_addr = "::1";
-	server = cando_sock_udp_server_create(NULL, &server_info);
+	server = udo_sock_udp_server_create(NULL, &server_info);
 	assert_non_null(server);
 
 	pid = fork();
@@ -218,23 +218,23 @@ test_sock_udp_send_recv (void CANDO_UNUSED **state)
 		p_test_sock_udp_send_recv_client();
 	}
 
-	err = cando_sock_udp_server_recv_data(server, &data,
+	err = udo_sock_udp_server_recv_data(server, &data,
 					sizeof(int), &addr, NULL);
 	assert_int_equal(err, sizeof(int));
 	assert_int_equal(data, 0x44);
 
-	client_sock = cando_sock_udp_server_accept(server, &addr, server_info.ipv6);
+	client_sock = udo_sock_udp_server_accept(server, &addr, server_info.ipv6);
 	assert_int_not_equal(client_sock, -1);
 
 	memset(buffer, 'T', sizeof(buffer));
-	err = cando_sock_udp_recv_data(client_sock, buffer_two, sizeof(buffer_two), NULL, 0);
+	err = udo_sock_udp_recv_data(client_sock, buffer_two, sizeof(buffer_two), NULL, 0);
 	assert_int_equal(err, sizeof(buffer_two));
 	assert_memory_equal(buffer, buffer_two, sizeof(buffer));
 
 	waitpid(pid, NULL, -1);
 
 	close(client_sock);
-	cando_sock_udp_destroy(server);
+	udo_sock_udp_destroy(server);
 }
 
 /********************************************
@@ -246,28 +246,28 @@ test_sock_udp_send_recv (void CANDO_UNUSED **state)
  * Start of test_sock_udp_get_fd functions *
  *******************************************/
 
-static void CANDO_UNUSED
-test_sock_udp_get_fd (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_get_fd (void UDO_UNUSED **state)
 {
 	int sock_fd = -1;
 
-	struct cando_sock_udp *client = NULL;
+	struct udo_sock_udp *client = NULL;
 
-	struct cando_sock_udp_client_create_info client_info;
+	struct udo_sock_udp_client_create_info client_info;
 
 	client_info.ipv6 = 0;
 	client_info.port = 7777;
 	client_info.ip_addr = "127.0.0.1";
-	client = cando_sock_udp_client_create(NULL, &client_info);
+	client = udo_sock_udp_client_create(NULL, &client_info);
 	assert_non_null(client);
 
-	sock_fd = cando_sock_udp_get_fd(NULL);
+	sock_fd = udo_sock_udp_get_fd(NULL);
 	assert_int_equal(sock_fd, -1);
 
-	sock_fd = cando_sock_udp_get_fd(client);
+	sock_fd = udo_sock_udp_get_fd(client);
 	assert_int_not_equal(sock_fd, -1);
 
-	cando_sock_udp_destroy(client);
+	udo_sock_udp_destroy(client);
 }
 
 /*****************************************
@@ -279,28 +279,28 @@ test_sock_udp_get_fd (void CANDO_UNUSED **state)
  * Start of test_sock_udp_get_ip_addr functions *
  ************************************************/
 
-static void CANDO_UNUSED
-test_sock_udp_get_ip_addr (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_get_ip_addr (void UDO_UNUSED **state)
 {
 	const char *ip_addr = NULL;
 
-	struct cando_sock_udp *client = NULL;
+	struct udo_sock_udp *client = NULL;
 
-	struct cando_sock_udp_client_create_info client_info;
+	struct udo_sock_udp_client_create_info client_info;
 
 	client_info.ip_addr = "::1";
 	client_info.port = 7777;
 	client_info.ipv6 = 1;
-	client = cando_sock_udp_client_create(NULL, &client_info);
+	client = udo_sock_udp_client_create(NULL, &client_info);
 	assert_non_null(client);
 
-	ip_addr = cando_sock_udp_get_ip_addr(NULL);
+	ip_addr = udo_sock_udp_get_ip_addr(NULL);
 	assert_null(ip_addr);
 
-	ip_addr = cando_sock_udp_get_ip_addr(client);
+	ip_addr = udo_sock_udp_get_ip_addr(client);
 	assert_string_equal(ip_addr, client_info.ip_addr);
 
-	cando_sock_udp_destroy(client);
+	udo_sock_udp_destroy(client);
 }
 
 /**********************************************
@@ -312,28 +312,28 @@ test_sock_udp_get_ip_addr (void CANDO_UNUSED **state)
  * Start of test_sock_udp_get_port functions *
  *********************************************/
 
-static void CANDO_UNUSED
-test_sock_udp_get_port (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_get_port (void UDO_UNUSED **state)
 {
 	int port = -1;
 
-	struct cando_sock_udp *client = NULL;
+	struct udo_sock_udp *client = NULL;
 
-	struct cando_sock_udp_client_create_info client_info;
+	struct udo_sock_udp_client_create_info client_info;
 
 	client_info.ipv6 = 0;
 	client_info.port = 7777;
 	client_info.ip_addr = "127.0.0.1";
-	client = cando_sock_udp_client_create(NULL, &client_info);
+	client = udo_sock_udp_client_create(NULL, &client_info);
 	assert_non_null(client);
 
-	port = cando_sock_udp_get_port(NULL);
+	port = udo_sock_udp_get_port(NULL);
 	assert_int_equal(port, -1);
 
-	port = cando_sock_udp_get_port(client);
+	port = udo_sock_udp_get_port(client);
 	assert_int_equal(port, client_info.port);
 
-	cando_sock_udp_destroy(client);
+	udo_sock_udp_destroy(client);
 }
 
 /*******************************************
@@ -345,11 +345,11 @@ test_sock_udp_get_port (void CANDO_UNUSED **state)
  * Start of test_sock_udp_get_sizeof functions *
  ***********************************************/
 
-static void CANDO_UNUSED
-test_sock_udp_get_sizeof (void CANDO_UNUSED **state)
+static void UDO_UNUSED
+test_sock_udp_get_sizeof (void UDO_UNUSED **state)
 {
 	int size = 0;
-	size = cando_sock_udp_get_sizeof();
+	size = udo_sock_udp_get_sizeof();
 	assert_int_not_equal(size, 0);
 }
 

@@ -1,5 +1,5 @@
-#ifndef CANDO_FUTEX_H
-#define CANDO_FUTEX_H
+#ifndef UDO_FUTEX_H
+#define UDO_FUTEX_H
 
 #include "macros.h"
 
@@ -8,34 +8,34 @@
  *        to store a futex. This function usage should
  *        be limited to processes/threads that were created
  *        via fork() or pthread_create(). For processes
- *        created without fork() see shm.c implementation.
- *        By default all futexes are initialize in the locked
- *        state.
+ *        created without fork() (i.e seperate application)
+ *        see shm.c implementation. By default all futexes
+ *        are initialize in the locked state.
  *
  * @param count - Amount of futexes stored in a single
  *                shared memory block.
  *
  * @return
- *	on success: Pointer to a cando_atomic_u32
+ *	on success: Pointer to a udo_atomic_u32
  *	on failure: NULL
  */
-CANDO_API
-cando_atomic_u32 *
-cando_futex_create (const unsigned int count);
+UDO_API
+udo_atomic_u32 *
+udo_futex_create (const unsigned int count);
 
 
 /*
  * @brief Atomically updates futex value to the locked state.
  *        If value can't be changed inform kernel that a
  *        process needs to be put to sleep. Sets errno to
- *        EINTR if a call to cando_futex_unlock_force()
+ *        EINTR if a call to udo_futex_unlock_force()
  *        is made.
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_lock (cando_atomic_u32 *fux);
+udo_futex_lock (udo_atomic_u32 *fux);
 
 
 /*
@@ -45,9 +45,9 @@ cando_futex_lock (cando_atomic_u32 *fux);
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_unlock (cando_atomic_u32 *fux);
+udo_futex_unlock (udo_atomic_u32 *fux);
 
 
 /*
@@ -60,19 +60,19 @@ cando_futex_unlock (cando_atomic_u32 *fux);
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_unlock_force (cando_atomic_u32 *fux);
+udo_futex_unlock_force (udo_atomic_u32 *fux);
 
 
 /*
  * @brief Frees any allocated memory and closes FD's (if open)
- *        created after cando_futex_create() call.
+ *        created after udo_futex_create() call.
  *
  * @param fux - Pointer to 32-bit integer storing futex.
  */
-CANDO_API
+UDO_API
 void
-cando_futex_destroy (cando_atomic_u32 *fux);
+udo_futex_destroy (udo_atomic_u32 *fux);
 
-#endif /* CANDO_FUTEX_H */
+#endif /* UDO_FUTEX_H */

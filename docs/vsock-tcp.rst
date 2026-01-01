@@ -3,7 +3,7 @@
 vsock-tcp (VM Socket TCP)
 =========================
 
-Header: cando/vsock-tcp.h
+Header: udo/vsock-tcp.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,27 +24,27 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_vsock_tcp`
-#. :c:struct:`cando_vsock_tcp_server_create_info`
-#. :c:struct:`cando_vsock_tcp_client_create_info`
+1. :c:struct:`udo_vsock_tcp`
+#. :c:struct:`udo_vsock_tcp_server_create_info`
+#. :c:struct:`udo_vsock_tcp_client_create_info`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_vsock_tcp_server_create`
-#. :c:func:`cando_vsock_tcp_server_accept`
-#. :c:func:`cando_vsock_tcp_client_create`
-#. :c:func:`cando_vsock_tcp_client_connect`
-#. :c:func:`cando_vsock_tcp_client_send_data`
-#. :c:func:`cando_vsock_tcp_get_fd`
-#. :c:func:`cando_vsock_tcp_get_vcid`
-#. :c:func:`cando_vsock_tcp_get_port`
-#. :c:func:`cando_vsock_tcp_destroy`
-#. :c:func:`cando_vsock_tcp_get_sizeof`
-#. :c:func:`cando_vsock_tcp_get_local_vcid`
-#. :c:func:`cando_vsock_tcp_recv_data`
-#. :c:func:`cando_vsock_tcp_send_data`
+1. :c:func:`udo_vsock_tcp_server_create`
+#. :c:func:`udo_vsock_tcp_server_accept`
+#. :c:func:`udo_vsock_tcp_client_create`
+#. :c:func:`udo_vsock_tcp_client_connect`
+#. :c:func:`udo_vsock_tcp_client_send_data`
+#. :c:func:`udo_vsock_tcp_get_fd`
+#. :c:func:`udo_vsock_tcp_get_vcid`
+#. :c:func:`udo_vsock_tcp_get_port`
+#. :c:func:`udo_vsock_tcp_destroy`
+#. :c:func:`udo_vsock_tcp_get_sizeof`
+#. :c:func:`udo_vsock_tcp_get_local_vcid`
+#. :c:func:`udo_vsock_tcp_recv_data`
+#. :c:func:`udo_vsock_tcp_send_data`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
@@ -73,21 +73,21 @@ Kernel Modules
 	CONFIG_VSOCKETS=y
 	CONFIG_VIRTIO_VSOCKETS=y
 
-=========================
-cando_vsock_tcp (private)
-=========================
+=======================
+udo_vsock_tcp (private)
+=======================
 
-| Structure defining Cando VM Socket TCP interface implementation.
+| Structure defining UDO VM Socket TCP instance.
 
-.. c:struct:: cando_vsock_tcp
+.. c:struct:: udo_vsock_tcp
 
 	.. c:member::
-		struct cando_log_error_struct err;
-		bool                          free;
-		int                           fd;
-		unsigned int                  vcid;
-		int                           port;
-		struct sockaddr_vm            addr;
+		struct udo_log_error_struct err;
+		bool                        free;
+		int                         fd;
+		unsigned int                vcid;
+		int                         port;
+		struct sockaddr_vm          addr;
 
 	:c:member:`err`
 		| Stores information about the error that occured
@@ -114,14 +114,14 @@ cando_vsock_tcp (private)
 
 =========================================================================================================================================
 
-==================================
-cando_vsock_tcp_server_create_info
-==================================
+================================
+udo_vsock_tcp_server_create_info
+================================
 
-| Structure passed to :c:func:`cando_vsock_tcp_server_create`
+| Structure passed to :c:func:`udo_vsock_tcp_server_create`
 | used to define how to create the server.
 
-.. c:struct:: cando_vsock_tcp_server_create_info
+.. c:struct:: udo_vsock_tcp_server_create_info
 
 	.. c:member::
 		unsigned int vcid;
@@ -138,11 +138,11 @@ cando_vsock_tcp_server_create_info
 		| Amount of connections that may be queued
 		| at a given moment.
 
-=============================
-cando_vsock_tcp_server_create
-=============================
+===========================
+udo_vsock_tcp_server_create
+===========================
 
-.. c:function:: struct cando_vsock_tcp *cando_vsock_tcp_server_create(struct cando_vsock_tcp *vsock, const void *vsock_info);
+.. c:function:: struct udo_vsock_tcp *udo_vsock_tcp_server_create(struct udo_vsock_tcp *vsock, const void *vsock_info);
 
 | Creates a VM socket that may be utilized for server socket operations.
 
@@ -152,28 +152,28 @@ cando_vsock_tcp_server_create
 		* - Param
 	          - Decription
 		* - vsock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_vsock_tcp`
+		    | to store the newly created ``struct`` :c:struct:`udo_vsock_tcp`
 		    | instance.
 		* - vsock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_vsock_tcp_server_create_info`.
+		    | ``struct`` :c:struct:`udo_vsock_tcp_server_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_vsock_tcp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_tcp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-=============================
-cando_vsock_tcp_server_accept
-=============================
+===========================
+udo_vsock_tcp_server_accept
+===========================
 
-.. c:function:: int cando_vsock_tcp_server_accept(struct cando_vsock_tcp *vsock, struct sockaddr_vm *addr);
+.. c:function:: int udo_vsock_tcp_server_accept(struct udo_vsock_tcp *vsock, struct sockaddr_vm *addr);
 
 | Accepts client connections returns file descriptor
 | to the connected client.
@@ -184,7 +184,7 @@ cando_vsock_tcp_server_accept
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 		* - addr
 		  - | May be ``NULL`` or a pointer to a ``struct`` `sockaddr_vm`_
 		    | If not NULL ``addr`` is filled in via `accept(2)`_ call.
@@ -195,14 +195,14 @@ cando_vsock_tcp_server_accept
 
 =========================================================================================================================================
 
-==================================
-cando_vsock_tcp_client_create_info
-==================================
+================================
+udo_vsock_tcp_client_create_info
+================================
 
-| Structure passed to :c:func:`cando_vsock_tcp_client_create`
+| Structure passed to :c:func:`udo_vsock_tcp_client_create`
 | used to define how to create the client.
 
-.. c:struct:: cando_vsock_tcp_client_create_info
+.. c:struct:: udo_vsock_tcp_client_create_info
 
 	.. c:member::
 		unsigned int vcid;
@@ -214,11 +214,11 @@ cando_vsock_tcp_client_create_info
 	:c:member:`port`
 		| Network port to `connect(2)`_/`send(2)`_ to.
 
-=============================
-cando_vsock_tcp_client_create
-=============================
+===========================
+udo_vsock_tcp_client_create
+===========================
 
-.. c:function:: struct cando_vsock_tcp *cando_vsock_tcp_client_create(struct cando_vsock_tcp *vsock, const void *vsock_info);
+.. c:function:: struct udo_vsock_tcp *udo_vsock_tcp_client_create(struct udo_vsock_tcp *vsock, const void *vsock_info);
 
 | Creates a VM socket that may be utilized for client socket operations.
 
@@ -228,31 +228,31 @@ cando_vsock_tcp_client_create
 		* - Param
 	          - Decription
 		* - vsock
-		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | May be ``NULL`` or a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
-		    | to store the newly created ``struct`` :c:struct:`cando_vsock_tcp`
+		    | to store the newly created ``struct`` :c:struct:`udo_vsock_tcp`
 		    | instance.
 		* - vsock_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`cando_vsock_tcp_client_create_info`.
+		    | ``struct`` :c:struct:`udo_vsock_tcp_client_create_info`.
 		    | no other implementation may be passed to
 		    | this parameter.
 
 	Returns:
-		| **on success:** Pointer to a ``struct`` :c:struct:`cando_vsock_tcp`
+		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_tcp`
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
-==============================
-cando_vsock_tcp_client_connect
-==============================
+============================
+udo_vsock_tcp_client_connect
+============================
 
-.. c:function:: int cando_vsock_tcp_client_connect(struct cando_vsock_tcp *vsock);
+.. c:function:: int udo_vsock_tcp_client_connect(struct udo_vsock_tcp *vsock);
 
 | Connects client socket to address provided via
-| call to :c:func:`cando_vsock_tcp_client_create`.
+| call to :c:func:`udo_vsock_tcp_client_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -260,7 +260,7 @@ cando_vsock_tcp_client_connect
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 
 	Returns:
 		| **on success:** 0
@@ -268,14 +268,14 @@ cando_vsock_tcp_client_connect
 
 =========================================================================================================================================
 
-================================
-cando_vsock_tcp_client_send_data
-================================
+==============================
+udo_vsock_tcp_client_send_data
+==============================
 
-.. c:function:: ssize_t cando_vsock_tcp_client_send_data(struct cando_vsock_tcp *vsock, const void *data, const size_t size, const void *vsock_info);
+.. c:function:: ssize_t udo_vsock_tcp_client_send_data(struct udo_vsock_tcp *vsock, const void *data, const size_t size, const void *vsock_info);
 
 | Send data to client socket address provided via
-| call to :c:func:`cando_vsock_tcp_client_create`.
+| call to :c:func:`udo_vsock_tcp_client_create`.
 
 	.. list-table::
 		:header-rows: 1
@@ -283,7 +283,7 @@ cando_vsock_tcp_client_send_data
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 		* - data
 		  - | Pointer to buffer to send through socket.
 		* - size
@@ -298,14 +298,14 @@ cando_vsock_tcp_client_send_data
 
 =========================================================================================================================================
 
-======================
-cando_vsock_tcp_get_fd
-======================
+====================
+udo_vsock_tcp_get_fd
+====================
 
-.. c:function:: int cando_vsock_tcp_get_fd(struct cando_vsock_tcp *vsock);
+.. c:function:: int udo_vsock_tcp_get_fd(struct udo_vsock_tcp *vsock);
 
 | Acquire VM socket file descriptor associated with
-| ``struct`` :c:struct:`cando_vsock_tcp` instance.
+| ``struct`` :c:struct:`udo_vsock_tcp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -313,7 +313,7 @@ cando_vsock_tcp_get_fd
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 
 	Returns:
 		| **on success:** VM socket file descriptor
@@ -321,14 +321,14 @@ cando_vsock_tcp_get_fd
 
 =========================================================================================================================================
 
-========================
-cando_vsock_tcp_get_vcid
-========================
+======================
+udo_vsock_tcp_get_vcid
+======================
 
-.. c:function:: unsigned int cando_vsock_tcp_get_vcid(struct cando_vsock_tcp *vsock);
+.. c:function:: unsigned int udo_vsock_tcp_get_vcid(struct udo_vsock_tcp *vsock);
 
 | Acquire VM socket context identifier associated with
-| ``struct`` :c:struct:`cando_vsock_tcp` instance.
+| ``struct`` :c:struct:`udo_vsock_tcp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -336,7 +336,7 @@ cando_vsock_tcp_get_vcid
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 
 	Returns:
 		| **on success:** VM socket context identifier
@@ -344,14 +344,14 @@ cando_vsock_tcp_get_vcid
 
 =========================================================================================================================================
 
-========================
-cando_vsock_tcp_get_port
-========================
+======================
+udo_vsock_tcp_get_port
+======================
 
-.. c:function:: int cando_vsock_tcp_get_port(struct cando_vsock_tcp *vsock);
+.. c:function:: int udo_vsock_tcp_get_port(struct udo_vsock_tcp *vsock);
 
 | Acquire network port associated with
-| ``struct`` :c:struct:`cando_vsock_tcp` instance.
+| ``struct`` :c:struct:`udo_vsock_tcp` instance.
 
 	.. list-table::
 		:header-rows: 1
@@ -359,7 +359,7 @@ cando_vsock_tcp_get_port
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Must pass a pointer to a ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 
 	Returns:
 		| **on success:** Network port connected to instance
@@ -367,14 +367,14 @@ cando_vsock_tcp_get_port
 
 =========================================================================================================================================
 
-=======================
-cando_vsock_tcp_destroy
-=======================
+=====================
+udo_vsock_tcp_destroy
+=====================
 
-.. c:function:: void cando_vsock_tcp_destroy(struct cando_vsock_tcp *vsock);
+.. c:function:: void udo_vsock_tcp_destroy(struct udo_vsock_tcp *vsock);
 
 | Frees any allocated memory and closes FD's (if open) created after
-| :c:func:`cando_vsock_tcp_server_create` or :c:func:`cando_vsock_tcp_client_create` call.
+| :c:func:`udo_vsock_tcp_server_create` or :c:func:`udo_vsock_tcp_client_create` call.
 
 	.. list-table::
 		:header-rows: 1
@@ -382,15 +382,15 @@ cando_vsock_tcp_destroy
 		* - Param
 	          - Decription
 		* - vsock
-		  - | Pointer to a valid ``struct`` :c:struct:`cando_vsock_tcp`.
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_vsock_tcp`.
 
 =========================================================================================================================================
 
-==========================
-cando_vsock_tcp_get_sizeof
-==========================
+========================
+udo_vsock_tcp_get_sizeof
+========================
 
-.. c:function:: int cando_vsock_tcp_get_sizeof(void);
+.. c:function:: int udo_vsock_tcp_get_sizeof(void);
 
 | Returns size of the internal structure. So,
 | if caller decides to allocate memory outside
@@ -398,16 +398,16 @@ cando_vsock_tcp_get_sizeof
 | of bytes.
 
 	Returns:
-		| **on success:** sizeof(``struct`` :c:struct:`cando_vsock_tcp`)
-		| **on failure:** sizeof(``struct`` :c:struct:`cando_vsock_tcp`)
+		| **on success:** sizeof(``struct`` :c:struct:`udo_vsock_tcp`)
+		| **on failure:** sizeof(``struct`` :c:struct:`udo_vsock_tcp`)
 
 =========================================================================================================================================
 
-==============================
-cando_vsock_tcp_get_local_vcid
-==============================
+============================
+udo_vsock_tcp_get_local_vcid
+============================
 
-.. c:function:: unsigned int cando_vsock_tcp_get_local_vcid(void);
+.. c:function:: unsigned int udo_vsock_tcp_get_local_vcid(void);
 
 | Returns the local CID of the VM/Hypervisor after
 | acquiring it from ``/dev/vsock``.
@@ -418,11 +418,11 @@ cando_vsock_tcp_get_local_vcid
 
 =========================================================================================================================================
 
-=========================
-cando_vsock_tcp_recv_data
-=========================
+=======================
+udo_vsock_tcp_recv_data
+=======================
 
-.. c:function:: ssize_t cando_vsock_tcp_recv_data(const int sock_fd, void *data, const size_t size, const void *vsock_info);
+.. c:function:: ssize_t udo_vsock_tcp_recv_data(const int sock_fd, void *data, const size_t size, const void *vsock_info);
 
 | Receive data from socket file descriptor.
 
@@ -447,11 +447,11 @@ cando_vsock_tcp_recv_data
 
 =========================================================================================================================================
 
-=========================
-cando_vsock_tcp_send_data
-=========================
+=======================
+udo_vsock_tcp_send_data
+=======================
 
-.. c:function:: ssize_t cando_vsock_tcp_send_data(const int sock_fd, const void *data, const size_t size, const void *vsock_info);
+.. c:function:: ssize_t udo_vsock_tcp_send_data(const int sock_fd, const void *data, const size_t size, const void *vsock_info);
 
 | Send data to socket file descriptor.
 

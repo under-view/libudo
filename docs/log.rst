@@ -3,7 +3,7 @@
 log
 ===
 
-Header: cando/log.h
+Header: udo/log.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -12,20 +12,20 @@ Table of contents (click to go)
 Macros
 ======
 
-1. :c:macro:`cando_log`
-#. :c:macro:`cando_log_success`
-#. :c:macro:`cando_log_info`
-#. :c:macro:`cando_log_warning`
-#. :c:macro:`cando_log_error`
-#. :c:macro:`cando_log_print`
-#. :c:macro:`cando_log_set_error`
+1. :c:macro:`udo_log`
+#. :c:macro:`udo_log_success`
+#. :c:macro:`udo_log_info`
+#. :c:macro:`udo_log_warning`
+#. :c:macro:`udo_log_error`
+#. :c:macro:`udo_log_print`
+#. :c:macro:`udo_log_set_error`
 
 =====
 Enums
 =====
 
-1. :c:enum:`cando_log_level_type`
-#. :c:enum:`cando_log_error_type`
+1. :c:enum:`udo_log_level_type`
+#. :c:enum:`udo_log_error_type`
 
 ======
 Unions
@@ -35,85 +35,85 @@ Unions
 Structs
 =======
 
-1. :c:struct:`cando_log_error_struct`
+1. :c:struct:`udo_log_error_struct`
 
 =========
 Functions
 =========
 
-1. :c:func:`cando_log_set_level`
-#. :c:func:`cando_log_set_write_fd`
-#. :c:func:`cando_log_remove_colors`
-#. :c:func:`cando_log_reset_colors`
-#. :c:func:`cando_log_get_error`
-#. :c:func:`cando_log_get_error_code`
-#. :c:func:`cando_log_set_error_struct`
-#. :c:func:`cando_log_time`
-#. :c:func:`cando_log_notime`
+1. :c:func:`udo_log_set_level`
+#. :c:func:`udo_log_set_write_fd`
+#. :c:func:`udo_log_remove_colors`
+#. :c:func:`udo_log_reset_colors`
+#. :c:func:`udo_log_get_error`
+#. :c:func:`udo_log_get_error_code`
+#. :c:func:`udo_log_set_error_struct`
+#. :c:func:`udo_log_time`
+#. :c:func:`udo_log_notime`
 
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-====================
-cando_log_level_type
-====================
+==================
+udo_log_level_type
+==================
 
-.. c:enum:: cando_log_level_type
+.. c:enum:: udo_log_level_type
 
 	#. Log level options used by
-		* :c:func:`cando_log_set_level`
-		* :c:macro:`cando_log`
-		* :c:macro:`cando_log_error`
-		* :c:macro:`cando_log_print`
+		* :c:func:`udo_log_set_level`
+		* :c:macro:`udo_log`
+		* :c:macro:`udo_log_error`
+		* :c:macro:`udo_log_print`
 
 	.. c:enumerator::
-		CANDO_LOG_NONE
-		CANDO_LOG_SUCCESS
-		CANDO_LOG_DANGER
-		CANDO_LOG_INFO
-		CANDO_LOG_WARNING
-		CANDO_LOG_RESET
-		CANDO_LOG_ALL
+		UDO_LOG_NONE
+		UDO_LOG_SUCCESS
+		UDO_LOG_DANGER
+		UDO_LOG_INFO
+		UDO_LOG_WARNING
+		UDO_LOG_RESET
+		UDO_LOG_ALL
 
-	:c:enumerator:`CANDO_LOG_NONE`
+	:c:enumerator:`UDO_LOG_NONE`
 		| Value set to ``0x00000000``
 		| Term color
 
-	:c:enumerator:`CANDO_LOG_SUCCESS`
+	:c:enumerator:`UDO_LOG_SUCCESS`
 		| Value set to ``0x00000001``
 		| Green
 
-	:c:enumerator:`CANDO_LOG_DANGER`
+	:c:enumerator:`UDO_LOG_DANGER`
 		| Value set to ``0x00000002``
 		| Red
 
-	:c:enumerator:`CANDO_LOG_INFO`
+	:c:enumerator:`UDO_LOG_INFO`
 		| Value set to ``0x00000004``
 		| Light purple
 
-	:c:enumerator:`CANDO_LOG_WARNING`
+	:c:enumerator:`UDO_LOG_WARNING`
 		| Value set to ``0x00000008``
 		| Yellow
 
-	:c:enumerator:`CANDO_LOG_RESET`
+	:c:enumerator:`UDO_LOG_RESET`
 		| Value set to ``0x00000010``
 		| Term color
 
-	:c:enumerator:`CANDO_LOG_ALL`
+	:c:enumerator:`UDO_LOG_ALL`
 		| Value set to ``0xFFFFFFFF``
 		| Term color
 
 =========================================================================================================================================
 
-===================
-cando_log_set_level
-===================
+=================
+udo_log_set_level
+=================
 
-.. c:function:: void cando_log_set_level(enum cando_log_level_type level);
+.. c:function:: void udo_log_set_level(enum udo_log_level_type level);
 
 | Sets which type of messages that are allowed to be printed to an open file.
 |
-| Default is set to ``CANDO_LOG_NONE``.
+| Default is set to ``UDO_LOG_NONE``.
 
 	.. list-table::
 		:header-rows: 1
@@ -126,11 +126,11 @@ cando_log_set_level
 
 =========================================================================================================================================
 
-======================
-cando_log_set_write_fd
-======================
+====================
+udo_log_set_write_fd
+====================
 
-.. c:function:: void cando_log_set_write_fd(const int fd);
+.. c:function:: void udo_log_set_write_fd(const int fd);
 
 | Sets the internal global write file descriptor
 | to caller define file descriptor.
@@ -147,11 +147,11 @@ cando_log_set_write_fd
 
 =========================================================================================================================================
 
-=======================
-cando_log_remove_colors
-=======================
+=====================
+udo_log_remove_colors
+=====================
 
-.. c:function:: void cando_log_remove_colors(void);
+.. c:function:: void udo_log_remove_colors(void);
 
 | Sets the internal global ansi color
 | storage array to remove the ansi colors
@@ -159,50 +159,50 @@ cando_log_remove_colors
 
 =========================================================================================================================================
 
-======================
-cando_log_reset_colors
-======================
+====================
+udo_log_reset_colors
+====================
 
-.. c:function:: void cando_log_reset_colors(void);
+.. c:function:: void udo_log_reset_colors(void);
 
 | Sets the internal global ansi color
 | storage array to it's original values.
 
 =========================================================================================================================================
 
-====================
-cando_log_error_type
-====================
+==================
+udo_log_error_type
+==================
 
-.. c:enum:: cando_log_error_type
+.. c:enum:: udo_log_error_type
 
 | Enum with macros defining and error type
 | Add on userspace error codes should be well out
 | of range of any known common error code.
 
 	#. Log error types used by
-		* :c:func:`cando_log_get_error`
-		* :c:func:`cando_log_get_error_code`
+		* :c:func:`udo_log_get_error`
+		* :c:func:`udo_log_get_error_code`
 
 	.. c:enumerator::
-		CANDO_LOG_ERR_UNCOMMON
-		CANDO_LOG_ERR_INCORRECT_DATA
+		UDO_LOG_ERR_UNCOMMON
+		UDO_LOG_ERR_INCORRECT_DATA
 
-	:c:enumerator:`CANDO_LOG_ERR_UNCOMMON`
+	:c:enumerator:`UDO_LOG_ERR_UNCOMMON`
 		| Value set to ``0x1000``
 		| Errors that can't be given a common
 		| error string are given this error code.
 		| Caller would then need to set buffer themselves.
 
-	:c:enumerator:`CANDO_LOG_ERR_INCORRECT_DATA`
+	:c:enumerator:`UDO_LOG_ERR_INCORRECT_DATA`
 		| Value set to ``0x1001``
 		| Code for incorrect data passed in function arguments
 
-======================
-cando_log_error_struct
-======================
+====================
+udo_log_error_struct
+====================
 
-.. c:struct:: cando_log_error_struct
+.. c:struct:: udo_log_error_struct
 
 | Structure used to store and acquire
 | error string and code for multiple
@@ -210,7 +210,7 @@ cando_log_error_struct
 
 	.. c:member::
 		unsigned int code;
-		char         buffer[CANDO_PAGE_SIZE];
+		char         buffer[UDO_PAGE_SIZE];
 
 	:c:member:`code`
 		| Error code or errno
@@ -218,15 +218,15 @@ cando_log_error_struct
 	:c:member:`buffer`
 		| Buffer to store error string
 
-===================
-cando_log_get_error
-===================
+=================
+udo_log_get_error
+=================
 
-.. c:function:: const char *cando_log_get_error(const void *context);
+.. c:function:: const char *udo_log_get_error(const void *context);
 
 | Returns a string with the error defined given
 | caller provided a context with first members
-| of the context being a ``struct`` :c:struct:`cando_log_error_struct`.
+| of the context being a ``struct`` :c:struct:`udo_log_error_struct`.
 
 	.. list-table::
 		:header-rows: 1
@@ -235,21 +235,21 @@ cando_log_get_error
 	          - Decription
 		* - context
 		  - | Pointer to an arbitrary context.
-		    | Start of context must be a ``struct`` :c:struct:`cando_log_error_struct`.
+		    | Start of context must be a ``struct`` :c:struct:`udo_log_error_struct`.
 
 	Returns:
 		| **on success:** Passed context error string
 		| **on failure:** ``NULL``
 
-========================
-cando_log_get_error_code
-========================
+======================
+udo_log_get_error_code
+======================
 
-.. c:function:: unsigned int cando_log_get_error_code(const void *context);
+.. c:function:: unsigned int udo_log_get_error_code(const void *context);
 
 | Returns unsigned integer with the error code
 | given caller provided a context with first members
-| of the context being a ``struct`` :c:struct:`cando_log_error_struct`.
+| of the context being a ``struct`` :c:struct:`udo_log_error_struct`.
 
 	.. list-table::
 		:header-rows: 1
@@ -258,19 +258,19 @@ cando_log_get_error_code
 	          - Decription
 		* - context
 		  - | Pointer to an arbitrary context.
-		    | Start of context must be a ``struct`` :c:struct:`cando_log_error_struct`.
+		    | Start of context must be a ``struct`` :c:struct:`udo_log_error_struct`.
 
 	Returns:
 		| **on success:** Passed context error code or errno
 		| **on failure:** ``UINT32_MAX``
 
-==========================
-cando_log_set_error_struct
-==========================
+========================
+udo_log_set_error_struct
+========================
 
-.. c:function:: void cando_log_set_error_struct(void *context, const unsigned int code, const char *fmt, ...);
+.. c:function:: void udo_log_set_error_struct(void *context, const unsigned int code, const char *fmt, ...);
 
-| Sets struct cando_log_error_struct members value.
+| Sets ``struct`` :c:struct:`udo_log_error_struct` members value.
 
 	.. list-table::
 		:header-rows: 1
@@ -279,10 +279,10 @@ cando_log_set_error_struct
 	          - Decription
 		* - context
 		  - | Pointer to an arbitrary context.
-		    | Start of context must be a ``struct`` :c:struct:`cando_log_error_struct`.
+		    | Start of context must be a ``struct`` :c:struct:`udo_log_error_struct`.
 		* - code
 		  - | Error code to set for a ``context``
-		    | May be ``errno`` or ``enum`` :c:enum:`cando_log_error_type`.
+		    | May be ``errno`` or ``enum`` :c:enum:`udo_log_error_type`.
 		* - fmt
 		  - | Format of the log passed to va_args
 		* - ...
@@ -290,11 +290,11 @@ cando_log_set_error_struct
 
 =========================================================================================================================================
 
-==============
-cando_log_time
-==============
+============
+udo_log_time
+============
 
-.. c:function:: void cando_log_time(enum cando_log_level_type type, const char *fmt, ...);
+.. c:function:: void udo_log_time(enum udo_log_level_type type, const char *fmt, ...);
 
 | Provides applications/library way to write to an open file
 | with a time stamp and ansi color codes to colorize
@@ -312,11 +312,11 @@ cando_log_time
 		* - ...
 		  - | Variable list arguments
 
-================
-cando_log_notime
-================
+==============
+udo_log_notime
+==============
 
-.. c:function:: void cando_log_notime(enum cando_log_level_type type, const char *fmt, ...);
+.. c:function:: void udo_log_notime(enum udo_log_level_type type, const char *fmt, ...);
 
 | Provides applications/library way to write to an open file
 | without time stamp with ansi color codes to colorize
@@ -336,11 +336,11 @@ cando_log_notime
 
 =========================================================================================================================================
 
-=========
-cando_log
-=========
+=======
+udo_log
+=======
 
-.. c:macro:: cando_log(log_type, fmt, ...)
+.. c:macro:: udo_log(log_type, fmt, ...)
 
 | Log format
 |
@@ -349,18 +349,18 @@ cando_log
 | Default prints to ``stdout`` using ansi color codes to color text.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`cando_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`
 
 	.. code-block::
 
-		#define cando_log(log_type, fmt, ...) \
-			cando_log_time(log_type, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+		#define udo_log(log_type, fmt, ...) \
+			udo_log_time(log_type, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
-=================
-cando_log_success
-=================
+===============
+udo_log_success
+===============
 
-.. c:macro:: cando_log_success(fmt, ...)
+.. c:macro:: udo_log_success(fmt, ...)
 
 | Log format
 |
@@ -369,18 +369,18 @@ cando_log_success
 | Prints to ``stdout`` with ansi color codes the color **GREEN**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`cando_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`
 
 	.. code-block::
 
-		#define cando_log_success(fmt, ...) \
-			cando_log_time(CANDO_LOG_SUCCESS, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+		#define udo_log_success(fmt, ...) \
+			udo_log_time(UDO_LOG_SUCCESS, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
-==============
-cando_log_info
-==============
+============
+udo_log_info
+============
 
-.. c:macro:: cando_log_info(fmt, ...)
+.. c:macro:: udo_log_info(fmt, ...)
 
 | Log format
 |
@@ -389,18 +389,18 @@ cando_log_info
 | Prints to ``stdout`` with ansi color codes the color **BLUE**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`cando_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`
 
 	.. code-block::
 
-		#define cando_log_info(fmt, ...) \
-			cando_log_time(CANDO_LOG_INFO, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+		#define udo_log_info(fmt, ...) \
+			udo_log_time(UDO_LOG_INFO, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
-=================
-cando_log_warning
-=================
+===============
+udo_log_warning
+===============
 
-.. c:macro:: cando_log_warning(fmt, ...)
+.. c:macro:: udo_log_warning(fmt, ...)
 
 | Log format
 |
@@ -409,18 +409,18 @@ cando_log_warning
 | Prints to ``stdout`` with ansi color codes the color **YELLOW**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`cando_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`
 
 	.. code-block::
 
-		#define cando_log_warning(fmt, ...) \
-			cando_log_time(CANDO_LOG_WARNING, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+		#define udo_log_warning(fmt, ...) \
+			udo_log_time(UDO_LOG_WARNING, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
-===============
-cando_log_error
-===============
+=============
+udo_log_error
+=============
 
-.. c:macro:: cando_log_error(fmt, ...)
+.. c:macro:: udo_log_error(fmt, ...)
 
 | Log format
 |
@@ -429,18 +429,18 @@ cando_log_error
 | Prints to ``stderr`` with ansi color codes the color **RED**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`cando_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`
 
 	.. code-block::
 
-		#define cando_log_error(fmt, ...) \
-			cando_log_time(CANDO_LOG_ERROR, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+		#define udo_log_error(fmt, ...) \
+			udo_log_time(UDO_LOG_ERROR, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
 
-===============
-cando_log_print
-===============
+=============
+udo_log_print
+=============
 
-.. c:macro:: cando_log_print(log_type, fmt, ...)
+.. c:macro:: udo_log_print(log_type, fmt, ...)
 
 | Log format
 |
@@ -449,27 +449,27 @@ cando_log_print
 | Default prints to ``stdout`` using ansi color codes to color text.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`cando_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`
 
 	.. code-block::
 
-		#define cando_log_print(log_type, fmt, ...) \
-			cando_log_notime(log_type, fmt, ##__VA_ARGS__)
+		#define udo_log_print(log_type, fmt, ...) \
+			udo_log_notime(log_type, fmt, ##__VA_ARGS__)
 
-===================
-cando_log_set_error
-===================
+=================
+udo_log_set_error
+=================
 
-.. c:macro:: cando_log_set_error(ptr, code, fmt, ...)
+.. c:macro:: udo_log_set_error(ptr, code, fmt, ...)
 
 | Log format
 |
 | [file:line] message
 |
-| Sets ``struct`` :c:struct:`cando_log_error_struct` to later be called by
-| :c:func:`cando_log_get_error` and :c:func:`cando_log_get_error_code`.
+| Sets ``struct`` :c:struct:`udo_log_error_struct` to later be called by
+| :c:func:`udo_log_get_error` and :c:func:`udo_log_get_error_code`.
 
 	.. code-block::
 
-		#define cando_log_set_error(ptr, code, fmt, ...) \
-			cando_log_set_error_struct(ptr, code, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
+		#define udo_log_set_error(ptr, code, fmt, ...) \
+			udo_log_set_error_struct(ptr, code, "[%s:%d] " fmt, __FILE_NAME__, __LINE__, ##__VA_ARGS__)
