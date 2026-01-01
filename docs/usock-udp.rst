@@ -3,7 +3,7 @@
 usock-udp (Unix Socket UDP)
 ============================
 
-Header: cando/usock-udp.h
+Header: udo/usock-udp.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,7 +1,7 @@
-.. _build libcando:
+.. _build libudo:
 
-Build libcando
-==============
+Build libudo
+============
 
 Dependencies
 ~~~~~~~~~~~~
@@ -9,22 +9,22 @@ Dependencies
 For better dependency version control underview builds all packages required from source.
 
 =======================
-Build Underview Depends
+Underview Build Depends
 =======================
 
-See `build-underview-depends (dependencies)`_ to get going. For this repo
+See `ubuild-depends (dependencies)`_ to get going. For this repo
 you only need the system dependencies.
 
 .. code-block::
 
-	$ git clone https://github.com/under-view/build-underview-depends.git
+	$ git clone https://github.com/under-view/ubuild-depends.git
 	$ source setenvars.sh
 
 =================
 Yocto Project SDK
 =================
 
-Download SDK from `build-underview-depends (releases)`_
+Download SDK from `ubuild-depends (releases)`_
 
 .. code-block::
 
@@ -125,22 +125,22 @@ Include
 .. code-block::
 	:linenos:
 
-	# Clone libcando or create a cando.wrap under <source_root>/subprojects
+	# Clone libudo or create a udo.wrap under <source_root>/subprojects
 	project('name', 'c')
 
-	cando_dep = dependency('cando', required : true)
+	udo_dep = dependency('udo', required : true)
 
-	executable('exe', 'src/main.c', dependencies : cando_dep)
+	executable('exe', 'src/main.c', dependencies : udo_dep)
 
 .. code-block::
 	:linenos:
 
-	#include <cando/cando.h>
+	#include <udo/udo.h>
 
 Documentation (Sphinx)
 ~~~~~~~~~~~~~~~~~~~~~~
 
-libcando uses sphinx framework for documentation. Primarily utilizing `The C Domain`_.
+libudo uses sphinx framework for documentation. Primarily utilizing `The C Domain`_.
 
 https://www.sphinx-doc.org/en/master/man/sphinx-build.html
 
@@ -156,8 +156,8 @@ Build Docs
 
 .. code-block::
 
-	$ git clone https://github.com/under-view/libcando.git
-	$ cd libcando
+	$ git clone https://github.com/under-view/libudo.git
+	$ cd libudo
 	$ sudo pip3 install -r docs/requirements.txt
 
 	# If no build directory exists
@@ -168,7 +168,7 @@ Build Docs
 
 	$ ninja docs -C build
 
-.. _build-underview-depends: https://github.com/under-view/build-underview-depends
-.. _build-underview-depends (dependencies): https://github.com/under-view/build-underview-depends#dependencies
-.. _build-underview-depends (releases): https://github.com/under-view/build-underview-depends/releases
+.. _ubuild-depends: https://github.com/under-view/ubuild-depends
+.. _ubuild-depends (dependencies): https://github.com/under-view/ubuild-depends#dependencies
+.. _ubuild-depends (releases): https://github.com/under-view/ubuild-depends/releases
 .. _The C Domain: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#the-c-domain

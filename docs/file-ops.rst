@@ -3,7 +3,7 @@
 file-ops (File Operations)
 ==========================
 
-Header: cando/file-ops.h
+Header: udo/file-ops.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

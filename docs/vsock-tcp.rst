@@ -3,7 +3,7 @@
 vsock-tcp (VM Socket TCP)
 =========================
 
-Header: cando/vsock-tcp.h
+Header: udo/vsock-tcp.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

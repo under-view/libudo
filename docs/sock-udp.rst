@@ -3,7 +3,7 @@
 sock-udp (Socket UDP)
 =====================
 
-Header: cando/sock-udp.h
+Header: udo/sock-udp.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

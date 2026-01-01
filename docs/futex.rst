@@ -3,7 +3,7 @@
 futex (Fast Userspace Mutex)
 ============================
 
-Header: cando/futex.h
+Header: udo/futex.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -171,4 +171,4 @@ udo_futex_destroy
 .. _EINTR: https://man7.org/linux/man-pages/man3/errno.3.html
 .. _fork(): https://man7.org/linux/man-pages/man2/fork.2.html
 .. _pthread_create(): https://man7.org/linux/man-pages/man3/pthread_create.3.html
-.. _shm.c: https://github.com/under-view/libcando/blob/master/src/shm.c
+.. _shm.c: https://github.com/under-view/libudo/blob/master/src/shm.c

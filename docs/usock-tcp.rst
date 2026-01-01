@@ -3,7 +3,7 @@
 usock-tcp (Unix Socket TCP)
 ===========================
 
-Header: cando/usock-tcp.h
+Header: udo/usock-tcp.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

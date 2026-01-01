@@ -12,7 +12,7 @@ struct udo_file_ops;
 
 
 /*
- * @brief Cando File Operations Create Info Structure
+ * @brief UDO File Operations Create Info Structure
  *
  * @member fname       - Full path to file caller wants to open(2)|creat(2).
  * @member size        - Size in bytes caller newly created file will be.
@@ -69,7 +69,7 @@ udo_file_ops_truncate_file (struct udo_file_ops *flops,
 
 
 /*
- * @brief Cando File Operations Zero Copy Info
+ * @brief UDO File Operations Zero Copy Info
  *
  * @size    - Total size of the data to copy.
  * @in_fd   - Input file descriptor to copy data from.
@@ -238,7 +238,7 @@ udo_file_ops_get_filename (struct udo_file_ops *flops);
 
 
 /*
- * @brief Cando File Operations Set Data Info
+ * @brief UDO File Operations Set Data Info
  *
  * @member offset - Byte offset within the file.
  * @member size   - Size in bytes to copy into file at @offset.

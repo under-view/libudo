@@ -3,7 +3,7 @@
 log
 ===
 
-Header: cando/log.h
+Header: udo/log.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

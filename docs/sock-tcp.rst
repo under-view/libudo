@@ -3,7 +3,7 @@
 sock-tcp (Socket TCP)
 =====================
 
-Header: cando/sock-tcp.h
+Header: udo/sock-tcp.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

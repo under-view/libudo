@@ -3,7 +3,7 @@
 mm (Memory Management)
 ======================
 
-Header: cando/mm.h
+Header: udo/mm.h
 
 Table of contents (click to go)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

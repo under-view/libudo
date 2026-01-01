@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'libcando'
+project = 'libudo'
 copyright = '2024-2026, Underview LLC'
 author = 'Underview LLC'
 release = '0.1.10'
@@ -107,4 +107,4 @@ html_last_updated_fmt = '%b %d, %Y'
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'libcandodoc'
+htmlhelp_basename = 'libudodoc'
