@@ -1,5 +1,5 @@
 project(
-  'cando',
+  'udo',
   'c',
   version: '0.1.10',
   license: 'MIT',
@@ -36,32 +36,32 @@ pargs += ['-D_FILE_OFFSET_BITS=@0@'.format(file_offset_bits)]
 subdir('include')
 subdir('src')
 
-libcando = library(
+libudo = library(
   project_name, files(fs),
   version: '.'.join(so_version),
   include_directories: inc,
-  dependencies: libcando_deps,
+  dependencies: libudo_deps,
   c_args: pargs,
   install: true
 )
 
-libcando_a = static_library(
+libudo_a = static_library(
   project_name, files(fs),
   include_directories: inc,
-  dependencies: libcando_deps,
+  dependencies: libudo_deps,
   c_args: pargs,
   install: true
 )
 
 pkg = import('pkgconfig')
 
-pkglibs = [libcando]
+pkglibs = [libudo]
 pkgsubdirs = []
 pkg.generate(libraries: pkglibs,
              subdirs : pkgsubdirs,
              version : so_version,
              name : project_name,
-             filebase : 'cando',
+             filebase : 'udo',
              description : 'A common utility library for C programs/libraries.')
 
 if get_option('tests')

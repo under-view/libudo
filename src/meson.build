@@ -1,6 +1,6 @@
 rt = cc.find_library('rt', required: shm.enabled())
 
-libcando_deps = [rt]
+libudo_deps = [rt]
 
 fs = [
   'src/futex.c',
