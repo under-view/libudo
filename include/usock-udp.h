@@ -156,7 +156,7 @@ cando_usock_udp_get_fd (struct cando_usock_udp *usock);
  * @brief Acquire textual path to unix domain socket file in string
  *        format associated with struct cando_usock_udp instance.
  *
- * @param usock - Must pass a pointer to a struct cando_usock_tcp.
+ * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
  * @return
  *	on success: Textual path to unix domain socket

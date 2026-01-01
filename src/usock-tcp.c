@@ -20,7 +20,7 @@
 #define UNIX_PATH_SIZE 108
 
 /*
- * @brief Structure defining Cando Unix Socket TCP interface implementation.
+ * @brief Structure defining UDO Unix Socket TCP instance.
  *
  * @member err  - Stores information about the error that occured
  *                for the given instance and may later be retrieved
@@ -32,7 +32,7 @@
  * @member addr - Stores byte information about the TCP unix domain socket
  *                context. Is used for client connect(2) and server accept(2).
  */
-struct cando_usock_tcp
+struct udo_usock_tcp
 {
 	struct udo_log_error_struct err;
 	bool                        free;
@@ -46,7 +46,7 @@ struct cando_usock_tcp
  *****************************************/
 
 static int
-p_set_sock_opts (struct cando_usock_tcp *usock,
+p_set_sock_opts (struct udo_usock_tcp *usock,
                  const int sock_fd)
 {
 	int err = -1;
@@ -64,15 +64,15 @@ p_set_sock_opts (struct cando_usock_tcp *usock,
 }
 
 
-static struct cando_usock_tcp *
-p_create_sock (struct cando_usock_tcp *p_sock,
+static struct udo_usock_tcp *
+p_create_sock (struct udo_usock_tcp *p_sock,
                const void *p_usock_info)
 {
 	int err = -1;
 
-	struct cando_usock_tcp *usock = p_sock;
+	struct udo_usock_tcp *usock = p_sock;
 
-	const struct cando_usock_tcp_create_info
+	const struct udo_usock_tcp_create_info
 	{
 		const char *unix_path;
 	} *usock_info = p_usock_info;
@@ -85,7 +85,7 @@ p_create_sock (struct cando_usock_tcp *p_sock,
 	}
 
 	if (!usock) {
-		usock = calloc(1, sizeof(struct cando_usock_tcp));
+		usock = calloc(1, sizeof(struct udo_usock_tcp));
 		if (!usock) {
 			udo_log_error("calloc: %s\n", strerror(errno));
 			return NULL;
@@ -97,14 +97,14 @@ p_create_sock (struct cando_usock_tcp *p_sock,
 	usock->fd = socket(AF_UNIX, SOCK_STREAM, 0);
 	if (usock->fd == -1) {
 		udo_log_error("socket: %s\n", strerror(errno));
-		cando_usock_tcp_destroy(usock);
+		udo_usock_tcp_destroy(usock);
 		return NULL;
 	}
 
 	err = p_set_sock_opts(usock, usock->fd);
 	if (err == -1) {
 		udo_log_error("%s\n", udo_log_get_error(usock));
-		cando_usock_tcp_destroy(usock);
+		udo_usock_tcp_destroy(usock);
 		return NULL;
 	}
 
@@ -119,19 +119,19 @@ p_create_sock (struct cando_usock_tcp *p_sock,
  ***************************************/
 
 
-/*********************************************
- * Start of cando_usock_tcp_server functions *
- *********************************************/
+/*******************************************
+ * Start of udo_usock_tcp_server functions *
+ *******************************************/
 
-struct cando_usock_tcp *
-cando_usock_tcp_server_create (struct cando_usock_tcp *p_sock,
-                               const void *p_usock_info)
+struct udo_usock_tcp *
+udo_usock_tcp_server_create (struct udo_usock_tcp *p_sock,
+                             const void *p_usock_info)
 {
 	int err = -1;
 
-	struct cando_usock_tcp *usock = NULL;
+	struct udo_usock_tcp *usock = NULL;
 
-	const struct cando_usock_tcp_server_create_info *usock_info = p_usock_info;
+	const struct udo_usock_tcp_server_create_info *usock_info = p_usock_info;
 
 	usock = p_create_sock(p_sock, p_usock_info);
 	if (!usock)
@@ -140,14 +140,14 @@ cando_usock_tcp_server_create (struct cando_usock_tcp *p_sock,
 	err = bind(usock->fd, (struct sockaddr*) &(usock->addr),
 			sizeof(struct sockaddr_un));
 	if (err == -1) {
-		cando_usock_tcp_destroy(usock);
+		udo_usock_tcp_destroy(usock);
 		udo_log_error("bind: %s\n", strerror(errno));
 		return NULL;
 	}
 
 	err = listen(usock->fd, usock_info->connections);
 	if (err == -1) {
-		cando_usock_tcp_destroy(usock);
+		udo_usock_tcp_destroy(usock);
 		udo_log_error("listen: %s\n", strerror(errno));
 		return NULL;
 	}
@@ -157,8 +157,8 @@ cando_usock_tcp_server_create (struct cando_usock_tcp *p_sock,
 
 
 int
-cando_usock_tcp_server_accept (struct cando_usock_tcp *usock,
-                               struct sockaddr_un *p_addr)
+udo_usock_tcp_server_accept (struct udo_usock_tcp *usock,
+                             struct sockaddr_un *p_addr)
 {
 	struct sockaddr_un inaddr;
 	struct sockaddr_un *addr = NULL;
@@ -190,20 +190,20 @@ cando_usock_tcp_server_accept (struct cando_usock_tcp *usock,
 	return client_sock;
 }
 
+/*****************************************
+ * End of udo_usock_tcp_server functions *
+ *****************************************/
+
+
 /*******************************************
- * End of cando_usock_tcp_server functions *
+ * Start of udo_usock_tcp_client functions *
  *******************************************/
 
-
-/*********************************************
- * Start of cando_usock_tcp_client functions *
- *********************************************/
-
-struct cando_usock_tcp *
-cando_usock_tcp_client_create (struct cando_usock_tcp *p_sock,
-                               const void *usock_info)
+struct udo_usock_tcp *
+udo_usock_tcp_client_create (struct udo_usock_tcp *p_sock,
+                             const void *usock_info)
 {
-	struct cando_usock_tcp *usock = NULL;
+	struct udo_usock_tcp *usock = NULL;
 
 	usock = p_create_sock(p_sock, usock_info);
 	if (!usock)
@@ -214,7 +214,7 @@ cando_usock_tcp_client_create (struct cando_usock_tcp *p_sock,
 
 
 int
-cando_usock_tcp_client_connect (struct cando_usock_tcp *usock)
+udo_usock_tcp_client_connect (struct udo_usock_tcp *usock)
 {
 	int err = -1;
 
@@ -240,28 +240,28 @@ cando_usock_tcp_client_connect (struct cando_usock_tcp *usock)
 
 
 ssize_t
-cando_usock_tcp_client_send_data (struct cando_usock_tcp *usock,
-                                  const void *data,
-                                  const size_t size,
-                                  const void *usock_info)
+udo_usock_tcp_client_send_data (struct udo_usock_tcp *usock,
+                                const void *data,
+                                const size_t size,
+                                const void *usock_info)
 {
 	if (!usock)
 		return -1;
 
-	return cando_usock_tcp_send_data(usock->fd, data, size, usock_info);
+	return udo_usock_tcp_send_data(usock->fd, data, size, usock_info);
 }
 
-/*******************************************
- * End of cando_usock_tcp_client functions *
- *******************************************/
+/*****************************************
+ * End of udo_usock_tcp_client functions *
+ *****************************************/
 
 
-/******************************************
- * Start of cando_usock_tcp_get functions *
- ******************************************/
+/****************************************
+ * Start of udo_usock_tcp_get functions *
+ ****************************************/
 
 int
-cando_usock_tcp_get_fd (struct cando_usock_tcp *usock)
+udo_usock_tcp_get_fd (struct udo_usock_tcp *usock)
 {
 	if (!usock)
 		return -1;
@@ -271,7 +271,7 @@ cando_usock_tcp_get_fd (struct cando_usock_tcp *usock)
 
 
 const char *
-cando_usock_tcp_get_unix_path (struct cando_usock_tcp *usock)
+udo_usock_tcp_get_unix_path (struct udo_usock_tcp *usock)
 {
 	if (!usock || \
 	    !(*usock->addr.sun_path))
@@ -282,17 +282,17 @@ cando_usock_tcp_get_unix_path (struct cando_usock_tcp *usock)
 	return usock->addr.sun_path;
 }
 
-/****************************************
- * End of cando_usock_tcp_get functions *
- ****************************************/
+/**************************************
+ * End of udo_usock_tcp_get functions *
+ **************************************/
 
 
-/**********************************************
- * Start of cando_usock_tcp_destroy functions *
- **********************************************/
+/********************************************
+ * Start of udo_usock_tcp_destroy functions *
+ ********************************************/
 
 void
-cando_usock_tcp_destroy (struct cando_usock_tcp *usock)
+udo_usock_tcp_destroy (struct udo_usock_tcp *usock)
 {
 	if (!usock)
 		return;
@@ -303,32 +303,32 @@ cando_usock_tcp_destroy (struct cando_usock_tcp *usock)
 	if (usock->free) {
 		free(usock);
 	} else {
-		memset(usock, 0, sizeof(struct cando_usock_tcp));
+		memset(usock, 0, sizeof(struct udo_usock_tcp));
 		usock->fd = -1;
 	}
 }
 
-/********************************************
- * End of cando_usock_tcp_destroy functions *
- ********************************************/
+/******************************************
+ * End of udo_usock_tcp_destroy functions *
+ ******************************************/
 
 
-/*******************************************************
- * Start of non struct cando_usock_tcp param functions *
- *******************************************************/
+/*****************************************************
+ * Start of non struct udo_usock_tcp param functions *
+ *****************************************************/
 
 int
-cando_usock_tcp_get_sizeof (void)
+udo_usock_tcp_get_sizeof (void)
 {
-	return sizeof(struct cando_usock_tcp);
+	return sizeof(struct udo_usock_tcp);
 }
 
 
 ssize_t
-cando_usock_tcp_recv_data (const int sock_fd,
-                           void *data,
-                           const size_t size,
-                           const void *usock_info)
+udo_usock_tcp_recv_data (const int sock_fd,
+                         void *data,
+                         const size_t size,
+                         const void *usock_info)
 {
 	ssize_t ret = 0;
 
@@ -354,10 +354,10 @@ cando_usock_tcp_recv_data (const int sock_fd,
 
 
 ssize_t
-cando_usock_tcp_send_data (const int sock_fd,
-                           const void *data,
-                           const size_t size,
-                           const void *usock_info)
+udo_usock_tcp_send_data (const int sock_fd,
+                         const void *data,
+                         const size_t size,
+                         const void *usock_info)
 {
 	ssize_t ret = 0;
 
@@ -381,6 +381,6 @@ cando_usock_tcp_send_data (const int sock_fd,
 	return ret;
 }
 
-/*****************************************************
- * End of non struct cando_usock_tcp param functions *
- *****************************************************/
+/***************************************************
+ * End of non struct udo_usock_tcp param functions *
+ ***************************************************/
