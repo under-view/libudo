@@ -22,10 +22,15 @@ test_futex_create (void UDO_UNUSED **state)
 {
 	udo_atomic_u32 *fux;
 
-	fux = udo_futex_create(0);
+	struct udo_futex_create_info futex_info;
+
+	futex_info.count = 0;
+	futex_info.size = UDO_PAGE_SIZE;
+	fux = udo_futex_create(&futex_info);
 	assert_null(fux);
 
-	fux = udo_futex_create(1);
+	futex_info.count = 3;
+	fux = udo_futex_create(&futex_info);
 	assert_non_null(fux);
 
 	udo_futex_destroy(fux);
@@ -47,7 +52,11 @@ test_futex_lock_unlock (void UDO_UNUSED **state)
 
 	udo_atomic_u32 *fux;
 
-	fux = udo_futex_create(1);
+	struct udo_futex_create_info futex_info;
+
+	futex_info.count = 1;
+	futex_info.size = UDO_PAGE_SIZE;
+	fux = udo_futex_create(&futex_info);
 	assert_non_null(fux);
 
 	pid = fork();
@@ -80,7 +89,11 @@ test_futex_lock_unlock_force (void UDO_UNUSED **state)
 
 	udo_atomic_u32 *fux;
 
-	fux = udo_futex_create(1);
+	struct udo_futex_create_info futex_info;
+
+	futex_info.count = 1;
+	futex_info.size = UDO_PAGE_SIZE;
+	fux = udo_futex_create(&futex_info);
 	assert_non_null(fux);
 
 	pid = fork();
