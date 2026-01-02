@@ -30,8 +30,8 @@ struct udo_futex_create_info
  *
  * @param futex_info - Implementation uses a pointer to a
  *                     struct udo_futex_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     no other implementation may be passed
+ *                     to this parameter.
  *
  * @return
  *	on success: Pointer to a udo_atomic_u32

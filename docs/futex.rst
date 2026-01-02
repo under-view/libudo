@@ -24,6 +24,8 @@ Unions
 Structs
 =======
 
+1. :c:struct:`udo_futex_create_info`
+
 =========
 Functions
 =========
@@ -37,11 +39,32 @@ Functions
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
+=====================
+udo_futex_create_info
+=====================
+
+| Structure passed to :c:func:`udo_futex_create` used
+| to define size of shared memory and amount of
+| futexes contained at the start of shared memory.
+
+.. c:struct:: udo_futex_create_info
+
+	.. c:member::
+		size_t       size;
+		unsigned int count;
+
+	:c:member:`size`
+		| Size of shared memory block.
+
+	:c:member:`count`
+		| Amount of futexes stored in a single
+		| shared memory block.
+
 ================
 udo_futex_create
 ================
 
-.. c:function:: udo_atomic_u32 *udo_futex_create(const unsigned int count);
+.. c:function:: udo_atomic_u32 *udo_futex_create(const void *futex_info);
 
 | Allocates shared memory space that may be used
 | to store a futex. This function usage should
@@ -76,9 +99,11 @@ udo_futex_create
 
 		* - Param
 	          - Decription
-		* - count
-		  - | Amount of futexes stored in a single
-		    | shared memory block.
+		* - futex_info
+		  - | Implementation uses a pointer to a
+		    | ``struct`` :c:struct:`udo_futex_create_info`
+		    | no other implementation may be passed
+		    | to this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``udo_atomic_u32``
