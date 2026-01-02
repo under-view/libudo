@@ -1,4 +1,15 @@
-main_headers_dict = {}
+main_headers_dict = {
+  'FILE_OPS_INTERFACE' : '',
+  'SHM_INTERFACE'      : '',
+  'SOCK_TCP_INTERFACE' : '',
+  'SOCK_UDP_INTERFACE' : '',
+  'TPOOL_INTERFACE'    : '',
+  'CSOCK_RAW_INTERFACE': '',
+  'USOCK_TCP_INTERFACE': '',
+  'USOCK_UDP_INTERFACE': '',
+  'VSOCK_TCP_INTERFACE': '',
+  'VSOCK_UDP_INTERFACE': '',
+}
 
 main_headers = [
   'futex.h',
