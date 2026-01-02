@@ -4,6 +4,7 @@
 #include <errno.h>
 
 #include "log.h"
+#include "futex.h"
 #include "tpool.h"
 
 /*
@@ -20,6 +21,7 @@ struct udo_tpool
 {
 	struct udo_log_error_struct err;
 	bool                        free;
+	void                        *queue;
 };
 
 
@@ -34,6 +36,8 @@ udo_tpool_create (struct udo_tpool *p_tpool,
 	struct udo_tpool *tpool = p_tpool;
 	const struct udo_tpool_create_info *tpool_info = p_tpool_info;
 
+	struct udo_futex_create_info futex_info;
+
 	if (!tpool_info) {
 		udo_log_error("Incorrect data passed\n");
 		return NULL;
@@ -47,6 +51,14 @@ udo_tpool_create (struct udo_tpool *p_tpool,
 		}
 
 		tpool->free = true;
+	}
+
+	futex_info.count = 1;
+	futex_info.size = tpool_info->size;
+	tpool->queue = udo_futex_create(&futex_info);
+	if (!(tpool->queue)) {
+		udo_tpool_destroy(tpool);
+		return NULL;
 	}
 
 	return tpool;
@@ -66,6 +78,8 @@ udo_tpool_destroy (struct udo_tpool *tpool)
 {
 	if (!tpool)
 		return;
+
+	udo_futex_destroy(tpool->queue);
 
 	if (tpool->free) {
 		free(tpool);

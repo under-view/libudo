@@ -15,16 +15,16 @@ struct udo_tpool;
  *        to define size of shared memory queue and
  *        the amount of threads to create.
  *
- * @param queue_size   - Size of shared memory used to store
- *                       the queue shared between all threads.
- * @param thread_count - Amount of threads able to read and
- *                       write to and from the shared memory
- *                       block.
+ * @param size  - Size of shared memory used to store
+ *                the queue shared between all threads.
+ * @param count - Amount of threads able to read and
+ *                write to and from the shared memory
+ *                block.
  */
 struct udo_tpool_create_info
 {
-	size_t       queue_size;
-	unsigned int thread_count;
+	size_t       size;
+	unsigned int count;
 };
 
 

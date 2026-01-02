@@ -28,8 +28,8 @@ test_tpool_create (void UDO_UNUSED **state)
 	tpool = udo_tpool_create(NULL, NULL);
 	assert_null(tpool);
 
-	tpool_info.thread_count = 2;
-	tpool_info.queue_size   = UDO_PAGE_SIZE;
+	tpool_info.count = 2;
+	tpool_info.size  = UDO_PAGE_SIZE;
 	tpool = udo_tpool_create(NULL, &tpool_info);
 	assert_non_null(tpool);
 
