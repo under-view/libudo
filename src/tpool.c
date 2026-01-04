@@ -9,21 +9,52 @@
 #include "tpool.h"
 
 /*
+ * @brief Structure defining information about the job to execute.
+ *
+ * @member func - Function pointer to a function for thread to execute.
+ * @member arg  - Argument to pass to function.
+ */
+struct udo_tpool_job
+{
+	void (*func)(void *arg);
+	void *arg;
+};
+
+
+/*
+ * @brief Structure defining information about the job queue.
+ *
+ * @member has_job - Futex determining if queue has an available job.
+ * @member front   - Pointer to the front of the queue.
+ * @member rear    - Pointer to the job at the back of the queue.
+ */
+struct udo_tpool_jobqueue
+{
+	udo_atomic_u32       *has_job;
+	struct udo_tpool_job *front;
+	struct udo_tpool_job *rear;
+};
+
+
+/*
  * @brief Structure defining the udo_tpool instance.
  *
- * @member err  - Stores information about the error that occured
- *                for the given instance and may later be retrieved
- *                by caller.
- * @member free - If structure allocated with calloc(3) member will be
- *                set to true so that, we know to call free(3) when
- *                destroying the instance.
+ * @member err          - Stores information about the error that occured
+ *                        for the given instance and may later be retrieved
+ *                        by caller.
+ * @member free         - If structure allocated with calloc(3) member will be
+ *                        set to true so that, we know to call free(3) when
+ *                        destroying the instance.
+ * @member thread_count - Amount of threads in the pool.
+ * @member queue        - Structure keeping track of current job
+ *                        a thread can run.
  */
 struct udo_tpool
 {
 	struct udo_log_error_struct err;
 	bool                        free;
 	unsigned int                thread_count;
-	void                        *queue;
+	struct udo_tpool_jobqueue   *queue;
 };
 
 
@@ -85,7 +116,8 @@ udo_tpool_create (struct udo_tpool *p_tpool,
 
 	futex_info.count = 1;
 	futex_info.size = tpool_info->size;
-	tpool->queue = udo_futex_create(&futex_info);
+	tpool->queue = (struct udo_tpool_jobqueue*) \
+		udo_futex_create(&futex_info);
 	if (!(tpool->queue)) {
 		udo_tpool_destroy(tpool);
 		return NULL;
@@ -127,7 +159,7 @@ udo_tpool_destroy (struct udo_tpool *tpool)
 	if (!tpool)
 		return;
 
-	udo_futex_destroy(tpool->queue);
+	udo_futex_destroy((udo_atomic_u32*)tpool->queue);
 
 	if (tpool->free) {
 		free(tpool);
