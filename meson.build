@@ -38,7 +38,7 @@ subdir('include')
 subdir('src')
 
 libudo = library(
-  project_name, files(fs),
+  project_name, fs,
   version: '.'.join(so_version),
   include_directories: inc,
   dependencies: libudo_deps,
@@ -47,7 +47,7 @@ libudo = library(
 )
 
 libudo_a = static_library(
-  project_name, files(fs),
+  project_name, fs,
   include_directories: inc,
   dependencies: libudo_deps,
   c_args: pargs,

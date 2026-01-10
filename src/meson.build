@@ -3,48 +3,48 @@ libpthread = cc.find_library('pthread', required: tpool.enabled())
 
 libudo_deps = [rt, libpthread]
 
-fs = [
-  'src/futex.c',
-  'src/log.c',
-  'src/mm.c',
-]
+fs = files([
+  'futex.c',
+  'log.c',
+  'mm.c',
+])
 
 if file_ops.enabled()
-  fs += ['src/file-ops.c']
+  fs += files('file-ops.c')
 endif
 
 if shm.enabled()
-  fs += ['src/shm.c']
+  fs += files('shm.c')
 endif
 
 if sock_tcp.enabled()
-  fs += ['src/sock-tcp.c']
+  fs += files('sock-tcp.c')
 endif
 
 if sock_udp.enabled()
-  fs += ['src/sock-udp.c']
+  fs += files('sock-udp.c')
 endif
 
 if tpool.enabled()
-  fs += ['src/tpool.c']
+  fs += files('tpool.c')
 endif
 
 if csock_raw.enabled()
-  fs += ['src/csock-raw.c']
+  fs += files('csock-raw.c')
 endif
 
 if usock_tcp.enabled()
-  fs += ['src/usock-tcp.c']
+  fs += files('usock-tcp.c')
 endif
 
 if usock_udp.enabled()
-  fs += ['src/usock-udp.c']
+  fs += files('usock-udp.c')
 endif
 
 if vsock_tcp.enabled()
-  fs += ['src/vsock-tcp.c']
+  fs += files('vsock-tcp.c')
 endif
 
 if vsock_udp.enabled()
-  fs += ['src/vsock-udp.c']
+  fs += files('vsock-udp.c')
 endif
