@@ -88,7 +88,7 @@ p_create_sock_fd (struct udo_vsock_udp *vsock)
 
 	sock_fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
 	if (sock_fd == -1) {
-		udo_log_set_error(vsock, errno, "socket: %s\n", strerror(errno));
+		udo_log_set_error(vsock, errno, "socket: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
@@ -427,7 +427,7 @@ udo_vsock_udp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		udo_log_error("recvfrom: %s", strerror(errno));
+		udo_log_error("recvfrom: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -436,7 +436,7 @@ udo_vsock_udp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (err == -1) {
-		udo_log_error("sendto: %s", strerror(errno));
+		udo_log_error("sendto: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -482,7 +482,7 @@ udo_vsock_udp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (err == -1) {
-		udo_log_error("recvfrom: %s", strerror(errno));
+		udo_log_error("recvfrom: %s\n", strerror(errno));
 		return -1;
 	}
 

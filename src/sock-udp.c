@@ -422,7 +422,7 @@ udo_sock_udp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		udo_log_error("recvfrom: %s", strerror(errno));
+		udo_log_error("recvfrom: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -431,7 +431,7 @@ udo_sock_udp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (err == -1) {
-		udo_log_error("sendto: %s", strerror(errno));
+		udo_log_error("sendto: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -468,7 +468,7 @@ udo_sock_udp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		udo_log_error("sendto: %s", strerror(errno));
+		udo_log_error("sendto: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -477,7 +477,7 @@ udo_sock_udp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (err == -1) {
-		udo_log_error("recvfrom: %s", strerror(errno));
+		udo_log_error("recvfrom: %s\n", strerror(errno));
 		return -1;
 	}
 

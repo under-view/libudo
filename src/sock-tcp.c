@@ -409,7 +409,7 @@ udo_sock_tcp_recv_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		udo_log_error("recv: %s", strerror(errno));
+		udo_log_error("recv: %s\n", strerror(errno));
 		return -1;
 	}
 
@@ -438,7 +438,7 @@ udo_sock_tcp_send_data (const int sock_fd,
 	if (errno == EINTR || errno == EAGAIN) {
 		return -errno;
 	} else if (ret == -1) {
-		udo_log_error("send: %s", strerror(errno));
+		udo_log_error("send: %s\n", strerror(errno));
 		return -1;
 	}
 

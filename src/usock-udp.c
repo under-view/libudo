@@ -64,7 +64,7 @@ p_create_sock_fd (struct udo_usock_udp *usock)
 
 	sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
 	if (sock_fd == -1) {
-		udo_log_set_error(usock, errno, "socket: %s\n", strerror(errno));
+		udo_log_set_error(usock, errno, "socket: %s", strerror(errno));
 		close(sock_fd);
 		return -1;
 	}
