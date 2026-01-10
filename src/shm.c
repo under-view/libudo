@@ -90,6 +90,11 @@ p_shm_create (struct udo_shm *shm,
 
 	size_t data_off, fux_off, proc_data_sz;
 
+	if (!shm_info) {
+		udo_log_set_error(shm, UDO_LOG_ERR_INCORRECT_DATA, "");
+		return -1;
+	}
+
 	if (!(shm_info->proc_count) || \
 	    shm_info->proc_count >= SHM_PROC_MAX)
 	{
