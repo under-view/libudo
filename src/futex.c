@@ -42,19 +42,24 @@ futex (void *uaddr,
  ***************************************/
 
 udo_atomic_u32 *
-udo_futex_create (const unsigned int count)
+udo_futex_create (const void *p_futex_info)
 {
 	unsigned int f;
 
 	udo_atomic_u32 *fux;
 
-	if (!count) {
+	const struct udo_futex_create_info *futex_info = p_futex_info;
+
+	if (!futex_info ||
+	    !(futex_info->count) ||
+	    !(futex_info->size))
+	{
 		udo_log_error("Incorrect data passed\n");
 		return NULL;
 	}
 
 	/* mmap will just allocate a page anyways */
-	fux = mmap(NULL, count * sizeof(udo_atomic_u32),
+	fux = mmap(NULL, futex_info->size,
 	           PROT_READ|PROT_WRITE,
 	           MAP_SHARED|MAP_ANONYMOUS,
 	           -1, 0);
@@ -63,7 +68,7 @@ udo_futex_create (const unsigned int count)
 		return NULL;
 	}
 
-	for (f = 0; f < count; f++) {
+	for (f = 0; f < futex_info->count; f++) {
 		__atomic_store_n((udo_atomic_u32 *) \
 			((char*)fux+(f*sizeof(udo_atomic_u32))),
 			1, __ATOMIC_RELEASE);

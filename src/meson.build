@@ -1,6 +1,7 @@
 rt = cc.find_library('rt', required: shm.enabled())
+libpthread = cc.find_library('pthread', required: tpool.enabled())
 
-libudo_deps = [rt]
+libudo_deps = [rt, libpthread]
 
 fs = [
   'src/futex.c',
@@ -22,6 +23,10 @@ endif
 
 if sock_udp.enabled()
   fs += ['src/sock-udp.c']
+endif
+
+if tpool.enabled()
+  fs += ['src/tpool.c']
 endif
 
 if csock_raw.enabled()

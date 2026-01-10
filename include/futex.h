@@ -4,6 +4,22 @@
 #include "macros.h"
 
 /*
+ * @brief Structure passed to udo_futex_create(3) used
+ *        to define size of shared memory and amount of
+ *        futexes contained at the start of shared memory.
+ *
+ * @member size  - Size of shared memory block.
+ * @member count - Amount of futexes stored in a single
+ *                 shared memory block.
+ */
+struct udo_futex_create_info
+{
+	size_t       size;
+	unsigned int count;
+};
+
+
+/*
  * @brief Allocates shared memory space that may be used
  *        to store a futex. This function usage should
  *        be limited to processes/threads that were created
@@ -12,8 +28,10 @@
  *        see shm.c implementation. By default all futexes
  *        are initialize in the locked state.
  *
- * @param count - Amount of futexes stored in a single
- *                shared memory block.
+ * @param futex_info - Implementation uses a pointer to a
+ *                     struct udo_futex_create_info
+ *                     no other implementation may be passed
+ *                     to this parameter.
  *
  * @return
  *	on success: Pointer to a udo_atomic_u32
@@ -21,7 +39,7 @@
  */
 UDO_API
 udo_atomic_u32 *
-udo_futex_create (const unsigned int count);
+udo_futex_create (const void *futex_info);
 
 
 /*
