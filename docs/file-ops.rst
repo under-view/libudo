@@ -42,6 +42,7 @@ Functions
 #. :c:func:`udo_file_ops_get_fd`
 #. :c:func:`udo_file_ops_get_data_size`
 #. :c:func:`udo_file_ops_get_filename`
+#. :c:func:`udo_file_ops_get_dirname`
 #. :c:func:`udo_file_ops_set_data`
 #. :c:func:`udo_file_ops_destroy`
 #. :c:func:`udo_file_ops_get_sizeof`
@@ -403,6 +404,29 @@ udo_file_ops_get_filename
 
 	Returns:
 		| **on success:** File name of open file
+		| **on failure:** ``NULL``
+
+=========================================================================================================================================
+
+========================
+udo_file_ops_get_dirname
+========================
+
+.. c:function:: const char *udo_file_ops_get_dirname(struct udo_file_ops *flops);
+
+| Return directory path of open file associated
+| with the ``struct`` :c:struct:`udo_file_ops` context.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - flops
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
+
+	Returns:
+		| **on success:** Directory path a file resides in
 		| **on failure:** ``NULL``
 
 =========================================================================================================================================
