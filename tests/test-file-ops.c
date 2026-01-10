@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <libgen.h>
 
 /* Required by cmocka */
 #include <stdarg.h>
@@ -290,6 +291,36 @@ test_file_ops_get_filename (void UDO_UNUSED **state)
 
 
 static void UDO_UNUSED
+test_file_ops_get_dirname (void UDO_UNUSED **state)
+{
+	const char *dname = NULL;
+
+	char dir_path[UDO_PAGE_SIZE];
+
+	struct udo_file_ops *flops = NULL;
+
+	struct udo_file_ops_create_info file_info;
+
+	memset(&file_info, 0, sizeof(file_info));
+
+	file_info.fname = TESTER_FILE_ONE;
+	flops = udo_file_ops_create(NULL, &file_info);
+	assert_non_null(flops);
+
+	strncpy(dir_path, TESTER_FILE_ONE, UDO_PAGE_SIZE);
+	dirname(dir_path);
+
+	dname = udo_file_ops_get_dirname(flops);
+	assert_string_equal(dname, dir_path);
+
+	dname = udo_file_ops_get_dirname(NULL);
+	assert_null(dname);
+
+	udo_file_ops_destroy(flops);
+}
+
+
+static void UDO_UNUSED
 test_file_ops_get_data_size (void UDO_UNUSED **state)
 {
 	size_t size = 0;
@@ -420,6 +451,7 @@ main (void)
 		cmocka_unit_test(test_file_ops_get_fd),
 		cmocka_unit_test(test_file_ops_get_data_size),
 		cmocka_unit_test(test_file_ops_get_filename),
+		cmocka_unit_test(test_file_ops_get_dirname),
 		cmocka_unit_test(test_file_ops_set_data),
 		cmocka_unit_test(test_file_ops_get_sizeof),
 		cmocka_unit_test(test_file_ops_set_fd_flags),

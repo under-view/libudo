@@ -4,8 +4,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
-#include <fcntl.h>
+#include <libgen.h>
 #include <errno.h>
+#include <fcntl.h>
 
 #include <sys/stat.h>
 #include <sys/mman.h>
@@ -30,6 +31,7 @@
  *                    pipe_fds[0] - Read end of the pipe
  *                    pipe_fds[1] - Write end of the pipe
  * @member fname    - String representing the file name.
+ * @member dname    - String representing the directory @fname resides in.
  * @member data_sz  - Total size of the file that was mapped with mmap(2).
  * @member data     - Pointer to mmap(2) file data.
  */
@@ -40,6 +42,7 @@ struct udo_file_ops
 	int                         fd;
 	int                         pipe_fds[2];
 	char                        fname[FILE_NAME_LEN_MAX];
+	char                        dname[FILE_NAME_LEN_MAX];
 	size_t                      data_sz;
 	void                        *data;
 };
@@ -81,6 +84,8 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 		ret = stat(file_info->fname, &fstats);
 
 		memccpy(flops->fname, file_info->fname, '\n', FILE_NAME_LEN_MAX);
+		memccpy(flops->dname, file_info->fname, '\n', FILE_NAME_LEN_MAX);
+		dirname(flops->dname);
 
 		flops->fd = open(flops->fname, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
@@ -320,10 +325,20 @@ udo_file_ops_get_data_size (struct udo_file_ops *flops)
 const char *
 udo_file_ops_get_filename (struct udo_file_ops *flops)
 {
-	if (!flops)
+	if (!flops || !(*flops->fname))
 		return NULL;
 
 	return flops->fname;
+}
+
+
+const char *
+udo_file_ops_get_dirname (struct udo_file_ops *flops)
+{
+	if (!flops || !(*flops->dname))
+	       return NULL;
+
+	return flops->dname;
 }
 
 /*************************************

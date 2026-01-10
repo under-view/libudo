@@ -238,6 +238,21 @@ udo_file_ops_get_filename (struct udo_file_ops *flops);
 
 
 /*
+ * @brief Return directory path of open file associated
+ *        with the struct udo_file_ops context.
+ *
+ * @param flops - Pointer to a valid struct udo_file_ops.
+ *
+ * @returns
+ * 	on success: Directory path a file resides in
+ * 	on failure: NULL
+ */
+UDO_API
+const char *
+udo_file_ops_get_dirname (struct udo_file_ops *flops);
+
+
+/*
  * @brief UDO File Operations Set Data Info
  *
  * @member offset - Byte offset within the file.
