@@ -1,17 +1,17 @@
-#ifndef UDO_TPOOL_H
-#define UDO_TPOOL_H
+#ifndef UDO_JPOOL_H
+#define UDO_JPOOL_H
 
 #include "macros.h"
 
 /*
- * Stores information about the udo_tpool instance.
- * tpool - Thread pool.
+ * Stores information about the udo_jpool instance.
+ * jpool - Thread pool.
  */
-struct udo_tpool;
+struct udo_jpool;
 
 
 /*
- * @brief Structure passed to udo_tpool_create() used
+ * @brief Structure passed to udo_jpool_create() used
  *        to define size of shared memory queue and
  *        the amount of threads to create.
  *
@@ -21,7 +21,7 @@ struct udo_tpool;
  *                write to and from the shared memory
  *                block.
  */
-struct udo_tpool_create_info
+struct udo_jpool_create_info
 {
 	size_t       size;
 	unsigned int count;
@@ -31,35 +31,35 @@ struct udo_tpool_create_info
 /*
  * @brief Creates pool a threads to execute task.
  *
- * @param tpool      - May be NULL or a pointer to a struct udo_tpool.
+ * @param jpool      - May be NULL or a pointer to a struct udo_jpool.
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
- *                     to store the newly created struct udo_tpool
+ *                     to store the newly created struct udo_jpool
  *                     instance.
- * @param tpool_info - Implementation uses a pointer to a
- *                     struct udo_tpool_create_info
+ * @param jpool_info - Implementation uses a pointer to a
+ *                     struct udo_jpool_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
  * @return
- *	on success: Pointer to a struct udo_tpool
+ *	on success: Pointer to a struct udo_jpool
  *	on failure: NULL
  */
 UDO_API
-struct udo_tpool *
-udo_tpool_create (struct udo_tpool *tpool,
-                  const void *tpool_info);
+struct udo_jpool *
+udo_jpool_create (struct udo_jpool *jpool,
+                  const void *jpool_info);
 
 
 /*
  * @brief Frees any allocated memory and closes FD's (if open) create after
- *        udo_tpool_create() call.
+ *        udo_jpool_create() call.
  *
- * @param tpool - Pointer to a valid struct udo_tpool.
+ * @param jpool - Pointer to a valid struct udo_jpool.
  */
 UDO_API
 void
-udo_tpool_destroy (struct udo_tpool *tpool);
+udo_jpool_destroy (struct udo_jpool *jpool);
 
 
 /*
@@ -69,11 +69,11 @@ udo_tpool_destroy (struct udo_tpool *tpool);
  *        of bytes.
  *
  * @return
- *	on success: sizeof(struct udo_tpool)
- *	on failure: sizeof(struct udo_tpool)
+ *	on success: sizeof(struct udo_jpool)
+ *	on failure: sizeof(struct udo_jpool)
  */
 UDO_API
 int
-udo_tpool_get_sizeof (void);
+udo_jpool_get_sizeof (void);
 
-#endif /* UDO_TPOOL_H */
+#endif /* UDO_JPOOL_H */

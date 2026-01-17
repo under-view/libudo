@@ -1,5 +1,5 @@
 rt = cc.find_library('rt', required: shm.enabled())
-libpthread = cc.find_library('pthread', required: tpool.enabled())
+libpthread = cc.find_library('pthread', required: jpool.enabled())
 
 libudo_deps = [rt, libpthread]
 
@@ -25,8 +25,8 @@ if sock_udp.enabled()
   fs += files('sock-udp.c')
 endif
 
-if tpool.enabled()
-  fs += files('tpool.c')
+if jpool.enabled()
+  fs += files('jpool.c')
 endif
 
 if csock_raw.enabled()

@@ -18,8 +18,8 @@ if sock_udp.enabled()
   progs += ['test-sock-udp.c']
 endif
 
-if tpool.enabled()
-  progs += ['test-tpool.c']
+if jpool.enabled()
+  progs += ['test-jpool.c']
 endif
 
 if csock_raw.enabled()

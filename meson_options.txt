@@ -22,9 +22,9 @@ option('sock-udp',
 	type: 'feature', value: 'disabled',
 	description: 'Build with socket-udp support')
 
-option('tpool',
+option('jpool',
 	type: 'feature', value: 'disabled',
-	description: 'Build with thread-pool support')
+	description: 'Build with job-pool support')
 
 option('csock-raw',
 	type: 'feature', value: 'disabled',

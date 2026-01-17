@@ -3,7 +3,7 @@ main_headers_dict = {
   'SHM_INTERFACE'      : '',
   'SOCK_TCP_INTERFACE' : '',
   'SOCK_UDP_INTERFACE' : '',
-  'TPOOL_INTERFACE'    : '',
+  'JPOOL_INTERFACE'    : '',
   'CSOCK_RAW_INTERFACE': '',
   'USOCK_TCP_INTERFACE': '',
   'USOCK_UDP_INTERFACE': '',
@@ -54,12 +54,12 @@ if sock_udp.enabled()
 endif
 
 
-if tpool.enabled()
-  main_headers += ['tpool.h']
+if jpool.enabled()
+  main_headers += ['jpool.h']
 
-  headers = '\n#define UDO_TPOOL_INTERFACE\n#include "tpool.h"'
+  headers = '\n#define UDO_JPOOL_INTERFACE\n#include "jpool.h"'
 
-  main_headers_dict += {'TPOOL_INTERFACE': headers}
+  main_headers_dict += {'JPOOL_INTERFACE': headers}
 endif
 
 
