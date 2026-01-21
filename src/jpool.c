@@ -24,15 +24,15 @@ struct udo_jpool_job
 /*
  * @brief Structure defining information about the job queue.
  *
- * @member has_job - Futex determining if queue has an available job.
- * @member front   - Pointer to the front of the queue.
- * @member rear    - Pointer to the job at the back of the queue.
+ * @member num_jobs - Number of jobs in the queue.
+ * @member front    - Byte offset to the front of the queue.
+ * @member rear     - Bytes offset to the back of the queue.
  */
 struct udo_jpool_jobqueue
 {
-	udo_atomic_u32       *has_job;
-	struct udo_jpool_job *front;
-	struct udo_jpool_job *rear;
+	udo_atomic_u32 num_jobs;
+	udo_atomic_u32 front;
+	udo_atomic_u32 rear;
 };
 
 
@@ -70,6 +70,18 @@ p_run_thread (void *p_tool)
 	return NULL;
 }
 
+UDO_STATIC_INLINE
+void
+p_reset_queue (struct udo_jpool_jobqueue *queue)
+{
+	__atomic_store_n(&(queue->front),
+			sizeof(struct udo_jpool_jobqueue),
+			__ATOMIC_RELEASE);
+	__atomic_store_n(&(queue->rear),
+			sizeof(struct udo_jpool_jobqueue),
+			__ATOMIC_RELEASE);
+}
+
 /***************************************
  * End of global to C source functions *
  ***************************************/
@@ -89,10 +101,10 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 
 	pthread_t thread;
 
+	struct udo_futex_create_info futex_info;
+
 	struct udo_jpool *jpool = p_jpool;
 	const struct udo_jpool_create_info *jpool_info = p_jpool_info;
-
-	struct udo_futex_create_info futex_info;
 
 	if (!jpool_info ||
 	    !(jpool_info->count) ||
@@ -114,14 +126,16 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 
 	jpool->thread_count = jpool_info->count;
 
-	futex_info.count = 1;
+	futex_info.count = 3;
 	futex_info.size = jpool_info->size;
-	jpool->queue = (struct udo_jpool_jobqueue*) \
+	jpool->queue = (struct udo_jpool_jobqueue *) \
 		udo_futex_create(&futex_info);
 	if (!(jpool->queue)) {
 		udo_jpool_destroy(jpool);
 		return NULL;
 	}
+
+	p_reset_queue(jpool->queue);
 
 	for (t = 0; t < jpool->thread_count; t++) {
 		err = pthread_create(&thread, NULL, p_run_thread, jpool);

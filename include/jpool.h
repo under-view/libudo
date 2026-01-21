@@ -5,7 +5,7 @@
 
 /*
  * Stores information about the udo_jpool instance.
- * jpool - Thread pool.
+ * jpool - Job pool.
  */
 struct udo_jpool;
 
