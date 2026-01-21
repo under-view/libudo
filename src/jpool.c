@@ -74,6 +74,7 @@ UDO_STATIC_INLINE
 void
 p_reset_queue (struct udo_jpool_jobqueue *queue)
 {
+	__atomic_clear(&(queue->num_jobs), __ATOMIC_RELEASE);
 	__atomic_store_n(&(queue->front),
 			sizeof(struct udo_jpool_jobqueue),
 			__ATOMIC_RELEASE);
