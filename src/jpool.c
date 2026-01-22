@@ -46,7 +46,8 @@ struct udo_jpool_jobqueue
  *                        set to true so that, we know to call free(3) when
  *                        destroying the instance.
  * @member thread_count - Amount of threads in the pool.
- * @member queue        - Structure keeping track of current job
+ * @member queue_sz     - Byte size of @queue.
+ * @member queue        - Structure keeping track of current jobs
  *                        a thread can run.
  */
 struct udo_jpool
@@ -54,6 +55,7 @@ struct udo_jpool
 	struct udo_log_error_struct err;
 	bool                        free;
 	unsigned int                thread_count;
+	size_t                      queue_sz;
 	struct udo_jpool_jobqueue   *queue;
 };
 
@@ -61,14 +63,6 @@ struct udo_jpool
 /*****************************************
  * Start of global to C source functions *
  *****************************************/
-
-void *
-p_run_thread (void *p_tool)
-{
-	struct udo_jpool *jpool = p_tool;
-	udo_log_info("thread_count = %d\n", jpool->thread_count);
-	return NULL;
-}
 
 UDO_STATIC_INLINE
 void
@@ -81,6 +75,32 @@ p_reset_queue (struct udo_jpool_jobqueue *queue)
 	__atomic_store_n(&(queue->rear),
 			sizeof(struct udo_jpool_jobqueue),
 			__ATOMIC_RELEASE);
+}
+
+
+UDO_STATIC_INLINE
+bool
+p_queue_empty (const struct udo_jpool_jobqueue *queue)
+{
+	return queue && queue->rear == sizeof(struct udo_jpool_jobqueue);
+}
+
+
+UDO_STATIC_INLINE
+bool
+p_queue_full (const struct udo_jpool_jobqueue *queue,
+              const size_t queue_sz)
+{
+	return queue && queue->rear == (queue_sz-sizeof(struct udo_jpool_jobqueue));
+}
+
+
+void *
+p_run_thread (void *p_tool)
+{
+	struct udo_jpool *jpool = p_tool;
+	udo_log_info("thread_count = %d\n", jpool->thread_count);
+	return NULL;
 }
 
 /***************************************
@@ -127,8 +147,8 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 
 	jpool->thread_count = jpool_info->count;
 
-	futex_info.count = 3;
-	futex_info.size = jpool_info->size;
+	futex_info.count = 3; /* Byte align on 4K boundary */
+	futex_info.size = UDO_MEM_ALIGN(jpool_info->size, UDO_PAGE_SIZE);
 	jpool->queue = (struct udo_jpool_jobqueue *) \
 		udo_futex_create(&futex_info);
 	if (!(jpool->queue)) {
@@ -137,6 +157,7 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 	}
 
 	p_reset_queue(jpool->queue);
+	jpool->queue_sz = futex_info.size;
 
 	for (t = 0; t < jpool->thread_count; t++) {
 		err = pthread_create(&thread, NULL, p_run_thread, jpool);
@@ -162,6 +183,54 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 /*************************************
  * End of udo_jpool_create functions *
  *************************************/
+
+
+/****************************************
+ * Start of udo_jpool_add_job functions *
+ ****************************************/
+
+int
+udo_jpool_add_job (struct udo_jpool *jpool,
+                   void (*func)(void *arg),
+                   void *arg)
+{
+	struct udo_jpool_job job;
+	struct udo_jpool_jobqueue *queue = NULL;
+	struct udo_jpool_jobqueue *insert_queue = NULL;
+
+	if (!jpool) {
+		udo_log_error("Incorrect data passed\n");
+		return -1;
+	}
+
+	if (!func || !arg) {
+		udo_log_set_error(jpool, UDO_LOG_ERR_INCORRECT_DATA, "");
+		return -1;
+	}
+
+	queue = jpool->queue;
+	if (p_queue_full(queue, jpool->queue_sz)) {
+		udo_log_set_error(jpool, UDO_LOG_ERR_UNCOMMON, \
+		                  "Job queue is full.");
+		return -1;
+	}
+
+	insert_queue = (struct udo_jpool_jobqueue *) \
+		((char*)queue + (queue->rear+sizeof(struct udo_jpool_jobqueue)));
+
+	job.func = func; job.arg = arg;
+	memcpy(insert_queue, &job, sizeof(struct udo_jpool_jobqueue));
+
+	__atomic_add_fetch(&(queue->rear), \
+		sizeof(struct udo_jpool_jobqueue), \
+		__ATOMIC_SEQ_CST);
+
+	return 0;
+}
+
+/**************************************
+ * End of udo_jpool_add_job functions *
+ **************************************/
 
 
 /****************************************

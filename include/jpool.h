@@ -52,6 +52,27 @@ udo_jpool_create (struct udo_jpool *jpool,
 
 
 /*
+ * @brief Adds a job to the job queue for threads
+ *        to then later execute.
+ *
+ * @param jpool - Pointer to a valid struct udo_jpool.
+ * @param func  - Pointer to function that a seperate
+ *                thread will execute.
+ * @param arg   - Pointer to a memory which will be
+ *                passed as the argument to @func.
+ *
+ * @return
+ *	on success: 0
+ *	on failure: -1
+ */
+UDO_API
+int
+udo_jpool_add_job (struct udo_jpool *jpool,
+                   void (*func)(void *arg),
+                   void *arg);
+
+
+/*
  * @brief Frees any allocated memory and closes FD's (if open) create after
  *        udo_jpool_create() call.
  *
