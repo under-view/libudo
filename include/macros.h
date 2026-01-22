@@ -18,6 +18,7 @@
  */
 #define UDO_UNUSED __attribute__((unused))
 
+
 /*
  * "always_inline" instructs GCC to
  * 1. Ignore flag -fno-inline
@@ -28,6 +29,7 @@
 #define UDO_INLINE inline __attribute__((always_inline))
 #define UDO_STATIC_INLINE static inline __attribute__((always_inline))
 
+
 /*
  * Min & Max macro definitions with type safety.
  */
@@ -36,10 +38,19 @@
 	   typeof (b) _b = (b); \
 	   _a > _b ? _a : _b; })
 
+
 #define UDO_MIN(a,b) \
 	({ typeof (a) _a = (a); \
 	   typeof (b) _b = (b); \
 	   _a < _b ? _a : _b; })
+
+
+/*
+ * Memory alignment values must be a power of 2 number.
+ */
+#define UDO_MEM_ALIGN(bytes, power_two_align) \
+	(bytes+(power_two_align-1))&~(power_two_align-1)
+
 
 /*
  * Define typical page size without including
