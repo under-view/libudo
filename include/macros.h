@@ -48,7 +48,7 @@
 /*
  * Memory alignment values must be a power of 2 number.
  */
-#define UDO_MEM_ALIGN(bytes, power_two_align) \
+#define UDO_BYTE_ALIGN(bytes, power_two_align) \
 	(bytes+(power_two_align-1))&~(power_two_align-1)
 
 
