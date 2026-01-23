@@ -62,7 +62,7 @@ udo_jpool_create (struct udo_jpool *jpool,
  *                passed as the argument to @func.
  *
  * @return
- *	on success: 0
+ *	on success: Queue buffer byte offset
  *	on failure: -1
  */
 UDO_API
