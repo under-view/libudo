@@ -148,7 +148,7 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 	jpool->thread_count = jpool_info->count;
 
 	futex_info.count = 3; /* Byte align on 4K boundary */
-	futex_info.size = UDO_MEM_ALIGN(jpool_info->size, UDO_PAGE_SIZE);
+	futex_info.size = UDO_BYTE_ALIGN(jpool_info->size, UDO_PAGE_SIZE);
 	jpool->queue = (struct udo_jpool_jobqueue *) \
 		udo_futex_create(&futex_info);
 	if (!(jpool->queue)) {
