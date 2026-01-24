@@ -102,7 +102,7 @@ bool
 p_queue_full (const struct udo_jpool_jobqueue *queue,
               const size_t queue_sz)
 {
-	return queue && p_queue_get_rear(queue) == \
+	return queue && p_queue_get_rear(queue) >= \
 		(queue_sz - sizeof(struct udo_jpool_job));
 }
 
@@ -206,23 +206,25 @@ udo_jpool_create (struct udo_jpool *p_jpool,
  * Start of udo_jpool_add_job functions *
  ****************************************/
 
-int
+uint32_t
 udo_jpool_add_job (struct udo_jpool *jpool,
                    void (*func)(void *arg),
                    void *arg)
 {
+	uint32_t ret;
+
 	struct udo_jpool_job job;
 
 	void *insert_queue = NULL;
 
 	if (!jpool) {
 		udo_log_error("Incorrect data passed\n");
-		return -1;
+		return UINT32_MAX;
 	}
 
 	if (!func || !arg) {
 		udo_log_set_error(jpool, UDO_LOG_ERR_INCORRECT_DATA, "");
-		return -1;
+		return UINT32_MAX;
 	}
 
 	if (p_queue_full(&(jpool->queue), jpool->queue_sz)) {
@@ -232,16 +234,16 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 	}
 
 	insert_queue = (void *) ((char *) jpool->queue_data + \
-		(p_queue_get_rear(&(jpool->queue)) + sizeof(struct udo_jpool_jobqueue)));
+		(p_queue_get_rear(&(jpool->queue)) + sizeof(struct udo_jpool_job)));
 
 	job.func = func; job.arg = arg;
 	memcpy(insert_queue, &job, sizeof(struct udo_jpool_job));
 
-	__atomic_add_fetch(&(jpool->queue.rear), \
-		sizeof(struct udo_jpool_job), \
-		__ATOMIC_SEQ_CST);
+	ret = __atomic_add_fetch(jpool->queue.rear, \
+			sizeof(struct udo_jpool_job), \
+			__ATOMIC_SEQ_CST);
 
-	return p_queue_get_rear(&(jpool->queue));
+	return ret;
 }
 
 /**************************************

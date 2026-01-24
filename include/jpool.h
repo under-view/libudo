@@ -1,6 +1,7 @@
 #ifndef UDO_JPOOL_H
 #define UDO_JPOOL_H
 
+#include <inttypes.h>
 #include "macros.h"
 
 /*
@@ -63,10 +64,10 @@ udo_jpool_create (struct udo_jpool *jpool,
  *
  * @return
  *	on success: Queue buffer byte offset
- *	on failure: -1
+ *	on failure: -1 or UINT32_MAX
  */
 UDO_API
-int
+uint32_t
 udo_jpool_add_job (struct udo_jpool *jpool,
                    void (*func)(void *arg),
                    void *arg);
