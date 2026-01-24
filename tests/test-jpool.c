@@ -30,6 +30,16 @@ test_jpool_create (void UDO_UNUSED **state)
 	assert_null(jpool);
 
 	jpool_info.count = 2;
+	jpool_info.size  = 0;
+	jpool = udo_jpool_create(NULL, &jpool_info);
+	assert_null(jpool);
+
+	jpool_info.count = (1<<10);
+	jpool_info.size  = 0;
+	jpool = udo_jpool_create(NULL, &jpool_info);
+	assert_null(jpool);
+
+	jpool_info.count = 2;
 	jpool_info.size  = UDO_PAGE_SIZE;
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
@@ -68,6 +78,8 @@ test_jpool_add_job (void UDO_UNUSED **state)
 
 	jpool = udo_jpool_create(NULL, NULL);
 	assert_null(jpool);
+
+	udo_log_set_level(UDO_LOG_ALL);
 
 	jpool_info.count = 2;
 	jpool_info.size  = UDO_PAGE_SIZE;
