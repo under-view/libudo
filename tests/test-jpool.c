@@ -1,4 +1,5 @@
 #include <string.h>
+#include <unistd.h>
 #include <inttypes.h>
 
 /*
@@ -67,7 +68,7 @@ run_func (void *arg)
 static void UDO_UNUSED
 test_jpool_add_job (void UDO_UNUSED **state)
 {
-	int arg = 5;
+	int arg = 1;
 
 	uint32_t ret, i;
 
@@ -81,16 +82,18 @@ test_jpool_add_job (void UDO_UNUSED **state)
 
 	udo_log_set_level(UDO_LOG_ALL);
 
-	jpool_info.count = 2;
+	jpool_info.count = 3;
 	jpool_info.size  = UDO_PAGE_SIZE;
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
 
 	/* Check that queue full */
 	for (i = 24; i < UDO_PAGE_SIZE;) {
-		ret = udo_jpool_add_job(jpool, run_func, &arg); i += 16;
+		ret = udo_jpool_add_job(jpool, run_func, &arg); i += 16; arg++;
 		assert_int_equal(ret, (ret>=UDO_PAGE_SIZE) ? UINT32_MAX : i);
 	}
+
+	sleep(5);
 
 	udo_jpool_destroy(jpool);
 }
