@@ -10,7 +10,8 @@
  *
  * @member size  - Size of shared memory block.
  * @member count - Amount of futexes stored in a single
- *                 shared memory block.
+ *                 shared memory block. The amount of
+ *                 futexes allocated is limited to 4096.
  */
 struct udo_futex_create_info
 {

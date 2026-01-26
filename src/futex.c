@@ -50,9 +50,10 @@ udo_futex_create (const void *p_futex_info)
 
 	const struct udo_futex_create_info *futex_info = p_futex_info;
 
-	if (!futex_info ||
-	    !(futex_info->count) ||
-	    !(futex_info->size))
+	if (!futex_info || \
+	    !(futex_info->size) || \
+	    !(futex_info->count) || \
+	    (futex_info->count > UDO_PAGE_SIZE))
 	{
 		udo_log_error("Incorrect data passed\n");
 		return NULL;

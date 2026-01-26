@@ -29,6 +29,10 @@ test_futex_create (void UDO_UNUSED **state)
 	fux = udo_futex_create(&futex_info);
 	assert_null(fux);
 
+	futex_info.count = UDO_PAGE_SIZE + 1;
+	fux = udo_futex_create(&futex_info);
+	assert_null(fux);
+
 	futex_info.count = 3;
 	fux = udo_futex_create(&futex_info);
 	assert_non_null(fux);
