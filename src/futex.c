@@ -117,17 +117,14 @@ udo_futex_lock (udo_atomic_u32 *fux)
 
 	/* Blocking Or Sleeping Wait */
 	while (1) {
-		if (p_is_futex_funlock(fux))
-		{
-			errno = EINTR;
-			return;
-		}
-
 		if (__atomic_compare_exchange_n(fux, \
 			&(udo_atomic_u32){UDO_FUTEX_UNLOCK}, \
 			UDO_FUTEX_LOCK, 0, __ATOMIC_SEQ_CST, \
 			__ATOMIC_SEQ_CST))
 		{
+			return;
+		} else if (p_is_futex_funlock(fux)) {
+			errno = EINTR;
 			return;
 		}
 
