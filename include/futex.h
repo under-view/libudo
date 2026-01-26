@@ -49,7 +49,8 @@ udo_futex_create (const void *futex_info);
  *        to EINTR if a call to udo_futex_unlock_force()
  *        is made.
  *
- * @param fux - Pointer to 32-bit integer storing futex.
+ * @param fux - Pointer to 32-bit unsigned integer
+ *              storing futex value.
  */
 UDO_API
 void
@@ -63,7 +64,8 @@ udo_futex_lock (udo_atomic_u32 *fux);
  *        to EINTR if a call to udo_futex_unlock_force()
  *        is made.
  *
- * @param fux     - Pointer to 32-bit integer storing futex value.
+ * @param fux     - Pointer to 32-bit unsigned integer
+ *                  storing futex value.
  * @param desired - Must pass value to wait on.
  */
 UDO_API
@@ -77,7 +79,8 @@ udo_futex_wait (udo_atomic_u32 *fux,
  *        Then inform kernel to wake up all processes/threads
  *        watching the futex.
  *
- * @param fux - Pointer to 32-bit integer storing futex.
+ * @param fux - Pointer to 32-bit unsigned integer
+ *              storing futex value.
  */
 UDO_API
 void
@@ -92,7 +95,8 @@ udo_futex_unlock (udo_atomic_u32 *fux);
  *        will exit setting errno to EINTR. Recommended to use
  *        function in a signal handler.
  *
- * @param fux - Pointer to 32-bit integer storing futex.
+ * @param fux - Pointer to 32-bit unsigned integer
+ *              storing futex value.
  */
 UDO_API
 void
@@ -104,8 +108,9 @@ udo_futex_unlock_force (udo_atomic_u32 *fux);
  *        Then inform kernel to wake up all processes/threads
  *        watching the futex.
  *
- * @param fux     - Pointer to 32-bit integer storing futex value.
- * @param desired - Must pass value to place at futex.
+ * @param fux     - Pointer to 32-bit unsigned integer
+ *                  storing futex value.
+ * @param desired - Must pass value to store in futex.
  */
 UDO_API
 void
@@ -117,7 +122,8 @@ udo_futex_wake (udo_atomic_u32 *fux,
  * @brief Frees any allocated memory and closes FD's (if open)
  *        created after udo_futex_create() call.
  *
- * @param fux - Pointer to 32-bit integer storing futex.
+ * @param fux - Pointer to 32-bit unsigned integer
+ *              storing futex value.
  */
 UDO_API
 void
