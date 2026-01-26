@@ -82,9 +82,9 @@ udo_futex_create (const void *p_futex_info)
  *************************************/
 
 
-/*************************************
- * Start of udo_futex_lock functions *
- *************************************/
+/********************************************
+ * Start of udo_futex_{lock,wait} functions *
+ ********************************************/
 
 UDO_STATIC_INLINE
 unsigned char
@@ -102,7 +102,6 @@ udo_futex_lock (udo_atomic_u32 *fux)
 	if (!fux)
 		return;
 
-	/* Handle Low Contention Case (Spin Loop/Spin Lock) */
 	for (i = 0; i < CONTENTION_LOOP_CNT; i++) {
 		if (__atomic_compare_exchange_n(fux, \
 			&(udo_atomic_u32){UDO_FUTEX_UNLOCK}, \
@@ -136,14 +135,47 @@ udo_futex_lock (udo_atomic_u32 *fux)
 	}
 }
 
-/***********************************
- * End of udo_futex_lock functions *
- ***********************************/
+
+void
+udo_futex_wait (udo_atomic_u32 *fux,
+                const uint32_t desired)
+{
+	uint32_t wait_val;
+
+	if (!fux)
+		return;
+
+	for (wait_val = 0; wait_val < CONTENTION_LOOP_CNT; wait_val++) {
+		if (__atomic_load_n(fux, __ATOMIC_ACQUIRE) == desired) {
+			return;
+		} else if (p_is_futex_funlock(fux)) {
+			errno = EINTR;
+			return;
+		}
+	}
+
+	/* Blocking Or Sleeping Wait */
+	while (1) {
+		wait_val = __atomic_load_n(fux, __ATOMIC_ACQUIRE);
+		if (wait_val == desired) {
+			return;
+		} else if (p_is_futex_funlock(fux)) {
+			errno = EINTR;
+			return;
+		}
+
+		futex(fux, FUTEX_WAIT, wait_val, NULL, NULL, 0);
+	}
+}
+
+/******************************************
+ * End of udo_futex_{lock,wait} functions *
+ ******************************************/
 
 
-/***************************************
- * Start of udo_futex_unlock functions *
- ***************************************/
+/**********************************************
+ * Start of udo_futex_{unlock,wake} functions *
+ **********************************************/
 
 void
 udo_futex_unlock (udo_atomic_u32 *fux)
@@ -166,9 +198,21 @@ udo_futex_unlock_force (udo_atomic_u32 *fux)
 	futex(fux, FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
 }
 
-/*************************************
- * End of udo_futex_unlock functions *
- *************************************/
+
+void
+udo_futex_wake (udo_atomic_u32 *fux,
+                const uint32_t desired)
+{
+	if (!fux)
+		return;
+
+	__atomic_store_n(fux, desired, __ATOMIC_RELEASE);
+	futex(fux, FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
+}
+
+/********************************************
+ * End of udo_futex_{unlock,wake} functions *
+ ********************************************/
 
 
 /****************************************

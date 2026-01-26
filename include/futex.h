@@ -45,8 +45,8 @@ udo_futex_create (const void *futex_info);
 /*
  * @brief Atomically updates futex value to the locked state.
  *        If value can't be changed inform kernel that a
- *        process needs to be put to sleep. Sets errno to
- *        EINTR if a call to udo_futex_unlock_force()
+ *        process/thread needs to be put to sleep. Sets errno
+ *        to EINTR if a call to udo_futex_unlock_force()
  *        is made.
  *
  * @param fux - Pointer to 32-bit integer storing futex.
@@ -54,6 +54,22 @@ udo_futex_create (const void *futex_info);
 UDO_API
 void
 udo_futex_lock (udo_atomic_u32 *fux);
+
+
+/*
+ * @brief Wait until the futex value is in the desired state.
+ *        If value not in desired state inform kernel that a
+ *        process/thread needs to be put to sleep. Sets errno
+ *        to EINTR if a call to udo_futex_unlock_force()
+ *        is made.
+ *
+ * @param fux     - Pointer to 32-bit integer storing futex value.
+ * @param desired - Must pass value to wait on.
+ */
+UDO_API
+void
+udo_futex_wait (udo_atomic_u32 *fux,
+                const uint32_t desired);
 
 
 /*
@@ -81,6 +97,20 @@ udo_futex_unlock (udo_atomic_u32 *fux);
 UDO_API
 void
 udo_futex_unlock_force (udo_atomic_u32 *fux);
+
+
+/*
+ * @brief Atomically update futex value to the desired state.
+ *        Then inform kernel to wake up all processes/threads
+ *        watching the futex.
+ *
+ * @param fux     - Pointer to 32-bit integer storing futex value.
+ * @param desired - Must pass value to place at futex.
+ */
+UDO_API
+void
+udo_futex_wake (udo_atomic_u32 *fux,
+                const uint32_t desired);
 
 
 /*
