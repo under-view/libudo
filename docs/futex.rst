@@ -230,7 +230,7 @@ udo_futex_wake
 udo_futex_destroy
 =================
 
-.. c:function:: void udo_futex_destroy(udo_atomic_u32 *fux);
+.. c:function:: void udo_futex_destroy(udo_atomic_u32 *fux, const size_t size);
 
 | Frees any allocated memory and closes FD's (if open)
 | created after :c:func:`udo_futex_create` call.
@@ -243,6 +243,8 @@ udo_futex_destroy
 		* - fux
 		  - | Pointer to 32-bit unsigned integer
 		    | storing futex value.
+		* - size
+		  - Size of shared memory block.
 
 =========================================================================================================================================
 
