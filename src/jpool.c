@@ -221,6 +221,7 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 		return NULL;
 	}
 
+	jpool->queue_sz = futex_info.size;
 	jpool->queue.front = (udo_atomic_u32*) \
 		jpool->queue_data + sizeof(udo_atomic_u32);
 	jpool->queue.rear = (udo_atomic_u32*) \
@@ -228,7 +229,6 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 	jpool->queue.job_free = (udo_atomic_u32*) jpool->queue_data;
 
 	p_queue_reset(&(jpool->queue));
-	jpool->queue_sz = futex_info.size;
 
 	for (t = 0; t < jpool->thread_count; t++) {
 		err = pthread_create(&thread, NULL, p_run_thread, jpool);
@@ -318,7 +318,9 @@ udo_jpool_destroy (struct udo_jpool *jpool)
 	for (t = 0; t < jpool->thread_count; t++)
 		pthread_join(jpool->thread_ids[t], NULL);
 
-	udo_futex_destroy((udo_atomic_u32*)jpool->queue_data);
+	udo_futex_destroy((udo_atomic_u32*) \
+	                  jpool->queue_data, \
+	                  jpool->queue_sz);
 
 	if (jpool->free) {
 		free(jpool);
