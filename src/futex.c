@@ -144,7 +144,10 @@ udo_futex_wait (udo_atomic_u32 *fux,
 		return;
 
 	for (wait_val = 0; wait_val < CONTENTION_LOOP_CNT; wait_val++) {
-		if (__atomic_load_n(fux, __ATOMIC_ACQUIRE) == desired) {
+		if (__atomic_load_n(fux, __ATOMIC_ACQUIRE) == desired && \
+		    __atomic_exchange_n(fux, UDO_FUTEX_UNLOCK, \
+		    __ATOMIC_SEQ_CST) == desired)
+		{
 			return;
 		} else if (p_is_futex_funlock(fux)) {
 			errno = EINTR;
@@ -155,7 +158,10 @@ udo_futex_wait (udo_atomic_u32 *fux,
 	/* Blocking Or Sleeping Wait */
 	while (1) {
 		wait_val = __atomic_load_n(fux, __ATOMIC_ACQUIRE);
-		if (wait_val == desired) {
+		if (wait_val == desired && \
+		    __atomic_exchange_n(fux, UDO_FUTEX_UNLOCK, \
+		    __ATOMIC_SEQ_CST) == desired)
+		{
 			return;
 		} else if (p_is_futex_funlock(fux)) {
 			errno = EINTR;
