@@ -58,7 +58,8 @@ udo_futex_create_info
 
 	:c:member:`count`
 		| Amount of futexes stored in a single
-		| shared memory block.
+		| shared memory block. The amount of
+		| futexes allocated is limited to ``4096``.
 
 ================
 udo_futex_create
@@ -119,7 +120,7 @@ udo_futex_lock
 
 | Atomically updates futex value to the locked state.
 | If value can't be changed inform kernel that a
-| process needs to be put to sleep. Sets errno to
+| process/thread needs to be put to sleep. Sets errno to
 | `EINTR`_ if a call to :c:func:`udo_futex_unlock_force`
 | is made.
 
@@ -129,7 +130,33 @@ udo_futex_lock
 		* - Param
 	          - Decription
 		* - fux
-		  - | Pointer to 32-bit integer storing futex.
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
+
+=========================================================================================================================================
+
+==============
+udo_futex_wait
+==============
+
+.. c:function:: void udo_futex_wait(udo_atomic_u32 *fux, const uint32_t desired);
+
+| Wait until the futex value is in the desired state.
+| If value can't be changed inform kernel that a
+| process/thread needs to be put to sleep. Sets errno to
+| `EINTR`_ if a call to :c:func:`udo_futex_unlock_force`
+| is made.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - fux
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
+		* - desired
+		  - | Must pass value to wait on.
 
 =========================================================================================================================================
 
@@ -149,7 +176,8 @@ udo_futex_unlock
 		* - Param
 	          - Decription
 		* - fux
-		  - | Pointer to 32-bit integer storing futex.
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
 
 ======================
 udo_futex_unlock_force
@@ -170,7 +198,31 @@ udo_futex_unlock_force
 		* - Param
 	          - Decription
 		* - fux
-		  - | Pointer to 32-bit integer storing futex.
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
+
+=========================================================================================================================================
+
+==============
+udo_futex_wake
+==============
+
+.. c:function:: void udo_futex_wake(udo_atomic_u32 *fux, const uint32_t desired);
+
+| Atomically update futex value to the desired state.
+| Then inform kernel to wake up all processes/threads
+| watching the futex.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - fux
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
+		* - desired
+		  - | Must pass value to store in futex.
 
 =========================================================================================================================================
 
@@ -189,7 +241,8 @@ udo_futex_destroy
 		* - Param
 	          - Decription
 		* - fux
-		  - | Pointer to 32-bit integer storing futex.
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
 
 =========================================================================================================================================
 
