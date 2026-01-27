@@ -123,11 +123,13 @@ udo_futex_wake (udo_atomic_u32 *fux,
  * @brief Frees any allocated memory and closes FD's (if open)
  *        created after udo_futex_create() call.
  *
- * @param fux - Pointer to 32-bit unsigned integer
- *              storing futex value.
+ * @param fux  - Pointer to 32-bit unsigned integer
+ *               storing futex value.
+ * @param size - Size of shared memory block.
  */
 UDO_API
 void
-udo_futex_destroy (udo_atomic_u32 *fux);
+udo_futex_destroy (udo_atomic_u32 *fux,
+                   const size_t size);
 
 #endif /* UDO_FUTEX_H */

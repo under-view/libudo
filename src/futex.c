@@ -224,12 +224,13 @@ udo_futex_wake (udo_atomic_u32 *fux,
  ****************************************/
 
 void
-udo_futex_destroy (udo_atomic_u32 *fux)
+udo_futex_destroy (udo_atomic_u32 *fux,
+                   const size_t size)
 {
 	if (!fux)
 		return;
 
-	munmap(fux, sizeof(udo_atomic_u32));
+	munmap(fux, (size) ? size : sizeof(udo_atomic_u32));
 }
 
 /**************************************

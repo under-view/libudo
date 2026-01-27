@@ -37,7 +37,7 @@ test_futex_create (void UDO_UNUSED **state)
 	fux = udo_futex_create(&futex_info);
 	assert_non_null(fux);
 
-	udo_futex_destroy(fux);
+	udo_futex_destroy(fux, futex_info.size);
 }
 
 /**************************************
@@ -74,7 +74,7 @@ test_futex_lock_unlock (void UDO_UNUSED **state)
 
 	wait(NULL);
 
-	udo_futex_destroy(fux);
+	udo_futex_destroy(fux, futex_info.size);
 }
 
 /*******************************************
@@ -112,7 +112,7 @@ test_futex_lock_unlock_force (void UDO_UNUSED **state)
 
 	wait(NULL);
 
-	udo_futex_destroy(fux);
+	udo_futex_destroy(fux, futex_info.size);
 }
 
 /*************************************************
@@ -149,7 +149,7 @@ test_futex_wait_wake (void UDO_UNUSED **state)
 
 	wait(NULL);
 
-	udo_futex_destroy(fux);
+	udo_futex_destroy(fux, futex_info.size);
 }
 
 /*****************************************
