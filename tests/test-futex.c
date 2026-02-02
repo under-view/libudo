@@ -156,6 +156,45 @@ test_futex_wait_wake (void UDO_UNUSED **state)
  * End of test_futex_wait_wake functions *
  *****************************************/
 
+
+/************************************************
+ * Start of test_futex_wait_wake_cond functions *
+ ************************************************/
+
+static void UDO_UNUSED
+test_futex_wait_wake_cond (void UDO_UNUSED **state)
+{
+	pid_t pid;
+
+	udo_atomic_u32 *fux;
+
+	struct udo_futex_create_info futex_info;
+
+	futex_info.count = 1;
+	futex_info.size = UDO_PAGE_SIZE;
+	fux = udo_futex_create(&futex_info);
+	assert_non_null(fux);
+
+	pid = fork();
+	if (pid == 0) {
+		__atomic_store_n(fux, 10,__ATOMIC_RELEASE);
+		udo_futex_wake_cond(fux);
+
+		exit(0);
+	}
+
+	udo_futex_wait_cond(fux, \
+	__atomic_load_n(fux, __ATOMIC_ACQUIRE) == 10);
+
+	wait(NULL);
+
+	udo_futex_destroy(fux, futex_info.size);
+}
+
+/**********************************************
+ * End of test_futex_wait_wake_cond functions *
+ **********************************************/
+
 int
 main (void)
 {
@@ -164,6 +203,7 @@ main (void)
 		cmocka_unit_test(test_futex_lock_unlock),
 		cmocka_unit_test(test_futex_lock_unlock_force),
 		cmocka_unit_test(test_futex_wait_wake),
+		cmocka_unit_test(test_futex_wait_wake_cond),
 	};
 
 	return cmocka_run_group_tests(tests, NULL, NULL);

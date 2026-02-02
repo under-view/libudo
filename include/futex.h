@@ -76,6 +76,34 @@ udo_futex_wait (udo_atomic_u32 *fux,
 
 
 /*
+ * @brief Wait until the the condition is meet.
+ *        The value at the futex isn't required
+ *        when using this macro.
+ *
+ * @param fux  - Pointer to 32-bit unsigned integer
+ *               storing futex value.
+ * @param cond - If statement conditional expression
+ *               to meet. If condition not meet place
+ *               inform kernel to wake up all processes
+ *               or threads watching the futex.
+ */
+UDO_API
+void
+p_udo_futex_wait_cond (udo_atomic_u32 *fux);
+#define udo_futex_wait_cond(fux, cond)         \
+({                                             \
+	if (!fux)                              \
+		return;                        \
+	for (size_t i = 0; i < 999999999; i++) \
+		if (cond) return;              \
+	do {                                   \
+		if (cond) return;              \
+		p_udo_futex_wait_cond(fux);    \
+	} while(1);                            \
+})
+
+
+/*
  * @brief Atomically update futex value to the unlocked state.
  *        Then inform kernel to wake up all processes/threads
  *        watching the futex.
@@ -117,6 +145,21 @@ UDO_API
 void
 udo_futex_wake (udo_atomic_u32 *fux,
                 const uint32_t desired);
+
+
+/*
+ * @brief Wakes all processes/threads waiting
+ *        on a specific condition to be meet.
+ *
+ *        Conditions may be set with a call to
+ *        udo_futex_wait_cond(3)
+ *
+ * @param fux - Pointer to 32-bit unsigned integer
+ *              storing futex value.
+ */
+UDO_API
+void
+udo_futex_wake_cond (udo_atomic_u32 *fux);
 
 
 /*

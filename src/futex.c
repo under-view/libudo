@@ -172,6 +172,14 @@ udo_futex_wait (udo_atomic_u32 *fux,
 	}
 }
 
+
+void
+p_udo_futex_wait_cond(udo_atomic_u32 *fux)
+{
+	futex(fux, FUTEX_WAIT, __atomic_load_n(fux, \
+		__ATOMIC_ACQUIRE), NULL, NULL, 0);
+}
+
 /******************************************
  * End of udo_futex_{lock,wait} functions *
  ******************************************/
@@ -211,6 +219,16 @@ udo_futex_wake (udo_atomic_u32 *fux,
 		return;
 
 	__atomic_store_n(fux, desired, __ATOMIC_RELEASE);
+	futex(fux, FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
+}
+
+
+void
+udo_futex_wake_cond (udo_atomic_u32 *fux)
+{
+	if (!fux)
+		return;
+
 	futex(fux, FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
 }
 
