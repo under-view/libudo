@@ -76,16 +76,18 @@ udo_futex_wait (udo_atomic_u32 *fux,
 
 
 /*
- * @brief Wait until the the condition is meet.
- *        The value at the futex isn't required
- *        when using this macro.
+ * @brief Wait until the the conditional expression
+ *        is meet. Then inform kernel to wake up all
+ *        processes/threads watching the futex. The
+ *        value at the futex isn't required when
+ *        using this macro.
  *
  * @param fux  - Pointer to 32-bit unsigned integer
  *               storing futex value.
  * @param cond - If statement conditional expression
- *               to meet. If condition not meet place
- *               inform kernel to wake up all processes
- *               or threads watching the futex.
+ *               to meet. If condition not meet inform
+ *               kernel to wake up all processes/threads
+ *               watching the futex.
  */
 UDO_API
 void
@@ -149,10 +151,11 @@ udo_futex_wake (udo_atomic_u32 *fux,
 
 /*
  * @brief Wakes all processes/threads waiting
- *        on a specific condition to be meet.
+ *        on a specific conditional expression
+ *        to be meet.
  *
- *        Conditions may be set with a call to
- *        udo_futex_wait_cond(3)
+ *        Conditional expressions may be set
+ *        with a call to udo_futex_wait_cond(3).
  *
  * @param fux - Pointer to 32-bit unsigned integer
  *              storing futex value.
