@@ -324,6 +324,16 @@ udo_file_ops_get_fd (struct udo_file_ops *flops)
 
 
 size_t
+udo_file_ops_get_alloc_size (struct udo_file_ops *flops)
+{
+	if (!flops)
+		return -1;
+
+	return flops->alloc_sz;
+}
+
+
+size_t
 udo_file_ops_get_data_size (struct udo_file_ops *flops)
 {
 	if (!flops)

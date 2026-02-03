@@ -40,6 +40,7 @@ Functions
 #. :c:func:`udo_file_ops_get_line`
 #. :c:func:`udo_file_ops_get_line_count`
 #. :c:func:`udo_file_ops_get_fd`
+#. :c:func:`udo_file_ops_get_alloc_size`
 #. :c:func:`udo_file_ops_get_data_size`
 #. :c:func:`udo_file_ops_get_filename`
 #. :c:func:`udo_file_ops_get_dirname`
@@ -373,11 +374,11 @@ udo_file_ops_get_fd
 
 =========================================================================================================================================
 
-==========================
-udo_file_ops_get_data_size
-==========================
+===========================
+udo_file_ops_get_alloc_size
+===========================
 
-.. c:function:: size_t udo_file_ops_get_data_size(struct udo_file_ops *flops);
+.. c:function:: size_t udo_file_ops_get_alloc_size(struct udo_file_ops *flops);
 
 | Returns size of the `mmap(2)`_'d buffer associated
 | with the open file.
@@ -392,6 +393,28 @@ udo_file_ops_get_data_size
 
 	Returns:
 		| **on success:** Size of the `mmap(2)`_ buffer
+		| **on failure:** size_t max size or -1
+
+=========================================================================================================================================
+
+==========================
+udo_file_ops_get_data_size
+==========================
+
+.. c:function:: size_t udo_file_ops_get_data_size(struct udo_file_ops *flops);
+
+| Returns size of the data within the open file.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - flops
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
+
+	Returns:
+		| **on success:** Size of data in file
 		| **on failure:** size_t max size or -1
 
 =========================================================================================================================================

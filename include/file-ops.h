@@ -219,6 +219,20 @@ udo_file_ops_get_fd (struct udo_file_ops *flops);
  */
 UDO_API
 size_t
+udo_file_ops_get_alloc_size (struct udo_file_ops *flops);
+
+
+/*
+ * @brief Returns size of the data within the open file.
+ *
+ * @param flops - Pointer to a valid struct udo_file_ops.
+ *
+ * @returns
+ * 	on success: Size of data in file
+ * 	on failure: size_t max size or -1
+ */
+UDO_API
+size_t
 udo_file_ops_get_data_size (struct udo_file_ops *flops);
 
 

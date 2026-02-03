@@ -323,6 +323,33 @@ test_file_ops_get_dirname (void UDO_UNUSED **state)
 
 
 static void UDO_UNUSED
+test_file_ops_get_alloc_size (void UDO_UNUSED **state)
+{
+	size_t size = 0;
+
+	struct udo_file_ops *flops = NULL;
+
+	struct udo_file_ops_create_info file_info;
+
+	memset(&file_info, 0, sizeof(file_info));
+
+	file_info.size = 3 * (1<<12);
+	file_info.fname = "/tmp/tester-file.txt";
+	flops = udo_file_ops_create(NULL, &file_info);
+	assert_non_null(flops);
+
+	size = udo_file_ops_get_alloc_size(flops);
+	assert_int_equal(size, file_info.size);
+
+	size = udo_file_ops_get_alloc_size(NULL);
+	assert_int_equal(size, -1);
+
+	udo_file_ops_destroy(flops);
+	remove(file_info.fname);
+}
+
+
+static void UDO_UNUSED
 test_file_ops_get_data_size (void UDO_UNUSED **state)
 {
 	size_t size = 0;
@@ -452,6 +479,7 @@ main (void)
 		cmocka_unit_test(test_file_ops_get_line),
 		cmocka_unit_test(test_file_ops_get_line_count),
 		cmocka_unit_test(test_file_ops_get_fd),
+		cmocka_unit_test(test_file_ops_get_alloc_size),
 		cmocka_unit_test(test_file_ops_get_data_size),
 		cmocka_unit_test(test_file_ops_get_filename),
 		cmocka_unit_test(test_file_ops_get_dirname),
