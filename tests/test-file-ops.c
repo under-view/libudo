@@ -37,10 +37,10 @@ test_file_ops_create (void UDO_UNUSED **state)
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
 
+	udo_file_ops_destroy(flops);
+
 	ret = stat(file_info.fname, &fstats);
 	assert_int_equal(ret, 0);
-
-	udo_file_ops_destroy(flops);
 	remove(file_info.fname);
 }
 
@@ -59,18 +59,16 @@ test_file_ops_create_empty_file (void UDO_UNUSED **state)
 	memset(&fstats, 0, sizeof(fstats));
 	memset(&file_info, 0, sizeof(file_info));
 
-	udo_log_set_level(UDO_LOG_ERROR);
-
 	file_info.size = (1<<12);
 	file_info.fname = "/tmp/some-file.txt";
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
 
+	udo_file_ops_destroy(flops);
+
 	ret = stat(file_info.fname, &fstats);
 	assert_int_equal(ret, 0);
 	assert_int_equal(fstats.st_size, file_info.size);
-
-	udo_file_ops_destroy(flops);
 	remove(file_info.fname);
 }
 
@@ -369,7 +367,7 @@ test_file_ops_set_data (void UDO_UNUSED **state)
 	memset(&file_info, 0, sizeof(file_info));
 
 	file_info.fname = "/tmp/testing-one.txt";
-	file_info.size = 1 << 9;
+	file_info.size = 1 << 12;
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
 
@@ -383,6 +381,7 @@ test_file_ops_set_data (void UDO_UNUSED **state)
 	assert_string_equal(data, sd_info.data);
 
 	udo_file_ops_destroy(flops);
+	remove(file_info.fname);
 }
 
 /**************************************
