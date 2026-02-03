@@ -88,8 +88,19 @@ udo_file_ops (private)
 	:c:member:`fname`
 		| String representing the file name.
 
-	:c:member:`data_sz`
+	:c:member:`dname`
+		| String representing the directory ``fname`` resides in.
+
+	:c:member:`dname`
+		| String representing the directory ``fname`` resides in.
+
+	:c:member:`alloc_sz`
 		| Total size of the file that was mapped with `mmap(2)`_.
+
+	:c:member:`data_sz`
+		| Total size of data written to file. Used when destroying
+		| the ``struct`` :c:struct:`udo_file_ops` context to truncate file to a
+		| smaller size than :c:member:`alloc_sz`.
 
 	:c:member:`data`
 		| Pointer to `mmap(2)`_ file data.
