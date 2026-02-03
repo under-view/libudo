@@ -12,6 +12,8 @@ Table of contents (click to go)
 Macros
 ======
 
+1. :c:macro:`udo_futex_wait_cond`
+
 =====
 Enums
 =====
@@ -34,6 +36,7 @@ Functions
 #. :c:func:`udo_futex_lock`
 #. :c:func:`udo_futex_unlock`
 #. :c:func:`udo_futex_unlock_force`
+#. :c:func:`udo_futex_wake_cond`
 #. :c:func:`udo_futex_destroy`
 
 API Documentation
@@ -158,6 +161,37 @@ udo_futex_wait
 		* - desired
 		  - | Must pass value to wait on.
 
+========================================================================================================================================
+
+===================
+udo_futex_wait_cond
+===================
+
+.. c:macro:: udo_futex_wait_cond(fux, cond)
+
+| Wait until the the conditional expression
+| is meet. Then inform kernel to wake up all
+| processes/threads watching the futex. The
+| value at the futex isn't required when
+| using this macro.
+|
+| **NOTE:** This macro wraps the function
+| ``void udo_futex_wait_cond(udo_atomic_u32 *fux)``.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - fux
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
+		* - cond
+		  - | If statement conditional expression
+		    | to meet. If condition not meet inform
+		    | kernel to wake up all processes/threads
+		    | watching the futex.
+
 =========================================================================================================================================
 
 ================
@@ -223,6 +257,30 @@ udo_futex_wake
 		    | storing futex value.
 		* - desired
 		  - | Must pass value to store in futex.
+
+=========================================================================================================================================
+
+===================
+udo_futex_wake_cond
+===================
+
+.. c:function:: void udo_futex_wake_cond(udo_atomic_u32 *fux);
+
+| Wakes all processes/threads waiting
+| on a specific conditional expression
+| to be meet.
+|
+| Conditional expressions may be set
+| with a call to :c:macro:`udo_futex_wait_cond`.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - fux
+		  - | Pointer to 32-bit unsigned integer
+		    | storing futex value.
 
 =========================================================================================================================================
 
