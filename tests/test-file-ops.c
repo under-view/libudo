@@ -48,6 +48,10 @@ test_file_ops_create (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_file_ops_create_empty_file (void UDO_UNUSED **state)
 {
+	/*
+	 * Remember this test tests the
+	 * udo_file_ops_truncate function.
+	 */
 	int ret = -1;
 
 	struct stat fstats;

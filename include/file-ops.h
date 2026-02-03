@@ -64,8 +64,8 @@ udo_file_ops_create (struct udo_file_ops *flops,
  */
 UDO_API
 int
-udo_file_ops_truncate_file (struct udo_file_ops *flops,
-                            const off_t size);
+udo_file_ops_truncate (struct udo_file_ops *flops,
+                       const off_t size);
 
 
 /*

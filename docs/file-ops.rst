@@ -34,7 +34,7 @@ Functions
 =========
 
 1. :c:func:`udo_file_ops_create`
-#. :c:func:`udo_file_ops_truncate_file`
+#. :c:func:`udo_file_ops_truncate`
 #. :c:func:`udo_file_ops_zero_copy`
 #. :c:func:`udo_file_ops_get_data`
 #. :c:func:`udo_file_ops_get_line`
@@ -150,11 +150,11 @@ udo_file_ops_create
 
 =========================================================================================================================================
 
-==========================
-udo_file_ops_truncate_file
-==========================
+=====================
+udo_file_ops_truncate
+=====================
 
-.. c:function:: int udo_file_ops_truncate_file(struct udo_file_ops *flops, const off_t size);
+.. c:function:: int udo_file_ops_truncate(struct udo_file_ops *flops, const off_t size);
 
 | Adjust file to a size of precisely length bytes.
 
