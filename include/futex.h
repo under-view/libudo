@@ -94,14 +94,16 @@ void
 p_udo_futex_wait_cond (udo_atomic_u32 *fux);
 #define udo_futex_wait_cond(fux, cond)         \
 ({                                             \
+	__label__ __out;                       \
 	if (!fux)                              \
-		return;                        \
+		goto __out;                    \
 	for (size_t i = 0; i < 999999999; i++) \
-		if (cond) return;              \
+		if (cond) goto __out;          \
 	do {                                   \
-		if (cond) return;              \
+		if (cond) goto __out;          \
 		p_udo_futex_wait_cond(fux);    \
 	} while(1);                            \
+__out:                                         \
 })
 
 
