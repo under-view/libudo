@@ -20,6 +20,8 @@ struct udo_file_ops;
  * @member offset      - Offset within the file to mmap(2).
  *                       If @create_pipe is true this member is ignored.
  * @member create_pipe - Boolean to enable/disable creation of a pipe(2).
+ * @member create_dir  - Boolean to enable/disable the creation of folders
+ *                       @fname resides in.
  */
 struct udo_file_ops_create_info
 {
@@ -27,6 +29,7 @@ struct udo_file_ops_create_info
 	unsigned long int size;
 	off_t             offset;
 	unsigned char     create_pipe : 1;
+	unsigned char     create_dir : 1;
 };
 
 

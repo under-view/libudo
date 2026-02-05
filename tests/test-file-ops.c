@@ -33,7 +33,8 @@ test_file_ops_create (void UDO_UNUSED **state)
 	memset(&fstats, 0, sizeof(fstats));
 	memset(&file_info, 0, sizeof(file_info));
 
-	file_info.fname = "/tmp/some-file.txt";
+	file_info.fname = "/tmp/data/dir3/cool/some-file.txt";
+	file_info.create_dir = 1;
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
 

@@ -56,6 +56,38 @@ struct udo_file_ops
  * Start of udo_file_ops_create functions *
  ******************************************/
 
+static void
+p_create_directories (const char *dir)
+{
+	struct stat sb;
+
+	char *temp_path;
+	size_t temp_path_len, i;
+
+	temp_path_len = strnlen(dir, FILE_NAME_LEN_MAX);
+	temp_path = alloca(temp_path_len);
+
+	memset(&sb,0,sizeof(struct stat));
+	memset(temp_path,0,temp_path_len);
+
+	for (i = 0; i < temp_path_len; i++) {
+		temp_path[i] = dir[i];
+		if (temp_path[i] == '/') {
+			if (!stat(temp_path, &sb) && \
+			    S_ISDIR(sb.st_mode))
+			{
+				continue;
+			} else {
+				mkdir(temp_path, 0771);
+			}
+		}
+	}
+
+	temp_path[i] = '\0';
+	mkdir(temp_path, 0771);
+}
+
+
 struct udo_file_ops *
 udo_file_ops_create (struct udo_file_ops *p_flops,
                      const void *p_file_info)
@@ -90,6 +122,9 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 		memccpy(flops->fname, file_info->fname, '\n', FILE_NAME_LEN_MAX);
 		memccpy(flops->dname, file_info->fname, '\n', FILE_NAME_LEN_MAX);
 		dirname(flops->dname);
+
+		if (file_info->create_dir)
+			p_create_directories(flops->dname);
 
 		flops->fd = open(flops->fname, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
