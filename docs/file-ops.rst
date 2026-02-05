@@ -117,6 +117,7 @@ udo_file_ops_create_info
 		unsigned long int size;
 		off_t             offset;
 		unsigned char     create_pipe : 1;
+		unsigned char     create_dir : 1;
 
 	:c:member:`fname`
 		| Full path to file caller wants to `open(2)`_ | `creat(2)`_.
@@ -131,6 +132,10 @@ udo_file_ops_create_info
 
 	:c:member:`create_pipe`
 		| Boolean to enable/disable creation of a `pipe(2)`_.
+
+	:c:member:`create_dir`
+		| Boolean to enable/disable the creation of folders
+    		| :c:member:`fname` resides in.
 
 ===================
 udo_file_ops_create
