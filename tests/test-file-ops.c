@@ -33,7 +33,7 @@ test_file_ops_create (void UDO_UNUSED **state)
 	memset(&fstats, 0, sizeof(fstats));
 	memset(&file_info, 0, sizeof(file_info));
 
-	file_info.fname = "/tmp/data/dir3/cool/some-file.txt";
+	file_info.fname = "/tmp/some-file.txt";
 	file_info.create_dir = 1;
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
@@ -469,6 +469,39 @@ test_file_ops_set_fd_flags (void UDO_UNUSED **state)
  * End of test_file_ops_set_fd_flags functions *
  ***********************************************/
 
+
+/***********************************************
+ * Start of test_file_ops_remove_dir functions *
+ ***********************************************/
+
+static void UDO_UNUSED
+test_file_ops_remove_dir (void UDO_UNUSED **state)
+{
+	int ret = -1;
+
+	struct stat fstats;
+
+	struct udo_file_ops *flops = NULL;
+
+	struct udo_file_ops_create_info file_info;
+
+	memset(&fstats, 0, sizeof(fstats));
+	memset(&file_info, 0, sizeof(file_info));
+
+	file_info.fname = "/tmp/data/dir3/cool/some-file.txt";
+	file_info.create_dir = 1;
+	flops = udo_file_ops_create(NULL, &file_info);
+	assert_non_null(flops);
+	udo_file_ops_destroy(flops);
+
+	ret = udo_file_ops_remove_dir("/tmp/data");
+	assert_int_equal(ret, 0);
+}
+
+/*********************************************
+ * End of test_file_ops_remove_dir functions *
+ *********************************************/
+
 int
 main (void)
 {
@@ -487,6 +520,7 @@ main (void)
 		cmocka_unit_test(test_file_ops_set_data),
 		cmocka_unit_test(test_file_ops_get_sizeof),
 		cmocka_unit_test(test_file_ops_set_fd_flags),
+		cmocka_unit_test(test_file_ops_remove_dir),
 	};
 
 	return cmocka_run_group_tests(tests, NULL, NULL);

@@ -7,7 +7,9 @@
 #include <libgen.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <dirent.h>
 
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
 
@@ -510,6 +512,53 @@ udo_file_ops_set_fd_flags (const int fd, const int flags)
 		udo_log_error("fcntl: %s\n", strerror(errno));
 		return -1;
 	}
+
+	return 0;
+}
+
+
+int
+udo_file_ops_remove_dir (const char *dir)
+{
+	DIR *d;
+	struct stat st;
+	struct dirent *de;
+	char path[FILE_NAME_LEN_MAX+256];
+
+	d = opendir(dir);
+	if (!d) {
+		udo_log_error("opendir: %s\n", strerror(errno));
+		return -1;
+	}
+
+	while ((de=readdir(d))) {
+		switch (UDO_STRTOU(de->d_name)) {
+			case 46: /* "." */
+			case 92: /* ".." */
+				continue;
+			default:
+				break;
+		}
+
+		memset(path,0,sizeof(path));
+		snprintf(path, sizeof(path), "%s/%s", dir, de->d_name);
+		if (stat(path, &st) == -1) {
+			udo_log_error("stat: %s\n", strerror(errno));
+			continue;
+		}
+
+		if (S_ISDIR(st.st_mode)) {
+			udo_file_ops_remove_dir(path);
+		} else {
+			/* Remove file */
+			remove(path);
+		}
+	}
+
+	closedir(d);
+
+	/* Remove the empty directory itself */
+	rmdir(dir);
 
 	return 0;
 }

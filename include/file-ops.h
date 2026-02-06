@@ -15,6 +15,7 @@ struct udo_file_ops;
  * @brief UDO File Operations Create Info Structure
  *
  * @member fname       - Full path to file caller wants to open(2)|creat(2).
+ *                       Size in characters is restricted to 4096.
  * @member size        - Size in bytes caller newly created file will be.
  *                       If @create_pipe is true this member is ignored.
  * @member offset      - Offset within the file to mmap(2).
@@ -343,5 +344,21 @@ udo_file_ops_get_sizeof (void);
 UDO_API
 int
 udo_file_ops_set_fd_flags (const int fd, const int flags);
+
+
+/*
+ * @brief Recursively delete files and directories
+ *        contained inside caller defined directory.
+ *
+ * @param dir - Directory to delete. Size in characters
+ *              is restricted to 4096.
+ *
+ * @return
+ * 	on success: 0
+ * 	on failure: -1
+ */
+UDO_API
+int
+udo_file_ops_remove_dir (const char *dir);
 
 #endif /* UDO_FILE_OPS_H */
