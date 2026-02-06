@@ -121,6 +121,7 @@ udo_file_ops_create_info
 
 	:c:member:`fname`
 		| Full path to file caller wants to `open(2)`_ | `creat(2)`_.
+		| Size in characters is restricted to ``4096``.
 
 	:c:member:`size`
 		| Size in bytes caller newly created file will be.
@@ -567,6 +568,34 @@ udo_file_ops_set_fd_flags
 	          - Decription
 		* - fd
 		  - | File descriptor who's flags to update.
+		* - flags
+		  - | Set the file status flags to the value
+		    | specified by parameter. For more information
+		    | on status flags see `fcntl(2)`_ and `open(2)`_.
+
+	Returns:
+		| **on success:** 0
+		| **on failure:** -1
+
+=========================================================================================================================================
+
+=======================
+udo_file_ops_remove_dir
+=======================
+
+.. c:function:: int udo_file_ops_remove_dir(const char *dir);
+
+| Recursively delete files and directories
+| contained inside caller defined directory.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - dir
+		  - | Directory to delete. Size in characters
+		    | is restricted to ``4096``.
 		* - flags
 		  - | Set the file status flags to the value
 		    | specified by parameter. For more information
