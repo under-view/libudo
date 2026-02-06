@@ -99,6 +99,26 @@
 
 
 /*
+ * @brief Converts string to an unsigned integer.
+ *        Simple one way hash function.
+ *
+ * @param str - Pointer to string to hash.
+ *
+ * @return
+ * 	on success: unsigned integer representing string
+ * 	on failure: unsigned integer representing string
+ */
+#define UDO_STRTOU(str) \
+	__extension__ \
+	({ \
+		unsigned int hash=0; \
+		const char *s = str; \
+		while (*s) hash += *s++; \
+		hash; \
+	})
+
+
+/*
  * @brief Create atomic variable type of a
  *        caller defined data type.
  *
