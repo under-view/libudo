@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <inttypes.h>
 #include <errno.h>
 #include <pthread.h>
 
@@ -74,12 +75,22 @@ UDO_STATIC_INLINE
 void
 p_queue_reset (struct udo_jpool_jobqueue *queue)
 {
+	__atomic_store_n(queue->job_free, \
+			0, __ATOMIC_RELEASE);
 	__atomic_store_n(queue->front, \
 			sizeof(struct udo_jpool_jobqueue), \
 			__ATOMIC_RELEASE);
 	__atomic_store_n(queue->rear, \
 			sizeof(struct udo_jpool_jobqueue), \
 			__ATOMIC_RELEASE);
+}
+
+
+UDO_STATIC_INLINE
+uint32_t
+p_queue_get_job_free (const struct udo_jpool_jobqueue *queue)
+{
+	return __atomic_load_n(queue->job_free, __ATOMIC_ACQUIRE);
 }
 
 
@@ -92,11 +103,18 @@ p_queue_get_rear (const struct udo_jpool_jobqueue *queue)
 
 
 UDO_STATIC_INLINE
+uint32_t
+p_queue_get_front (const struct udo_jpool_jobqueue *queue)
+{
+	return __atomic_load_n(queue->front, __ATOMIC_ACQUIRE);
+}
+
+
+UDO_STATIC_INLINE
 bool
 p_queue_can_get_job (const struct udo_jpool_jobqueue *queue)
 {
-	return __atomic_load_n(queue->front, __ATOMIC_ACQUIRE) != \
-		__atomic_load_n(queue->rear, __ATOMIC_ACQUIRE);
+	return p_queue_get_rear(queue) > p_queue_get_front(queue);
 }
 
 
@@ -126,9 +144,6 @@ p_queue_get_job (struct udo_jpool_jobqueue *queue,
 {
 	uint32_t front;
 
-	if (!p_queue_can_get_job(queue))
-		return NULL;
-
 	front = __atomic_add_fetch(queue->front, \
 		sizeof(struct udo_jpool_job), \
 		__ATOMIC_RELEASE);
@@ -153,16 +168,16 @@ p_run_thread (void *p_tool)
 
 	queue_sz = jpool->queue_sz;
 	queue_data = (char *) jpool->queue_data;
-	while (p_queue_get_rear(queue)) {
-		udo_futex_lock(queue->job_free);
 
-		job = p_queue_get_job(queue, queue_sz, queue_data);
-		if (job) {
-			job->func(job->arg);
-			break;
-		}
+	while (p_queue_get_rear(queue) && \
+	       !p_queue_get_job_free(queue))
+	{
+		udo_futex_wait_cond(queue->job_free, \
+			p_queue_can_get_job(queue));
 
-		udo_futex_unlock(queue->job_free);
+		job = p_queue_get_job(queue, \
+			queue_sz, queue_data);
+		job->func(job->arg);
 	}
 
 	return NULL;
@@ -291,7 +306,7 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 			sizeof(struct udo_jpool_job), \
 			__ATOMIC_SEQ_CST);
 
-	udo_futex_unlock(jpool->queue.job_free);
+	udo_futex_wake_cond(jpool->queue.job_free);
 
 	return ret;
 }
@@ -313,7 +328,8 @@ udo_jpool_destroy (struct udo_jpool *jpool)
 	if (!jpool)
 		return;
 
-	__atomic_clear(jpool->queue.rear, __ATOMIC_SEQ_CST);
+	udo_futex_unlock_force(jpool->queue.job_free);
+	udo_futex_wake_cond(jpool->queue.job_free);
 
 	for (t = 0; t < jpool->thread_count; t++)
 		pthread_join(jpool->thread_ids[t], NULL);
