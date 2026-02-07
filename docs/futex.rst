@@ -173,7 +173,8 @@ udo_futex_wait_cond
 | is meet. Then inform kernel to wake up all
 | processes/threads watching the futex. The
 | value at the futex isn't required when
-| using this macro.
+| using this macro. Sets errno to EINTR if
+| a call to :c:func:`udo_futex_unlock_force` is made.
 |
 | **NOTE:** This macro wraps the function
 | ``void udo_futex_wait_cond(udo_atomic_u32 *fux)``.
