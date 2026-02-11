@@ -4,6 +4,7 @@ docs_src = files([
   'csock-raw.rst',
   'file-ops.rst',
   'futex.rst',
+  'jpool.rst',
   'index.rst',
   'log.rst',
   'mm.rst',

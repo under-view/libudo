@@ -8,6 +8,7 @@
 	log
 	file-ops
 	futex
+	jpool
 	mm
 	shm
 	sock-tcp
