@@ -13,8 +13,8 @@ project(
 
 pargs = []
 cc = meson.get_compiler('c')
-so_version = '.'.join(meson.project_version())
 project_name = meson.project_name()
+so_version = meson.project_version()
 src_root_dir = meson.current_source_dir()
 build_root_dir = meson.current_build_dir()
 
@@ -39,7 +39,7 @@ subdir('src')
 
 libudo = library(
   project_name, fs,
-  version: '.'.join(so_version),
+  version: so_version,
   include_directories: inc,
   dependencies: libudo_deps,
   c_args: pargs,
