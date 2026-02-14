@@ -62,6 +62,7 @@ udo_file_ops (private)
 	.. c:member::
 		struct udo_log_error_struct err;
 		bool                        free;
+		bool                        protect;
 		int                         fd;
 		int                         pipe_fds[2];
 		char                        fname[FILE_NAME_LEN_MAX];
@@ -77,6 +78,9 @@ udo_file_ops (private)
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
 		| destroying the instance.
+
+	:c:member:`protect`
+		| If true sets `mmap(2)`_ file pages to read only.
 
 	:c:member:`fd`
 		| File descriptor to open file.
@@ -118,6 +122,7 @@ udo_file_ops_create_info
 		off_t             offset;
 		unsigned char     create_pipe : 1;
 		unsigned char     create_dir : 1;
+		unsigned char     protect : 1;
 
 	:c:member:`fname`
 		| Full path to file caller wants to `open(2)`_ | `creat(2)`_.
@@ -137,6 +142,10 @@ udo_file_ops_create_info
 	:c:member:`create_dir`
 		| Boolean to enable/disable the creation of folders
     		| :c:member:`fname` resides in.
+
+	:c:member:`protect`
+		| Boolean to enable/disable setting of `mmap(2)`_ file
+		| pages to read only or not.
 
 ===================
 udo_file_ops_create

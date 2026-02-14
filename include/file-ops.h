@@ -23,7 +23,8 @@ struct udo_file_ops;
  * @member create_pipe - Boolean to enable/disable creation of a pipe(2).
  * @member create_dir  - Boolean to enable/disable the creation of folders
  *                       @fname resides in.
- * @member protect     - If true sets mmap(2) file pages to read only.
+ * @member protect     - Boolean to enable/disable setting of mmap(2) file
+ *                       pages to read only or not.
  */
 struct udo_file_ops_create_info
 {
