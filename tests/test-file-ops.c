@@ -348,9 +348,10 @@ test_file_ops_get_filename (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_file_ops_get_dirname (void UDO_UNUSED **state)
 {
-	const char *dname = NULL;
-
 	char dir_path[UDO_PAGE_SIZE];
+	char dir_path_two[UDO_PAGE_SIZE];
+
+	struct udo_file_ops_dname dname;
 
 	struct udo_file_ops *flops = NULL;
 
@@ -366,10 +367,13 @@ test_file_ops_get_dirname (void UDO_UNUSED **state)
 	dirname(dir_path);
 
 	dname = udo_file_ops_get_dirname(flops);
-	assert_string_equal(dname, dir_path);
+	snprintf(dir_path_two, sizeof(dir_path_two),
+		"%.*s", dname.length, dname.path);
+	assert_string_equal(dir_path_two, dir_path);
 
 	dname = udo_file_ops_get_dirname(NULL);
-	assert_null(dname);
+	assert_int_equal(dname.length, 0);
+	assert_null(dname.path);
 
 	udo_file_ops_destroy(flops);
 }

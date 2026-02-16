@@ -259,17 +259,46 @@ udo_file_ops_get_filename (struct udo_file_ops *flops);
 
 
 /*
+ * @brief Structure return by udo_file_ops_get_dirname(3)
+ *        used to acquire directory path from same buffer
+ *        as the file name.
+ *
+ * @member path   - Pointer to start of file name buffer.
+ * @member length - Amount of characters for directory path
+ *                  a file resides in.
+ */
+struct udo_file_ops_dname
+{
+	const char *path;
+	int        length;
+};
+
+
+/*
  * @brief Return directory path of open file associated
  *        with the struct udo_file_ops context.
+ *
+ *        NOTE: This interface doesn't store a secondary
+ *        buffer. Caller must use the length member in
+ *        the udo_file_ops_dname structure.
+ *
+ * @code@
+ * printf("%.*s\n", (int)dname.length, dname.path);
+ *
+ * // OR
+ * char dir_path[UDO_PAGE_SIZE];
+ * snprintf(dir_path, sizeof(dir_path),
+ *          "%.*s", dname.length, dname.path);
+ * @endcode@
  *
  * @param flops - Pointer to a valid struct udo_file_ops.
  *
  * @returns
  * 	on success: Directory path a file resides in
- * 	on failure: NULL
+ * 	on failure: Empty struct udo_file_ops_dname
  */
 UDO_API
-const char *
+struct udo_file_ops_dname
 udo_file_ops_get_dirname (struct udo_file_ops *flops);
 
 

@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
-#include <libgen.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -16,8 +15,10 @@
 #include "log.h"
 #include "file-ops.h"
 
-#define FILE_NAME_LEN_MAX (1<<12)
+#define FILE_NAME_MAX (1<<8)
+#define DIR_NAME_MAX (1<<12)
 #define PIPE_MAX_BUFF_SIZE (size_t)(1<<16)
+#define FILE_PATH_MAX (DIR_NAME_MAX+FILE_NAME_MAX)
 
 /*
  * @brief Structure defining UDO File Operations instance.
@@ -34,7 +35,6 @@
  *                    pipe_fds[0] - Read end of the pipe
  *                    pipe_fds[1] - Write end of the pipe
  * @member fname    - String representing the file name.
- * @member dname    - String representing the directory @fname resides in.
  * @member alloc_sz - Total size of the file that was mapped with mmap(2).
  * @member data_sz  - Total size of data written to file. Used when destroying
  *                    the struct udo_file_ops context to truncate file to a
@@ -48,8 +48,7 @@ struct udo_file_ops
 	bool                        protect;
 	int                         fd;
 	int                         pipe_fds[2];
-	char                        fname[FILE_NAME_LEN_MAX];
-	char                        dname[FILE_NAME_LEN_MAX];
+	char                        fname[FILE_PATH_MAX];
 	size_t                      alloc_sz;
 	size_t                      data_sz;
 	void                        *data;
@@ -68,7 +67,7 @@ p_create_directories (const char *dir)
 	char *temp_path;
 	size_t temp_path_len, i;
 
-	temp_path_len = strnlen(dir, FILE_NAME_LEN_MAX);
+	temp_path_len = strnlen(dir, FILE_PATH_MAX);
 	temp_path = alloca(temp_path_len);
 
 	memset(&sb,0,sizeof(struct stat));
@@ -81,14 +80,11 @@ p_create_directories (const char *dir)
 			    S_ISDIR(sb.st_mode))
 			{
 				continue;
-			} else {
-				mkdir(temp_path, 0771);
 			}
+
+			mkdir(temp_path, 0771);
 		}
 	}
-
-	temp_path[i] = '\0';
-	mkdir(temp_path, 0771);
 }
 
 
@@ -124,13 +120,10 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 	if (file_info->fname) {
 		/* Check if file exist */
 		ret = stat(file_info->fname, &fstats);
-
-		memccpy(flops->fname, file_info->fname, '\n', FILE_NAME_LEN_MAX);
-		memccpy(flops->dname, file_info->fname, '\n', FILE_NAME_LEN_MAX);
-		dirname(flops->dname);
+		memccpy(flops->fname, file_info->fname, '\n', FILE_NAME_MAX);
 
 		if (file_info->create_dir)
-			p_create_directories(flops->dname);
+			p_create_directories(flops->fname);
 
 		flops->fd = open(flops->fname, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
@@ -391,13 +384,29 @@ udo_file_ops_get_filename (struct udo_file_ops *flops)
 }
 
 
-const char *
+struct udo_file_ops_dname
 udo_file_ops_get_dirname (struct udo_file_ops *flops)
 {
-	if (!flops || !(*flops->dname))
-	       return NULL;
+	int i;
 
-	return flops->dname;
+	size_t length;
+
+	struct udo_file_ops_dname dname;
+	memset(&dname, 0, sizeof(dname));
+
+	if (!flops || !(*flops->fname))
+	       return dname;
+
+	length = strnlen(flops->fname, FILE_PATH_MAX);
+	for (i = length; i > 0; i--) {
+		if (flops->fname[i] == '/')
+			break;
+	}
+
+	dname.length = i;
+	dname.path = flops->fname;
+
+	return dname;
 }
 
 /*************************************
@@ -528,7 +537,7 @@ udo_file_ops_remove_dir (const char *dir)
 	DIR *d;
 	struct stat st;
 	struct dirent *de;
-	char path[FILE_NAME_LEN_MAX+256];
+	char path[FILE_PATH_MAX];
 
 	d = opendir(dir);
 	if (!d) {
