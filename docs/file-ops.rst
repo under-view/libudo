@@ -26,6 +26,7 @@ Structs
 
 1. :c:struct:`udo_file_ops`
 #. :c:struct:`udo_file_ops_create_info`
+#. :c:struct:`udo_file_ops_dname`
 #. :c:struct:`udo_file_ops_zero_copy_info`
 #. :c:struct:`udo_file_ops_set_data_info`
 
@@ -92,12 +93,6 @@ udo_file_ops (private)
 
 	:c:member:`fname`
 		| String representing the file name.
-
-	:c:member:`dname`
-		| String representing the directory ``fname`` resides in.
-
-	:c:member:`dname`
-		| String representing the directory ``fname`` resides in.
 
 	:c:member:`alloc_sz`
 		| Total size of the file that was mapped with `mmap(2)`_.
@@ -457,14 +452,48 @@ udo_file_ops_get_filename
 
 =========================================================================================================================================
 
+==================
+udo_file_ops_dname
+==================
+
+| Structure return by :c:func:`udo_file_ops_get_dirname`
+| used to acquire directory path from same buffer
+| as the file name.
+
+.. c:struct:: udo_file_ops_dname
+
+	.. c:member::
+		const char *path;
+		int        length;
+
+	:c:member:`path`
+		| Pointer to start of file name buffer.
+
+	:c:member:`length`
+		| Amount of characters for directory path
+		| a file resides in.
+
 ========================
 udo_file_ops_get_dirname
 ========================
 
-.. c:function:: const char *udo_file_ops_get_dirname(struct udo_file_ops *flops);
+.. c:function:: struct udo_file_ops_dname udo_file_ops_get_dirname(struct udo_file_ops *flops);
 
 | Return directory path of open file associated
 | with the ``struct`` :c:struct:`udo_file_ops` context.
+|
+| **NOTE:** This interface doesn't store a secondary
+| buffer. Caller must use the length member in
+| the :c:struct:`udo_file_ops_dname` structure.
+
+	.. code-block:: c
+
+		printf("%.*s\n", (int)dname.length, dname.path);
+
+		// OR
+		char dir_path[UDO_PAGE_SIZE];
+		snprintf(dir_path, sizeof(dir_path),
+			"%.*s", dname.length, dname.path);
 
 	.. list-table::
 		:header-rows: 1
@@ -476,7 +505,7 @@ udo_file_ops_get_dirname
 
 	Returns:
 		| **on success:** Directory path a file resides in
-		| **on failure:** ``NULL``
+		| **on failure:** Empty ``struct`` :c:struct:`udo_file_ops_dname`
 
 =========================================================================================================================================
 
