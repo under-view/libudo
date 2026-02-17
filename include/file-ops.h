@@ -321,7 +321,7 @@ struct udo_file_ops_set_data_info
  *                    The use of pointer to a void is to limit amount
  *                    of columns required to define a function.
  *
- * @return
+ * @returns
  * 	on success: 0
  * 	on failure: -1
  */
@@ -360,7 +360,7 @@ udo_file_ops_destroy (struct udo_file_ops *flops);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_file_ops)
  *	on failure: sizeof(struct udo_file_ops)
  */
@@ -377,7 +377,7 @@ udo_file_ops_get_sizeof (void);
  *                specified by parameter. For more information
  *                on status flags see fcntl(2) and open(2).
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
  */
@@ -393,7 +393,7 @@ udo_file_ops_set_fd_flags (const int fd, const int flags);
  * @param dir - Directory to delete. Size in characters
  *              is restricted to 4096.
  *
- * @return
+ * @returns
  * 	on success: 0
  * 	on failure: -1
  */
