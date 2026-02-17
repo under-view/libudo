@@ -489,6 +489,28 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
  *************************************/
 
 
+/*****************************************
+ * Start of udo_file_ops_reset functions *
+ *****************************************/
+
+void
+udo_file_ops_reset_full_path (struct udo_file_ops *flops)
+{
+	if (!flops || \
+	    !(*flops->full_path) || \
+	    !(flops->fname_off))
+	{
+		return;
+	}
+
+	flops->full_path[flops->fname_off-1] = '\0';
+}
+
+/***************************************
+ * End of udo_file_ops_reset functions *
+ ***************************************/
+
+
 /*******************************************
  * Start of udo_file_ops_destroy functions *
  *******************************************/

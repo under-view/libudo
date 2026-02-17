@@ -320,8 +320,8 @@ struct udo_file_ops_set_data_info
  * @param file_info - Pointer to a struct udo_file_ops_set_data_info.
  *                    The use of pointer to a void is to limit amount
  *                    of columns required to define a function.
- *                 
- * @returns
+ *
+ * @return
  * 	on success: 0
  * 	on failure: -1
  */
@@ -329,6 +329,18 @@ UDO_API
 int
 udo_file_ops_set_data (struct udo_file_ops *flops,
                        const void *file_info);
+
+
+/*
+ * @brief Resets internal struct udo_file_ops full_path
+ *        member back to original state after a call
+ *        to udo_file_ops_create(3).
+ *
+ * @param flops - Pointer to a valid struct udo_file_ops.
+ */
+UDO_API
+void
+udo_file_ops_reset_full_path (struct udo_file_ops *flops);
 
 
 /*

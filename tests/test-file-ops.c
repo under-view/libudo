@@ -449,6 +449,45 @@ test_file_ops_set_data (void UDO_UNUSED **state)
  **************************************/
 
 
+/****************************************
+ * End of test_file_ops_reset functions *
+ ****************************************/
+
+static void UDO_UNUSED
+test_file_ops_reset_full_path (void UDO_UNUSED **state)
+{
+	const char *dname = NULL;
+	const char *full_path = NULL;
+
+	struct udo_file_ops *flops = NULL;
+
+	char full_path_buff[UDO_PAGE_SIZE+256];
+
+	struct udo_file_ops_create_info file_info;
+	memset(&file_info, 0, sizeof(file_info));
+
+	file_info.fname = TESTER_FILE_ONE;
+	flops = udo_file_ops_create(NULL, &file_info);
+	assert_non_null(flops);
+
+	strncpy(full_path_buff, TESTER_FILE_ONE, UDO_PAGE_SIZE);
+
+	full_path = udo_file_ops_get_full_path(flops);
+	assert_string_equal(full_path, full_path_buff);
+
+	udo_file_ops_reset_full_path(flops);
+
+	dname = udo_file_ops_get_dirname(flops);
+	assert_string_not_equal(dname, full_path_buff);
+
+	udo_file_ops_destroy(flops);
+}
+
+/****************************************
+ * End of test_file_ops_reset functions *
+ ****************************************/
+
+
 /***********************************************
  * Start of test_file_ops_get_sizeof functions *
  ***********************************************/
@@ -547,6 +586,7 @@ main (void)
 		cmocka_unit_test(test_file_ops_get_dirname),
 		cmocka_unit_test(test_file_ops_get_full_path),
 		cmocka_unit_test(test_file_ops_set_data),
+		cmocka_unit_test(test_file_ops_reset_full_path),
 		cmocka_unit_test(test_file_ops_get_sizeof),
 		cmocka_unit_test(test_file_ops_set_fd_flags),
 		cmocka_unit_test(test_file_ops_remove_dir),
