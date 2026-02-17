@@ -26,7 +26,6 @@ Structs
 
 1. :c:struct:`udo_file_ops`
 #. :c:struct:`udo_file_ops_create_info`
-#. :c:struct:`udo_file_ops_dname`
 #. :c:struct:`udo_file_ops_zero_copy_info`
 #. :c:struct:`udo_file_ops_set_data_info`
 
@@ -66,9 +65,11 @@ udo_file_ops (private)
 		bool                        protect;
 		int                         fd;
 		int                         pipe_fds[2];
-		char                        fname[FILE_NAME_LEN_MAX];
+		size_t                      alloc_sz;
 		size_t                      data_sz;
 		void                        *data;
+		uint16_t                    fname_off;
+		char                        full_path[FILE_PATH_MAX];
 
 	:c:member:`err`
 		| Stores information about the error that occured
@@ -91,9 +92,6 @@ udo_file_ops (private)
 		| **pipe_fds[0]** - Read end of the pipe
 		| **pipe_fds[1]** - Write end of the pipe
 
-	:c:member:`fname`
-		| String representing the file name.
-
 	:c:member:`alloc_sz`
 		| Total size of the file that was mapped with `mmap(2)`_.
 
@@ -104,6 +102,14 @@ udo_file_ops (private)
 
 	:c:member:`data`
 		| Pointer to `mmap(2)`_ file data.
+
+	:c:member:`fname_off`
+		| Offset in the :c:member:`full_path` buffer that stores the file name.
+
+	:c:member:`full_path`
+		| Buffer storing string representing the file name.
+		| This buffer is split in to by storing the ``\0``
+		| between the file name and directory path.
 
 ========================
 udo_file_ops_create_info
@@ -452,48 +458,14 @@ udo_file_ops_get_filename
 
 =========================================================================================================================================
 
-==================
-udo_file_ops_dname
-==================
-
-| Structure return by :c:func:`udo_file_ops_get_dirname`
-| used to acquire directory path from same buffer
-| as the file name.
-
-.. c:struct:: udo_file_ops_dname
-
-	.. c:member::
-		const char *path;
-		int        length;
-
-	:c:member:`path`
-		| Pointer to start of file name buffer.
-
-	:c:member:`length`
-		| Amount of characters for directory path
-		| a file resides in.
-
 ========================
 udo_file_ops_get_dirname
 ========================
 
-.. c:function:: struct udo_file_ops_dname udo_file_ops_get_dirname(struct udo_file_ops *flops);
+.. c:function:: const char * udo_file_ops_get_dirname(struct udo_file_ops *flops);
 
-| Return directory path of open file associated
+| Returns directory path of open file associated
 | with the ``struct`` :c:struct:`udo_file_ops` context.
-|
-| **NOTE:** This interface doesn't store a secondary
-| buffer. Caller must use the length member in
-| the :c:struct:`udo_file_ops_dname` structure.
-
-	.. code-block:: c
-
-		printf("%.*s\n", (int)dname.length, dname.path);
-
-		// OR
-		char dir_path[UDO_PAGE_SIZE];
-		snprintf(dir_path, sizeof(dir_path),
-			"%.*s", dname.length, dname.path);
 
 	.. list-table::
 		:header-rows: 1
@@ -505,7 +477,7 @@ udo_file_ops_get_dirname
 
 	Returns:
 		| **on success:** Directory path a file resides in
-		| **on failure:** Empty ``struct`` :c:struct:`udo_file_ops_dname`
+		| **on failure:** ``NULL``
 
 =========================================================================================================================================
 
