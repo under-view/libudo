@@ -23,23 +23,24 @@
 /*
  * @brief Structure defining UDO File Operations instance.
  *
- * @member err      - Stores information about the error that occured
- *                    for the given instance and may later be retrieved
- *                    by caller.
- * @member free     - If structure allocated with calloc(3) member will be
- *                    set to true so that, we know to call free(3) when
- *                    destroying the instance.
- * @member protect  - If true sets mmap(2) file pages to read only.
- * @member fd       - File descriptor to open file.
- * @member pipe_fds - File descriptors associated with an open pipe.
- *                    pipe_fds[0] - Read end of the pipe
- *                    pipe_fds[1] - Write end of the pipe
- * @member fname    - String representing the file name.
- * @member alloc_sz - Total size of the file that was mapped with mmap(2).
- * @member data_sz  - Total size of data written to file. Used when destroying
- *                    the struct udo_file_ops context to truncate file to a
- *                    smaller size than @alloc_sz.
- * @member data     - Pointer to mmap(2) file data.
+ * @member err       - Stores information about the error that occured
+ *                     for the given instance and may later be retrieved
+ *                     by caller.
+ * @member free      - If structure allocated with calloc(3) member will be
+ *                     set to true so that, we know to call free(3) when
+ *                     destroying the instance.
+ * @member protect   - If true sets mmap(2) file pages to read only.
+ * @member fd        - File descriptor to open file.
+ * @member pipe_fds  - File descriptors associated with an open pipe.
+ *                     pipe_fds[0] - Read end of the pipe
+ *                     pipe_fds[1] - Write end of the pipe
+ * @member alloc_sz  - Total size of the file that was mapped with mmap(2).
+ * @member data_sz   - Total size of data written to file. Used when destroying
+ *                     the struct udo_file_ops context to truncate file to a
+ *                     smaller size than @alloc_sz.
+ * @member data      - Pointer to mmap(2) file data.
+ * @member fname_off - Offset in the @full_path buffer that stores the file name.
+ * @member full_path - String representing the file name.
  */
 struct udo_file_ops
 {
@@ -48,10 +49,11 @@ struct udo_file_ops
 	bool                        protect;
 	int                         fd;
 	int                         pipe_fds[2];
-	char                        fname[FILE_PATH_MAX];
 	size_t                      alloc_sz;
 	size_t                      data_sz;
 	void                        *data;
+	uint16_t                    fname_off;
+	char                        full_path[FILE_PATH_MAX];
 };
 
 
@@ -88,6 +90,18 @@ p_create_directories (const char *dir)
 }
 
 
+static void
+p_set_fname_off (struct udo_file_ops *flops)
+{
+	uint16_t length, i;
+	length = strnlen(flops->full_path, FILE_PATH_MAX);
+	for (i = length; i > 0; i--)
+		if (flops->full_path[i] == '/')
+			break;
+	flops->fname_off = i + 1;
+}
+
+
 struct udo_file_ops *
 udo_file_ops_create (struct udo_file_ops *p_flops,
                      const void *p_file_info)
@@ -120,17 +134,24 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 	if (file_info->fname) {
 		/* Check if file exist */
 		ret = stat(file_info->fname, &fstats);
-		memccpy(flops->fname, file_info->fname, '\n', FILE_NAME_MAX);
+		memccpy(flops->full_path, file_info->fname, '\n', FILE_PATH_MAX);
+		p_set_fname_off(flops);
 
 		if (file_info->create_dir)
-			p_create_directories(flops->fname);
+			p_create_directories(flops->full_path);
 
-		flops->fd = open(flops->fname, O_CREAT|O_RDWR, 0644);
+		flops->fd = open(flops->full_path, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
 			udo_log_error("open: %s\n", strerror(errno));
 			udo_file_ops_destroy(flops);
 			return NULL;
 		}
+
+		/*
+		 * Enables use of one buffer to seperate
+		 * directory path and file name.
+		 */
+		flops->full_path[flops->fname_off-1] = '\0';
 
 		/*
 		 * If file exists and caller defined file_info->size set to 0.
@@ -377,36 +398,20 @@ udo_file_ops_get_data_size (struct udo_file_ops *flops)
 const char *
 udo_file_ops_get_filename (struct udo_file_ops *flops)
 {
-	if (!flops || !(*flops->fname))
+	if (!flops || !(flops->fname_off))
 		return NULL;
 
-	return flops->fname;
+	return (const char *)(flops->full_path + flops->fname_off);
 }
 
 
-struct udo_file_ops_dname
+const char *
 udo_file_ops_get_dirname (struct udo_file_ops *flops)
 {
-	int i;
+	if (!flops || !(*flops->full_path))
+	       return NULL;
 
-	size_t length;
-
-	struct udo_file_ops_dname dname;
-	memset(&dname, 0, sizeof(dname));
-
-	if (!flops || !(*flops->fname))
-	       return dname;
-
-	length = strnlen(flops->fname, FILE_PATH_MAX);
-	for (i = length; i > 0; i--) {
-		if (flops->fname[i] == '/')
-			break;
-	}
-
-	dname.length = i;
-	dname.path = flops->fname;
-
-	return dname;
+	return (const char *) flops->full_path;
 }
 
 /*************************************

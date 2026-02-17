@@ -336,7 +336,7 @@ test_file_ops_get_filename (void UDO_UNUSED **state)
 	assert_non_null(flops);
 
 	fname = udo_file_ops_get_filename(flops);
-	assert_string_equal(fname, TESTER_FILE_ONE);
+	assert_string_equal(fname, "tester-file-one.txt");
 
 	fname = udo_file_ops_get_filename(NULL);
 	assert_null(fname);
@@ -348,10 +348,9 @@ test_file_ops_get_filename (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_file_ops_get_dirname (void UDO_UNUSED **state)
 {
-	char dir_path[UDO_PAGE_SIZE];
-	char dir_path_two[UDO_PAGE_SIZE];
+	const char *dname = NULL;
 
-	struct udo_file_ops_dname dname;
+	char dir_path[UDO_PAGE_SIZE];
 
 	struct udo_file_ops *flops = NULL;
 
@@ -367,13 +366,10 @@ test_file_ops_get_dirname (void UDO_UNUSED **state)
 	dirname(dir_path);
 
 	dname = udo_file_ops_get_dirname(flops);
-	snprintf(dir_path_two, sizeof(dir_path_two),
-		"%.*s", dname.length, dname.path);
-	assert_string_equal(dir_path_two, dir_path);
+	assert_string_equal(dname, dir_path);
 
 	dname = udo_file_ops_get_dirname(NULL);
-	assert_int_equal(dname.length, 0);
-	assert_null(dname.path);
+	assert_null(dname);
 
 	udo_file_ops_destroy(flops);
 }
