@@ -414,6 +414,21 @@ udo_file_ops_get_dirname (struct udo_file_ops *flops)
 	return (const char *) flops->full_path;
 }
 
+
+const char *
+udo_file_ops_get_full_path (struct udo_file_ops *flops)
+{
+	if (!flops || \
+	    !(*flops->full_path) || \
+	    !(flops->fname_off))
+	{
+		return NULL;
+	}
+
+	flops->full_path[flops->fname_off-1] = '/';
+	return (const char *) flops->full_path;
+}
+
 /*************************************
  * End of udo_file_ops_get functions *
  *************************************/

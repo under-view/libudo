@@ -274,11 +274,36 @@ udo_file_ops_get_dirname (struct udo_file_ops *flops);
 
 
 /*
+ * @brief Returns string representing the full path to file
+ *        set via the struct udo_file_ops_create_info { @fname }
+ *        member after a call to udo_file_ops_create(3).
+ *
+ *        This functions modifies the buffer that splits
+ *        directory path and file name. It does so by injecting
+ *        the '/' character where the '\0' character is located.
+ *
+ *        Thus, calls to udo_file_ops_get_dirname(3) will return
+ *        the same string as the function. After this function 
+ *        is called. To reset caller must make a call to
+ *        udo_file_ops_reset_full_path(3).
+ *
+ * @param flops - Pointer to a valid struct udo_file_ops.
+ *
+ * @returns
+ * 	on success: Full path to file
+ * 	on failure: NULL
+ */
+UDO_API
+const char *
+udo_file_ops_get_full_path (struct udo_file_ops *flops);
+
+
+/*
  * @brief UDO File Operations Set Data Info
  *
  * @member offset - Byte offset within the file.
  * @member size   - Size in bytes to copy into file at @offset.
- * @member data   - Data to copy at the given file offset.
+ * @member data   - Data to copy at the given file @offset.
  */
 struct udo_file_ops_set_data_info
 {
