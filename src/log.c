@@ -5,6 +5,7 @@
 #include <libgen.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <sys/file.h>
 #define HAVE_POSIX_TIMER
 #include <time.h>
 #ifdef CLOCK_MONOTONIC
@@ -147,7 +148,9 @@ udo_log_time (enum udo_log_level_type type,
 	rawtime = time(NULL);
 
 	/* generate time */
-	strftime(buffer, sizeof(buffer), "%F %T ", localtime_r(&rawtime, &(struct tm){}));
+	strftime(buffer, sizeof(buffer), "%F %T ", \
+		localtime_r(&rawtime, &(struct tm){}));
+	flock(writefd, LOCK_EX);
 	dprintf(writefd, "%s", buffer);
 
 	va_start(args, fmt);
@@ -157,6 +160,7 @@ udo_log_time (enum udo_log_level_type type,
 	/* Reset terminal colors */
 	dprintf(writefd, "%s", tcolors[UDO_LOG_RESET]);
 	fsync(writefd);
+	flock(writefd, LOCK_UN);
 }
 
 
