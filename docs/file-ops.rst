@@ -46,6 +46,7 @@ Functions
 #. :c:func:`udo_file_ops_get_dirname`
 #. :c:func:`udo_file_ops_get_full_path`
 #. :c:func:`udo_file_ops_set_data`
+#. :c:func:`udo_file_ops_reset_full_path`
 #. :c:func:`udo_file_ops_destroy`
 #. :c:func:`udo_file_ops_get_sizeof`
 
@@ -558,6 +559,26 @@ udo_file_ops_set_data
 	Returns:
 		| **on success:** 0
 		| **on failure:** -1
+
+=========================================================================================================================================
+
+============================
+udo_file_ops_reset_full_path
+============================
+
+.. c:function:: void udo_file_ops_reset_full_path(struct udo_file_ops *flops);
+
+| Resets internal struct udo_file_ops full_path
+| member back to original state after a call
+| to :c:func:`udo_file_ops_create`.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - flops
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 
 =========================================================================================================================================
 
