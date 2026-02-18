@@ -39,7 +39,7 @@ struct udo_vsock_udp_server_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_vsock_udp
  *	on failure: NULL
  */
@@ -59,7 +59,7 @@ udo_vsock_udp_server_create (struct udo_vsock_udp *vsock,
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  * @param addr  - Must pass a pointer to a populated struct sockaddr_vm.
  *
- * @return
+ * @returns
  *	on success: File descriptor to filtered socket
  *	on failure: -1
  */
@@ -81,7 +81,7 @@ udo_vsock_udp_server_accept (struct udo_vsock_udp *vsock,
  * @param vsock_info - Reserved for future usage. For now used
  *                     to set the flag argument of recvfrom(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -121,7 +121,7 @@ struct udo_vsock_udp_client_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_vsock_udp
  *	on failure: NULL
  */
@@ -138,7 +138,7 @@ udo_vsock_udp_client_create (struct udo_vsock_udp *vsock,
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
  */
@@ -157,7 +157,7 @@ udo_vsock_udp_client_connect (struct udo_vsock_udp *vsock);
  * @param vsock_info - Reserved for future usage. For now used
  *                     to set the flag argument of sendto(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
@@ -175,7 +175,7 @@ udo_vsock_udp_client_send_data (struct udo_vsock_udp *vsock,
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  *
- * @return
+ * @returns
  *	on success: VM socket file descriptor
  *	on failure: -1
  */
@@ -190,7 +190,7 @@ udo_vsock_udp_get_fd (struct udo_vsock_udp *vsock);
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  *
- * @return
+ * @returns
  *	on success: VM socket context identifier
  *	on failure: UINT32_MAX
  */
@@ -205,7 +205,7 @@ udo_vsock_udp_get_vcid (struct udo_vsock_udp *vsock);
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  *
- * @return
+ * @returns
  *	on success: UDP port connected to instance
  *	on failure: -1
  */
@@ -231,7 +231,7 @@ udo_vsock_udp_destroy (struct udo_vsock_udp *vsock);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_vsock_udp)
  *	on failure: sizeof(struct udo_vsock_udp)
  */
@@ -244,7 +244,7 @@ udo_vsock_udp_get_sizeof (void);
  * @brief Returns the local CID of the VM/Hypervisor after
  *        acquiring it from /dev/vsock.
  *
- * @return
+ * @returns
  *	on success: Local VM context identifer
  *	on failure: UINT32_MAX
  */
@@ -265,7 +265,7 @@ udo_vsock_udp_get_local_vcid (void);
  * @param vsock_info - Reserved for future usage. For now used
  *                     to set the flag argument of recvfrom(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -290,7 +290,7 @@ udo_vsock_udp_recv_data (const int sock_fd,
  * @param vsock_info - Reserved for future usage. For now used
  *                     to set the flag argument of sendto(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */

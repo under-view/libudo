@@ -45,7 +45,7 @@ struct udo_sock_tcp_server_create_info
  *                    no other implementation may be passed to
  *                    this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_sock_tcp
  *	on failure: NULL
  */
@@ -63,7 +63,7 @@ udo_sock_tcp_server_create (struct udo_sock_tcp *sock,
  * @param addr - May be NULL or a pointer to a struct sockaddr_in6
  *               If not NULL @addr is filled in via accept(2) call.
  *
- * @return
+ * @returns
  *	on success: File descriptor to accepted client
  *	on failure: -1
  */
@@ -103,7 +103,7 @@ struct udo_sock_tcp_client_create_info
  *                    no other implementation may be passed to
  *                    this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_sock_tcp
  *	on failure: NULL
  */
@@ -119,7 +119,7 @@ udo_sock_tcp_client_create (struct udo_sock_tcp *sock,
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
  */
@@ -138,7 +138,7 @@ udo_sock_tcp_client_connect (struct udo_sock_tcp *sock);
  * @param sock_info - Reserved for future usage. For now used
  *                    to set the flag argument of send(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
@@ -156,7 +156,7 @@ udo_sock_tcp_client_send_data (struct udo_sock_tcp *sock,
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  *
- * @return
+ * @returns
  *	on success: TCP socket file descriptor
  *	on failure: -1
  */
@@ -171,7 +171,7 @@ udo_sock_tcp_get_fd (struct udo_sock_tcp *sock);
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  *
- * @return
+ * @returns
  *	on success: Textual network address
  *	on failure: NULL
  */
@@ -186,7 +186,7 @@ udo_sock_tcp_get_ip_addr (struct udo_sock_tcp *sock);
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  *
- * @return
+ * @returns
  *	on success: Network port connected to instance
  *	on failure: -1
  */
@@ -212,7 +212,7 @@ udo_sock_tcp_destroy (struct udo_sock_tcp *sock);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_sock_tcp)
  *	on failure: sizeof(struct udo_sock_tcp)
  */
@@ -230,7 +230,7 @@ udo_sock_tcp_get_sizeof (void);
  * @param sock_info - Reserved for future usage. For now used
  *                    to set the flag argument of recv(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -251,7 +251,7 @@ udo_sock_tcp_recv_data (const int sock_fd,
  * @param sock_info - Reserved for future usage. For now used
  *                    to set the flag argument of send(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */

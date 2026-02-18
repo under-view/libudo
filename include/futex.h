@@ -34,7 +34,7 @@ struct udo_futex_create_info
  *                     no other implementation may be passed
  *                     to this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a udo_atomic_u32
  *	on failure: NULL
  */

@@ -31,7 +31,7 @@ struct udo_mm;
  *               size is greater than the larger block
  *               remapping of memory will occur.
  *
- * @return
+ * @returns
  *	on success: Pointer to struct udo_mm
  *	on failure: NULL
  */
@@ -50,7 +50,7 @@ udo_mm_alloc (struct udo_mm *mm, const size_t size);
  * @param mm   - Must pass a pointer to a struct udo_mm.
  * @param size - Size of buffer to sub-allocate.
  *
- * @return
+ * @returns
  * 	on success: Pointer to writable memory
  *	on failure: NULL
  */

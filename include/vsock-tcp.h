@@ -42,7 +42,7 @@ struct udo_vsock_tcp_server_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_vsock_tcp
  *	on failure: NULL
  */
@@ -60,7 +60,7 @@ udo_vsock_tcp_server_create (struct udo_vsock_tcp *vsock,
  * @param addr  - May be NULL or a pointer to a struct sockaddr_vm
  *                If not NULL @addr is filled in via accept(2) call.
  *
- * @return
+ * @returns
  *	on success: File descriptor to accepted client
  *	on failure: -1
  */
@@ -97,7 +97,7 @@ struct udo_vsock_tcp_client_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_vsock_tcp
  *	on failure: NULL
  */
@@ -113,7 +113,7 @@ udo_vsock_tcp_client_create (struct udo_vsock_tcp *vsock,
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
  */
@@ -132,7 +132,7 @@ udo_vsock_tcp_client_connect (struct udo_vsock_tcp *vsock);
  * @param vsock_info - Reserved for future usage. For now used
  *                     to set the flag argument of send(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
@@ -150,7 +150,7 @@ udo_vsock_tcp_client_send_data (struct udo_vsock_tcp *vsock,
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  *
- * @return
+ * @returns
  *	on success: VM socket file descriptor
  *	on failure: -1
  */
@@ -165,7 +165,7 @@ udo_vsock_tcp_get_fd (struct udo_vsock_tcp *vsock);
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  *
- * @return
+ * @returns
  *	on success: VM socket context identifier
  *	on failure: UINT32_MAX
  */
@@ -179,7 +179,7 @@ udo_vsock_tcp_get_vcid (struct udo_vsock_tcp *vsock);
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  *
- * @return
+ * @returns
  *	on success: Network port connected to instance
  *	on failure: -1
  */
@@ -205,7 +205,7 @@ udo_vsock_tcp_destroy (struct udo_vsock_tcp *vsock);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_vsock_tcp)
  *	on failure: sizeof(struct udo_vsock_tcp)
  */
@@ -218,7 +218,7 @@ udo_vsock_tcp_get_sizeof (void);
  * @brief Returns the local CID of the VM/Hypervisor after
  *        acquiring it from /dev/vsock.
  *
- * @return
+ * @returns
  *	on success: Local VM context identifer
  *	on failure: UINT32_MAX
  */
@@ -236,7 +236,7 @@ udo_vsock_tcp_get_local_vcid (void);
  * @param vsock_info - Reserved for future usage. For now used
  *                     to set the flag argument of recv(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -257,7 +257,7 @@ udo_vsock_tcp_recv_data (const int sock_fd,
  * @param vsock_info - Reserved for future usage. For now used
  *                     to set the flag argument of send(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */

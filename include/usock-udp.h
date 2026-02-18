@@ -39,7 +39,7 @@ struct udo_usock_udp_server_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_usock_udp
  *	on failure: NULL
  */
@@ -61,7 +61,7 @@ udo_usock_udp_server_create (struct udo_usock_udp *usock,
  * @param usock_info - Reserved for future usage. For now used
  *                     to set the flag argument of recvfrom(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -105,7 +105,7 @@ struct udo_usock_udp_client_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_usock_udp
  *	on failure: NULL
  */
@@ -125,7 +125,7 @@ udo_usock_udp_client_create (struct udo_usock_udp *usock,
  * @param usock_info - Reserved for future usage. For now used
  *                     to set the flag argument of sendto(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
@@ -143,7 +143,7 @@ udo_usock_udp_client_send_data (struct udo_usock_udp *usock,
  *
  * @param usock - Must pass a pointer to a struct udo_usock_udp.
  *
- * @return
+ * @returns
  *	on success: Unix domain socket file descriptor
  *	on failure: -1
  */
@@ -158,7 +158,7 @@ udo_usock_udp_get_fd (struct udo_usock_udp *usock);
  *
  * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
- * @return
+ * @returns
  *	on success: Textual path to unix domain socket
  *	on failure: NULL
  */
@@ -184,7 +184,7 @@ udo_usock_udp_destroy (struct udo_usock_udp *usock);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_usock_udp)
  *	on failure: sizeof(struct udo_usock_udp)
  */
@@ -205,7 +205,7 @@ udo_usock_udp_get_sizeof (void);
  * @param usock_info - Reserved for future usage. For now used
  *                     to set the flag argument of recvfrom(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -230,7 +230,7 @@ udo_usock_udp_recv_data (const int sock_fd,
  * @param usock_info - Reserved for future usage. For now used
  *                     to set the flag argument of sendto(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */

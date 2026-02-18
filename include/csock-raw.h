@@ -39,7 +39,7 @@ struct udo_csock_raw_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_csock_raw
  *	on failure: NULL
  */
@@ -58,7 +58,7 @@ udo_csock_raw_create (struct udo_csock_raw *csock,
  * @param csock_info - Reserved for future usage. For now used
  *                     to set the flag argument of send(2).
  *
- * @return
+ * @returns
  *	on success: Size of CAN frame
  *	on failure: # < 0
  */
@@ -78,7 +78,7 @@ udo_csock_raw_send_data (struct udo_csock_raw *csock,
  * @param csock_info - Reserved for future usage. For now used
  *                     to set the flag argument of recv(2).
  *
- * @return
+ * @returns
  *	on success: Size of CAN frame
  *	on failure: # < 0
  */
@@ -95,7 +95,7 @@ udo_csock_raw_recv_data (struct udo_csock_raw *csock,
  *
  * @param csock - Must pass a pointer to a struct udo_csock_raw.
  *
- * @return
+ * @returns
  *	on success: RAW socket file descriptor
  *	on failure: -1
  */
@@ -110,7 +110,7 @@ udo_csock_raw_get_fd (struct udo_csock_raw *csock);
  *
  * @param csock - Must pass a pointer to a struct udo_csock_raw.
  *
- * @return
+ * @returns
  *	on success: Textual CAN interface name in string format
  *	on failure: NULL
  */
@@ -136,7 +136,7 @@ udo_csock_raw_destroy (struct udo_csock_raw *csock);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_csock_raw)
  *	on failure: sizeof(struct udo_csock_raw)
  */

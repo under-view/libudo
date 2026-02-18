@@ -46,7 +46,7 @@ struct udo_shm_create_info
  *                   no other implementation may be passed to
  *                   this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_shm
  *	on failure: NULL
  */
@@ -82,7 +82,7 @@ struct udo_shm_data_info
  * @param shm      - Pointer to a valid struct udo_shm.
  * @param shm_info - Must pass a pointer to a struct udo_shm_data_info.
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
  */
@@ -100,10 +100,9 @@ udo_shm_data_read (struct udo_shm *shm,
  * @param shm      - Pointer to a valid struct udo_shm.
  * @param shm_info - Must pass a pointer to a struct udo_shm_data_info.
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
- *
  */
 UDO_API
 int
@@ -117,7 +116,7 @@ udo_shm_data_write (struct udo_shm *shm,
  *
  * @param shm - Pointer to a valid struct udo_shm.
  *
- * @return
+ * @returns
  *	on success: File descriptor to POSIX shared memory
  *	on failure: -1
  */
@@ -135,7 +134,7 @@ udo_shm_get_fd (struct udo_shm *shm);
  * @param proc_index - Process index to acquire it's shared
  *                     memory segment starting address.
  *
- * @return
+ * @returns
  *	on success: Pointer to processes SHM segment
  *	on failure: NULL
  */
@@ -154,7 +153,7 @@ udo_shm_get_data (struct udo_shm *shm,
  * @param proc_index - Process index to acquire it's shared
  *                     memory segment size.
  *
- * @return
+ * @returns
  *	on success: Size of processes SHM segment
  *	on failure: Maximum size or -1
  */
@@ -181,7 +180,7 @@ udo_shm_destroy (struct udo_shm *shm);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_shm)
  *	on failure: sizeof(struct udo_shm)
  */

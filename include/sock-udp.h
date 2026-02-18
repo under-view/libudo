@@ -41,7 +41,7 @@ struct udo_sock_udp_server_create_info
  *                    no other implementation may be passed to
  *                    this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_sock_udp
  *	on failure: NULL
  */
@@ -63,7 +63,7 @@ udo_sock_udp_server_create (struct udo_sock_udp *sock,
  * @param ipv6 - Boolean determines if created socket is soley an ipv6
  *               socket or requires an ipv4-mapped-ipv6-address.
  *
- * @return
+ * @returns
  *	on success: File descriptor to accepted client
  *	on failure: -1
  */
@@ -86,7 +86,7 @@ udo_sock_udp_server_accept (struct udo_sock_udp *sock,
  * @param sock_info - Reserved for future usage. For now used
  *                    to set the flag argument of recvfrom(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -129,7 +129,7 @@ struct udo_sock_udp_client_create_info
  *                    no other implementation may be passed to
  *                    this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_sock_udp
  *	on failure: NULL
  */
@@ -146,7 +146,7 @@ udo_sock_udp_client_create (struct udo_sock_udp *sock,
  *
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
  */
@@ -165,7 +165,7 @@ udo_sock_udp_client_connect (struct udo_sock_udp *sock);
  * @param sock_info - Reserved for future usage. For now used
  *                    to set the flag argument of sendto(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
@@ -183,7 +183,7 @@ udo_sock_udp_client_send_data (struct udo_sock_udp *sock,
  *
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
- * @return
+ * @returns
  *	on success: Socket file descriptor
  *	on failure: -1
  */
@@ -198,7 +198,7 @@ udo_sock_udp_get_fd (struct udo_sock_udp *sock);
  *
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
- * @return
+ * @returns
  *	on success: Textual network ip address
  *	on failure: NULL
  */
@@ -213,7 +213,7 @@ udo_sock_udp_get_ip_addr (struct udo_sock_udp *sock);
  *
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
- * @return
+ * @returns
  *	on success: Network port connected to instance
  *	on failure: -1
  */
@@ -239,7 +239,7 @@ udo_sock_udp_destroy (struct udo_sock_udp *sock);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_sock_udp)
  *	on failure: sizeof(struct udo_sock_udp)
  */
@@ -260,7 +260,7 @@ udo_sock_udp_get_sizeof (void);
  * @param sock_info - Reserved for future usage. For now used
  *                    to set the flag argument of recvfrom(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -285,7 +285,7 @@ udo_sock_udp_recv_data (const int sock_fd,
  * @param sock_info - Reserved for future usage. For now used
  *                    to set the flag argument of sendto(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */

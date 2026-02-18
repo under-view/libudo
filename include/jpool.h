@@ -42,7 +42,7 @@ struct udo_jpool_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_jpool
  *	on failure: NULL
  */
@@ -62,7 +62,7 @@ udo_jpool_create (struct udo_jpool *jpool,
  * @param arg   - Pointer to a memory which will be
  *                passed as the argument to @func.
  *
- * @return
+ * @returns
  *	on success: Queue buffer byte offset
  *	on failure: -1 or UINT32_MAX
  */
@@ -90,7 +90,7 @@ udo_jpool_destroy (struct udo_jpool *jpool);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_jpool)
  *	on failure: sizeof(struct udo_jpool)
  */

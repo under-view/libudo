@@ -41,7 +41,7 @@ struct udo_usock_tcp_server_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_usock_tcp
  *	on failure: NULL
  */
@@ -59,7 +59,7 @@ udo_usock_tcp_server_create (struct udo_usock_tcp *usock,
  * @param addr  - May be NULL or a pointer to a struct sockaddr_un.
  *                If not NULL @addr is filled in via accept(2) call.
  *
- * @return
+ * @returns
  *	on success: File descriptor to accepted client
  *	on failure: -1
  */
@@ -94,7 +94,7 @@ struct udo_usock_tcp_client_create_info
  *                     no other implementation may be passed to
  *                     this parameter.
  *
- * @return
+ * @returns
  *	on success: Pointer to a struct udo_usock_tcp
  *	on failure: NULL
  */
@@ -110,7 +110,7 @@ udo_usock_tcp_client_create (struct udo_usock_tcp *usock,
  *
  * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
- * @return
+ * @returns
  *	on success: 0
  *	on failure: -1
  */
@@ -129,7 +129,7 @@ udo_usock_tcp_client_connect (struct udo_usock_tcp *usock);
  * @param usock_info - Reserved for future usage. For now used
  *                     to set the flag argument of send(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
@@ -147,7 +147,7 @@ udo_usock_tcp_client_send_data (struct udo_usock_tcp *usock,
  *
  * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
- * @return
+ * @returns
  *	on success: TCP unix domain socket file descriptor
  *	on failure: -1
  */
@@ -162,7 +162,7 @@ udo_usock_tcp_get_fd (struct udo_usock_tcp *usock);
  *
  * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
- * @return
+ * @returns
  *	on success: Textual path to unix domain socket
  *	on failure: NULL
  */
@@ -188,7 +188,7 @@ udo_usock_tcp_destroy (struct udo_usock_tcp *usock);
  *        of API interface they know the exact amount
  *        of bytes.
  *
- * @return
+ * @returns
  *	on success: sizeof(struct udo_usock_tcp)
  *	on failure: sizeof(struct udo_usock_tcp)
  */
@@ -206,7 +206,7 @@ udo_usock_tcp_get_sizeof (void);
  * @param usock_info - Reserved for future usage. For now used
  *                     to set the flag argument of recv(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes received
  *	on failure: # < 0
  */
@@ -227,7 +227,7 @@ udo_usock_tcp_recv_data (const int sock_fd,
  * @param usock_info - Reserved for future usage. For now used
  *                     to set the flag argument of send(2).
  *
- * @return
+ * @returns
  *	on success: Amount of bytes sent
  *	on failure: # < 0
  */
