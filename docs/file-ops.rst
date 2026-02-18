@@ -44,6 +44,7 @@ Functions
 #. :c:func:`udo_file_ops_get_data_size`
 #. :c:func:`udo_file_ops_get_filename`
 #. :c:func:`udo_file_ops_get_dirname`
+#. :c:func:`udo_file_ops_get_full_path`
 #. :c:func:`udo_file_ops_set_data`
 #. :c:func:`udo_file_ops_destroy`
 #. :c:func:`udo_file_ops_get_sizeof`
@@ -107,8 +108,8 @@ udo_file_ops (private)
 		| Offset in the :c:member:`full_path` buffer that stores the file name.
 
 	:c:member:`full_path`
-		| Buffer storing string representing the file name.
-		| This buffer is split in to by storing the ``\0``
+		| Buffer storing string representing the full path to
+		| file. This buffer is split in to by storing the ``\0``
 		| between the file name and directory path.
 
 ========================
@@ -482,6 +483,39 @@ udo_file_ops_get_dirname
 =========================================================================================================================================
 
 ==========================
+udo_file_ops_get_full_path
+==========================
+
+.. c:function:: const char * udo_file_ops_get_full_path(struct udo_file_ops *flops);
+
+| Returns string representing the full path to file
+| set via the ``struct`` :c:struct:`udo_file_ops_create_info` { ``fname`` }
+| member after a call to :c:func:`udo_file_ops_create`.
+|
+| This functions modifies the buffer that splits
+| directory path and file name. It does so by injecting
+| the ``/`` character where the ``\0`` character is located.
+|
+| Thus, calls to :c:func:`udo_file_ops_get_dirname` will return
+| the same string as the function. After this function
+| is called. To reset caller must make a call to
+| :c:func:`udo_file_ops_reset_full_path`.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - flops
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
+
+	Returns:
+		| **on success:** Full path to file
+		| **on failure:** ``NULL``
+
+=========================================================================================================================================
+
+==========================
 udo_file_ops_set_data_info
 ==========================
 
@@ -499,7 +533,7 @@ udo_file_ops_set_data_info
 		| Size in bytes to copy into file at :c:member:`offset`.
 
 	:c:member:`data`
-		| Data to copy at the given file offset.
+		| Data to copy at the given file :c:member:`offset`.
 
 =====================
 udo_file_ops_set_data
