@@ -64,29 +64,23 @@ struct udo_file_ops
  ******************************************/
 
 static void
-p_create_directories (const char *dir)
+p_create_directories (char *dir)
 {
+	size_t i;
 	struct stat sb;
 
-	char *temp_path;
-	size_t temp_path_len, i;
-
-	temp_path_len = strnlen(dir, FILE_PATH_MAX);
-	temp_path = alloca(temp_path_len);
-
 	memset(&sb,0,sizeof(struct stat));
-	memset(temp_path,0,temp_path_len);
-
-	for (i = 0; i < temp_path_len; i++) {
-		temp_path[i] = dir[i];
-		if (temp_path[i] == '/') {
-			if (!stat(temp_path, &sb) && \
+	for (i = 0; i < strnlen(dir, FILE_PATH_MAX); i++) {
+		if (dir[i] == '/') {
+			dir[i] = '\0';
+			if (!stat(dir, &sb) && \
 			    S_ISDIR(sb.st_mode))
 			{
+				dir[i] = '/';
 				continue;
 			}
-
-			mkdir(temp_path, 0771);
+			mkdir(dir, 0771);
+			dir[i] = '/';
 		}
 	}
 }
