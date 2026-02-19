@@ -64,13 +64,14 @@ struct udo_file_ops
  ******************************************/
 
 static void
-p_create_directories (char *dir)
+p_create_directories (char *dir,
+                      const uint16_t length)
 {
-	size_t i;
+	uint16_t i;
 	struct stat sb;
 
 	memset(&sb,0,sizeof(struct stat));
-	for (i = 0; i < strnlen(dir, FILE_PATH_MAX); i++) {
+	for (i = 0; i < length; i++) {
 		if (dir[i] == '/') {
 			dir[i] = '\0';
 			if (!stat(dir, &sb) && \
@@ -87,13 +88,19 @@ p_create_directories (char *dir)
 
 
 static void
-p_set_fname_off (struct udo_file_ops *flops)
+p_set_fname_off (struct udo_file_ops *flops,
+                 const uint16_t length)
 {
-	uint16_t length, i;
-	length = strnlen(flops->full_path, FILE_PATH_MAX);
+	uint16_t i;
 	for (i = length; i > 0; i--)
 		if (flops->full_path[i] == '/')
 			break;
+
+	/*
+	 * Enables use of one buffer to seperate
+	 * directory path and file name.
+	 */
+	flops->full_path[i] = '\0';
 	flops->fname_off = i + 1;
 }
 
@@ -103,6 +110,8 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
                      const void *p_file_info)
 {
 	int ret = -1;
+
+	uint16_t length;
 
 	struct stat fstats;
 
@@ -131,10 +140,10 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 		/* Check if file exist */
 		ret = stat(file_info->fname, &fstats);
 		memccpy(flops->full_path, file_info->fname, '\n', FILE_PATH_MAX);
-		p_set_fname_off(flops);
+		length = strnlen(flops->full_path, FILE_PATH_MAX);
 
 		if (file_info->create_dir)
-			p_create_directories(flops->full_path);
+			p_create_directories(flops->full_path, length);
 
 		flops->fd = open(flops->full_path, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
@@ -143,11 +152,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 			return NULL;
 		}
 
-		/*
-		 * Enables use of one buffer to seperate
-		 * directory path and file name.
-		 */
-		flops->full_path[flops->fname_off-1] = '\0';
+		p_set_fname_off(flops, length);
 
 		/*
 		 * If file exists and caller defined file_info->size set to 0.
