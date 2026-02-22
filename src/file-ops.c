@@ -188,7 +188,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 
 		flops->data = mmap(NULL, flops->alloc_sz,
 				   (flops->protect) ? PROT_READ : PROT_READ|PROT_WRITE,
-				   MAP_PRIVATE, flops->fd, file_info->offset);
+				   MAP_SHARED, flops->fd, file_info->offset);
 		if (flops->data == (void*)-1 && flops->alloc_sz) {
 			udo_log_error("mmap: %s\n", strerror(errno));
 			udo_file_ops_destroy(flops);
