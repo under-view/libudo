@@ -51,9 +51,11 @@ All options/features are disabled by default.
 	docs=true            # Default [false]
 	file-offset-bits=32  # Default [64]
 	file-ops=enabled     # Default [disabled]
+	jpool=enabled        # Default [disabled]
 	shm=enabled          # Default [disabled]
 	sock-tcp=enabled     # Default [disabled]
 	sock-udp=enabled     # Default [disabled]
+	csock-raw=enabled    # Default [disabled]
 	usock-tcp=enabled    # Default [disabled]
 	usock-udp=enabled    # Default [disabled]
 	vsock-tcp=enabled    # Default [disabled]
@@ -75,9 +77,11 @@ Build/Install (Normal)
 		-Ddocs="false" \
 		-Dfile-offset-bits=64 \
 		-Dfile-ops="enabled" \
+		-Djpool="enabled" \
 		-Dshm="enabled" \
 		-Dsock-tcp="enabled" \
 		-Dsock-udp="enabled" \
+		-Dcsock-raw="enabled" \
 		-Dusock-tcp="enabled" \
 		-Dusock-udp="enabled" \
 		-Dvsock-tcp="enabled" \
@@ -108,9 +112,11 @@ Build/Install (SDK)
 		-Ddocs="false" \
 		-Dfile-offset-bits=64 \
 		-Dfile-ops="enabled" \
+		-Djpool="enabled" \
 		-Dshm="enabled" \
 		-Dsock-tcp="enabled" \
 		-Dsock-udp="enabled" \
+		-Dcsock-raw="enabled" \
 		-Dusock-tcp="enabled" \
 		-Dusock-udp="enabled" \
 		-Dvsock-tcp="enabled" \
