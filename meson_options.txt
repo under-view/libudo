@@ -10,6 +10,10 @@ option('file-ops',
 	type: 'feature', value: 'disabled',
 	description: 'Build with file-operations support')
 
+option('jpool',
+	type: 'feature', value: 'disabled',
+	description: 'Build with job-pool support')
+
 option('shm',
 	type: 'feature', value: 'disabled',
 	description: 'Build with shared memory support')
@@ -21,10 +25,6 @@ option('sock-tcp',
 option('sock-udp',
 	type: 'feature', value: 'disabled',
 	description: 'Build with socket-udp support')
-
-option('jpool',
-	type: 'feature', value: 'disabled',
-	description: 'Build with job-pool support')
 
 option('csock-raw',
 	type: 'feature', value: 'disabled',

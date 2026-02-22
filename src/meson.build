@@ -13,6 +13,10 @@ if file_ops.enabled()
   fs += files('file-ops.c')
 endif
 
+if jpool.enabled()
+  fs += files('jpool.c')
+endif
+
 if shm.enabled()
   fs += files('shm.c')
 endif
@@ -23,10 +27,6 @@ endif
 
 if sock_udp.enabled()
   fs += files('sock-udp.c')
-endif
-
-if jpool.enabled()
-  fs += files('jpool.c')
 endif
 
 if csock_raw.enabled()

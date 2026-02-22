@@ -27,6 +27,15 @@ if file_ops.enabled()
 endif
 
 
+if jpool.enabled()
+  main_headers += ['jpool.h']
+
+  headers = '\n#define UDO_JPOOL_INTERFACE\n#include "jpool.h"'
+
+  main_headers_dict += {'JPOOL_INTERFACE': headers}
+endif
+
+
 if shm.enabled()
   main_headers += ['shm.h']
 
@@ -51,15 +60,6 @@ if sock_udp.enabled()
   headers = '\n#define UDO_SOCK_UDP_INTERFACE\n#include "sock-udp.h"'
 
   main_headers_dict += {'SOCK_UDP_INTERFACE': headers}
-endif
-
-
-if jpool.enabled()
-  main_headers += ['jpool.h']
-
-  headers = '\n#define UDO_JPOOL_INTERFACE\n#include "jpool.h"'
-
-  main_headers_dict += {'JPOOL_INTERFACE': headers}
 endif
 
 

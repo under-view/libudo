@@ -6,6 +6,10 @@ if file_ops.enabled()
   progs += ['test-file-ops.c']
 endif
 
+if jpool.enabled()
+  progs += ['test-jpool.c']
+endif
+
 if shm.enabled()
   progs += ['test-shm.c']
 endif
@@ -16,10 +20,6 @@ endif
 
 if sock_udp.enabled()
   progs += ['test-sock-udp.c']
-endif
-
-if jpool.enabled()
-  progs += ['test-jpool.c']
 endif
 
 if csock_raw.enabled()
