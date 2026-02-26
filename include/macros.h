@@ -31,6 +31,16 @@
 
 
 /*
+ * Macros used to define size buffer(s)
+ * that store paths to file's or just
+ * their file name.
+ */
+#define UDO_DIR_NAME_MAX  (1<<12)
+#define UDO_FILE_NAME_MAX (1<<8)
+#define UDO_FILE_PATH_MAX (UDO_DIR_NAME_MAX+UDO_FILE_NAME_MAX)
+
+
+/*
  * Min & Max macro definitions with type safety.
  */
 #define UDO_MAX(a,b) \
