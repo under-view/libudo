@@ -65,18 +65,9 @@ p_create_directories (char *dir,
                       const uint16_t length)
 {
 	uint16_t i;
-	struct stat sb;
-
-	memset(&sb,0,sizeof(struct stat));
 	for (i = 0; i < length; i++) {
 		if (dir[i] == '/') {
 			dir[i] = '\0';
-			if (!stat(dir, &sb) && \
-			    S_ISDIR(sb.st_mode))
-			{
-				dir[i] = '/';
-				continue;
-			}
 			mkdir(dir, 0771);
 			dir[i] = '/';
 		}
