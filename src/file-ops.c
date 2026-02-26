@@ -15,10 +15,7 @@
 #include "log.h"
 #include "file-ops.h"
 
-#define FILE_NAME_MAX (1<<8)
-#define DIR_NAME_MAX (1<<12)
 #define PIPE_MAX_BUFF_SIZE (size_t)(1<<16)
-#define FILE_PATH_MAX (DIR_NAME_MAX+FILE_NAME_MAX)
 
 /*
  * @brief Structure defining UDO File Operations instance.
@@ -55,7 +52,7 @@ struct udo_file_ops
 	size_t                      data_sz;
 	void                        *data;
 	uint16_t                    fname_off;
-	char                        full_path[FILE_PATH_MAX];
+	char                        full_path[UDO_FILE_PATH_MAX];
 };
 
 
@@ -139,8 +136,8 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 	if (file_info->fname) {
 		/* Check if file exist */
 		ret = stat(file_info->fname, &fstats);
-		memccpy(flops->full_path, file_info->fname, '\n', FILE_PATH_MAX);
-		length = strnlen(flops->full_path, FILE_PATH_MAX);
+		memccpy(flops->full_path, file_info->fname, '\n', UDO_FILE_PATH_MAX);
+		length = strnlen(flops->full_path, UDO_FILE_PATH_MAX);
 
 		if (file_info->create_dir)
 			p_create_directories(flops->full_path, length);
@@ -580,7 +577,7 @@ udo_file_ops_remove_dir (const char *dir)
 	DIR *d;
 	struct stat st;
 	struct dirent *de;
-	char path[FILE_PATH_MAX];
+	char path[UDO_FILE_PATH_MAX];
 
 	d = opendir(dir);
 	if (!d) {
