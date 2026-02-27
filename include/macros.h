@@ -44,13 +44,28 @@
 
 
 /*
- * Min & Max macro definitions with type safety.
+ * @brief Returns the maximum value between @a and @b.
+ *
+ * @param a - Must pass an integer value.
+ * @param b - Must pass an integer value.
+ *
+ * @returns
+ * 	Maximum value between 2 numbers
  */
 #define UDO_MAX(a,b) \
 	({ typeof (a) _a = (a); \
 	   typeof (b) _b = (b); \
 	   _a > _b ? _a : _b; })
 
+/*
+ * @brief Returns the minimum value between @a and @b.
+ *
+ * @param a - Must pass an integer value.
+ * @param b - Must pass an integer value.
+ *
+ * @returns
+ * 	Minimum value between 2 numbers
+ */
 #define UDO_MIN(a,b) \
 	({ typeof (a) _a = (a); \
 	   typeof (b) _b = (b); \
@@ -58,20 +73,32 @@
 
 
 /*
- * Memory alignment values must be a power of 2 number.
+ * @brief Returns the upper bound byte alignment value.
+ *        Alignment value must be a power of 2 number.
+ *
+ * @param bytes           - Integer value to align.
+ * @param power_two_align - Power of 2 number to align @bytes to.
+ *
+ * @returns
+ * 	Upper bound memory alignment
  */
 #define UDO_BYTE_ALIGN(bytes, power_two_align) \
-	(bytes+(power_two_align-1))&~(power_two_align-1)
+	((bytes+(power_two_align-1))&~(power_two_align-1))
 
 
 /*
- * Define typical page size without including
- * limits.h header.
+ * @brief Defines typical page size.
  */
 #define UDO_PAGE_SIZE (1<<12)
 
 /*
- * Retrieves the starting address of the page @ptr resides in.
+ * @brief Retrieves the starting address of
+ *        the page @ptr resides in.
+ *
+ * @param ptr - Address caller wants to find page of.
+ *
+ * @returns
+ * 	Starting address of the page
  */
 #define UDO_PAGE_GET(ptr) \
 	((void*)((uintptr_t)ptr & ~(UDO_PAGE_SIZE-1)))
@@ -83,9 +110,8 @@
  *
  * @param str - Pointer to string to hash.
  *
- * @return
- * 	on success: unsigned integer representing string
- * 	on failure: unsigned integer representing string
+ * @returns
+ * 	unsigned integer representing string
  */
 #define UDO_STRTOU(str) \
 	__extension__ \
@@ -103,13 +129,17 @@
  *
  * @param name - Name of atomic type.
  * @param type - Data type of the atomic type.
+ *
+ * @returns
+ * 	The atomic type
  */
 #define UDO_ATOMIC_DEF(name, type) \
 	typedef _Atomic __typeof__(type) name;
 
-UDO_ATOMIC_DEF(udo_atomic_int, int);
-UDO_ATOMIC_DEF(udo_atomic_bool, unsigned char);
-UDO_ATOMIC_DEF(udo_atomic_u32, unsigned int);
-UDO_ATOMIC_DEF(udo_atomic_addr, unsigned char *);
+/* Atomic Types */
+UDO_ATOMIC_DEF(udo_atomic_int, int)
+UDO_ATOMIC_DEF(udo_atomic_bool, unsigned char)
+UDO_ATOMIC_DEF(udo_atomic_u32, unsigned int)
+UDO_ATOMIC_DEF(udo_atomic_addr, unsigned char *)
 
 #endif /* UDO_MACROS_H */
