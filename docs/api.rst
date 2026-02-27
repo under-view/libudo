@@ -9,6 +9,7 @@
 	file-ops
 	futex
 	jpool
+	macros
 	mm
 	shm
 	sock-tcp

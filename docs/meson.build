@@ -7,6 +7,7 @@ docs_src = files([
   'jpool.rst',
   'index.rst',
   'log.rst',
+  'macros.rst',
   'mm.rst',
   'shm.rst',
   'sock-tcp.rst',
