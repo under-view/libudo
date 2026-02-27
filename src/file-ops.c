@@ -431,7 +431,7 @@ int
 udo_file_ops_set_data (struct udo_file_ops *flops,
                        const void *p_file_info)
 {
-	int ret = -1;
+	int err = -1;
 
 	void *data = NULL;
 
@@ -452,8 +452,8 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
 	data = (void*)(((char*)flops->data)+file_info->offset);
 
 	if (flops->protect) {
-		ret = UDO_PAGE_SET_WRITE(data, file_info->size);
-		if (ret == -1) {
+		err = mprotect(UDO_PAGE_GET(data), file_info->size, PROT_WRITE);
+		if (err == -1) {
 			udo_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
 			return -1;
 		}
@@ -463,8 +463,8 @@ udo_file_ops_set_data (struct udo_file_ops *flops,
 	flops->data_sz += file_info->size;
 
 	if (flops->protect) {
-		ret = UDO_PAGE_SET_READ(data, file_info->size);
-		if (ret == -1) {
+		err = mprotect(UDO_PAGE_GET(data), file_info->size, PROT_READ);
+		if (err == -1) {
 			udo_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
 			return -1;
 		}
