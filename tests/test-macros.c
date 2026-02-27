@@ -62,28 +62,16 @@ test_macro_udo_byte_align (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_macro_udo_page (void UDO_UNUSED **state)
 {
-	int err = -1;
+	size_t size = 0;
+	char *addr = NULL, *page = NULL;
 
-	void *addr = NULL;
-	char *page = NULL;
-
-	assert_int_equal((1<<12), UDO_PAGE_SIZE);
-
-	addr = mmap(NULL, 4 * UDO_PAGE_SIZE,
-	            PROT_READ, MAP_ANONYMOUS,
-		    -1, 0);
+	size = 4 * UDO_PAGE_SIZE;
+	addr = mmap(NULL, size, PROT_READ,
+	            MAP_ANONYMOUS, -1, 0);
 	assert_non_null(addr);
 
-	page = UDO_PAGE_GET(((char*)addr+6555));
+	page = (char*)UDO_PAGE_GET(((char*)addr+6555));
 	assert_ptr_equal(page, ((char*)addr+UDO_PAGE_SIZE));
-
-	err = UDO_PAGE_SET_WRITE(page, UDO_PAGE_SIZE);
-	assert_int_equal(err, 0);
-
-	*page = 'A';
-
-	err = UDO_PAGE_SET_READ(page, UDO_PAGE_SIZE);
-	assert_int_equal(err, 0);
 
 	munmap(addr, 4 * UDO_PAGE_SIZE);
 }
@@ -121,6 +109,7 @@ main (void)
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_macro_udo_min_max),
 		cmocka_unit_test(test_macro_udo_byte_align),
+		cmocka_unit_test(test_macro_udo_page),
 		cmocka_unit_test(test_macro_udo_strtou),
 	};
 

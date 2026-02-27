@@ -2,14 +2,17 @@
 #define UDO_MACROS_H
 
 #include <stdint.h>   /* For uintptr_t */
-#include <sys/mman.h> /* For mprotect(2) */
 
-/* Prevent c++ name mangling */
+/*
+ * Used to prevent C++ name mangling when
+ * using library in a C++ software package.
+ */
 #ifdef __cplusplus
 #define UDO_API extern "C"
 #else
 #define UDO_API
 #endif
+
 
 /*
  * Informs the compiler that you expect a variable
@@ -31,7 +34,7 @@
 
 
 /*
- * Macros used to define size buffer(s)
+ * Macros used to define size of buffer(s)
  * that store paths to file's or just
  * their file name.
  */
@@ -47,7 +50,6 @@
 	({ typeof (a) _a = (a); \
 	   typeof (b) _b = (b); \
 	   _a > _b ? _a : _b; })
-
 
 #define UDO_MIN(a,b) \
 	({ typeof (a) _a = (a); \
@@ -68,44 +70,11 @@
  */
 #define UDO_PAGE_SIZE (1<<12)
 
-
 /*
  * Retrieves the starting address of the page @ptr resides in.
  */
 #define UDO_PAGE_GET(ptr) \
 	((void*)((uintptr_t)ptr & ~(UDO_PAGE_SIZE-1)))
-
-
-/*
- * @brief Sets a grouping a pages write-only
- *
- * @param ptr  - Pointer to buffer caller wants write-only
- * @param size - Size of data that needs to be set write-only
- */
-#define UDO_PAGE_SET_WRITE(ptr, size) \
-	__extension__ \
-	({ \
-		int err = -1; \
-		void *page = UDO_PAGE_GET(ptr); \
-		err = mprotect(page, size, PROT_WRITE); \
-		err; \
-	})
-
-
-/*
- * @brief Sets a grouping a pages read-only
- *
- * @param ptr  - Pointer to buffer caller wants write-only
- * @param size - Size of data that needs to be set write-only
- */
-#define UDO_PAGE_SET_READ(ptr, size) \
-	__extension__ \
-	({ \
-		int err = -1; \
-		void *page = UDO_PAGE_GET(ptr); \
-		err = mprotect(page, size, PROT_READ); \
-		err; \
-	})
 
 
 /*
