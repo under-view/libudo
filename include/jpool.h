@@ -63,11 +63,11 @@ udo_jpool_create (struct udo_jpool *jpool,
  *                passed as the argument to @func.
  *
  * @returns
- *	on success: Queue buffer byte offset
- *	on failure: -1 or UINT32_MAX
+ *	on success: 0
+ *	on failure: -1
  */
 UDO_API
-uint32_t
+int
 udo_jpool_add_job (struct udo_jpool *jpool,
                    void (*func)(void *arg),
                    void *arg);

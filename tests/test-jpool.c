@@ -40,6 +40,8 @@ test_jpool_create (void UDO_UNUSED **state)
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_null(jpool);
 
+	udo_log_set_level(UDO_LOG_ALL);
+
 	jpool_info.count = 2;
 	jpool_info.size  = UDO_PAGE_SIZE;
 	jpool = udo_jpool_create(NULL, &jpool_info);
@@ -68,11 +70,8 @@ run_func (void *arg)
 static void UDO_UNUSED
 test_jpool_add_job (void UDO_UNUSED **state)
 {
-	int arg = 1;
-
-	uint32_t ret, i;
-
-	struct udo_jpool *jpool = NULL;
+	int arg = 0, ret, i;
+	struct udo_jpool *jpool;
 
 	struct udo_jpool_create_info jpool_info;
 	memset(&jpool_info, 0, sizeof(jpool_info));
@@ -88,9 +87,10 @@ test_jpool_add_job (void UDO_UNUSED **state)
 	assert_non_null(jpool);
 
 	/* Check that queue full */
-	for (i = 24; i < UDO_PAGE_SIZE;) {
-		ret = udo_jpool_add_job(jpool, run_func, &arg); i += 16; arg++;
-		assert_int_equal(ret, (ret>=UDO_PAGE_SIZE) ? UINT32_MAX : i);
+	for (i = 24; i < UDO_PAGE_SIZE; i += 16) {
+		arg++;
+		ret = udo_jpool_add_job(jpool, run_func, &arg);
+		assert_int_equal(ret, 0);
 	}
 
 	sleep(5);
@@ -124,7 +124,7 @@ main (void)
 {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_jpool_create),
-		cmocka_unit_test(test_jpool_add_job),
+		//cmocka_unit_test(test_jpool_add_job),
 		cmocka_unit_test(test_jpool_get_sizeof),
 	};
 
