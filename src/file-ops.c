@@ -135,7 +135,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 		flops->fd = open(flops->full_path, O_CREAT|O_RDWR, 0644);
 		if (flops->fd == -1) {
 			udo_log_error("open: %s\n", strerror(errno));
-			udo_file_ops_destroy(flops);
+			udo_file_ops_destroy(flops, 0);
 			return NULL;
 		}
 
@@ -162,7 +162,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 		ret = pipe(flops->pipe_fds);
 		if (ret == -1) {
 			udo_log_error("pipe: %s\n", strerror(errno));
-			udo_file_ops_destroy(flops);
+			udo_file_ops_destroy(flops, 0);
 			return NULL;
 		}
 	} else {
@@ -170,7 +170,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 			ret = ftruncate(flops->fd, flops->alloc_sz);
 			if (ret == -1) {
 				udo_log_error("%s\n", strerror(errno));
-				udo_file_ops_destroy(flops);
+				udo_file_ops_destroy(flops, 0);
 				return NULL;
 			}
 		}
@@ -180,7 +180,7 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 				   MAP_SHARED, flops->fd, file_info->offset);
 		if (flops->data == (void*)-1 && flops->alloc_sz) {
 			udo_log_error("mmap: %s\n", strerror(errno));
-			udo_file_ops_destroy(flops);
+			udo_file_ops_destroy(flops, 0);
 			return NULL;
 		}
 	}
@@ -473,13 +473,16 @@ udo_file_ops_reset_full_path (struct udo_file_ops *flops)
  *******************************************/
 
 void
-udo_file_ops_destroy (struct udo_file_ops *flops)
+udo_file_ops_destroy (struct udo_file_ops *flops,
+                      const size_t data_sz)
 {
 	if (!flops)
 		return;
 
 	munmap(flops->data, flops->alloc_sz);
-	(void)!ftruncate(flops->fd, flops->data_sz);
+
+	if (data_sz)
+		(void)!ftruncate(flops->fd, data_sz);
 
 	close(flops->pipe_fds[0]);
 	close(flops->pipe_fds[1]);
