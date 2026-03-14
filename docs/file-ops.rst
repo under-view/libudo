@@ -391,6 +391,8 @@ udo_file_ops_get_data_size
 .. c:function:: size_t udo_file_ops_get_data_size(struct udo_file_ops *flops);
 
 | Returns size of the data within the open file.
+| Only useful to caller if file was already
+| populated with data when opened.
 
 	.. list-table::
 		:header-rows: 1

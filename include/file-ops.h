@@ -215,6 +215,8 @@ udo_file_ops_get_alloc_size (struct udo_file_ops *flops);
 
 /*
  * @brief Returns size of the data within the open file.
+ *        Only useful to caller if file was already
+ *        populated with data when opened.
  *
  * @param flops - Pointer to a valid struct udo_file_ops.
  *
