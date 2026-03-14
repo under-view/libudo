@@ -60,22 +60,6 @@ udo_file_ops_create (struct udo_file_ops *flops,
 
 
 /*
- * @brief Adjust file to a size of precisely length bytes.
- *
- * @param flops - Pointer to a valid struct udo_file_ops.
- * @param size  - Size in bytes file will be truncate(2)'d to.
- *
- * @returns
- * 	on success: 0
- * 	on failure: # < 0
- */
-UDO_API
-int
-udo_file_ops_truncate (struct udo_file_ops *flops,
-                       const off_t size);
-
-
-/*
  * @brief UDO File Operations Zero Copy Info
  *
  * @size    - Total size of the data to copy.

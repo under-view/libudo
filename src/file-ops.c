@@ -55,7 +55,6 @@ struct udo_file_ops
 	char                        full_path[UDO_FILE_PATH_MAX];
 };
 
-
 /******************************************
  * Start of udo_file_ops_create functions *
  ******************************************/
@@ -167,11 +166,13 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 			return NULL;
 		}
 	} else {
-		ret = udo_file_ops_truncate(flops, flops->alloc_sz);
-		if (ret < 0 && flops->alloc_sz) {
-			udo_log_error("%s\n", udo_log_get_error(flops));
-			udo_file_ops_destroy(flops);
-			return NULL;
+		if (!(flops->data_sz)) {
+			ret = ftruncate(flops->fd, flops->alloc_sz);
+			if (ret == -1) {
+				udo_log_error("%s\n", strerror(errno));
+				udo_file_ops_destroy(flops);
+				return NULL;
+			}
 		}
 
 		flops->data = mmap(NULL, flops->alloc_sz,
@@ -190,39 +191,6 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 /****************************************
  * End of udo_file_ops_create functions *
  ****************************************/
-
-
-/********************************************
- * Start of udo_file_ops_truncate functions *
- ********************************************/
-
-int
-udo_file_ops_truncate (struct udo_file_ops *flops,
-                       const off_t size)
-{
-	int ret = -1;
-
-	if (!flops)
-		return -1;
-
-	if (size == 0)
-	{
-		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
-		return -1;
-	}
-
-	ret = ftruncate(flops->fd, size);
-	if (ret == -1) {
-		udo_log_set_error(flops, errno, "ftruncate: %s", strerror(errno));
-		return -errno;
-	}
-
-	return 0;
-}
-
-/******************************************
- * End of udo_file_ops_truncate functions *
- ******************************************/
 
 
 /*********************************************
@@ -511,7 +479,7 @@ udo_file_ops_destroy (struct udo_file_ops *flops)
 		return;
 
 	munmap(flops->data, flops->alloc_sz);
-	udo_file_ops_truncate(flops, flops->data_sz);
+	(void)!ftruncate(flops->fd, flops->data_sz);
 
 	close(flops->pipe_fds[0]);
 	close(flops->pipe_fds[1]);
