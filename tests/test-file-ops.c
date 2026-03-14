@@ -38,7 +38,7 @@ test_file_ops_create (void UDO_UNUSED **state)
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 
 	ret = stat(file_info.fname, &fstats);
 	assert_int_equal(ret, 0);
@@ -69,7 +69,7 @@ test_file_ops_create_empty_file (void UDO_UNUSED **state)
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 
 	ret = stat(file_info.fname, &fstats);
 	assert_int_equal(ret, 0);
@@ -122,8 +122,8 @@ test_file_ops_zero_copy (void UDO_UNUSED **state)
 	ret = udo_file_ops_zero_copy(flops, &zcopy_info);
 	assert_int_equal(ret, 0x62);
 
-	udo_file_ops_destroy(flops); flops = NULL;
-	udo_file_ops_destroy(flops_two); flops_two = NULL;
+	udo_file_ops_destroy(flops, 0); flops = NULL;
+	udo_file_ops_destroy(flops_two, 0); flops_two = NULL;
 
 	/* Re-open newly created file */
 	file_info.fname = "/tmp/test-file.txt";
@@ -141,7 +141,7 @@ test_file_ops_zero_copy (void UDO_UNUSED **state)
 	memccpy(buffer, data, '\n', sizeof(buffer));
 	assert_string_equal(buffer, "line four : check me\n");
 
-	udo_file_ops_destroy(flops_two);
+	udo_file_ops_destroy(flops_two, 0);
 	remove("/tmp/test-file.txt");
 }
 
@@ -175,7 +175,7 @@ test_file_ops_get_data (void UDO_UNUSED **state)
 	data = udo_file_ops_get_data(flops, 0);
 	assert_non_null(data);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 
@@ -217,7 +217,7 @@ test_file_ops_get_line (void UDO_UNUSED **state)
 	memccpy(buffer, data, '\n', sizeof(buffer));
 	assert_string_equal(buffer, "line four : check me\n");
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 
@@ -239,7 +239,7 @@ test_file_ops_get_line_count (void UDO_UNUSED **state)
 	line_count = udo_file_ops_get_line_count(flops);
 	assert_int_equal(line_count, 8);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 
@@ -264,7 +264,7 @@ test_file_ops_get_fd (void UDO_UNUSED **state)
 	fd = udo_file_ops_get_fd(NULL);
 	assert_int_equal(fd, -1);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 
@@ -290,7 +290,7 @@ test_file_ops_get_alloc_size (void UDO_UNUSED **state)
 	size = udo_file_ops_get_alloc_size(NULL);
 	assert_int_equal(size, -1);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 	remove(file_info.fname);
 }
 
@@ -316,7 +316,7 @@ test_file_ops_get_data_size (void UDO_UNUSED **state)
 	size = udo_file_ops_get_data_size(NULL);
 	assert_int_equal(size, -1);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 
@@ -341,7 +341,7 @@ test_file_ops_get_filename (void UDO_UNUSED **state)
 	fname = udo_file_ops_get_filename(NULL);
 	assert_null(fname);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 
@@ -371,7 +371,7 @@ test_file_ops_get_dirname (void UDO_UNUSED **state)
 	dname = udo_file_ops_get_dirname(NULL);
 	assert_null(dname);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 
@@ -399,7 +399,7 @@ test_file_ops_get_full_path (void UDO_UNUSED **state)
 	full_path = udo_file_ops_get_full_path(NULL);
 	assert_null(full_path);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 /**************************************
@@ -440,7 +440,7 @@ test_file_ops_set_data (void UDO_UNUSED **state)
 	data = udo_file_ops_get_data(flops, 0);
 	assert_string_equal(data, sd_info.data);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 	remove(file_info.fname);
 }
 
@@ -480,7 +480,7 @@ test_file_ops_reset_full_path (void UDO_UNUSED **state)
 	dname = udo_file_ops_get_dirname(flops);
 	assert_string_not_equal(dname, full_path_buff);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 }
 
 /****************************************
@@ -528,7 +528,7 @@ test_file_ops_set_fd_flags (void UDO_UNUSED **state)
 	err = udo_file_ops_set_fd_flags(fd, O_NONBLOCK);
 	assert_int_equal(err, 0);
 
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 	remove(file_info.fname);
 }
 
@@ -559,7 +559,7 @@ test_file_ops_remove_dir (void UDO_UNUSED **state)
 	file_info.create_dir = 1;
 	flops = udo_file_ops_create(NULL, &file_info);
 	assert_non_null(flops);
-	udo_file_ops_destroy(flops);
+	udo_file_ops_destroy(flops, 0);
 
 	ret = udo_file_ops_remove_dir("/tmp/data");
 	assert_int_equal(ret, 0);

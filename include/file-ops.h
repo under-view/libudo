@@ -331,11 +331,15 @@ udo_file_ops_reset_full_path (struct udo_file_ops *flops);
  * @brief Frees any allocated memory and closes FD's (if open) created after
  *        udo_file_ops_create() call.
  *
- * @param flops - Pointer to a valid struct udo_file_ops.
+ * @param flops   - Pointer to a valid struct udo_file_ops.
+ * @param data_sz - Byte size to shrink or expand file data to.
+ *                  Generally should be set to 0 unless caller
+ *                  directly modifies mmap(2) file buffer.
  */
 UDO_API
 void
-udo_file_ops_destroy (struct udo_file_ops *flops);
+udo_file_ops_destroy (struct udo_file_ops *flops,
+                      const size_t data_sz);
 
 
 /*
