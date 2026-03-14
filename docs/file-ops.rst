@@ -27,14 +27,12 @@ Structs
 1. :c:struct:`udo_file_ops`
 #. :c:struct:`udo_file_ops_create_info`
 #. :c:struct:`udo_file_ops_zero_copy_info`
-#. :c:struct:`udo_file_ops_set_data_info`
 
 =========
 Functions
 =========
 
 1. :c:func:`udo_file_ops_create`
-#. :c:func:`udo_file_ops_truncate`
 #. :c:func:`udo_file_ops_zero_copy`
 #. :c:func:`udo_file_ops_get_data`
 #. :c:func:`udo_file_ops_get_line`
@@ -45,7 +43,6 @@ Functions
 #. :c:func:`udo_file_ops_get_filename`
 #. :c:func:`udo_file_ops_get_dirname`
 #. :c:func:`udo_file_ops_get_full_path`
-#. :c:func:`udo_file_ops_set_data`
 #. :c:func:`udo_file_ops_reset_full_path`
 #. :c:func:`udo_file_ops_destroy`
 #. :c:func:`udo_file_ops_get_sizeof`
@@ -99,7 +96,7 @@ udo_file_ops (private)
 
 	:c:member:`data_sz`
 		| Total size of data written to file. Used when destroying
-		| the ``struct`` :c:struct:`udo_file_ops` context to truncate file to a
+		| the ``struct`` :c:struct:`udo_file_ops` context to `truncate(2)`_ file to a
 		| smaller size than :c:member:`alloc_sz`.
 
 	:c:member:`data`
@@ -177,30 +174,6 @@ udo_file_ops_create
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_file_ops`
 		| **on failure:** ``NULL``
-
-=========================================================================================================================================
-
-=====================
-udo_file_ops_truncate
-=====================
-
-.. c:function:: int udo_file_ops_truncate(struct udo_file_ops *flops, const off_t size);
-
-| Adjust file to a size of precisely length bytes.
-
-	.. list-table::
-		:header-rows: 1
-
-		* - Param
-	          - Decription
-		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
-		* - size
-		  - | Size in bytes file will be `truncate(2)`_'d to.
-
-	Returns:
-		| **on success:** 0
-		| **on failure:** # < 0
 
 =========================================================================================================================================
 
@@ -516,52 +489,6 @@ udo_file_ops_get_full_path
 
 =========================================================================================================================================
 
-==========================
-udo_file_ops_set_data_info
-==========================
-
-.. c:struct:: udo_file_ops_set_data_info
-
-	.. c:member::
-		size_t     offset;
-		size_t     size;
-		const void *data;
-
-	:c:member:`offset`
-		| Byte offset within the file.
-
-	:c:member:`size`
-		| Size in bytes to copy into file at :c:member:`offset`.
-
-	:c:member:`data`
-		| Data to copy at the given file :c:member:`offset`.
-
-=====================
-udo_file_ops_set_data
-=====================
-
-.. c:function:: int udo_file_ops_set_data(struct udo_file_ops *flops, const void *file_info);
-
-| Sets data in a file at a given offset up to a given size.
-
-	.. list-table::
-		:header-rows: 1
-
-		* - Param
-	          - Decription
-		* - flops
-		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
-		* - file_info
-		  - | Pointer to a ``struct`` :c:struct:`udo_file_ops_set_data_info`.
-		    | The use of pointer to a void is to limit amount
-		    | of columns required to define a function.
-
-	Returns:
-		| **on success:** 0
-		| **on failure:** -1
-
-=========================================================================================================================================
-
 ============================
 udo_file_ops_reset_full_path
 ============================
@@ -586,7 +513,7 @@ udo_file_ops_reset_full_path
 udo_file_ops_destroy
 ====================
 
-.. c:function:: void udo_file_ops_destroy(struct udo_file_ops *flops);
+.. c:function:: void udo_file_ops_destroy(struct udo_file_ops *flops, const size_t data_sz);
 
 | Frees any allocated memory and closes FD's (if open) created after
 | :c:func:`udo_file_ops_create` call.
@@ -598,6 +525,10 @@ udo_file_ops_destroy
 	          - Decription
 		* - flops
 		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
+		* - data_sz
+		  - | Byte size to shrink or expand file data to.
+		    | Generally should be set to ``0`` unless caller
+		    | directly modifies `mmap(2)`_ file buffer.
 
 =========================================================================================================================================
 
