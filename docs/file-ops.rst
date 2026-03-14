@@ -61,7 +61,6 @@ udo_file_ops (private)
 	.. c:member::
 		struct udo_log_error_struct err;
 		bool                        free;
-		bool                        protect;
 		int                         fd;
 		int                         pipe_fds[2];
 		size_t                      alloc_sz;
@@ -79,9 +78,6 @@ udo_file_ops (private)
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
 		| destroying the instance.
-
-	:c:member:`protect`
-		| If true sets `mmap(2)`_ file pages to read only.
 
 	:c:member:`fd`
 		| File descriptor to open file.
