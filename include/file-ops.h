@@ -283,39 +283,6 @@ udo_file_ops_get_full_path (struct udo_file_ops *flops);
 
 
 /*
- * @brief UDO File Operations Set Data Info
- *
- * @member offset - Byte offset within the file.
- * @member size   - Size in bytes to copy into file at @offset.
- * @member data   - Data to copy at the given file @offset.
- */
-struct udo_file_ops_set_data_info
-{
-	size_t     offset;
-	size_t     size;
-	const void *data;
-};
-
-
-/*
- * @brief Sets data in a file at a given offset up to a given size.
- *
- * @param flops     - Pointer to a valid struct udo_file_ops.
- * @param file_info - Pointer to a struct udo_file_ops_set_data_info.
- *                    The use of pointer to a void is to limit amount
- *                    of columns required to define a function.
- *
- * @returns
- * 	on success: 0
- * 	on failure: -1
- */
-UDO_API
-int
-udo_file_ops_set_data (struct udo_file_ops *flops,
-                       const void *file_info);
-
-
-/*
  * @brief Resets internal struct udo_file_ops full_path
  *        member back to original state after a call
  *        to udo_file_ops_create(3).
