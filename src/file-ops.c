@@ -156,6 +156,8 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 			flops->data_sz = 0;
 			flops->alloc_sz = file_info->size;
 		}
+
+		flops->alloc_sz = UDO_BYTE_ALIGN(flops->alloc_sz, UDO_PAGE_SIZE);
 	}
 
 	if (file_info->create_pipe) {
