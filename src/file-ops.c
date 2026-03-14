@@ -391,61 +391,6 @@ udo_file_ops_get_full_path (struct udo_file_ops *flops)
  *************************************/
 
 
-/***************************************
- * Start of udo_file_ops_set functions *
- ***************************************/
-
-int
-udo_file_ops_set_data (struct udo_file_ops *flops,
-                       const void *p_file_info)
-{
-	int err = -1;
-
-	void *data = NULL;
-
-	const struct udo_file_ops_set_data_info *file_info = p_file_info;
-
-	if (!flops)
-		return -1;
-
-	if (!file_info || \
-	    !(flops->data) || \
-	    !(file_info->data) || \
-	    (file_info->size+file_info->offset) >= flops->alloc_sz)
-	{
-		udo_log_set_error(flops, UDO_LOG_ERR_INCORRECT_DATA, "");
-		return -1;
-	}
-
-	data = (void*)(((char*)flops->data)+file_info->offset);
-
-	if (flops->protect) {
-		err = mprotect(UDO_PAGE_GET(data), file_info->size, PROT_WRITE);
-		if (err == -1) {
-			udo_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
-			return -1;
-		}
-	}
-
-	memcpy(data, file_info->data, file_info->size);
-	flops->data_sz += file_info->size;
-
-	if (flops->protect) {
-		err = mprotect(UDO_PAGE_GET(data), file_info->size, PROT_READ);
-		if (err == -1) {
-			udo_log_set_error(flops, errno, "mprotect: %s", strerror(errno));
-			return -1;
-		}
-	}
-
-	return 0;
-}
-
-/*************************************
- * End of udo_file_ops_set functions *
- *************************************/
-
-
 /*****************************************
  * Start of udo_file_ops_reset functions *
  *****************************************/

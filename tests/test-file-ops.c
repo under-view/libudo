@@ -408,48 +408,6 @@ test_file_ops_get_full_path (void UDO_UNUSED **state)
 
 
 /****************************************
- * Start of test_file_ops_set functions *
- ****************************************/
-
-static void UDO_UNUSED
-test_file_ops_set_data (void UDO_UNUSED **state)
-{
-	int ret = -1;
-
-	const void *data = NULL;
-
-	struct udo_file_ops *flops = NULL;
-
-	struct udo_file_ops_create_info file_info;
-	struct udo_file_ops_set_data_info sd_info;
-
-	memset(&sd_info, 0, sizeof(sd_info));
-	memset(&file_info, 0, sizeof(file_info));
-
-	file_info.fname = "/tmp/testing-one.txt";
-	file_info.size = 1 << 12;
-	flops = udo_file_ops_create(NULL, &file_info);
-	assert_non_null(flops);
-
-	sd_info.offset = 0;
-	sd_info.data = "Adding data on line one.\n";
-	sd_info.size = strnlen(sd_info.data, file_info.size);
-	ret = udo_file_ops_set_data(flops, &sd_info);
-	assert_int_equal(ret, 0);
-
-	data = udo_file_ops_get_data(flops, 0);
-	assert_string_equal(data, sd_info.data);
-
-	udo_file_ops_destroy(flops, 0);
-	remove(file_info.fname);
-}
-
-/**************************************
- * End of test_file_ops_set functions *
- **************************************/
-
-
-/****************************************
  * End of test_file_ops_reset functions *
  ****************************************/
 
@@ -585,7 +543,6 @@ main (void)
 		cmocka_unit_test(test_file_ops_get_filename),
 		cmocka_unit_test(test_file_ops_get_dirname),
 		cmocka_unit_test(test_file_ops_get_full_path),
-		cmocka_unit_test(test_file_ops_set_data),
 		cmocka_unit_test(test_file_ops_reset_full_path),
 		cmocka_unit_test(test_file_ops_get_sizeof),
 		cmocka_unit_test(test_file_ops_set_fd_flags),
