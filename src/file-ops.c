@@ -26,7 +26,6 @@
  * @member free      - If structure allocated with calloc(3) member will be
  *                     set to true so that, we know to call free(3) when
  *                     destroying the instance.
- * @member protect   - If true sets mmap(2) file pages to read only.
  * @member fd        - File descriptor to open file.
  * @member pipe_fds  - File descriptors associated with an open pipe.
  *                     pipe_fds[0] - Read end of the pipe
@@ -45,7 +44,6 @@ struct udo_file_ops
 {
 	struct udo_log_error_struct err;
 	bool                        free;
-	bool                        protect;
 	int                         fd;
 	int                         pipe_fds[2];
 	size_t                      alloc_sz;
@@ -121,8 +119,6 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 		flops->free = true;
 	}
 
-	flops->protect = file_info->protect;
-
 	if (file_info->fname) {
 		/* Check if file exist */
 		ret = stat(file_info->fname, &fstats);
@@ -177,8 +173,9 @@ udo_file_ops_create (struct udo_file_ops *p_flops,
 			}
 		}
 
-		flops->data = mmap(NULL, flops->alloc_sz,
-				   (flops->protect) ? PROT_READ : PROT_READ|PROT_WRITE,
+		flops->data = mmap(NULL, flops->alloc_sz, \
+				   (file_info->protect) ? \
+				   PROT_READ : PROT_READ|PROT_WRITE, \
 				   MAP_SHARED, flops->fd, file_info->offset);
 		if (flops->data == (void*)-1 && flops->alloc_sz) {
 			udo_log_error("mmap: %s\n", strerror(errno));
