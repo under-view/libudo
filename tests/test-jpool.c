@@ -40,9 +40,7 @@ test_jpool_create (void UDO_UNUSED **state)
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_null(jpool);
 
-	udo_log_set_level(UDO_LOG_ALL);
-
-	jpool_info.count = 2;
+	jpool_info.count = 4;
 	jpool_info.size  = UDO_PAGE_SIZE;
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
@@ -70,7 +68,7 @@ run_func (void *arg)
 static void UDO_UNUSED
 test_jpool_add_job (void UDO_UNUSED **state)
 {
-	int arg = 0, ret, i;
+	int ret, i;
 	struct udo_jpool *jpool;
 
 	struct udo_jpool_create_info jpool_info;
@@ -86,10 +84,8 @@ test_jpool_add_job (void UDO_UNUSED **state)
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
 
-	/* Check that queue full */
-	for (i = 24; i < UDO_PAGE_SIZE; i += 16) {
-		arg++;
-		ret = udo_jpool_add_job(jpool, run_func, &arg);
+	for (i = 0; i < UDO_PAGE_SIZE; i++) {
+		ret = udo_jpool_add_job(jpool, run_func, &(int){i});
 		assert_int_equal(ret, 0);
 	}
 
