@@ -247,9 +247,13 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 		jpool->free = true;
 	}
 
+	offset = sizeof(udo_atomic_u32);
+	data_off = offset + (JOB_QUEUE_MEMBER_SIZE * jpool_info->count);
+
 	futex_info.count = 1; /* Byte align on 4K boundary */
-	futex_info.size = UDO_BYTE_ALIGN(jpool_info->size * \
-			jpool_info->count, UDO_PAGE_SIZE);
+	futex_info.size = UDO_BYTE_ALIGN(data_off + \
+		(jpool_info->size * jpool_info->count),
+		UDO_PAGE_SIZE);
 	jpool->queue_data = udo_futex_create(&futex_info);
 	if (!(jpool->queue_data)) {
 		udo_jpool_destroy(jpool);
@@ -259,12 +263,7 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 	jpool->queue_sz = futex_info.size;
 	jpool->thread_count = jpool_info->count;
 	jpool->cur_thread = (udo_atomic_u32 *) jpool->queue_data;
-
-	offset = sizeof(udo_atomic_u32);
-	data_off = offset + (JOB_QUEUE_MEMBER_SIZE * jpool->thread_count);
 	queue_sz = (jpool->queue_sz - data_off) / jpool->thread_count;
-
-	__atomic_store_n(jpool->cur_thread, 0, __ATOMIC_RELEASE);
 
 	for (t = 0; t < jpool->thread_count; t++) {
 		queue = &(jpool->threads[t].queue);
@@ -296,8 +295,6 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 		offset += JOB_QUEUE_MEMBER_SIZE;
 		jpool->threads[t].thread_id = thread; thread = 0;
 	}
-
-	__atomic_store_n(jpool->cur_thread, 0, __ATOMIC_SEQ_CST);
 
 	return jpool;
 }

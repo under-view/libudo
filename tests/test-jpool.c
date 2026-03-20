@@ -117,9 +117,9 @@ int
 main (void)
 {
 	const struct CMUnitTest tests[] = {
-		//cmocka_unit_test(test_jpool_create),
+		cmocka_unit_test(test_jpool_create),
 		cmocka_unit_test(test_jpool_add_job),
-		//cmocka_unit_test(test_jpool_get_sizeof),
+		cmocka_unit_test(test_jpool_get_sizeof),
 	};
 
 	return cmocka_run_group_tests(tests, NULL, NULL);

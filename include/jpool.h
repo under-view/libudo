@@ -16,16 +16,16 @@ struct udo_jpool;
  *        to define size of shared memory queue and
  *        the amount of threads to create.
  *
- * @param size  - Size of shared memory used to store
- *                the queue shared between all threads.
+ * @param size  - Size of each threads shared memory segment
+ *                used to store a threads queue'd data.
  * @param count - Amount of threads able to read and
  *                write to and from the shared memory
  *                block.
  */
 struct udo_jpool_create_info
 {
-	size_t       size;
-	unsigned int count;
+	size_t   size;
+	uint32_t count;
 };
 
 
