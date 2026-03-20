@@ -26,6 +26,7 @@ Structs
 
 1. :c:struct:`udo_jpool_job`
 #. :c:struct:`udo_jpool_queue`
+#. :c:struct:`udo_jpool_thread`
 #. :c:struct:`udo_jpool`
 #. :c:struct:`udo_jpool_create_info`
 
@@ -73,6 +74,8 @@ udo_jpool_queue (private)
 		udo_atomic_u32 *job_free;
 		udo_atomic_u32 *front;
 		udo_atomic_u32 *rear;
+		void           *data;
+		uint32_t       size;
 
 	:c:member:`job_free`
 		| Futex used to wake threads or put them
@@ -83,6 +86,32 @@ udo_jpool_queue (private)
 
 	:c:member:`rear`
 		| Byte offset to the rear of the queue.
+
+	:c:member:`data`
+		| Starting address caller may store data in.
+
+	:c:member:`size`
+		| Byte size of queue associated with thread.
+
+==========================
+udo_jpool_thread (private)
+==========================
+
+| Structure defining information used by threads.
+
+.. c:struct:: udo_jpool_thread
+
+	.. c:member::
+		pthread_t              tid;
+		struct udo_jpool_queue queue;
+
+	:c:member:`tid`
+		| Array of POSIX thread ID's.
+
+	:c:member:`queue`
+		| Structure keeping track of
+		| current jobs a thread can
+		| run.
 
 ===================
 udo_jpool (private)
@@ -95,11 +124,11 @@ udo_jpool (private)
 	.. c:member::
 		struct udo_log_error_struct err;
 		bool                        free;
-		unsigned int                thread_count;
-		pthread_t                   thread_ids[THREADS_MAX];
-		size_t                      queue_sz;
-		struct udo_jpool_queue      queue;
+		uint32_t                    queue_sz;
 		void                        *queue_data;
+		udo_atomic_u32              *cur_thread;
+		uint32_t                    thread_count;
+		struct udo_jpool_thread     threads[THREADS_MAX];
 
 	:c:member:`err`
 		| Stores information about the error that occured
@@ -114,19 +143,23 @@ udo_jpool (private)
 	:c:member:`thread_count`
 		| Amount of threads in the pool.
 
-	:c:member:`thread_ids`
-		| Array of POSIX thread ID's.
-
 	:c:member:`queue_sz`
-		| Byte size of :c:member:`queue`.
-
-	:c:member:`queue`
-		| Structure keeping track of current jobs
-		| a thread can run.
+		| Byte size of :c:member:`queue_data`.
 
 	:c:member:`queue_data`
 		| Shared memory buffer storing actual
 		| addresses to jobs.
+
+	:c:member:`cur_thread`
+		| Current thread index whose queue will have
+		| work placed in it.
+
+	:c:member:`thread_count`
+		| Amount of threads in the pool.
+
+	:c:member:`threads`
+		| Array of threads storing location of each
+		| threads queue and unique ID.
 
 =========================================================================================================================================
 
@@ -141,12 +174,12 @@ udo_jpool_create_info
 .. c:struct:: udo_jpool_create_info
 
 	.. c:member::
-		size_t       size;
-		unsigned int count;
+		size_t   size;
+		uint32_t count;
 
 	:c:member:`size`
-		| Size of shared memory used to store
-		| the queue shared between all threads.
+		| Size of each threads shared memory segment
+		| used to store a threads queue'd data.
 
 	:c:member:`count`
 		| Amount of threads able to read and
@@ -157,30 +190,49 @@ udo_jpool_create_info
 
 | Creates pool a threads to execute task.
 
-	.. list-table:: Job Queue
+	.. list-table:: Job Queue (2 threads)
 		:header-rows: 1
 
 		* - Variable
 		  - Offset In Bytes
 		  - Size In Bytes
 		  - Initial Value
-		* - Job Free
+		* - cur_thread (main process)
 		  - 0
 		  - 4
+		  - 1
+		* - Job Free (thread=1)
+		  - 4
+		  - 4
 		  - 0
-		* - Front Of Queue
-		  - 4
-		  - 4
-		  - 24
-		* - Rear Of Queue
+		* - Front Of Queue (thread=1)
 		  - 8
 		  - 4
+		  - 0
+		* - Rear Of Queue (thread=1)
+		  - 12
+		  - 4
+		  - 0
+		* - Job Free (thread=2)
+		  - 16
+		  - 4
+		  - 0
+		* - Front Of Queue (thread=2)
+		  - 20
+		  - 4
+		  - 0
+		* - Rear Of Queue (thread=2)
 		  - 24
-		* - :c:struct:`udo_jpool_queue`
-		  - 12 to size of queue
-		  - Size of queue - 12
-		  - | ``NULL`` or pointer to function
-		    | and function argument.
+		  - 4
+		  - 0
+		* - :c:struct:`udo_jpool_job`
+		  - 28
+		  - Size of queue
+		  - 0
+		* - :c:struct:`udo_jpool_job`
+		  - End of thread 1 queue
+		  - Size of queue
+		  - 0
 
 	.. list-table::
 		:header-rows: 1
@@ -222,15 +274,15 @@ udo_jpool_add_job
 		* - jpool
 		  - | Pointer to a valid ``struct`` :c:struct:`udo_jpool`.
 		* - func
-		  - | Pointer to function that a seperate
+		  - | Pointer to function that a separate
 		    | thread will execute.
 		* - arg
 		  - | Pointer to a memory which will be
 		    | passed as the argument to ``func``.
 
 	Returns:
-		| **on success:** Queue buffer byte offset
-		| **on failure:** -1 or ``UINT32_MAX``
+		| **on success:** 0
+		| **on failure:** -1
 
 =========================================================================================================================================
 
