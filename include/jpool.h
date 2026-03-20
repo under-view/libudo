@@ -57,7 +57,7 @@ udo_jpool_create (struct udo_jpool *jpool,
  *        to then later execute.
  *
  * @param jpool - Pointer to a valid struct udo_jpool.
- * @param func  - Pointer to function that a seperate
+ * @param func  - Pointer to function that a separate
  *                thread will execute.
  * @param arg   - Pointer to a memory which will be
  *                passed as the argument to @func.

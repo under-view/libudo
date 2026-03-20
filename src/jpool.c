@@ -37,7 +37,7 @@ struct udo_jpool_job
  * @member job_free - Futex used to wake threads or put them
  *                    to sleep if jobs are available.
  * @member front    - Byte offset to the front of the queue.
- * @member rear     - Bytes offset to the rear of the queue.
+ * @member rear     - Byte offset to the rear of the queue.
  * @member data     - Starting address caller may store data in.
  * @member size     - Byte size of queue associated with thread.
  */
@@ -52,15 +52,16 @@ struct udo_jpool_queue
 
 
 /*
- * @brief Structuring defining information used by threads.
+ * @brief Structure defining information used by threads.
  *
- * @member thread_id - Array of POSIX thread ID's.
- * @member queue     - Structure keeping track of current jobs
- *                     a thread can run.
+ * @member tid   - Array of POSIX thread ID's.
+ * @member queue - Structure keeping track of
+ *                 current jobs a thread can
+ *                 run.
  */
 struct udo_jpool_thread
 {
-	pthread_t              thread_id;
+	pthread_t              tid;
 	struct udo_jpool_queue queue;
 };
 
@@ -81,7 +82,7 @@ struct udo_jpool_thread
  *                        work placed in it.
  * @member thread_count - Amount of threads in the pool.
  * @member threads      - Array of threads storing location of each
- *                        threads queue and thread ID.
+ *                        threads queue and unique ID.
  */
 struct udo_jpool
 {
@@ -293,7 +294,7 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 
 		data_off += queue_sz;
 		offset += JOB_QUEUE_MEMBER_SIZE;
-		jpool->threads[t].thread_id = thread; thread = 0;
+		jpool->threads[t].tid = thread; thread = 0;
 	}
 
 	return jpool;
@@ -380,7 +381,7 @@ udo_jpool_destroy (struct udo_jpool *jpool)
 		queue = &(jpool->threads[t].queue);
 		udo_futex_unlock_force(queue->job_free);
 		udo_futex_wake_cond(queue->job_free);
-		pthread_join(jpool->threads[t].thread_id, NULL);
+		pthread_join(jpool->threads[t].tid, NULL);
 	}
 
 	udo_futex_destroy((udo_atomic_u32*) \
