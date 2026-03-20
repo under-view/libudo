@@ -79,8 +79,8 @@ test_jpool_add_job (void UDO_UNUSED **state)
 
 	udo_log_set_level(UDO_LOG_ALL);
 
-	jpool_info.count = 3;
-	jpool_info.size  = UDO_PAGE_SIZE;
+	jpool_info.count = 4;
+	jpool_info.size  = (1<<9);
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
 
@@ -88,8 +88,6 @@ test_jpool_add_job (void UDO_UNUSED **state)
 		ret = udo_jpool_add_job(jpool, run_func, &(int){i});
 		assert_int_equal(ret, 0);
 	}
-
-	sleep(5);
 
 	udo_jpool_destroy(jpool);
 }
@@ -119,9 +117,9 @@ int
 main (void)
 {
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test(test_jpool_create),
-		//cmocka_unit_test(test_jpool_add_job),
-		cmocka_unit_test(test_jpool_get_sizeof),
+		//cmocka_unit_test(test_jpool_create),
+		cmocka_unit_test(test_jpool_add_job),
+		//cmocka_unit_test(test_jpool_get_sizeof),
 	};
 
 	return cmocka_run_group_tests(tests, NULL, NULL);

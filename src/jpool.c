@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <inttypes.h>
+#include <unistd.h>
 #include <errno.h>
 #include <pthread.h>
 
@@ -315,7 +316,7 @@ udo_jpool_add_job (struct udo_jpool *jpool,
                    void (*func)(void *arg),
                    void *arg)
 {
-	uint32_t thread_index;
+	uint32_t tid;
 	struct udo_jpool_job job;
 	void *insert_queue = NULL;
 	struct udo_jpool_queue *queue;
@@ -330,19 +331,18 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 		return -1;
 	}
 
-	thread_index = __atomic_add_fetch(jpool->cur_thread, \
-			1, __ATOMIC_SEQ_CST);
-	if (thread_index >= jpool->thread_count) {
-		__atomic_store_n(jpool->cur_thread, 0, __ATOMIC_SEQ_CST);
-		thread_index = 0;
-	}
+	tid = __atomic_load_n(jpool->cur_thread, __ATOMIC_ACQUIRE);
+	queue = &(jpool->threads[tid].queue);
+	tid = (tid + 1) % jpool->thread_count;
+	__atomic_store_n(jpool->cur_thread, tid, __ATOMIC_RELEASE);
 
-	queue = &(jpool->threads[thread_index].queue);
 	if (p_queue_full(queue)) {
 		udo_log_set_error(jpool, UDO_LOG_ERR_UNCOMMON, \
 		                  "Job queue is full.");
 		return -1;
 	}
+
+	usleep(50);
 
 	insert_queue = (void *) \
 		((char *) queue->data + \
