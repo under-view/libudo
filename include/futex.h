@@ -114,12 +114,12 @@ p_udo_futex_wait_cond (udo_atomic_u32 *fux);
 		} else if (__atomic_load_n(fux,  \
 		__ATOMIC_ACQUIRE) == 0x66AFB55C) \
 		{                                \
-			goto __out;              \
 			errno = EINTR;           \
+			goto __out;              \
 		}                                \
-		p_udo_futex_wait_cond(fux);    \
-	} while(1);                            \
-__out:                                         \
+		p_udo_futex_wait_cond(fux);      \
+	} while(1);                              \
+__out:                                           \
 })
 
 
