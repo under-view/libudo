@@ -336,7 +336,7 @@ udo_jpool_add_job (struct udo_jpool *jpool,
                    void (*func)(void *arg),
                    void *arg)
 {
-	uint32_t tid, old_tid;
+	uint32_t tid;
 	struct udo_jpool_job *job;
 	struct udo_jpool_queue *queue;
 
@@ -351,20 +351,13 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 	}
 
 	do {
-		old_tid = __atomic_load_n(jpool->cur_thread, \
+		tid = __atomic_load_n(jpool->cur_thread, \
 					__ATOMIC_ACQUIRE);
-		tid = (old_tid + 1) % jpool->thread_count;
-	} while (!__atomic_compare_exchange_n(jpool->cur_thread, \
-		                             &old_tid, tid, 1, \
-					     __ATOMIC_SEQ_CST, \
-					     __ATOMIC_RELAXED));
-
-	queue = &(jpool->threads[tid].queue);
-	if (p_queue_full(queue)) {
-		udo_log_set_error(jpool, UDO_LOG_ERR_UNCOMMON, \
-		                  "Job queue is full.");
-		return -1;
-	}
+		queue = &(jpool->threads[tid].queue);
+		tid = (tid + 1) % jpool->thread_count;
+		__atomic_store_n(jpool->cur_thread, \
+			tid, __ATOMIC_RELEASE);
+	} while (p_queue_full(queue));
 
 	job = (void *) ((char *) queue->data) + \
 		p_queue_add_rear(queue);

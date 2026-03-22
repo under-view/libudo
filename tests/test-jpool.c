@@ -85,8 +85,10 @@ test_jpool_add_job (void UDO_UNUSED **state)
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
 
-	for (i = 0; i < UDO_PAGE_SIZE; i++) {
-		ret = udo_jpool_add_job(jpool, run_func, &(int){i});
+	int arg[16];
+	for (i = 0; i < 16; i++) {
+		arg[i] = i;
+		ret = udo_jpool_add_job(jpool, run_func, &(arg[i]));
 		assert_int_equal(ret, 0);
 	}
 
@@ -119,7 +121,7 @@ main (void)
 {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_jpool_create),
-		//cmocka_unit_test(test_jpool_add_job),
+		cmocka_unit_test(test_jpool_add_job),
 		cmocka_unit_test(test_jpool_get_sizeof),
 	};
 
