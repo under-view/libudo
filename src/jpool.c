@@ -198,13 +198,11 @@ p_queue_job_reset (struct udo_jpool_job *job)
 }
 
 
-static struct udo_jpool_job *
+UDO_STATIC_INLINE
+struct udo_jpool_job *
 p_queue_get_job (struct udo_jpool_queue *queue)
 {
-	if (p_queue_full(queue))
-		p_queue_reset(queue);
-
-	return (void*) ((char*)queue->data) + \
+	return (void *) ((char *) queue->data) + \
 		p_queue_add_front(queue);
 }
 
@@ -224,6 +222,9 @@ p_run_thread (void *p_queue)
 			job->func(job->arg);
 			p_queue_job_reset(job);
 		}
+
+		if (p_queue_full(queue))
+			p_queue_reset(queue);
 	}
 
 	return NULL;
