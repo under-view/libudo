@@ -190,20 +190,20 @@ p_queue_reset (const struct udo_jpool_queue *queue)
 
 
 UDO_STATIC_INLINE
+struct udo_jpool_job *
+p_queue_get_job (const struct udo_jpool_queue *queue)
+{
+	return (void *) ((char *) queue->data) + \
+		p_queue_add_front(queue);
+}
+
+
+UDO_STATIC_INLINE
 void
 p_queue_job_reset (struct udo_jpool_job *job)
 {
 	job->func = NULL;
 	job->arg = NULL;
-}
-
-
-UDO_STATIC_INLINE
-struct udo_jpool_job *
-p_queue_get_job (struct udo_jpool_queue *queue)
-{
-	return (void *) ((char *) queue->data) + \
-		p_queue_add_front(queue);
 }
 
 
@@ -213,7 +213,9 @@ p_run_thread (void *p_queue)
 	struct udo_jpool_job *job;
 	struct udo_jpool_queue *queue = p_queue;
 
-	while (p_queue_can_loop(queue)) {
+	while (p_queue_can_loop(queue) || \
+	       p_queue_can_get_job(queue))
+	{
 		udo_futex_wait_cond(queue->job_free, \
 			p_queue_can_get_job(queue));
 

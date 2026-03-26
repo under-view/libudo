@@ -69,7 +69,8 @@ run_func (void *arg)
 static void UDO_UNUSED
 test_jpool_add_job (void UDO_UNUSED **state)
 {
-	int ret, i;
+	int ret;
+	size_t i;
 	struct udo_jpool *jpool;
 
 	struct udo_jpool_create_info jpool_info;
@@ -78,15 +79,13 @@ test_jpool_add_job (void UDO_UNUSED **state)
 	jpool = udo_jpool_create(NULL, NULL);
 	assert_null(jpool);
 
-	udo_log_set_level(UDO_LOG_ALL);
-
 	jpool_info.count = 4;
 	jpool_info.size  = (1<<9);
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
 
-	int arg[16];
-	for (i = 0; i < 16; i++) {
+	int arg[64];
+	for (i = 0; i < sizeof(arg) / sizeof(arg[0]) ; i++) {
 		arg[i] = i;
 		ret = udo_jpool_add_job(jpool, run_func, &(arg[i]));
 		assert_int_equal(ret, 0);
