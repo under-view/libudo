@@ -142,4 +142,19 @@ UDO_ATOMIC_DEF(udo_atomic_bool, unsigned char)
 UDO_ATOMIC_DEF(udo_atomic_u32, unsigned int)
 UDO_ATOMIC_DEF(udo_atomic_addr, unsigned char *)
 
+
+/*
+ * Shamefully stolen from
+ * https://github.com/googlearchive/android-audio-high-performance/blob/master/SimpleSynth/app/src/main/cpp/cpu_relax.h
+ */
+#if defined(__i386__) || defined(__x86_64__)
+#define UDO_CPU_RELAX() asm volatile("rep; nop" ::: "memory")
+#elif defined(__arm__) || defined(__mips__)
+#define UDO_CPU_RELAX() asm volatile("":::"memory")
+#elif defined(__aarch64__)
+#define UDO_CPU_RELAX() asm volatile("yield" ::: "memory")
+#else
+#error "cpu_relax is not defined for this architecture"
+#endif /* defined(__i386__) || defined(__x86_64__) */
+
 #endif /* UDO_MACROS_H */
