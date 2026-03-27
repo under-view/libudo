@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <sys/mman.h>
 
 /*
@@ -88,7 +89,11 @@ test_macro_udo_page (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_macro_udo_strtou (void UDO_UNUSED **state)
 {
-	unsigned int hash;
+	uint32_t hash;
+
+	hash = UDO_STRTOU(NULL);
+	assert_int_equal(hash, 0);
+
 	hash = UDO_STRTOU("my-string");
 	assert_int_equal(hash, 938);
 

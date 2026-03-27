@@ -116,10 +116,12 @@
 #define UDO_STRTOU(str) \
 	__extension__ \
 	({ \
-		unsigned int hash=0; \
+		__label__ __out; \
+		uint32_t hash=0; \
+		if (!str) goto __out; \
 		const char *s = str; \
 		while (*s) hash += *s++; \
-		hash; \
+		__out: hash; \
 	})
 
 
