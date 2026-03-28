@@ -207,6 +207,23 @@ p_queue_job_reset (struct udo_jpool_job *job)
 }
 
 
+UDO_STATIC_INLINE
+uint32_t
+p_jpool_get_cur_thread (const struct udo_jpool *jpool)
+{
+	return __atomic_load_n(jpool->cur_thread, __ATOMIC_ACQUIRE);
+}
+
+
+UDO_STATIC_INLINE
+void
+p_jpool_set_cur_thread (const struct udo_jpool *jpool,
+                        const uint32_t value)
+{
+	__atomic_store_n(jpool->cur_thread, value, __ATOMIC_RELEASE);
+}
+
+
 static void *
 p_run_thread (void *p_queue)
 {
@@ -291,7 +308,7 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 	jpool->cur_thread = (udo_atomic_u32 *) jpool->queue_data;
 	queue_sz = (jpool->queue_sz - data_off) / jpool->thread_count;
 
-	__atomic_store_n(jpool->cur_thread, 0, __ATOMIC_RELEASE);
+	p_jpool_set_cur_thread(jpool, 0);
 
 	for (t = 0; t < jpool->thread_count; t++) {
 		queue = &(jpool->threads[t].queue);
@@ -354,12 +371,10 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 	}
 
 	do {
-		tid = __atomic_load_n(jpool->cur_thread, \
-					__ATOMIC_ACQUIRE);
+		tid = p_jpool_get_cur_thread(jpool);
 		queue = &(jpool->threads[tid].queue);
 		tid = (tid + 1) % jpool->thread_count;
-		__atomic_store_n(jpool->cur_thread, \
-			tid, __ATOMIC_RELEASE);
+		p_jpool_set_cur_thread(jpool, tid);
 	} while (p_queue_full(queue));
 
 	job = (void *) ((char *) queue->data) + \
