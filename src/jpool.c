@@ -14,7 +14,7 @@
  * So, far no CPU has 512 cores.
  */
 #define THREADS_MAX (1<<9)
-#define JOB_QUEUE_MEMBER_SIZE (3 * sizeof(udo_atomic_u32))
+#define JOB_QUEUE_MEMBER_SIZE (4 * sizeof(udo_atomic_u32))
 
 /*
  * @brief Structure defining information about the job to execute.
@@ -44,6 +44,7 @@ struct udo_jpool_job
 struct udo_jpool_queue
 {
 	udo_atomic_u32 *job_free;
+	udo_atomic_u32 *job_count;
 	udo_atomic_u32 *front;
 	udo_atomic_u32 *rear;
 	void           *data;
@@ -110,6 +111,14 @@ p_queue_get_job_free (const struct udo_jpool_queue *queue)
 
 UDO_STATIC_INLINE
 uint32_t
+p_queue_get_job_count (const struct udo_jpool_queue *queue)
+{
+	return __atomic_load_n(queue->job_count, __ATOMIC_ACQUIRE);
+}
+
+
+UDO_STATIC_INLINE
+uint32_t
 p_queue_get_rear (const struct udo_jpool_queue *queue)
 {
 	return __atomic_load_n(queue->rear, __ATOMIC_ACQUIRE);
@@ -121,6 +130,15 @@ uint32_t
 p_queue_get_front (const struct udo_jpool_queue *queue)
 {
 	return __atomic_load_n(queue->front, __ATOMIC_ACQUIRE);
+}
+
+
+UDO_STATIC_INLINE
+uint32_t
+p_queue_add_job_count (const struct udo_jpool_queue *queue)
+{
+	return __atomic_add_fetch(queue->job_count, \
+				1, __ATOMIC_SEQ_CST);
 }
 
 
@@ -145,6 +163,15 @@ p_queue_add_front (const struct udo_jpool_queue *queue)
 
 
 UDO_STATIC_INLINE
+uint32_t
+p_queue_sub_job_count (const struct udo_jpool_queue *queue)
+{
+	return __atomic_sub_fetch(queue->job_count, \
+				1, __ATOMIC_SEQ_CST);
+}
+
+
+UDO_STATIC_INLINE
 bool
 p_queue_can_get_job (const struct udo_jpool_queue *queue)
 {
@@ -164,7 +191,8 @@ UDO_STATIC_INLINE
 bool
 p_queue_full (const struct udo_jpool_queue *queue)
 {
-	return p_queue_get_rear(queue) >= queue->size;
+	return p_queue_get_rear(queue) >= \
+		queue->size - sizeof(struct udo_jpool_job);
 }
 
 
@@ -181,6 +209,8 @@ void
 p_queue_reset (const struct udo_jpool_queue *queue)
 {
 	__atomic_store_n(queue->job_free, 0, \
+			__ATOMIC_RELEASE);
+	__atomic_store_n(queue->job_count, 0, \
 			__ATOMIC_RELEASE);
 	__atomic_store_n(queue->front, 0, \
 			__ATOMIC_RELEASE);
@@ -238,12 +268,10 @@ p_run_thread (void *p_queue)
 
 		job = p_queue_get_job(queue);
 		if (job->func) {
+			p_queue_sub_job_count(queue);
 			job->func(job->arg);
 			p_queue_job_reset(job);
 		}
-
-		if (p_queue_full(queue))
-			p_queue_reset(queue);
 	}
 
 	return NULL;
@@ -320,11 +348,14 @@ udo_jpool_create (struct udo_jpool *p_jpool,
 		queue->job_free = (void *) ((char *) \
 			jpool->queue_data + offset);
 
-		queue->front = (void *) ((char *) jpool->queue_data + \
+		queue->job_count = (void *) ((char *) jpool->queue_data + \
 			offset + sizeof(udo_atomic_u32));
 
-		queue->rear = (void *) ((char *)jpool->queue_data + \
+		queue->front = (void *) ((char *) jpool->queue_data + \
 			offset + (2 * sizeof(udo_atomic_u32)));
+
+		queue->rear = (void *) ((char *)jpool->queue_data + \
+			offset + (3 * sizeof(udo_atomic_u32)));
 
 		p_queue_reset(queue);
 		err = pthread_create(&thread, NULL, p_run_thread, queue);
@@ -370,12 +401,20 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 		return -1;
 	}
 
-	do {
-		tid = p_jpool_get_cur_thread(jpool);
-		queue = &(jpool->threads[tid].queue);
-		tid = (tid + 1) % jpool->thread_count;
-		p_jpool_set_cur_thread(jpool, tid);
-	} while (p_queue_full(queue));
+	tid = p_jpool_get_cur_thread(jpool);
+	queue = &(jpool->threads[tid].queue);
+	tid = (tid + 1) % jpool->thread_count;
+	p_jpool_set_cur_thread(jpool, tid);
+
+	/*
+	 * Wait for jobs to complete
+	 * before adding new jobs.
+	 */
+	if (p_queue_full(queue)) {
+		while (p_queue_get_job_count(queue))
+			UDO_CPU_RELAX();
+		p_queue_reset(queue);
+	}
 
 	job = (void *) ((char *) queue->data) + \
 		p_queue_add_rear(queue);
@@ -383,6 +422,7 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 	job->func = func;
 	job->arg = arg;
 
+	p_queue_add_job_count(queue);
 	udo_futex_wake_cond(queue->job_free);
 
 	return 0;
