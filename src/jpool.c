@@ -219,10 +219,23 @@ p_queue_reset (const struct udo_jpool_queue *queue)
 }
 
 
-UDO_STATIC_INLINE
-struct udo_jpool_job *
+static void
+p_queue_wait (const struct udo_jpool_queue *queue)
+{
+	if (p_queue_full(queue)) {
+		while (p_queue_get_job_count(queue)) {
+			udo_futex_wake_cond(queue->job_free);
+			UDO_CPU_RELAX();
+		}
+		p_queue_reset(queue);
+	}
+}
+
+
+static struct udo_jpool_job *
 p_queue_get_job (const struct udo_jpool_queue *queue)
 {
+	p_queue_sub_job_count(queue);
 	return (void *) ((char *) queue->data) + \
 		p_queue_add_front(queue);
 }
@@ -260,15 +273,13 @@ p_run_thread (void *p_queue)
 	struct udo_jpool_job *job;
 	struct udo_jpool_queue *queue = p_queue;
 
-	while (p_queue_can_loop(queue) || \
-	       p_queue_can_get_job(queue))
+	while (p_queue_can_loop(queue))
 	{
 		udo_futex_wait_cond(queue->job_free, \
 			p_queue_can_get_job(queue));
 
 		job = p_queue_get_job(queue);
 		if (job->func) {
-			p_queue_sub_job_count(queue);
 			job->func(job->arg);
 			p_queue_job_reset(job);
 		}
@@ -410,11 +421,7 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 	 * Wait for jobs to complete
 	 * before adding new jobs.
 	 */
-	if (p_queue_full(queue)) {
-		while (p_queue_get_job_count(queue))
-			UDO_CPU_RELAX();
-		p_queue_reset(queue);
-	}
+	p_queue_wait(queue);
 
 	job = (void *) ((char *) queue->data) + \
 		p_queue_add_rear(queue);
@@ -448,6 +455,8 @@ udo_jpool_destroy (struct udo_jpool *jpool)
 
 	for (t = 0; t < jpool->thread_count; t++) {
 		queue = &(jpool->threads[t].queue);
+
+		p_queue_wait(queue);
 		udo_futex_unlock_force(queue->job_free);
 		udo_futex_wake_cond(queue->job_free);
 		pthread_join(jpool->threads[t].tid, NULL);

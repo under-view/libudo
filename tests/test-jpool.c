@@ -80,11 +80,11 @@ test_jpool_add_job (void UDO_UNUSED **state)
 	assert_null(jpool);
 
 	jpool_info.count = 4;
-	jpool_info.size  = (1<<9);
+	jpool_info.size  = (1<<7);
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
 
-	int arg[1024];
+	int arg[2048];
 	for (i = 0; i < sizeof(arg) / sizeof(arg[0]) ; i++) {
 		arg[i] = i;
 		ret = udo_jpool_add_job(jpool, run_func, &(arg[i]));
