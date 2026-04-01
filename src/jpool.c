@@ -34,12 +34,13 @@ struct udo_jpool_job
 /*
  * @brief Structure defining information about the queue.
  *
- * @member job_free - Futex used to wake threads or put them
- *                    to sleep if jobs are available.
- * @member front    - Byte offset to the front of the queue.
- * @member rear     - Byte offset to the rear of the queue.
- * @member data     - Starting address caller may store data in.
- * @member size     - Byte size of queue associated with thread.
+ * @member job_free  - Futex used to wake threads or put them
+ *                     to sleep if jobs are available.
+ * @member job_count - Amount of jobs currently in the pool.
+ * @member front     - Byte offset to the front of the queue.
+ * @member rear      - Byte offset to the rear of the queue.
+ * @member data      - Starting address caller may store data in.
+ * @member size      - Byte size of queue associated with thread.
  */
 struct udo_jpool_queue
 {
@@ -222,13 +223,11 @@ p_queue_reset (const struct udo_jpool_queue *queue)
 static void
 p_queue_wait (const struct udo_jpool_queue *queue)
 {
-	if (p_queue_full(queue)) {
-		while (p_queue_get_job_count(queue)) {
-			udo_futex_wake_cond(queue->job_free);
-			UDO_CPU_RELAX();
-		}
-		p_queue_reset(queue);
+	while (p_queue_get_job_count(queue)) {
+		udo_futex_wake_cond(queue->job_free);
+		UDO_CPU_RELAX();
 	}
+	p_queue_reset(queue);
 }
 
 
@@ -412,6 +411,10 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 		return -1;
 	}
 
+	/*
+	 * Round-robin approach to selecting
+	 * thread which should receive a job.
+	 */
 	tid = p_jpool_get_cur_thread(jpool);
 	queue = &(jpool->threads[tid].queue);
 	tid = (tid + 1) % jpool->thread_count;
@@ -419,9 +422,11 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 
 	/*
 	 * Wait for jobs to complete
-	 * before adding new jobs.
+	 * before adding new jobs if
+	 * the queue is full.
 	 */
-	p_queue_wait(queue);
+	if (p_queue_full(queue))
+		p_queue_wait(queue);
 
 	job = (void *) ((char *) queue->data) + \
 		p_queue_add_rear(queue);

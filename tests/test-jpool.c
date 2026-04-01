@@ -80,7 +80,7 @@ test_jpool_add_job (void UDO_UNUSED **state)
 	assert_null(jpool);
 
 	jpool_info.count = 4;
-	jpool_info.size  = (1<<7);
+	jpool_info.size  = (1<<6);
 	jpool = udo_jpool_create(NULL, &jpool_info);
 	assert_non_null(jpool);
 
