@@ -72,6 +72,7 @@ udo_jpool_queue (private)
 
 	.. c:member::
 		udo_atomic_u32 *job_free;
+		udo_atomic_u32 *job_count;
 		udo_atomic_u32 *front;
 		udo_atomic_u32 *rear;
 		void           *data;
@@ -80,6 +81,10 @@ udo_jpool_queue (private)
 	:c:member:`job_free`
 		| Futex used to wake threads or put them
     		| to sleep if jobs are available.
+
+	:c:member:`job_count`
+		| Amount of jobs currently in the given
+ 		| threads pool. 
 
 	:c:member:`front`
 		| Byte offset to the front of the queue.
@@ -264,7 +269,10 @@ udo_jpool_add_job
 .. c:function:: uint32_t udo_jpool_add_job(struct udo_jpool *jpool, void (*func)(void *arg), void *arg);
 
 | Adds a job to the job queue for threads
-| to then later execute.
+| to then later execute. If a given thread
+| queue is full function blocks until all
+| jobs in that queue are completed before
+| adding a new task.
 
 	.. list-table::
 		:header-rows: 1
@@ -293,7 +301,8 @@ udo_jpool_destroy
 .. c:function:: void udo_jpool_destroy(struct udo_jpool *jpool);
 
 | Frees any allocated memory and closes FD's (if open) created after
-| :c:func:`udo_jpool_create` call.
+| :c:func:`udo_jpool_create` call. Function waits for all jobs in every 
+| threads queue are executed before destroying the pool.
 
 	.. list-table::
 		:header-rows: 1
