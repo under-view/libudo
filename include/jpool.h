@@ -54,7 +54,10 @@ udo_jpool_create (struct udo_jpool *jpool,
 
 /*
  * @brief Adds a job to the job queue for threads
- *        to then later execute.
+ *        to then later execute. If a given thread
+ *        queue is full function blocks until all
+ *        jobs in that queue are completed before
+ *        adding a new task.
  *
  * @param jpool - Pointer to a valid struct udo_jpool.
  * @param func  - Pointer to function that a separate
@@ -75,7 +78,8 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 
 /*
  * @brief Frees any allocated memory and closes FD's (if open) create after
- *        udo_jpool_create() call.
+ *        udo_jpool_create() call. Function waits for all jobs in every
+ *        threads queue are executed before destroying the pool.
  *
  * @param jpool - Pointer to a valid struct udo_jpool.
  */

@@ -36,7 +36,8 @@ struct udo_jpool_job
  *
  * @member job_free  - Futex used to wake threads or put them
  *                     to sleep if jobs are available.
- * @member job_count - Amount of jobs currently in the pool.
+ * @member job_count - Amount of jobs currently in the given
+ *                     threads pool.
  * @member front     - Byte offset to the front of the queue.
  * @member rear      - Byte offset to the rear of the queue.
  * @member data      - Starting address caller may store data in.
