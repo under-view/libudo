@@ -184,8 +184,9 @@ udo_jpool_create_info
 		uint32_t count;
 
 	:c:member:`size`
-		| Size of each threads shared memory segment
-		| used to store a threads queue'd data.
+		| Minimum size of each threads shared
+		| memory segment used to store a threads
+		| queue'd data.
 
 	:c:member:`count`
 		| Amount of threads able to read and
