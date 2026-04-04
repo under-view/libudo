@@ -232,10 +232,10 @@ p_queue_wait (const struct udo_jpool_queue *queue)
 }
 
 
-static struct udo_jpool_job *
+UDO_STATIC_INLINE
+struct udo_jpool_job *
 p_queue_get_job (const struct udo_jpool_queue *queue)
 {
-	p_queue_sub_job_count(queue);
 	return (void *) ((char *) queue->data) + \
 		p_queue_add_front(queue);
 }
@@ -283,6 +283,7 @@ p_run_thread (void *p_queue)
 			job->func(job->arg);
 			p_queue_job_reset(job);
 		}
+		p_queue_sub_job_count(queue);
 	}
 
 	return NULL;
@@ -444,6 +445,27 @@ udo_jpool_add_job (struct udo_jpool *jpool,
 /**************************************
  * End of udo_jpool_add_job functions *
  **************************************/
+
+
+/*************************************
+ * Start of udo_jpool_wait functions *
+ *************************************/
+
+void
+udo_jpool_wait (struct udo_jpool *jpool)
+{
+	uint32_t t;
+
+	if (!jpool)
+		return;
+
+	for (t = 0; t < jpool->thread_count; t++)
+		p_queue_wait(&(jpool->threads[t].queue));
+}
+
+/***********************************
+ * End of udo_jpool_wait functions *
+ ***********************************/
 
 
 /****************************************

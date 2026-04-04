@@ -99,6 +99,46 @@ test_jpool_add_job (void UDO_UNUSED **state)
  ***************************************/
 
 
+/**************************************
+ * Start of test_jpool_wait functions *
+ **************************************/
+
+static void UDO_UNUSED
+run_func_wait (void *arg)
+{
+	sleep(3);
+	int var = *((int*)arg);
+	fprintf(stdout, "var = %d\n", var);
+}
+
+
+static void UDO_UNUSED
+test_jpool_wait (void UDO_UNUSED **state)
+{
+	int ret;
+	struct udo_jpool *jpool;
+
+	struct udo_jpool_create_info jpool_info;
+	memset(&jpool_info, 0, sizeof(jpool_info));
+
+	jpool_info.count = 1;
+	jpool_info.size  = (1<<4);
+	jpool = udo_jpool_create(NULL, &jpool_info);
+	assert_non_null(jpool);
+
+	ret = udo_jpool_add_job(jpool, run_func_wait, &(int){33});
+	assert_int_equal(ret, 0);
+
+	udo_jpool_wait(jpool);
+
+	udo_jpool_destroy(jpool);
+}
+
+/************************************
+ * End of test_jpool_wait functions *
+ ************************************/
+
+
 /********************************************
  * Start of test_jpool_get_sizeof functions *
  ********************************************/
@@ -121,6 +161,7 @@ main (void)
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_jpool_create),
 		cmocka_unit_test(test_jpool_add_job),
+		cmocka_unit_test(test_jpool_wait),
 		cmocka_unit_test(test_jpool_get_sizeof),
 	};
 
