@@ -36,6 +36,7 @@ Functions
 
 1. :c:func:`udo_jpool_create`
 #. :c:func:`udo_jpool_add_job`
+#. :c:func:`udo_jpool_wait`
 #. :c:func:`udo_jpool_destroy`
 #. :c:func:`udo_jpool_sizeof`
 
@@ -291,6 +292,25 @@ udo_jpool_add_job
 	Returns:
 		| **on success:** 0
 		| **on failure:** -1
+
+=========================================================================================================================================
+
+==============
+udo_jpool_wait
+==============
+
+.. c:function:: void udo_jpool_wait(struct udo_jpool *jpool);
+
+| Blocks until all jobs in every
+| threads queue have been completed.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - jpool
+		  - | Pointer to a valid ``struct`` :c:struct:`udo_jpool`.
 
 =========================================================================================================================================
 
