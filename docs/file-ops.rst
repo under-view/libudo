@@ -113,12 +113,12 @@ udo_file_ops_create_info
 .. c:struct:: udo_file_ops_create_info
 
 	.. c:member::
-		const char        *fname;
-		unsigned long int size;
-		off_t             offset;
-		unsigned char     create_pipe : 1;
-		unsigned char     create_dir : 1;
-		unsigned char     protect : 1;
+		const char    *fname;
+		size_t        size;
+		off_t         offset;
+		unsigned char create_pipe : 1;
+		unsigned char create_dir : 1;
+		unsigned char protect : 1;
 
 	:c:member:`fname`
 		| Full path to file caller wants to `open(2)`_ | `creat(2)`_.

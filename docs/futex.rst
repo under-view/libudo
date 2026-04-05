@@ -53,8 +53,8 @@ udo_futex_create_info
 .. c:struct:: udo_futex_create_info
 
 	.. c:member::
-		size_t       size;
-		unsigned int count;
+		size_t   size;
+		uint32_t count;
 
 	:c:member:`size`
 		| Size of shared memory block.

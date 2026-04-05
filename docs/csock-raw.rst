@@ -218,7 +218,7 @@ udo_csock_raw_get_fd
 udo_csock_raw_get_iface
 =======================
 
-.. c:function:: unsigned int udo_csock_raw_get_iface(struct udo_csock_raw *csock);
+.. c:function:: const char *udo_csock_raw_get_iface(struct udo_csock_raw *csock);
 
 | Acquire textual CAN interface name in string format
 | associated with ``struct`` :c:struct:`udo_csock_raw` instance.

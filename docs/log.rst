@@ -209,8 +209,8 @@ udo_log_error_struct
 | struct context's.
 
 	.. c:member::
-		unsigned int code;
-		char         buffer[UDO_PAGE_SIZE];
+		uint32_t code;
+		char     buffer[(1<<9)];
 
 	:c:member:`code`
 		| Error code or errno
@@ -245,7 +245,7 @@ udo_log_get_error
 udo_log_get_error_code
 ======================
 
-.. c:function:: unsigned int udo_log_get_error_code(const void *context);
+.. c:function:: uint32_t udo_log_get_error_code(const void *context);
 
 | Returns unsigned integer with the error code
 | given caller provided a context with first members
@@ -268,7 +268,7 @@ udo_log_get_error_code
 udo_log_set_error_struct
 ========================
 
-.. c:function:: void udo_log_set_error_struct(void *context, const unsigned int code, const char *fmt, ...);
+.. c:function:: void udo_log_set_error_struct(void *context, const uint32_t code, const char *fmt, ...);
 
 | Sets ``struct`` :c:struct:`udo_log_error_struct` members value.
 

@@ -31,7 +31,7 @@
  *                   stored in front segment of shared memory.
  * @member wr_fux  - Pointer to a given process write futex
  *                   stored in front segment of shared memory.
- * @member data    - Pointer unsigned char storing location
+ * @member data    - Pointer to a unsigned char storing location
  *                   within shared memory. This pointer is a
  *                   given processes shared memory segment
  *                   staring address.

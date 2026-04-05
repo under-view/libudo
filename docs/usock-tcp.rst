@@ -283,7 +283,7 @@ udo_usock_tcp_get_fd
 udo_usock_tcp_get_unix_path
 ===========================
 
-.. c:function:: unsigned int udo_usock_tcp_get_unix_path(struct udo_usock_tcp *usock);
+.. c:function:: const char *udo_usock_tcp_get_unix_path(struct udo_usock_tcp *usock);
 
 | Acquire textual path to unix domain socket file in string
 | format associated with ``struct`` :c:struct:`udo_usock_tcp` instance.

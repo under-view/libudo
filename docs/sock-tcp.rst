@@ -310,7 +310,7 @@ udo_sock_tcp_get_fd
 udo_sock_tcp_get_ip_addr
 ========================
 
-.. c:function:: unsigned int udo_sock_tcp_get_ip_addr(struct udo_sock_tcp *sock);
+.. c:function:: const char *udo_sock_tcp_get_ip_addr(struct udo_sock_tcp *sock);
 
 | Acquire textual network address in string format
 | associated with ``struct`` :c:struct:`udo_sock_tcp` instance.

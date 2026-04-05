@@ -85,7 +85,7 @@ udo_vsock_tcp (private)
 		struct udo_log_error_struct err;
 		bool                        free;
 		int                         fd;
-		unsigned int                vcid;
+		uint32_t                    vcid;
 		int                         port;
 		struct sockaddr_vm          addr;
 
@@ -124,9 +124,9 @@ udo_vsock_tcp_server_create_info
 .. c:struct:: udo_vsock_tcp_server_create_info
 
 	.. c:member::
-		unsigned int vcid;
-		int          port;
-		int          connections;
+		uint32_t vcid;
+		int      port;
+		int      connections;
 
 	:c:member:`vcid`
 		| VM Context Identifier to `accept(2)`_ with.
@@ -205,8 +205,8 @@ udo_vsock_tcp_client_create_info
 .. c:struct:: udo_vsock_tcp_client_create_info
 
 	.. c:member::
-		unsigned int vcid;
-		int          port;
+		uint32_t vcid;
+		int      port;
 
 	:c:member:`vcid`
 		| VM Context Identifier to `connect(2)`_/`send(2)`_ to.
@@ -325,7 +325,7 @@ udo_vsock_tcp_get_fd
 udo_vsock_tcp_get_vcid
 ======================
 
-.. c:function:: unsigned int udo_vsock_tcp_get_vcid(struct udo_vsock_tcp *vsock);
+.. c:function:: uint32_t udo_vsock_tcp_get_vcid(struct udo_vsock_tcp *vsock);
 
 | Acquire VM socket context identifier associated with
 | ``struct`` :c:struct:`udo_vsock_tcp` instance.
@@ -407,7 +407,7 @@ udo_vsock_tcp_get_sizeof
 udo_vsock_tcp_get_local_vcid
 ============================
 
-.. c:function:: unsigned int udo_vsock_tcp_get_local_vcid(void);
+.. c:function:: uint32_t udo_vsock_tcp_get_local_vcid(void);
 
 | Returns the local CID of the VM/Hypervisor after
 | acquiring it from ``/dev/vsock``.

@@ -343,7 +343,7 @@ udo_sock_udp_get_fd
 udo_sock_udp_get_ip_addr
 ========================
 
-.. c:function:: unsigned int udo_sock_udp_get_ip_addr(struct udo_sock_udp *sock);
+.. c:function:: const char *udo_sock_udp_get_ip_addr(struct udo_sock_udp *sock);
 
 | Acquire textual network ip address associated
 | with ``struct`` :c:struct:`udo_sock_udp` instance.

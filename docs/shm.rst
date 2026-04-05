@@ -68,8 +68,7 @@ udo_shm_proc (private)
 		| stored in front segment of shared memory.
 
 	:c:member:`data`
-		| Unsigned long long int storing the integer
-		| representation of a pointer to a location
+		| Pointer to a unsigned char storing location
 		| within shared memory. This pointer is a
 		| given processes shared memory segment
 		| staring address.
@@ -136,6 +135,7 @@ udo_shm_create_info
 	.. c:member::
 		const char *shm_file;
 		size_t     shm_size;
+		uint32_t   proc_count;
 
 	:c:member:`shm_file`
 		| Shared memory file name. Must start
@@ -239,9 +239,9 @@ udo_shm_data_info
 .. c:struct:: udo_shm_data_info
 
 	.. c:member::
-		void         *data;
-		size_t       size;
-		unsigned int proc_index;
+		void     *data;
+		size_t   size;
+		uint32_t proc_index;
 
 	:c:member:`data`
 		| Pointer to a buffer that will either be used
@@ -330,7 +330,7 @@ udo_shm_get_fd
 udo_shm_get_data
 ================
 
-.. c:function:: void *udo_shm_get_data(struct udo_shm *shm, const unsigned int proc_index);
+.. c:function:: void *udo_shm_get_data(struct udo_shm *shm, const uint32_t proc_index);
 
 | Returns starting address of a processes segment
 | in the `mmap(2)`_ map'd POSIX shared memory buffer
@@ -357,7 +357,7 @@ udo_shm_get_data
 udo_shm_get_data_size
 =====================
 
-.. c:function:: size_t udo_shm_get_data_size(struct udo_shm *shm, const unsigned int proc_index);
+.. c:function:: size_t udo_shm_get_data_size(struct udo_shm *shm, const uint32_t proc_index);
 
 | Returns size of a given process POSIX shared
 | memory segment size created after call to
