@@ -23,9 +23,9 @@ struct udo_vsock_tcp;
  */
 struct udo_vsock_tcp_server_create_info
 {
-	unsigned int vcid;
-	int          port;
-	int          connections;
+	uint32_t vcid;
+	int      port;
+	int      connections;
 };
 
 
@@ -79,8 +79,8 @@ udo_vsock_tcp_server_accept (struct udo_vsock_tcp *vsock,
  */
 struct udo_vsock_tcp_client_create_info
 {
-	unsigned int vcid;
-	int          port;
+	uint32_t vcid;
+	int      port;
 };
 
 
@@ -170,7 +170,7 @@ udo_vsock_tcp_get_fd (struct udo_vsock_tcp *vsock);
  *	on failure: UINT32_MAX
  */
 UDO_API
-unsigned int
+uint32_t
 udo_vsock_tcp_get_vcid (struct udo_vsock_tcp *vsock);
 
 
@@ -223,7 +223,7 @@ udo_vsock_tcp_get_sizeof (void);
  *	on failure: UINT32_MAX
  */
 UDO_API
-unsigned int
+uint32_t
 udo_vsock_tcp_get_local_vcid (void);
 
 

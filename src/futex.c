@@ -44,7 +44,7 @@ futex (void *uaddr,
 udo_atomic_u32 *
 udo_futex_create (const void *p_futex_info)
 {
-	unsigned int f;
+	uint32_t f;
 
 	udo_atomic_u32 *fux;
 

@@ -31,8 +31,7 @@
  *                   stored in front segment of shared memory.
  * @member wr_fux  - Pointer to a given process write futex
  *                   stored in front segment of shared memory.
- * @member data    - Unsigned long long int storing the integer
- *                   representation of a pointer to a location
+ * @member data    - Pointer unsigned char storing location
  *                   within shared memory. This pointer is a
  *                   given processes shared memory segment
  *                   staring address.
@@ -84,7 +83,7 @@ static int
 p_shm_create (struct udo_shm *shm,
               const struct udo_shm_create_info *shm_info)
 {
-	unsigned int p;
+	uint32_t p;
 
 	int err = -1, len;
 
@@ -240,7 +239,7 @@ udo_shm_create (struct udo_shm *p_shm,
 UDO_STATIC_INLINE
 unsigned char
 p_check_proc_index (struct udo_shm *shm,
-                    const unsigned int proc_index)
+                    const uint32_t proc_index)
 {
 	return proc_index > __atomic_load_n((udo_atomic_u32*) \
 			shm->data, __ATOMIC_ACQUIRE);
@@ -354,7 +353,7 @@ udo_shm_get_fd (struct udo_shm *shm)
 
 void *
 udo_shm_get_data (struct udo_shm *shm,
-                  const unsigned int proc_index)
+                  const uint32_t proc_index)
 {
 	if (!shm || p_check_proc_index(shm, proc_index))
 		return NULL;
@@ -365,7 +364,7 @@ udo_shm_get_data (struct udo_shm *shm,
 
 size_t
 udo_shm_get_data_size (struct udo_shm *shm,
-                       const unsigned int proc_index)
+                       const uint32_t proc_index)
 {
 	if (!shm || p_check_proc_index(shm, proc_index))
 		return -1;

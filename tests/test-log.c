@@ -133,8 +133,8 @@ test_log_set_write_fd (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_log_error (void UDO_UNUSED **state)
 {
+	uint32_t err_code = 0;
 	const char *error = NULL;
-	unsigned int err_code = 0;
 
 	struct some_context
 	{

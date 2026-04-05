@@ -15,8 +15,8 @@
  */
 struct udo_futex_create_info
 {
-	size_t       size;
-	unsigned int count;
+	size_t   size;
+	uint32_t count;
 };
 
 

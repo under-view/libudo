@@ -23,9 +23,9 @@ struct udo_shm;
  */
 struct udo_shm_create_info
 {
-	const char   *shm_file;
-	size_t       shm_size;
-	unsigned int proc_count;
+	const char *shm_file;
+	size_t     shm_size;
+	uint32_t   proc_count;
 };
 
 
@@ -68,9 +68,9 @@ udo_shm_create (struct udo_shm *shm,
  */
 struct udo_shm_data_info
 {
-	void         *data;
-	size_t       size;
-	unsigned int proc_index;
+	void     *data;
+	size_t   size;
+	uint32_t proc_index;
 };
 
 
@@ -141,7 +141,7 @@ udo_shm_get_fd (struct udo_shm *shm);
 UDO_API
 void *
 udo_shm_get_data (struct udo_shm *shm,
-                  const unsigned int proc_index);
+                  const uint32_t proc_index);
 
 
 /*
@@ -160,7 +160,7 @@ udo_shm_get_data (struct udo_shm *shm,
 UDO_API
 size_t
 udo_shm_get_data_size (struct udo_shm *shm,
-                       const unsigned int proc_index);
+                       const uint32_t proc_index);
 
 
 /*

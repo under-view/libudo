@@ -102,8 +102,8 @@ enum udo_log_error_type
  */
 struct udo_log_error_struct
 {
-	unsigned int code;
-	char         buffer[(1<<9)];
+	uint32_t code;
+	char     buffer[(1<<9)];
 };
 
 
@@ -137,7 +137,7 @@ udo_log_get_error (const void *context);
  * 	on failure: UINT32_MAX
  */
 UDO_API
-unsigned int
+uint32_t
 udo_log_get_error_code (const void *context);
 
 
@@ -154,7 +154,7 @@ udo_log_get_error_code (const void *context);
 UDO_API
 void
 udo_log_set_error_struct (void *context,
-                          const unsigned int code,
+                          const uint32_t code,
                           const char *fmt,
                           ...);
 

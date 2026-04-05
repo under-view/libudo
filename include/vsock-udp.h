@@ -21,8 +21,8 @@ struct udo_vsock_udp;
  */
 struct udo_vsock_udp_server_create_info
 {
-	unsigned int vcid;
-	int          port;
+	uint32_t vcid;
+	int      port;
 };
 
 
@@ -103,8 +103,8 @@ udo_vsock_udp_server_recv_data (struct udo_vsock_udp *vsock,
  */
 struct udo_vsock_udp_client_create_info
 {
-	unsigned int vcid;
-	int          port;
+	uint32_t vcid;
+	int      port;
 };
 
 
@@ -195,7 +195,7 @@ udo_vsock_udp_get_fd (struct udo_vsock_udp *vsock);
  *	on failure: UINT32_MAX
  */
 UDO_API
-unsigned int
+uint32_t
 udo_vsock_udp_get_vcid (struct udo_vsock_udp *vsock);
 
 
@@ -249,7 +249,7 @@ udo_vsock_udp_get_sizeof (void);
  *	on failure: UINT32_MAX
  */
 UDO_API
-unsigned int
+uint32_t
 udo_vsock_udp_get_local_vcid (void);
 
 

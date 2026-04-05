@@ -36,7 +36,7 @@ struct udo_vsock_tcp
 	struct udo_log_error_struct err;
 	bool                        free;
 	int                         fd;
-	unsigned int                vcid;
+	uint32_t                    vcid;
 	int                         port;
 	struct sockaddr_vm          addr;
 };
@@ -46,10 +46,10 @@ struct udo_vsock_tcp
  * Start of global to C source functions *
  *****************************************/
 
-static unsigned int
+static uint32_t
 p_vsock_get_local_vcid (void)
 {
-	unsigned int vcid = 0;
+	uint32_t vcid = 0;
 
 	int fd = -1, err = -1;
 
@@ -108,8 +108,8 @@ p_create_vsock (struct udo_vsock_tcp *p_vsock,
 	struct udo_vsock_tcp *vsock = p_vsock;
 
 	const struct udo_vsock_tcp_create_info {  
-		unsigned int vcid;
-		int          port;
+		uint32_t vcid;
+		int      port;
 	} *vsock_info = p_vsock_info;
 
 	if (!vsock) {
@@ -297,7 +297,7 @@ udo_vsock_tcp_get_fd (struct udo_vsock_tcp *vsock)
 }
 
 
-unsigned int
+uint32_t
 udo_vsock_tcp_get_vcid (struct udo_vsock_tcp *vsock)
 {
 	if (!vsock)
@@ -357,7 +357,7 @@ udo_vsock_tcp_get_sizeof (void)
 }
 
 
-unsigned int
+uint32_t
 udo_vsock_tcp_get_local_vcid (void)
 {
 	return p_vsock_get_local_vcid();

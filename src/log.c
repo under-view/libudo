@@ -33,7 +33,7 @@ static const char *tcolors[] =
 
 UDO_STATIC_INLINE
 const char *
-p_get_error (const unsigned int code)
+p_get_error (const uint32_t code)
 {
 	switch (code) {
 		case UDO_LOG_ERR_INCORRECT_DATA:
@@ -90,7 +90,7 @@ udo_log_get_error (const void *context)
 }
 
 
-unsigned int
+uint32_t
 udo_log_get_error_code (const void *context)
 {
 	if (!context)
@@ -102,7 +102,7 @@ udo_log_get_error_code (const void *context)
 
 void
 udo_log_set_error_struct (void *context,
-                          const unsigned int code,
+                          const uint32_t code,
                           const char *fmt,
                           ...)
 {

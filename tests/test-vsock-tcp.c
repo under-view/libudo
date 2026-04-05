@@ -251,7 +251,7 @@ test_vsock_tcp_get_fd (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_vsock_tcp_get_vcid (void UDO_UNUSED **state)
 {
-	unsigned int vcid = -1;
+	uint32_t vcid = -1;
 
 	struct udo_vsock_tcp *server = NULL;
 
@@ -333,7 +333,7 @@ test_vsock_tcp_get_sizeof (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_vsock_tcp_get_local_vcid (void UDO_UNUSED **state)
 {
-	unsigned int vcid = -1;
+	uint32_t vcid = -1;
 	udo_log_set_level(UDO_LOG_ALL);
 	vcid = udo_vsock_tcp_get_local_vcid();
 	assert_int_equal(vcid, 2);

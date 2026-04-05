@@ -224,7 +224,7 @@ test_file_ops_get_line (void UDO_UNUSED **state)
 static void UDO_UNUSED
 test_file_ops_get_line_count (void UDO_UNUSED **state)
 {
-	unsigned long int line_count = 0;
+	uint64_t line_count = 0;
 
 	struct udo_file_ops *flops = NULL;
 

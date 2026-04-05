@@ -36,7 +36,7 @@ struct udo_vsock_udp
 	struct udo_log_error_struct err;
 	bool                        free;
 	int                         fd;
-	unsigned int                vcid;
+	uint32_t                    vcid;
 	int                         port;
 	struct sockaddr_vm          addr;
 };
@@ -48,15 +48,15 @@ struct udo_vsock_udp
 
 struct udo_vsock_udp_create_info
 {
-	unsigned int vcid;
-	int          port;
+	uint32_t vcid;
+	int      port;
 };
 
 
-static unsigned int
+static uint32_t
 p_vsock_get_local_vcid (void)
 {
-	unsigned int vcid = 0;
+	uint32_t vcid = 0;
 
 	int fd = -1, err = -1;
 
@@ -328,7 +328,7 @@ udo_vsock_udp_get_fd (struct udo_vsock_udp *vsock)
 }
 
 
-unsigned int
+uint32_t
 udo_vsock_udp_get_vcid (struct udo_vsock_udp *vsock)
 {
 	if (!vsock)
@@ -388,7 +388,7 @@ udo_vsock_udp_get_sizeof (void)
 }
 
 
-unsigned int
+uint32_t
 udo_vsock_udp_get_local_vcid (void)
 {
 	return p_vsock_get_local_vcid();
