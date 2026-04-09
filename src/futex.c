@@ -53,7 +53,7 @@ udo_futex_create (const void *p_futex_info)
 	if (!futex_info || \
 	    !(futex_info->size) || \
 	    !(futex_info->count) || \
-	    (futex_info->count > UDO_PAGE_SIZE))
+	    (futex_info->count*sizeof(udo_atomic_u32) > UDO_PAGE_SIZE))
 	{
 		udo_log_error("Incorrect data passed\n");
 		return NULL;

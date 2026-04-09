@@ -11,7 +11,8 @@
  * @member size  - Size of shared memory block.
  * @member count - Amount of futexes stored in a single
  *                 shared memory block. The amount of
- *                 futexes allocated is limited to 4096.
+ *                 futexes caller may allocate is limited
+ *                 to 1024.
  */
 struct udo_futex_create_info
 {
@@ -25,14 +26,12 @@ struct udo_futex_create_info
  *        to store a futex. This function usage should
  *        be limited to processes/threads that were created
  *        via fork() or pthread_create(). For processes
- *        created without fork() (i.e seperate application)
+ *        created without fork() (i.e separate application)
  *        see shm.c implementation. By default all futexes
  *        are initialize in the locked state.
  *
  * @param futex_info - Implementation uses a pointer to a
- *                     struct udo_futex_create_info
- *                     no other implementation may be passed
- *                     to this parameter.
+ *                     struct udo_futex_create_info.
  *
  * @returns
  *	on success: Pointer to a udo_atomic_u32
@@ -82,6 +81,9 @@ udo_futex_wait (udo_atomic_u32 *fux,
  *        value at the futex isn't required when
  *        using this macro. Sets errno to EINTR if
  *        a call to udo_futex_unlock_force() is made.
+ *
+ *        NOTE: This macro wraps the function
+ *        void p_udo_futex_wait_cond(udo_atomic_u32 *fux).
  *
  * @param fux  - Pointer to 32-bit unsigned integer
  *               storing futex value.

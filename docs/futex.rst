@@ -62,7 +62,8 @@ udo_futex_create_info
 	:c:member:`count`
 		| Amount of futexes stored in a single
 		| shared memory block. The amount of
-		| futexes allocated is limited to ``4096``.
+		| futexes caller may allocate is limited
+		| to ``1024``.
 
 ================
 udo_futex_create
@@ -74,7 +75,7 @@ udo_futex_create
 | to store a futex. This function usage should
 | be limited to processes/threads that were created
 | via `fork()`_ or `pthread_create()`_. For processes
-| created without `fork()`_ (i.e seperate application)
+| created without `fork()`_ (i.e separate application)
 | see `shm.c`_ implementation. By default all futexes
 | are initialize in the locked state.
 
@@ -105,9 +106,7 @@ udo_futex_create
 	          - Decription
 		* - futex_info
 		  - | Implementation uses a pointer to a
-		    | ``struct`` :c:struct:`udo_futex_create_info`
-		    | no other implementation may be passed
-		    | to this parameter.
+		    | ``struct`` :c:struct:`udo_futex_create_info`.
 
 	Returns:
 		| **on success:** Pointer to a ``udo_atomic_u32``
@@ -123,8 +122,8 @@ udo_futex_lock
 
 | Atomically updates futex value to the locked state.
 | If value can't be changed inform kernel that a
-| process/thread needs to be put to sleep. Sets errno to
-| `EINTR`_ if a call to :c:func:`udo_futex_unlock_force`
+| process/thread needs to be put to sleep. Sets errno
+| to `EINTR`_ if a call to :c:func:`udo_futex_unlock_force`
 | is made.
 
 	.. list-table::
@@ -177,7 +176,7 @@ udo_futex_wait_cond
 | a call to :c:func:`udo_futex_unlock_force` is made.
 |
 | **NOTE:** This macro wraps the function
-| ``void udo_futex_wait_cond(udo_atomic_u32 *fux)``.
+| ``void p_udo_futex_wait_cond(udo_atomic_u32 *fux)``.
 
 	.. list-table::
 		:header-rows: 1
