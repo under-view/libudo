@@ -32,12 +32,12 @@
  *                     pipe_fds[1] - Write end of the pipe
  * @member alloc_sz  - Total size of the file that was mapped with mmap(2).
  * @member data_sz   - Total size of data written to file. Used when destroying
- *                     the struct udo_file_ops context to truncate file to a
+ *                     the struct udo_file_ops context to truncate(2) file to a
  *                     smaller size than @alloc_sz.
  * @member data      - Pointer to mmap(2) file data.
  * @member fname_off - Offset in the @full_path buffer that stores the file name.
  * @member full_path - Buffer storing string representing the full path to
- *                     file. This buffer is split in to by storing the '\0'
+ *                     file. This buffer is split in two by storing the '\0'
  *                     between the file name and directory path.
  */
 struct udo_file_ops

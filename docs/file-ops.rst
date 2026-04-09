@@ -103,7 +103,7 @@ udo_file_ops (private)
 
 	:c:member:`full_path`
 		| Buffer storing string representing the full path to
-		| file. This buffer is split in to by storing the ``\0``
+		| file. This buffer is split in two by storing the ``\0``
 		| between the file name and directory path.
 
 ========================
@@ -163,9 +163,8 @@ udo_file_ops_create
 		    | to store the newly created ``struct`` :c:struct:`udo_file_ops`
 		    | instance.
 		* - file_info
-		  - | Pointer to a ``struct`` :c:struct:`udo_file_ops_create_info`.
-		    | The use of pointer to a void is to limit amount
-		    | of columns required to define a function.
+		  - | Implementation uses a pointer to a
+		    | ``struct`` :c:struct:`udo_file_ops_create_info`.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_file_ops`
@@ -221,9 +220,8 @@ udo_file_ops_zero_copy
 		* - flops
 		  - | Pointer to a valid ``struct`` :c:struct:`udo_file_ops`.
 		* - file_info
-		  - | Pointer to a ``struct`` :c:struct:`udo_file_ops_zero_copy_info`.
-		    | The use of pointer to a void is to limit amount
-		    | of columns required to define a function.
+		  - | Implementation uses a pointer to a
+		    | ``struct`` :c:struct:`udo_file_ops_zero_copy_info`.
 
 	Returns:
 		| **on success:** Amount of bytes `splice(2)`_ to/from a `pipe(2)`_
@@ -239,7 +237,7 @@ udo_file_ops_get_data
 
 | Returns file data stored at a given offset.
 | Caller would have to copy into a secondary
-| buffer to exclude new line character like bellow.
+| buffer to exclude all other data after offset.
 
 	.. code-block:: c
 
@@ -282,7 +280,8 @@ udo_file_ops_get_line
 
 | Returns file data stored at a given line.
 | Caller would have to copy into a secondary
-| buffer to exclude new line character like bellow.
+| buffer to exclude all other characters after
+| line.
 
 	.. code-block:: c
 
@@ -414,7 +413,7 @@ udo_file_ops_get_filename
 
 .. c:function:: const char *udo_file_ops_get_filename(struct udo_file_ops *flops);
 
-| Return file name of open file associated with
+| Returns file name of open file associated with
 | the ``struct`` :c:struct:`udo_file_ops` context.
 
 	.. list-table::
@@ -435,7 +434,7 @@ udo_file_ops_get_filename
 udo_file_ops_get_dirname
 ========================
 
-.. c:function:: const char * udo_file_ops_get_dirname(struct udo_file_ops *flops);
+.. c:function:: const char *udo_file_ops_get_dirname(struct udo_file_ops *flops);
 
 | Returns directory path of open file associated
 | with the ``struct`` :c:struct:`udo_file_ops` context.
@@ -458,7 +457,7 @@ udo_file_ops_get_dirname
 udo_file_ops_get_full_path
 ==========================
 
-.. c:function:: const char * udo_file_ops_get_full_path(struct udo_file_ops *flops);
+.. c:function:: const char *udo_file_ops_get_full_path(struct udo_file_ops *flops);
 
 | Returns string representing the full path to file
 | set via the ``struct`` :c:struct:`udo_file_ops_create_info` { ``fname`` }
@@ -493,7 +492,7 @@ udo_file_ops_reset_full_path
 
 .. c:function:: void udo_file_ops_reset_full_path(struct udo_file_ops *flops);
 
-| Resets internal struct udo_file_ops full_path
+| Resets internal ``struct`` :c:struct:`udo_file_ops` full_path
 | member back to original state after a call
 | to :c:func:`udo_file_ops_create`.
 
@@ -590,10 +589,6 @@ udo_file_ops_remove_dir
 		* - dir
 		  - | Directory to delete. Size in characters
 		    | is restricted to ``4096``.
-		* - flags
-		  - | Set the file status flags to the value
-		    | specified by parameter. For more information
-		    | on status flags see `fcntl(2)`_ and `open(2)`_.
 
 	Returns:
 		| **on success:** 0

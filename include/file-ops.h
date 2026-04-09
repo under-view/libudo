@@ -45,9 +45,8 @@ struct udo_file_ops_create_info
  *                    caller. If not NULL address passed will be used
  *                    to store the newly created struct udo_file_ops
  *                    instance.
- * @param file_info - Pointer to a struct udo_file_ops_create_info.
- *                    The use of pointer to a void is to limit amount
- *                    of columns required to define a function.
+ * @param file_info - Implementation uses a pointer to a
+ *                    struct udo_file_ops_create_info.
  *
  * @returns
  * 	on success: Pointer to a struct udo_file_ops
@@ -62,14 +61,14 @@ udo_file_ops_create (struct udo_file_ops *flops,
 /*
  * @brief UDO File Operations Zero Copy Info
  *
- * @size    - Total size of the data to copy.
- * @in_fd   - Input file descriptor to copy data from.
- * @in_off  - Byte offset in the @in_fd open file to copy from.
- *            NOTE: splice(2) may updates the variable.
- * @out_fd  - Output file descriptor to copy data to.
- * @out_off - Byte offset in the @out_fd open file to copy X amount
- *            of data from the given offset.
- *            NOTE: splice(2) may updates the variable.
+ * @member size    - Total size of the data to copy.
+ * @member in_fd   - Input file descriptor to copy data from.
+ * @member in_off  - Byte offset in the @in_fd open file to copy from.
+ *                   NOTE: splice(2) may updates the variable.
+ * @member out_fd  - Output file descriptor to copy data to.
+ * @member out_off - Byte offset in the @out_fd open file to copy X amount
+ *                   of data from the given offset.
+ *                   NOTE: splice(2) may updates the variable.
  */
 struct udo_file_ops_zero_copy_info
 {
@@ -86,9 +85,8 @@ struct udo_file_ops_zero_copy_info
  *        without copying the buffer into userspace.
  *
  * @param flops     - Pointer to a valid struct udo_file_ops.
- * @param file_info - Pointer to a struct udo_file_ops_zero_copy_info.
- *                    The use of pointer to a void is to limit amount
- *                    of columns required to define a function.
+ * @param file_info - Implementation uses a pointer to a
+ *                    struct udo_file_ops_zero_copy_info.
  *
  * @returns
  * 	on success: Amount of bytes splice(2) to/from a pipe(2)
@@ -103,7 +101,7 @@ udo_file_ops_zero_copy (struct udo_file_ops *flops,
 /*
  * @brief Returns file data stored at a given offset.
  *        Caller would have to copy into a secondary
- *        buffer to exclude new line character like bellow.
+ *        buffer to exclude all other data after offset.
  *
  * @code@
  * size_t len;
@@ -138,7 +136,8 @@ udo_file_ops_get_data (struct udo_file_ops *flops,
 /*
  * @brief Returns file data stored at a given line.
  *        Caller would have to copy into a secondary
- *        buffer to exclude new line character like bellow.
+ *        buffer to exclude all other characters after
+ *        line.
  *
  * @code@
  * size_t len;
@@ -230,7 +229,7 @@ udo_file_ops_get_data_size (struct udo_file_ops *flops);
 
 
 /*
- * @brief Return file name of open file associated with
+ * @brief Returns file name of open file associated with
  *        the struct udo_file_ops context.
  *
  * @param flops - Pointer to a valid struct udo_file_ops.
