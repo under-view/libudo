@@ -126,8 +126,6 @@ udo_csock_raw_create
 		* - csock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_csock_raw_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_csock_raw`

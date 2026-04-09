@@ -35,9 +35,7 @@ struct udo_csock_raw_create_info
  *                     to store the newly created struct udo_csock_raw
  *                     instance.
  * @param csock_info - Implementation uses a pointer to a
- *                     struct udo_csock_raw_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_csock_raw_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_csock_raw
