@@ -60,6 +60,9 @@ udo_log_level_type
 
 .. c:enum:: udo_log_level_type
 
+	| Sets which messages of a given type to print and is used to
+	| help determine which ANSI Escape Codes to utilize.
+
 	#. Log level options used by
 		* :c:func:`udo_log_set_level`
 		* :c:macro:`udo_log`
@@ -111,7 +114,8 @@ udo_log_set_level
 
 .. c:function:: void udo_log_set_level(enum udo_log_level_type level);
 
-| Sets which type of messages that are allowed to be printed to an open file.
+| Sets which type of messages that are allowed
+| to be printed to an open file.
 |
 | Default is set to ``UDO_LOG_NONE``.
 
@@ -121,8 +125,9 @@ udo_log_set_level
 		* - Param
 	          - Decription
 		* - level
-		  - | 32-bit integer representing the type of log to print to
-		    | an open file. Each log type has a different color
+		  - | 32-bit integer representing the type
+		    | of log to print to an open file. Each
+		    | log type has a different color.
 
 =========================================================================================================================================
 
@@ -176,9 +181,7 @@ udo_log_error_type
 
 .. c:enum:: udo_log_error_type
 
-| Enum with macros defining and error type
-| Add on userspace error codes should be well out
-| of range of any known common error code.
+| Enum with enumerators defining an error type.
 
 	#. Log error types used by
 		* :c:func:`udo_log_get_error`
@@ -196,7 +199,7 @@ udo_log_error_type
 
 	:c:enumerator:`UDO_LOG_ERR_INCORRECT_DATA`
 		| Value set to ``0x1001``
-		| Code for incorrect data passed in function arguments
+		| Code for incorrect data passed in function arguments.
 
 ====================
 udo_log_error_struct
@@ -213,10 +216,10 @@ udo_log_error_struct
 		char     buffer[(1<<9)];
 
 	:c:member:`code`
-		| Error code or errno
+		| ``enum`` :c:enum:`udo_log_error_tye` code or errno.
 
 	:c:member:`buffer`
-		| Buffer to store error string
+		| Buffer to store error string.
 
 =================
 udo_log_get_error
@@ -235,7 +238,8 @@ udo_log_get_error
 	          - Decription
 		* - context
 		  - | Pointer to an arbitrary context.
-		    | Start of context must be a ``struct`` :c:struct:`udo_log_error_struct`.
+		    | Start of context must be a
+		    | ``struct`` :c:struct:`udo_log_error_struct`.
 
 	Returns:
 		| **on success:** Passed context error string
@@ -258,7 +262,8 @@ udo_log_get_error_code
 	          - Decription
 		* - context
 		  - | Pointer to an arbitrary context.
-		    | Start of context must be a ``struct`` :c:struct:`udo_log_error_struct`.
+		    | Start of context must be a
+		    | ``struct`` :c:struct:`udo_log_error_struct`.
 
 	Returns:
 		| **on success:** Passed context error code or errno
@@ -279,14 +284,15 @@ udo_log_set_error_struct
 	          - Decription
 		* - context
 		  - | Pointer to an arbitrary context.
-		    | Start of context must be a ``struct`` :c:struct:`udo_log_error_struct`.
+		    | Start of context must be a
+		    | ``struct`` :c:struct:`udo_log_error_struct`.
 		* - code
 		  - | Error code to set for a ``context``
 		    | May be ``errno`` or ``enum`` :c:enum:`udo_log_error_type`.
 		* - fmt
-		  - | Format of the log passed to va_args
+		  - | Format of the log passed to va_args.
 		* - ...
-		  - | Variable list arguments
+		  - | Variable list arguments.
 
 =========================================================================================================================================
 
@@ -306,11 +312,11 @@ udo_log_time
 		* - Param
 	          - Decription
 		* - type
-		  - | The type of color to use with log 
+		  - | The type of color to use with log.
 		* - fmt
-		  - | Format of the log passed to va_args
+		  - | Format of the log passed to va_args.
 		* - ...
-		  - | Variable list arguments
+		  - | Variable list arguments.
 
 ==============
 udo_log_notime
@@ -328,11 +334,11 @@ udo_log_notime
 		* - Param
 	          - Decription
 		* - type
-		  - | The type of color to use with log 
+		  - | The type of color to use with log.
 		* - fmt
-		  - | Format of the log passed to va_args
+		  - | Format of the log passed to va_args.
 		* - ...
-		  - | Variable list arguments
+		  - | Variable list arguments.
 
 =========================================================================================================================================
 
@@ -349,7 +355,7 @@ udo_log
 | Default prints to ``stdout`` using ansi color codes to color text.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`udo_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`.
 
 	.. code-block::
 
@@ -369,7 +375,7 @@ udo_log_success
 | Prints to ``stdout`` with ansi color codes the color **GREEN**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`udo_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`.
 
 	.. code-block::
 
@@ -389,7 +395,7 @@ udo_log_info
 | Prints to ``stdout`` with ansi color codes the color **BLUE**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`udo_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`.
 
 	.. code-block::
 
@@ -409,7 +415,7 @@ udo_log_warning
 | Prints to ``stdout`` with ansi color codes the color **YELLOW**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`udo_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`.
 
 	.. code-block::
 
@@ -429,7 +435,7 @@ udo_log_error
 | Prints to ``stderr`` with ansi color codes the color **RED**.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`udo_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`.
 
 	.. code-block::
 
@@ -449,7 +455,7 @@ udo_log_print
 | Default prints to ``stdout`` using ansi color codes to color text.
 |
 | Caller may change the open file in which logs are printed to via
-| a call to :c:func:`udo_log_set_write_fd`
+| a call to :c:func:`udo_log_set_write_fd`.
 
 	.. code-block::
 

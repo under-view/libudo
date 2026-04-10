@@ -33,8 +33,11 @@ enum udo_log_level_type
  * @brief Sets which type of messages that are allowed
  *        to be printed to an open file.
  *
- * @param level - 32-bit integer representing the type of log to print to
- *                an open file. Each log type has a different color.
+ *        Default set to UDO_LOG_NONE.
+ *
+ * @param level - 32-bit integer representing the type
+ *                of log to print to an open file. Each
+ *                log type has a different color.
  */
 UDO_API
 void
@@ -76,14 +79,12 @@ udo_log_reset_colors (void);
 /*
  * @brief enum udo_log_error_type
  *
- *        Enum with enumerators defining and error type
- *        Add on userspace error codes should be well out
- *        of range of any known common error code.
+ *        Enum with enumerators defining an error type.
  *
  * @macro UDO_LOG_ERR_UNCOMMON       - Errors that can't be given a common
  *                                     error string are given this error code.
  *                                     Caller would then need to set buffer themselves.
- * @macro UDO_LOG_ERR_INCORRECT_DATA - Code for incorrect data passed in function arguments
+ * @macro UDO_LOG_ERR_INCORRECT_DATA - Code for incorrect data passed in function arguments.
  */
 enum udo_log_error_type
 {
@@ -97,8 +98,8 @@ enum udo_log_error_type
  *        error string and code for multiple
  *        struct context's.
  *
- * @member code   - Error code or errno
- * @member buffer - Buffer to store error string
+ * @member code   - enum udo_log_error_type code or errno.
+ * @member buffer - Buffer to store error string.
  */
 struct udo_log_error_struct
 {
@@ -113,7 +114,8 @@ struct udo_log_error_struct
  *        of the context being a struct udo_log_error_struct.
  *
  * @param context - Pointer to an arbitrary context.
- *                  Start of context must be a struct udo_log_error_struct.
+ *                  Start of context must be a
+ *                  struct udo_log_error_struct.
  *
  * @returns
  * 	on success: Passed context error string
@@ -130,7 +132,8 @@ udo_log_get_error (const void *context);
  *        of the context being a struct udo_log_error_struct.
  *
  * @param context - Pointer to an arbitrary context.
- *                  Start of context must be a struct udo_log_error_struct.
+ *                  Start of context must be a
+ *                  struct udo_log_error_struct.
  *
  * @returns
  * 	on success: Passed context error code or errno
@@ -142,14 +145,15 @@ udo_log_get_error_code (const void *context);
 
 
 /*
- * @brief Sets struct udo_log_error_struct members value
+ * @brief Sets struct udo_log_error_struct members value.
  *
  * @param context - Pointer to an arbitrary context.
- *                  Start of context must be a struct udo_log_error_struct.
+ *                  Start of context must be a
+ *                  struct udo_log_error_struct.
  * @param code    - Error code to set for a @context.
- *                  May be errno or enum udo_log_error_type
+ *                  May be errno or enum udo_log_error_type.
  * @param fmt     - Format of the log passed to va_args.
- * @param ...     - Variable list arguments
+ * @param ...     - Variable list arguments.
  */
 UDO_API
 void
@@ -164,9 +168,9 @@ udo_log_set_error_struct (void *context,
  *        with a time stamp and ansi color codes to colorize
  *        different message.
  *
- * @param type - The type of color to use with log
- * @param fmt  - Format of the log passed to va_args
- * @param ...  - Variable list arguments
+ * @param type - The type of color to use with log.
+ * @param fmt  - Format of the log passed to va_args.
+ * @param ...  - Variable list arguments.
  */
 UDO_API
 void
@@ -180,9 +184,9 @@ udo_log_time (enum udo_log_level_type type,
  *        without time stamp with ansi color codes to colorize
  *        different message.
  *
- * @param type - The type of color to use with log
- * @param fmt  - Format of the log passed to va_args
- * @param ...  - Variable list arguments
+ * @param type - The type of color to use with log.
+ * @param fmt  - Format of the log passed to va_args.
+ * @param ...  - Variable list arguments.
  */
 UDO_API
 void
