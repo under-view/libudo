@@ -112,12 +112,11 @@ udo_jpool_thread (private)
 		struct udo_jpool_queue queue;
 
 	:c:member:`tid`
-		| Array of POSIX thread ID's.
+		| POSIX thread ID associated with thread.
 
 	:c:member:`queue`
-		| Structure keeping track of
-		| current jobs a thread can
-		| run.
+		| Structure keeping track of current jobs
+		| a thread can execute.
 
 ===================
 udo_jpool (private)
@@ -145,9 +144,6 @@ udo_jpool (private)
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
 		| destroying the instance.
-
-	:c:member:`thread_count`
-		| Amount of threads in the pool.
 
 	:c:member:`queue_sz`
 		| Byte size of :c:member:`queue_data`.
@@ -255,8 +251,6 @@ udo_jpool_create_info
 		* - jpool_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_jpool_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_jpool`
@@ -270,8 +264,8 @@ udo_jpool_add_job
 
 .. c:function:: uint32_t udo_jpool_add_job(struct udo_jpool *jpool, void (*func)(void *arg), void *arg);
 
-| Adds a job to the job queue for threads
-| to then later execute. If a given thread
+| Adds a job to a given thread's job queue
+| to then later execute. If a given thread's
 | queue is full function blocks until all
 | jobs in that queue are completed before
 | adding a new task.
@@ -323,7 +317,7 @@ udo_jpool_destroy
 
 | Frees any allocated memory and closes FD's (if open) created after
 | :c:func:`udo_jpool_create` call. Function waits for all jobs in every 
-| threads queue are executed before destroying the pool.
+| threads queue to execute before destroying the pool.
 
 	.. list-table::
 		:header-rows: 1

@@ -39,9 +39,7 @@ struct udo_jpool_create_info
  *                     to store the newly created struct udo_jpool
  *                     instance.
  * @param jpool_info - Implementation uses a pointer to a
- *                     struct udo_jpool_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_jpool_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_jpool
@@ -54,8 +52,8 @@ udo_jpool_create (struct udo_jpool *jpool,
 
 
 /*
- * @brief Adds a job to the job queue for threads
- *        to then later execute. If a given thread
+ * @brief Adds a job to a given thread's job queue
+ *        to then later execute. If a given thread's
  *        queue is full function blocks until all
  *        jobs in that queue are completed before
  *        adding a new task.
@@ -91,7 +89,7 @@ udo_jpool_wait (struct udo_jpool *jpool);
 /*
  * @brief Frees any allocated memory and closes FD's (if open) create after
  *        udo_jpool_create() call. Function waits for all jobs in every
- *        threads queue are executed before destroying the pool.
+ *        threads queue to execute before destroying the pool.
  *
  * @param jpool - Pointer to a valid struct udo_jpool.
  */

@@ -57,10 +57,9 @@ struct udo_jpool_queue
 /*
  * @brief Structure defining information used by threads.
  *
- * @member tid   - Array of POSIX thread ID's.
- * @member queue - Structure keeping track of
- *                 current jobs a thread can
- *                 run.
+ * @member tid   - POSIX thread ID associated with thread.
+ * @member queue - Structure keeping track of current jobs
+ *                 a thread can execute.
  */
 struct udo_jpool_thread
 {
