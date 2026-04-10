@@ -68,13 +68,14 @@ test_macro_udo_page (void UDO_UNUSED **state)
 
 	size = 4 * UDO_PAGE_SIZE;
 	addr = mmap(NULL, size, PROT_READ,
-	            MAP_ANONYMOUS, -1, 0);
-	assert_non_null(addr);
+	            MAP_PRIVATE|MAP_ANONYMOUS,
+	            -1, 0);
+	assert_false((addr == (void*)-1));
 
 	page = (char*)UDO_PAGE_GET(((char*)addr+6555));
 	assert_ptr_equal(page, ((char*)addr+UDO_PAGE_SIZE));
 
-	munmap(addr, 4 * UDO_PAGE_SIZE);
+	munmap(addr, size);
 }
 
 /****************************************
