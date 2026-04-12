@@ -92,7 +92,7 @@ udo_mm_alloc (struct udo_mm *mm, const size_t size)
 
 
 void *
-udo_mm_sub_alloc (struct udo_mm *mm, const size_t size)
+udo_mm_sub_alloc (struct udo_mm *mm, size_t size)
 {
 	void *data = NULL;
 
@@ -101,6 +101,7 @@ udo_mm_sub_alloc (struct udo_mm *mm, const size_t size)
 		return NULL;
 	}
 
+	size += sizeof(size_t);
 	if (mm->ab_sz <= size) {
 		udo_log_set_error(mm, UDO_LOG_ERR_UNCOMMON,
 		                  "Cannot allocate %lu bytes only %lu bytes left.",
@@ -109,37 +110,45 @@ udo_mm_sub_alloc (struct udo_mm *mm, const size_t size)
 	}
 
 	data = (void*)((char*)mm + mm->offset);
+	*((size_t*)data) = size;
 
 	mm->ab_sz -= size;
 	mm->offset += size;
 
-	return data;
+	return (void*)((char*)data+sizeof(size_t));
 }
 
 
 void
-udo_mm_free (struct udo_mm *mm,
-             void *data,
-             const size_t size)
+udo_mm_free (struct udo_mm *mm, const void *data)
 {
-	size_t copy_sz = 0;
+	size_t copy_sz = 0, data_sz = 0;
 
-	void *mv_data = NULL;
+	void *mv_data = NULL, *p_data = NULL;
 
-	if (!mm || !data || !size) {
+	if (!mm || !data) {
 		udo_log_error("Incorrect data passed\n");
 		return;
 	}
 
-	memset(data, 0, size);
+	p_data = (void*)((char*)data-sizeof(size_t));
+	data_sz = *((size_t*)p_data);
 
-	mv_data = (void*)((char*)data+size);
-	copy_sz = ((uintptr_t)(((char*)mm)+mm->offset))-((uintptr_t)data);
+	memset(p_data, 0, data_sz);
 
-	memcpy(data, mv_data, copy_sz);
+	mv_data = (void*)((char*)p_data + data_sz);
+	copy_sz = ((uintptr_t)(((char*)mm)+mm->offset))-((uintptr_t)p_data);
 
-	mm->ab_sz += size;
-	mm->offset -= size;
+	memmove(p_data, mv_data, copy_sz);
+
+	mm->ab_sz += data_sz;
+	mm->offset -= data_sz;
+
+	/*
+	 * Clear bytes at end of
+	 * offset after buffer shift.
+	 */
+	memset(mv_data, 0, mm->data_sz-mm->ab_sz);
 }
 
 

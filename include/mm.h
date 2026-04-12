@@ -55,7 +55,7 @@ udo_mm_alloc (struct udo_mm *mm, const size_t size);
  *	on failure: NULL
  */
 void *
-udo_mm_sub_alloc (struct udo_mm *mm, const size_t size);
+udo_mm_sub_alloc (struct udo_mm *mm, size_t size);
 
 
 /*
@@ -72,12 +72,9 @@ udo_mm_sub_alloc (struct udo_mm *mm, const size_t size);
  *
  * @param mm   - Must pass a pointer to a struct udo_mm.
  * @param data - Address to the data caller wants to zero out.
- * @param size - Size of data to zero out
  */
 void
-udo_mm_free (struct udo_mm *mm,
-             void *data,
-             const size_t size);
+udo_mm_free (struct udo_mm *mm, const void *data);
 
 
 /*

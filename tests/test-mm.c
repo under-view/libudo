@@ -112,7 +112,7 @@ test_mm_free (void UDO_UNUSED **state)
 	memset(blue, 'B', UDO_PAGE_SIZE);
 	memset(green, 'G', UDO_PAGE_SIZE);
 
-	udo_mm_free(mm, blue, UDO_PAGE_SIZE);
+	udo_mm_free(mm, blue);
 	assert_memory_equal(red, blue, UDO_PAGE_SIZE);
 
 	udo_mm_destroy(mm);
