@@ -11,14 +11,18 @@
  * @brief Structure defining udo_mm (UDO Memory Mapped) instance.
  *
  * @member err     - Stores information about the error that occured
- *                   for the given instance and may later be retrieved.
+ *                   for the given instance and may later be retrieved
+ *                   by caller.
  * @member buff_sz - Full size of the struct udo_mm instance.
  *                   Not all bytes in the buffer are writable.
  * @member data_sz - Full size of the caller writable data.
  * @member ab_sz   - The amount of available bytes the caller
  *                   can still write to.
  * @member offset  - Buffer offset used when allocating new blocks
- *                   in constant time.
+ *                   in constant time. Caller may not of used the
+ *                   entire buffer before re-allocation. Member is
+ *                   used to keep track of end of buffer where data
+ *                   exist.
  */
 struct udo_mm
 {

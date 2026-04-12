@@ -38,9 +38,9 @@ Functions
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-| This interface was built to force caller to
-| be more consciously concern about virtual
-| heap memory management.
+| This interface was built to force caller
+| to be more consciously concern about heap
+| based virtual memory management.
 
 ================
 udo_mm (private)
@@ -58,6 +58,7 @@ udo_mm (private)
 	:c:member:`err`
 		| Stores information about the error that occured
 		| for the given instance and may later be retrieved.
+		| by caller.
 
 	:c:member:`buff_sz`
 		| Full size of the ``struct`` :struct:`udo_mm` instance.
@@ -72,7 +73,10 @@ udo_mm (private)
 
 	:c:member:`offset`
  		| Buffer offset used when allocating new blocks
-		| in constant time.
+		| in constant time. Caller may not of used the
+		| entire buffer before re-allocation. Member is
+		| used to keep track of end of buffer where data
+		| exist.
 
 =========================================================================================================================================
 
@@ -82,10 +86,10 @@ udo_mm_alloc
 
 .. c:function:: struct udo_mm *udo_mm_alloc(struct udo_mm *mm, const size_t size);
 
-| Returns pointer to an allocated heap memory.
-| The goal of this is to allocate a large block
-| of memory once. If re-allocation required pass
-| the previous large block to clone all data.
+| Returns pointer to an allocated block of heap
+| memory. The goal of this is to allocate a large
+| block of memory once. If re-allocation required
+| pass the previous large block to clone all data.
 |
 | Addresses returned from function should not
 | be used to write to. Writable addresses
@@ -116,8 +120,8 @@ udo_mm_sub_alloc
 
 .. c:function:: void *udo_mm_sub_alloc(struct udo_mm *mm, const size_t size);
 
-| Returns pointer to an allocated heap memory
-| segment. From an allocated large block of
+| Returns pointer to an allocated block of heap
+| memory. From the allocated larger block of
 | memory sub-allocate from that larger block.
 |
 | Addresses returned from function can be
@@ -146,9 +150,8 @@ udo_mm_free
 .. c:function:: void udo_mm_free(struct udo_mm *mm, void *data, const size_t size);
 
 | Wipes the bytes at a given subregion of memory.
-| Shifts the memory after the subregion up to a
-| tracked buffer offset over to the subregion
-| up to the new buffer offset.
+| Shifts the memory after the subregion over to
+| the start of the wiped subregion.
 |
 | **NOTE:** This function should be used sparingly
 | as the caller would have to keep track of the

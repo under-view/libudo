@@ -2,9 +2,9 @@
 #define UDO_MM_H
 
 /*
- * This interface was built to force caller to
- * be more consciously concern about virtual
- * heap memory management.
+ * This interface was built to force caller
+ * to be more consciously concern about heap
+ * based virtual memory management.
  */
 
 #include "macros.h"
@@ -16,10 +16,10 @@ struct udo_mm;
 
 
 /*
- * @brief Returns pointer to an allocated heap memory.
- *        The goal of this is to allocate a large block
- *        of memory once. If re-allocation required pass
- *        the previous large block to clone all data.
+ * @brief Returns pointer to an allocated block of heap
+ *        memory. The goal of this is to allocate a large
+ *        block of memory once. If re-allocation required
+ *        pass the previous large block to clone all data.
  *
  *        Addresses returned from function should not
  *        be used to write to. Writable addresses
@@ -40,8 +40,8 @@ udo_mm_alloc (struct udo_mm *mm, const size_t size);
 
 
 /*
- * @brief Returns pointer to an allocated heap memory
- *        segment. From an allocated large block of
+ * @brief Returns pointer to an allocated block of heap
+ *        memory. From the allocated larger block of
  *        memory sub-allocate from that larger block.
  *
  *        Addresses returned from function can be
@@ -60,9 +60,8 @@ udo_mm_sub_alloc (struct udo_mm *mm, const size_t size);
 
 /*
  * @brief Wipes the bytes at a given subregion of memory.
- *        Shifts the memory after the subregion up to a
- *        tracked buffer offset over to the subregion
- *        up to the new buffer offset.
+ *        Shifts the memory after the subregion over to
+ *        the start of the wiped subregion.
  *
  *        NOTE: This function should be used sparingly
  *        as the caller would have to keep track of the
