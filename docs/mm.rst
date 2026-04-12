@@ -118,7 +118,7 @@ udo_mm_alloc
 udo_mm_sub_alloc
 ================
 
-.. c:function:: void *udo_mm_sub_alloc(struct udo_mm *mm, const size_t size);
+.. c:function:: void *udo_mm_sub_alloc(struct udo_mm *mm, size_t size);
 
 | Returns pointer to an allocated block of heap
 | memory. From the allocated larger block of
@@ -147,7 +147,7 @@ udo_mm_sub_alloc
 udo_mm_free
 ===========
 
-.. c:function:: void udo_mm_free(struct udo_mm *mm, void *data, const size_t size);
+.. c:function:: void udo_mm_free(struct udo_mm *mm, const void *data);
 
 | Wipes the bytes at a given subregion of memory.
 | Shifts the memory after the subregion over to
@@ -169,8 +169,6 @@ udo_mm_free
 		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_mm`.
 		* - data
 		  - | Address to the data caller wants to zero out.
-		* - size
-		  - | Size of buffer to sub-allocate.
 
 =========================================================================================================================================
 
