@@ -16,14 +16,14 @@
 #include "sock-udp.h"
 
 /*
- * @brief Structure defining UDO Socket UDP instance.
+ * @brief Structure defining UDO Socket UDP context.
  *
  * @member err     - Stores information about the error that occured
- *                   for the given instance and may later be retrieved
+ *                   for the given context and may later be retrieved
  *                   by caller.
  * @member free    - If structure allocated with calloc(3) member will be
  *                   set to true so that, we know to call free(3) when
- *                   destroying the instance.
+ *                   destroying the context.
  * @member fd      - File descriptor to the open UDP socket.
  * @member ip_addr - Textual network IP address to sendto(2)/recvfrom(2).
  * @member port    - Network port number to sendto(2)/recvfrom(2).

@@ -6,7 +6,7 @@
 #include "macros.h"
 
 /*
- * Stores information about the udo_file_ops instance.
+ * Stores information about the udo_file_ops context.
  */
 struct udo_file_ops;
 
@@ -44,7 +44,7 @@ struct udo_file_ops_create_info
  *                    If NULL memory will be allocated and return to
  *                    caller. If not NULL address passed will be used
  *                    to store the newly created struct udo_file_ops
- *                    instance.
+ *                    context.
  * @param file_info - Implementation uses a pointer to a
  *                    struct udo_file_ops_create_info.
  *

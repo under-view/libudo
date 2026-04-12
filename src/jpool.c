@@ -69,14 +69,14 @@ struct udo_jpool_thread
 
 
 /*
- * @brief Structure defining the udo_jpool (Udo Job Pool) instance.
+ * @brief Structure defining the udo_jpool (Udo Job Pool) context.
  *
  * @member err          - Stores information about the error that occured
- *                        for the given instance and may later be retrieved
+ *                        for the given context and may later be retrieved
  *                        by caller.
  * @member free         - If structure allocated with calloc(3) member will be
  *                        set to true so that, we know to call free(3) when
- *                        destroying the instance.
+ *                        destroying the context.
  * @member queue_sz     - Byte size of @queue_data.
  * @member queue_data   - Shared memory buffer storing actual
  *                        addresses to jobs.

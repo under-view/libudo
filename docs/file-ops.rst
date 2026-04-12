@@ -54,7 +54,7 @@ API Documentation
 udo_file_ops (private)
 ======================
 
-| Structure defining UDO File Operations instance.
+| Structure defining UDO File Operations context.
 
 .. c:struct:: udo_file_ops
 
@@ -71,13 +71,13 @@ udo_file_ops (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| File descriptor to open file.
@@ -161,7 +161,7 @@ udo_file_ops_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_file_ops`
-		    | instance.
+		    | context.
 		* - file_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_file_ops_create_info`.

@@ -52,7 +52,7 @@ API Documentation
 udo_sock_tcp (private)
 ======================
 
-| Structure defining UDO Socket TCP instance.
+| Structure defining UDO Socket TCP context.
 
 .. c:struct:: udo_sock_tcp
 
@@ -66,13 +66,13 @@ udo_sock_tcp (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| File descriptor to the open TCP socket.
@@ -136,7 +136,7 @@ udo_sock_tcp_server_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_sock_tcp`
-		    | instance.
+		    | context.
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_tcp_server_create_info`.
@@ -217,7 +217,7 @@ udo_sock_tcp_client_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_sock_tcp`
-		    | instance.
+		    | context.
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_tcp_client_create_info`.
@@ -290,7 +290,7 @@ udo_sock_tcp_get_fd
 .. c:function:: int udo_sock_tcp_get_fd(struct udo_sock_tcp *sock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`udo_sock_tcp` instance.
+| ``struct`` :c:struct:`udo_sock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -313,7 +313,7 @@ udo_sock_tcp_get_ip_addr
 .. c:function:: const char *udo_sock_tcp_get_ip_addr(struct udo_sock_tcp *sock);
 
 | Acquire textual network address in string format
-| associated with ``struct`` :c:struct:`udo_sock_tcp` instance.
+| associated with ``struct`` :c:struct:`udo_sock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -336,7 +336,7 @@ udo_sock_tcp_get_port
 .. c:function:: int udo_sock_tcp_get_port(struct udo_sock_tcp *sock);
 
 | Acquire network port associated with
-| ``struct`` :c:struct:`udo_sock_tcp` instance.
+| ``struct`` :c:struct:`udo_sock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -347,7 +347,7 @@ udo_sock_tcp_get_port
 		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_tcp`.
 
 	Returns:
-		| **on success:** Network port connected to instance
+		| **on success:** Network port connected to context
 		| **on failure:** -1
 
 =========================================================================================================================================

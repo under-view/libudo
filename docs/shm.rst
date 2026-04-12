@@ -49,7 +49,7 @@ udo_shm_proc (private)
 ======================
 
 | Structure defining the udo_shm_proc
-| (UDO Shared Memory Process) instance.
+| (UDO Shared Memory Process) context.
 
 .. c:struct:: udo_shm_proc
 
@@ -81,7 +81,7 @@ udo_shm_proc (private)
 udo_shm (private)
 =================
 
-| Structure defining the udo_shm instance.
+| Structure defining the udo_shm context.
 
 .. c:struct:: udo_shm
 
@@ -96,13 +96,13 @@ udo_shm (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| Open file descriptor to POSIX shared memory.
@@ -215,7 +215,7 @@ udo_shm_create_info
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_shm`
-		    | instance.
+		    | context.
 		* - shm_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_shm_create_info`.

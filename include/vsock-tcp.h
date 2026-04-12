@@ -7,7 +7,7 @@
 #include <linux/vm_sockets.h>
 
 /*
- * Stores information about the udo_vsock_tcp instance.
+ * Stores information about the udo_vsock_tcp context.
  */
 struct udo_vsock_tcp;
 
@@ -36,7 +36,7 @@ struct udo_vsock_tcp_server_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_vsock_tcp
- *                     instance.
+ *                     context.
  * @param vsock_info - Implementation uses a pointer to a
  *                     struct udo_vsock_tcp_server_create_info
  *                     no other implementation may be passed to
@@ -91,7 +91,7 @@ struct udo_vsock_tcp_client_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_vsock_tcp
- *                     instance.
+ *                     context.
  * @param vsock_info - Implementation uses a pointer to a
  *                     struct udo_vsock_tcp_client_create_info
  *                     no other implementation may be passed to
@@ -146,7 +146,7 @@ udo_vsock_tcp_client_send_data (struct udo_vsock_tcp *vsock,
 
 /*
  * @brief Acquire VM socket file descriptor associated with
- *        struct udo_vsock_tcp instance.
+ *        struct udo_vsock_tcp context.
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  *
@@ -175,12 +175,12 @@ udo_vsock_tcp_get_vcid (struct udo_vsock_tcp *vsock);
 
 
 /*
- * @brief Acquire network port associated with struct udo_vsock_tcp instance.
+ * @brief Acquire network port associated with struct udo_vsock_tcp context.
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  *
  * @returns
- *	on success: Network port connected to instance
+ *	on success: Network port connected to context
  *	on failure: -1
  */
 UDO_API

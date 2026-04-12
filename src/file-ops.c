@@ -18,14 +18,14 @@
 #define PIPE_MAX_BUFF_SIZE (size_t)(1<<16)
 
 /*
- * @brief Structure defining UDO File Operations instance.
+ * @brief Structure defining UDO File Operations context.
  *
  * @member err       - Stores information about the error that occured
- *                     for the given instance and may later be retrieved
+ *                     for the given context and may later be retrieved
  *                     by caller.
  * @member free      - If structure allocated with calloc(3) member will be
  *                     set to true so that, we know to call free(3) when
- *                     destroying the instance.
+ *                     destroying the context.
  * @member fd        - File descriptor to open file.
  * @member pipe_fds  - File descriptors associated with an open pipe.
  *                     pipe_fds[0] - Read end of the pipe

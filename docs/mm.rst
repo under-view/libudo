@@ -57,11 +57,11 @@ udo_mm (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved.
+		| for the given context and may later be retrieved.
 		| by caller.
 
 	:c:member:`buff_sz`
-		| Full size of the ``struct`` :struct:`udo_mm` instance.
+		| Full size of the ``struct`` :struct:`udo_mm` context.
 		| Not all bytes in the buffer are writable.
 
 	:c:member:`data_sz`

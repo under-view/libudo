@@ -53,7 +53,7 @@ API Documentation
 udo_sock_udp (private)
 ======================
 
-| Structure defining UDO Socket UDP instance.
+| Structure defining UDO Socket UDP context.
 
 .. c:struct:: udo_sock_udp
 
@@ -67,13 +67,13 @@ udo_sock_udp (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| File descriptor to the open UDP socket
@@ -132,7 +132,7 @@ udo_sock_udp_server_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_sock_udp`
-		    | instance.
+		    | context.
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_udp_server_create_info`.
@@ -190,7 +190,7 @@ udo_sock_udp_server_recv_data
 		* - Param
 	          - Decription
 		* - sock
-		  - | Pointer to a ``struct`` :c:struct:`udo_sock_udp` instance.
+		  - | Pointer to a ``struct`` :c:struct:`udo_sock_udp` context.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
@@ -251,7 +251,7 @@ udo_sock_udp_client_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_sock_udp`
-		    | instance.
+		    | context.
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_udp_client_create_info`.
@@ -323,7 +323,7 @@ udo_sock_udp_get_fd
 .. c:function:: int udo_sock_udp_get_fd(struct udo_sock_udp *sock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`udo_sock_udp` instance.
+| ``struct`` :c:struct:`udo_sock_udp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -346,7 +346,7 @@ udo_sock_udp_get_ip_addr
 .. c:function:: const char *udo_sock_udp_get_ip_addr(struct udo_sock_udp *sock);
 
 | Acquire textual network ip address associated
-| with ``struct`` :c:struct:`udo_sock_udp` instance.
+| with ``struct`` :c:struct:`udo_sock_udp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -369,7 +369,7 @@ udo_sock_udp_get_port
 .. c:function:: int udo_sock_udp_get_port(struct udo_sock_udp *sock);
 
 | Acquire network port associated with
-| ``struct`` :c:struct:`udo_sock_udp` instance.
+| ``struct`` :c:struct:`udo_sock_udp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -380,7 +380,7 @@ udo_sock_udp_get_port
 		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_sock_udp`.
 
 	Returns:
-		| **on success:** Network port connected to instance
+		| **on success:** Network port connected to context
 		| **on failure:** -1
 
 =========================================================================================================================================

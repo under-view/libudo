@@ -6,7 +6,7 @@
 #include <linux/can.h>
 
 /*
- * Stores information about the udo_csock_raw instace.
+ * Stores information about the udo_csock_raw context.
  */
 struct udo_csock_raw;
 
@@ -33,7 +33,7 @@ struct udo_csock_raw_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_csock_raw
- *                     instance.
+ *                     context.
  * @param csock_info - Implementation uses a pointer to a
  *                     struct udo_csock_raw_create_info.
  *
@@ -89,7 +89,7 @@ udo_csock_raw_recv_data (struct udo_csock_raw *csock,
 
 /*
  * @brief Acquire socket file descriptor associated with
- *        struct udo_csock_raw instance.
+ *        struct udo_csock_raw context.
  *
  * @param csock - Must pass a pointer to a struct udo_csock_raw.
  *
@@ -104,7 +104,7 @@ udo_csock_raw_get_fd (struct udo_csock_raw *csock);
 
 /*
  * @brief Acquire textual CAN interface name in string format
- *        associated with struct udo_csock_raw instance.
+ *        associated with struct udo_csock_raw context.
  *
  * @param csock - Must pass a pointer to a struct udo_csock_raw.
  *

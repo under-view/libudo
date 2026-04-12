@@ -7,7 +7,7 @@
 #include <sys/un.h>
 
 /*
- * Stores information about the udo_usock_tcp instance.
+ * Stores information about the udo_usock_tcp context.
  * usock - Unix domain socket.
  */
 struct udo_usock_tcp;
@@ -35,7 +35,7 @@ struct udo_usock_tcp_server_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_usock_tcp
- *                     instance.
+ *                     context.
  * @param usock_info - Implementation uses a pointer to a
  *                     struct udo_usock_tcp_server_create_info
  *                     no other implementation may be passed to
@@ -88,7 +88,7 @@ struct udo_usock_tcp_client_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_usock_tcp
- *                     instance.
+ *                     context.
  * @param usock_info - Implementation uses a pointer to a
  *                     struct udo_usock_tcp_client_create_info
  *                     no other implementation may be passed to
@@ -143,7 +143,7 @@ udo_usock_tcp_client_send_data (struct udo_usock_tcp *usock,
 
 /*
  * @brief Acquire socket file descriptor associated with
- *        struct udo_usock_tcp instance.
+ *        struct udo_usock_tcp context.
  *
  * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *
@@ -158,7 +158,7 @@ udo_usock_tcp_get_fd (struct udo_usock_tcp *usock);
 
 /*
  * @brief Acquire textual path to unix domain socket file in string
- *        format associated with struct udo_usock_tcp instance.
+ *        format associated with struct udo_usock_tcp context.
  *
  * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *

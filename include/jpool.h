@@ -5,7 +5,7 @@
 #include "macros.h"
 
 /*
- * Stores information about the udo_jpool instance.
+ * Stores information about the udo_jpool context.
  * jpool - Job pool.
  */
 struct udo_jpool;
@@ -37,7 +37,7 @@ struct udo_jpool_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_jpool
- *                     instance.
+ *                     context.
  * @param jpool_info - Implementation uses a pointer to a
  *                     struct udo_jpool_create_info.
  *

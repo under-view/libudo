@@ -77,7 +77,7 @@ Kernel Modules
 udo_vsock_tcp (private)
 =======================
 
-| Structure defining UDO VM Socket TCP instance.
+| Structure defining UDO VM Socket TCP context.
 
 .. c:struct:: udo_vsock_tcp
 
@@ -91,13 +91,13 @@ udo_vsock_tcp (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| File descriptor to the open VM socket.
@@ -156,7 +156,7 @@ udo_vsock_tcp_server_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_vsock_tcp`
-		    | instance.
+		    | context.
 		* - vsock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_vsock_tcp_server_create_info`.
@@ -232,7 +232,7 @@ udo_vsock_tcp_client_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_vsock_tcp`
-		    | instance.
+		    | context.
 		* - vsock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_vsock_tcp_client_create_info`.
@@ -305,7 +305,7 @@ udo_vsock_tcp_get_fd
 .. c:function:: int udo_vsock_tcp_get_fd(struct udo_vsock_tcp *vsock);
 
 | Acquire VM socket file descriptor associated with
-| ``struct`` :c:struct:`udo_vsock_tcp` instance.
+| ``struct`` :c:struct:`udo_vsock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -328,7 +328,7 @@ udo_vsock_tcp_get_vcid
 .. c:function:: uint32_t udo_vsock_tcp_get_vcid(struct udo_vsock_tcp *vsock);
 
 | Acquire VM socket context identifier associated with
-| ``struct`` :c:struct:`udo_vsock_tcp` instance.
+| ``struct`` :c:struct:`udo_vsock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -351,7 +351,7 @@ udo_vsock_tcp_get_port
 .. c:function:: int udo_vsock_tcp_get_port(struct udo_vsock_tcp *vsock);
 
 | Acquire network port associated with
-| ``struct`` :c:struct:`udo_vsock_tcp` instance.
+| ``struct`` :c:struct:`udo_vsock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -362,7 +362,7 @@ udo_vsock_tcp_get_port
 		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_vsock_tcp`.
 
 	Returns:
-		| **on success:** Network port connected to instance
+		| **on success:** Network port connected to context
 		| **on failure:** -1
 
 =========================================================================================================================================

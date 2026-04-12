@@ -8,12 +8,12 @@
 #include "mm.h"
 
 /*
- * @brief Structure defining udo_mm (UDO Memory Mapped) instance.
+ * @brief Structure defining udo_mm (UDO Memory Mapped) context.
  *
  * @member err     - Stores information about the error that occured
- *                   for the given instance and may later be retrieved
+ *                   for the given context and may later be retrieved
  *                   by caller.
- * @member buff_sz - Full size of the struct udo_mm instance.
+ * @member buff_sz - Full size of the struct udo_mm context.
  *                   Not all bytes in the buffer are writable.
  * @member data_sz - Full size of the caller writable data.
  * @member ab_sz   - The amount of available bytes the caller

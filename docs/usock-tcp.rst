@@ -51,7 +51,7 @@ API Documentation
 udo_usock_tcp (private)
 =======================
 
-| Structure defining UDO Unix Domain Socket TCP instance.
+| Structure defining UDO Unix Domain Socket TCP context.
 
 .. c:struct:: udo_usock_tcp
 
@@ -63,13 +63,13 @@ udo_usock_tcp (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| File descriptor to the open TCP unix domain socket.
@@ -118,7 +118,7 @@ udo_usock_tcp_server_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_usock_tcp`
-		    | instance.
+		    | context.
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_tcp_server_create_info`.
@@ -190,7 +190,7 @@ udo_usock_tcp_client_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_usock_tcp`
-		    | instance.
+		    | context.
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_tcp_client_create_info`.
@@ -263,7 +263,7 @@ udo_usock_tcp_get_fd
 .. c:function:: int udo_usock_tcp_get_fd(struct udo_usock_tcp *usock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`udo_usock_tcp` instance.
+| ``struct`` :c:struct:`udo_usock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -286,7 +286,7 @@ udo_usock_tcp_get_unix_path
 .. c:function:: const char *udo_usock_tcp_get_unix_path(struct udo_usock_tcp *usock);
 
 | Acquire textual path to unix domain socket file in string
-| format associated with ``struct`` :c:struct:`udo_usock_tcp` instance.
+| format associated with ``struct`` :c:struct:`udo_usock_tcp` context.
 
 	.. list-table::
 		:header-rows: 1

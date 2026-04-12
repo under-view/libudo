@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 
 /*
- * Stores information about the udo_sock_tcp instace.
+ * Stores information about the udo_sock_tcp context.
  */
 struct udo_sock_tcp;
 
@@ -39,7 +39,7 @@ struct udo_sock_tcp_server_create_info
  *                    If NULL memory will be allocated and return to
  *                    caller. If not NULL address passed will be used
  *                    to store the newly created struct udo_sock_tcp
- *                    instance.
+ *                    context.
  * @param sock_info - Implementation uses a pointer to a
  *                    struct udo_sock_tcp_server_create_info
  *                    no other implementation may be passed to
@@ -97,7 +97,7 @@ struct udo_sock_tcp_client_create_info
  *                    If NULL memory will be allocated and return to
  *                    caller. If not NULL address passed will be used
  *                    to store the newly created struct udo_sock_tcp
- *                    instance.
+ *                    context.
  * @param sock_info - Implementation uses a pointer to a
  *                    struct udo_sock_tcp_client_create_info
  *                    no other implementation may be passed to
@@ -152,7 +152,7 @@ udo_sock_tcp_client_send_data (struct udo_sock_tcp *sock,
 
 /*
  * @brief Acquire socket file descriptor associated with
- *        struct udo_sock_tcp instance.
+ *        struct udo_sock_tcp context.
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  *
@@ -167,7 +167,7 @@ udo_sock_tcp_get_fd (struct udo_sock_tcp *sock);
 
 /*
  * @brief Acquire textual network address in string format
- *        associated with struct udo_sock_tcp instance.
+ *        associated with struct udo_sock_tcp context.
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  *
@@ -182,12 +182,12 @@ udo_sock_tcp_get_ip_addr (struct udo_sock_tcp *sock);
 
 /*
  * @brief Acquire network port associated with
- *        struct udo_sock_tcp instance.
+ *        struct udo_sock_tcp context.
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  *
  * @returns
- *	on success: Network port connected to instance
+ *	on success: Network port connected to context
  *	on failure: -1
  */
 UDO_API

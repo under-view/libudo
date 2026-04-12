@@ -122,7 +122,7 @@ udo_jpool_thread (private)
 udo_jpool (private)
 ===================
 
-| Structure defining the udo_jpool (Udo Job Pool) instance.
+| Structure defining the udo_jpool (Udo Job Pool) context.
 
 .. c:struct:: udo_jpool
 
@@ -137,13 +137,13 @@ udo_jpool (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`queue_sz`
 		| Byte size of :c:member:`queue_data`.
@@ -247,7 +247,7 @@ udo_jpool_create_info
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_jpool`
-		    | instance.
+		    | context.
 		* - jpool_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_jpool_create_info`.

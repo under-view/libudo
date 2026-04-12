@@ -58,7 +58,7 @@ Kernel Modules
 udo_csock_raw (private)
 =======================
 
-| Structure defining UDO CAN Socket Raw instance.
+| Structure defining UDO CAN Socket Raw context.
 
 .. c:struct:: udo_csock_raw
 
@@ -70,13 +70,13 @@ udo_csock_raw (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| File descriptor to the open CAN socket
@@ -122,7 +122,7 @@ udo_csock_raw_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_csock_raw`
-		    | instance.
+		    | context.
 		* - csock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_csock_raw_create_info`.
@@ -196,7 +196,7 @@ udo_csock_raw_get_fd
 .. c:function:: int udo_csock_raw_get_fd(struct udo_csock_raw *csock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`udo_csock_raw` instance.
+| ``struct`` :c:struct:`udo_csock_raw` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -219,7 +219,7 @@ udo_csock_raw_get_iface
 .. c:function:: const char *udo_csock_raw_get_iface(struct udo_csock_raw *csock);
 
 | Acquire textual CAN interface name in string format
-| associated with ``struct`` :c:struct:`udo_csock_raw` instance.
+| associated with ``struct`` :c:struct:`udo_csock_raw` context.
 
 	.. list-table::
 		:header-rows: 1

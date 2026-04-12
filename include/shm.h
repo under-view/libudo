@@ -4,7 +4,7 @@
 #include "macros.h"
 
 /*
- * Stores information about the udo_shm instace.
+ * Stores information about the udo_shm context.
  */
 struct udo_shm;
 
@@ -40,7 +40,7 @@ struct udo_shm_create_info
  *                   If NULL memory will be allocated and return to
  *                   caller. If not NULL address passed will be used
  *                   to store the newly created struct udo_shm
- *                   instance.
+ *                   context.
  * @param shm_info - Implementation uses a pointer to a
  *                   struct udo_shm_create_info
  *                   no other implementation may be passed to

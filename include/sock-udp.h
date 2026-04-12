@@ -6,7 +6,7 @@
 #include <netinet/in.h>
 
 /*
- * Stores information about the udo_sock_udp instance.
+ * Stores information about the udo_sock_udp context.
  */
 struct udo_sock_udp;
 
@@ -35,7 +35,7 @@ struct udo_sock_udp_server_create_info
  *                    If NULL memory will be allocated and return to
  *                    caller. If not NULL address passed will be used
  *                    to store the newly created struct udo_sock_udp
- *                    instance.
+ *                    context.
  * @param sock_info - Implementation uses a pointer to a
  *                    struct udo_sock_udp_server_create_info
  *                    no other implementation may be passed to
@@ -77,7 +77,7 @@ udo_sock_udp_server_accept (struct udo_sock_udp *sock,
 /*
  * @brief Receive data from server socket file descriptor.
  *
- * @param sock      - Pointer to a struct udo_sock_udp instance.
+ * @param sock      - Pointer to a struct udo_sock_udp context.
  * @param data      - Pointer to a buffer to store data received from a socket.
  * @param size      - Size of data to receive from a socket.
  * @param addr      - Pointer to struct sockaddr_in6 which stores the
@@ -123,7 +123,7 @@ struct udo_sock_udp_client_create_info
  *                    If NULL memory will be allocated and return to
  *                    caller. If not NULL address passed will be used
  *                    to store the newly created struct udo_sock_udp
- *                    instance.
+ *                    context.
  * @param sock_info - Implementation uses a pointer to a
  *                    struct udo_sock_udp_client_create_info
  *                    no other implementation may be passed to
@@ -179,7 +179,7 @@ udo_sock_udp_client_send_data (struct udo_sock_udp *sock,
 
 /*
  * @brief Acquire socket file descriptor associated with
- *        struct udo_sock_udp instance.
+ *        struct udo_sock_udp context.
  *
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
@@ -194,7 +194,7 @@ udo_sock_udp_get_fd (struct udo_sock_udp *sock);
 
 /*
  * @brief Acquire textual network ip address associated
- *        with struct udo_sock_udp instance.
+ *        with struct udo_sock_udp context.
  *
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
@@ -209,12 +209,12 @@ udo_sock_udp_get_ip_addr (struct udo_sock_udp *sock);
 
 /*
  * @brief Acquire network port associated with
- *        struct udo_sock_udp instance.
+ *        struct udo_sock_udp context.
  *
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
  * @returns
- *	on success: Network port connected to instance
+ *	on success: Network port connected to context
  *	on failure: -1
  */
 UDO_API

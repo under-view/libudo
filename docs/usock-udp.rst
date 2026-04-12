@@ -50,7 +50,7 @@ API Documentation
 udo_usock_udp (private)
 =======================
 
-| Structure defining UDO Unix Socket UDP instance.
+| Structure defining UDO Unix Socket UDP context.
 
 .. c:struct:: udo_usock_udp
 
@@ -63,13 +63,13 @@ udo_usock_udp (private)
 
 	:c:member:`err`
 		| Stores information about the error that occured
-		| for the given instance and may later be retrieved
+		| for the given context and may later be retrieved
 		| by caller.
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
 		| set to true so that, we know to call `free(3)`_ when
-		| destroying the instance.
+		| destroying the context.
 
 	:c:member:`fd`
 		| File descriptor to the open UDP socket
@@ -118,7 +118,7 @@ udo_usock_udp_server_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_usock_udp`
-		    | instance.
+		    | context.
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_udp_server_create_info`.
@@ -145,7 +145,7 @@ udo_usock_udp_server_recv_data
 		* - Param
 	          - Decription
 		* - usock
-		  - | Pointer to a ``struct`` :c:struct:`udo_usock_udp` instance.
+		  - | Pointer to a ``struct`` :c:struct:`udo_usock_udp` context.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
@@ -206,7 +206,7 @@ udo_usock_udp_client_create
 		    | If ``NULL`` memory will be allocated and return to
 		    | caller. If not ``NULL`` address passed will be used
 		    | to store the newly created ``struct`` :c:struct:`udo_usock_udp`
-		    | instance.
+		    | context.
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_udp_client_create_info`.
@@ -254,7 +254,7 @@ udo_usock_udp_get_fd
 .. c:function:: int udo_usock_udp_get_fd(struct udo_usock_udp *usock);
 
 | Acquire socket file descriptor associated with
-| ``struct`` :c:struct:`udo_usock_udp` instance.
+| ``struct`` :c:struct:`udo_usock_udp` context.
 
 	.. list-table::
 		:header-rows: 1
@@ -277,7 +277,7 @@ udo_usock_udp_get_unix_path
 .. c:function:: const char * udo_usock_udp_get_unix_path(struct udo_usock_udp *usock);
 
 | Acquire textual path to unix domain socket file in string
-| format associated with ``struct`` :c:struct:`udo_usock_udp` instance.
+| format associated with ``struct`` :c:struct:`udo_usock_udp` context.
 
 	.. list-table::
 		:header-rows: 1

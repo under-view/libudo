@@ -7,7 +7,7 @@
 #include <sys/un.h>
 
 /*
- * Stores information about the udo_usock_udp instance.
+ * Stores information about the udo_usock_udp context.
  * usock - Unix domain socket.
  */
 struct udo_usock_udp;
@@ -33,7 +33,7 @@ struct udo_usock_udp_server_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_usock_udp
- *                     instance.
+ *                     context.
  * @param usock_info - Implementation uses a pointer to a
  *                     struct udo_usock_udp_server_create_info
  *                     no other implementation may be passed to
@@ -52,7 +52,7 @@ udo_usock_udp_server_create (struct udo_usock_udp *usock,
 /*
  * @brief Receive data from server socket file descriptor.
  *
- * @param usock      - Pointer to a struct udo_usock_udp instance.
+ * @param usock      - Pointer to a struct udo_usock_udp context.
  * @param data       - Pointer to a buffer to store data received from a socket.
  * @param size       - Size of data to receive from a socket.
  * @param addr       - Pointer to struct sockaddr_un which stores the
@@ -99,7 +99,7 @@ struct udo_usock_udp_client_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_usock_udp
- *                     instance.
+ *                     context.
  * @param usock_info - Implementation uses a pointer to a
  *                     struct udo_usock_udp_client_create_info
  *                     no other implementation may be passed to
@@ -139,7 +139,7 @@ udo_usock_udp_client_send_data (struct udo_usock_udp *usock,
 
 /*
  * @brief Acquire socket file descriptor associated with
- *        struct udo_usock_udp instance.
+ *        struct udo_usock_udp context.
  *
  * @param usock - Must pass a pointer to a struct udo_usock_udp.
  *
@@ -154,7 +154,7 @@ udo_usock_udp_get_fd (struct udo_usock_udp *usock);
 
 /*
  * @brief Acquire textual path to unix domain socket file in string
- *        format associated with struct udo_usock_udp instance.
+ *        format associated with struct udo_usock_udp context.
  *
  * @param usock - Must pass a pointer to a struct udo_usock_tcp.
  *

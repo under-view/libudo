@@ -7,7 +7,7 @@
 #include <linux/vm_sockets.h>
 
 /*
- * Stores information about the udo_vsock_udp instance.
+ * Stores information about the udo_vsock_udp context.
  */
 struct udo_vsock_udp;
 
@@ -33,7 +33,7 @@ struct udo_vsock_udp_server_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_vsock_udp
- *                     instance.
+ *                     context.
  * @param vsock_info - Implementation uses a pointer to a
  *                     struct udo_vsock_udp_server_create_info
  *                     no other implementation may be passed to
@@ -72,7 +72,7 @@ udo_vsock_udp_server_accept (struct udo_vsock_udp *vsock,
 /*
  * @brief Receive data from server socket file descriptor.
  *
- * @param vsock      - Pointer to a struct udo_sock_udp instance.
+ * @param vsock      - Pointer to a struct udo_sock_udp context.
  * @param data       - Pointer to buffer to store data received from a socket.
  * @param size       - Size of data to receive from a socket.
  * @param addr       - Pointer to struct sockaddr_vm which stores the
@@ -115,7 +115,7 @@ struct udo_vsock_udp_client_create_info
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used
  *                     to store the newly created struct udo_vsock_udp
- *                     instance.
+ *                     context.
  * @param vsock_info - Implementation uses a pointer to a
  *                     struct udo_vsock_udp_client_create_info
  *                     no other implementation may be passed to
@@ -171,7 +171,7 @@ udo_vsock_udp_client_send_data (struct udo_vsock_udp *vsock,
 
 /*
  * @brief Acquire VM socket file descriptor associated with
- *        struct udo_vsock_udp instance.
+ *        struct udo_vsock_udp context.
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  *
@@ -201,12 +201,12 @@ udo_vsock_udp_get_vcid (struct udo_vsock_udp *vsock);
 
 /*
  * @brief Acquire network port associated with
- *        struct udo_vsock_udp instance.
+ *        struct udo_vsock_udp context.
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  *
  * @returns
- *	on success: UDP port connected to instance
+ *	on success: UDP port connected to context
  *	on failure: -1
  */
 UDO_API

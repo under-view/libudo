@@ -10,7 +10,7 @@
 #include "macros.h"
 
 /*
- * Stores information about the udo_mm instance.
+ * Stores information about the udo_mm context.
  */
 struct udo_mm;
 

@@ -25,7 +25,7 @@
 
 /*
  * @brief Structure defining the udo_shm_proc
- *        (UDO Shared Memory Process) instance.
+ *        (UDO Shared Memory Process) context.
  *
  * @member rd_fux  - Pointer to a given process read futex
  *                   stored in front segment of shared memory.
@@ -48,14 +48,14 @@ struct udo_shm_proc
 
 
 /*
- * @brief Structure defining the udo_shm instance.
+ * @brief Structure defining the udo_shm context.
  *
  * @member err      - Stores information about the error that occured
- *                    for the given instance and may later be retrieved
+ *                    for the given context and may later be retrieved
  *                    by caller.
  * @member free     - If structure allocated with calloc(3) member will be
  *                    set to true so that, we know to call free(3) when
- *                    destroying the instance.
+ *                    destroying the context.
  * @member fd       - Open file descriptor to POSIX shared memory.
  * @member shm_file - Name of the POSIX shared memory file starting with '/'.
  * @member data     - Pointer to mmap(2) map'd shared memory data.
