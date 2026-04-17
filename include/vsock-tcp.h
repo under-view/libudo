@@ -38,9 +38,7 @@ struct udo_vsock_tcp_server_create_info
  *                     to store the newly created struct udo_vsock_tcp
  *                     context.
  * @param vsock_info - Implementation uses a pointer to a
- *                     struct udo_vsock_tcp_server_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_vsock_tcp_server_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_vsock_tcp
@@ -53,15 +51,15 @@ udo_vsock_tcp_server_create (struct udo_vsock_tcp *vsock,
 
 
 /*
- * @brief Accepts client connections returns file descriptor
- *        to the connected client.
+ * @brief Accepts client connections returns open
+ *        file descriptor to the connected client.
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  * @param addr  - May be NULL or a pointer to a struct sockaddr_vm
  *                If not NULL @addr is filled in via accept(2) call.
  *
  * @returns
- *	on success: File descriptor to accepted client
+ *	on success: Open file descriptor to accepted client
  *	on failure: -1
  */
 UDO_API
@@ -93,9 +91,7 @@ struct udo_vsock_tcp_client_create_info
  *                     to store the newly created struct udo_vsock_tcp
  *                     context.
  * @param vsock_info - Implementation uses a pointer to a
- *                     struct udo_vsock_tcp_client_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_vsock_tcp_client_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_vsock_tcp
@@ -175,7 +171,8 @@ udo_vsock_tcp_get_vcid (struct udo_vsock_tcp *vsock);
 
 
 /*
- * @brief Acquire network port associated with struct udo_vsock_tcp context.
+ * @brief Acquire network port associated with
+ *        struct udo_vsock_tcp context.
  *
  * @param vsock - Must pass a pointer to a struct udo_vsock_tcp.
  *

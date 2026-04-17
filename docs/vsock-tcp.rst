@@ -160,8 +160,6 @@ udo_vsock_tcp_server_create
 		* - vsock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_vsock_tcp_server_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_tcp`
@@ -175,8 +173,8 @@ udo_vsock_tcp_server_accept
 
 .. c:function:: int udo_vsock_tcp_server_accept(struct udo_vsock_tcp *vsock, struct sockaddr_vm *addr);
 
-| Accepts client connections returns file descriptor
-| to the connected client.
+| Accepts client connections returns open
+| file descriptor to the connected client.
 
 	.. list-table::
 		:header-rows: 1
@@ -190,8 +188,8 @@ udo_vsock_tcp_server_accept
 		    | If not NULL ``addr`` is filled in via `accept(2)`_ call.
 
 	Returns:
-		| **on success:** File descriptor to accepted client
-		| **on failure:** ``NULL``
+		| **on success:** Open file descriptor to accepted client
+		| **on failure:** -1
 
 =========================================================================================================================================
 
@@ -236,8 +234,6 @@ udo_vsock_tcp_client_create
 		* - vsock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_vsock_tcp_client_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_tcp`
@@ -432,7 +428,7 @@ udo_vsock_tcp_recv_data
 		* - Param
 	          - Decription
 		* - sock_fd
-		  - Socket file descriptor to receive data from.
+		  - | Socket file descriptor to receive data from.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
