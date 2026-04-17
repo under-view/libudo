@@ -192,6 +192,10 @@ udo_usock_udp_client_create
 | Creates a socket that may be utilized for client socket operations.
 | Fliters client socket to allow sending data without passing a
 | ``struct`` `sockaddr_un`_ to `sendto(2)`_.
+|
+| **NOTE:** Due to filtering approach caller must first create
+| the server via :c:func:`udo_usock_udp_server_create`. So, that
+| the `connect(2)`_ call doesn't fail. 
 
 	.. list-table::
 		:header-rows: 1

@@ -93,6 +93,10 @@ struct udo_usock_udp_client_create_info
  *        Fliters client socket to allow sending data without passing a
  *        struct sockaddr_un to sendto(2).
  *
+ *        NOTE: Due to filtering approach caller must first create
+ *        the server via udo_usock_udp_server_create(3). So, that
+ *        the connect(2) call doesn't fail.
+ *
  * @param usock      - May be NULL or a pointer to a struct udo_usock_udp.
  *                     If NULL memory will be allocated and return to
  *                     caller. If not NULL address passed will be used

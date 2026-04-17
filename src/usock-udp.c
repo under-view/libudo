@@ -212,7 +212,7 @@ udo_usock_udp_client_create (struct udo_usock_udp *p_usock,
 	err = connect(usock->fd, (struct sockaddr*)&(usock->saddr),
 			sizeof(struct sockaddr_un));
 	if (err == -1) {
-		udo_log_set_error(usock, errno, "connect: %s", strerror(errno));
+		udo_log_error("connect: %s\n", strerror(errno));
 		udo_usock_udp_destroy(usock);
 		return NULL;
 	}

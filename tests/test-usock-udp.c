@@ -29,8 +29,6 @@ test_usock_udp_server_create (void UDO_UNUSED **state)
 
 	struct udo_usock_udp_server_create_info server_info;
 
-	udo_log_set_level(UDO_LOG_ALL);
-
 	server_info.unix_path = TESTING_UNIX_SOCK;
 	server = udo_usock_udp_server_create(NULL, &server_info);
 	assert_non_null(server);
@@ -51,8 +49,14 @@ static void UDO_UNUSED
 test_usock_udp_client_create (void UDO_UNUSED **state)
 {
 	struct udo_usock_udp *client = NULL;
+	struct udo_usock_udp *server = NULL;
 
 	struct udo_usock_udp_client_create_info client_info;
+	struct udo_usock_udp_server_create_info server_info;
+
+	server_info.unix_path = TESTING_UNIX_SOCK;
+	server = udo_usock_udp_server_create(NULL, &server_info);
+	assert_non_null(server);
 
 	client_info.srv_unix_path = TESTING_UNIX_SOCK;
 	client_info.cli_unix_path = TESTING_CLIENT_UNIX_SOCK;
@@ -60,6 +64,7 @@ test_usock_udp_client_create (void UDO_UNUSED **state)
 	assert_non_null(client);
 
 	udo_usock_udp_destroy(client);
+	udo_usock_udp_destroy(server);
 }
 
 /*************************************************
@@ -162,22 +167,21 @@ test_usock_udp_get_fd (void UDO_UNUSED **state)
 {
 	int sock_fd = -1;
 
-	struct udo_usock_udp *client = NULL;
+	struct udo_usock_udp *server = NULL;
 
-	struct udo_usock_udp_client_create_info client_info;
+	struct udo_usock_udp_server_create_info server_info;
 
-	client_info.srv_unix_path = TESTING_UNIX_SOCK;
-	client_info.cli_unix_path = TESTING_CLIENT_UNIX_SOCK;
-	client = udo_usock_udp_client_create(NULL, &client_info);
-	assert_non_null(client);
+	server_info.unix_path = TESTING_UNIX_SOCK;
+	server = udo_usock_udp_server_create(NULL, &server_info);
+	assert_non_null(server);
 
 	sock_fd = udo_usock_udp_get_fd(NULL);
 	assert_int_equal(sock_fd, -1);
 
-	sock_fd = udo_usock_udp_get_fd(client);
+	sock_fd = udo_usock_udp_get_fd(server);
 	assert_int_not_equal(sock_fd, -1);
 
-	udo_usock_udp_destroy(client);
+	udo_usock_udp_destroy(server);
 }
 
 /******************************************
@@ -194,22 +198,21 @@ test_usock_udp_get_unix_path (void UDO_UNUSED **state)
 {
 	const char *unix_path = NULL;
 
-	struct udo_usock_udp *client = NULL;
+	struct udo_usock_udp *server = NULL;
 
-	struct udo_usock_udp_client_create_info client_info;
+	struct udo_usock_udp_server_create_info server_info;
 
-	client_info.srv_unix_path = TESTING_UNIX_SOCK;
-	client_info.cli_unix_path = TESTING_CLIENT_UNIX_SOCK;
-	client = udo_usock_udp_client_create(NULL, &client_info);
-	assert_non_null(client);
+	server_info.unix_path = TESTING_UNIX_SOCK;
+	server = udo_usock_udp_server_create(NULL, &server_info);
+	assert_non_null(server);
 
 	unix_path = udo_usock_udp_get_unix_path(NULL);
 	assert_null(unix_path);
 
-	unix_path = udo_usock_udp_get_unix_path(client);
-	assert_string_equal(unix_path, client_info.cli_unix_path);
+	unix_path = udo_usock_udp_get_unix_path(server);
+	assert_string_equal(unix_path, server_info.unix_path);
 
-	udo_usock_udp_destroy(client);
+	udo_usock_udp_destroy(server);
 }
 
 /*************************************************
