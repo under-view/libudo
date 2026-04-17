@@ -100,13 +100,6 @@ p_create_sock_fd (struct udo_vsock_udp *vsock)
 		return -1;
 	}
 
-	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
-	if (err == -1) {
-		udo_log_set_error(vsock, errno, "setsockopt: %s", strerror(errno));
-		close(sock_fd);
-		return -1;
-	}
-
 	return sock_fd;
 }
 
