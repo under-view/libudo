@@ -35,9 +35,7 @@ struct udo_usock_udp_server_create_info
  *                     to store the newly created struct udo_usock_udp
  *                     context.
  * @param usock_info - Implementation uses a pointer to a
- *                     struct udo_usock_udp_server_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_usock_udp_server_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_usock_udp
@@ -101,9 +99,7 @@ struct udo_usock_udp_client_create_info
  *                     to store the newly created struct udo_usock_udp
  *                     context.
  * @param usock_info - Implementation uses a pointer to a
- *                     struct udo_usock_udp_client_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_usock_udp_client_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_usock_udp

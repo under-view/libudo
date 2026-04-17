@@ -122,8 +122,6 @@ udo_usock_udp_server_create
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_udp_server_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_usock_udp`
@@ -181,10 +179,9 @@ udo_usock_udp_client_create_info
 		| Absolute path to unix domain socket to write to.
 
 	:c:member:`cli_unix_path`
-
-	| Absolute path to unix domain socket to read with.
-	| Largely so the :c:member:`srv_unix_path` knows the path to
-	| the client when leveraging the `recvfrom(2)`_ call.
+		| Absolute path to unix domain socket to read with.
+		| Largely so the :c:member:`srv_unix_path` knows the path to
+		| the client when leveraging the `recvfrom(2)`_ call.
 
 ===========================
 udo_usock_udp_client_create
@@ -210,8 +207,6 @@ udo_usock_udp_client_create
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_udp_client_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_usock_udp`
@@ -265,7 +260,7 @@ udo_usock_udp_get_fd
 		  - | Must pass a pointer to a ``struct`` :c:struct:`udo_usock_udp`.
 
 	Returns:
-		| **on success:** UDP socket file descriptor
+		| **on success:** Unix domain socket file descriptor
 		| **on failure:** -1
 
 =========================================================================================================================================
@@ -333,7 +328,7 @@ udo_usock_udp_get_sizeof
 udo_usock_udp_recv_data
 =======================
 
-.. c:function:: ssize_t udo_usock_udp_recv_data(const int usock_fd, void *data, const size_t size, struct sockaddr_un *addr, const void *usock_info);
+.. c:function:: ssize_t udo_usock_udp_recv_data(const int sock_fd, void *data, const size_t size, struct sockaddr_un *addr, const void *usock_info);
 
 | Receive data from socket file descriptor.
 
@@ -342,8 +337,8 @@ udo_usock_udp_recv_data
 
 		* - Param
 	          - Decription
-		* - usock_fd
-		  - Socket file descriptor to receive data from.
+		* - sock_fd
+		  - | Socket file descriptor to receive data from.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
@@ -366,7 +361,7 @@ udo_usock_udp_recv_data
 udo_usock_udp_send_data
 =======================
 
-.. c:function:: ssize_t udo_usock_udp_send_data(const int usock_fd, const void *data, const size_t size, const struct sockaddr_un *addr, const void *usock_info);
+.. c:function:: ssize_t udo_usock_udp_send_data(const int sock_fd, const void *data, const size_t size, const struct sockaddr_un *addr, const void *usock_info);
 
 | Send data to socket file descriptor.
 
@@ -375,7 +370,7 @@ udo_usock_udp_send_data
 
 		* - Param
 	          - Decription
-		* - usock_fd
+		* - sock_fd
 		  - | Socket file descriptor to send data to.
 		* - data
 		  - | Pointer to buffer to send through socket.
