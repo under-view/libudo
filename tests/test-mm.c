@@ -78,6 +78,29 @@ test_mm_sub_alloc (void UDO_UNUSED **state)
 	udo_mm_destroy(mm);
 }
 
+
+static void UDO_UNUSED
+test_mm_sub_alloc_get_size (void UDO_UNUSED **state)
+{
+	struct udo_mm *mm = NULL;
+	char *red = NULL, *blue = NULL;
+	size_t red_sz = (1<<8), blue_sz = (1<<5);
+
+	mm = udo_mm_alloc(NULL, UDO_PAGE_SIZE*5);
+	assert_non_null(mm);
+
+	red = udo_mm_sub_alloc(mm, red_sz);
+	assert_non_null(red);
+
+	blue = udo_mm_sub_alloc(mm, blue_sz);
+	assert_non_null(blue);
+
+	assert_int_equal(red_sz, udo_mm_sub_alloc_get_size(red));
+	assert_int_equal(blue_sz, udo_mm_sub_alloc_get_size(blue));
+
+	udo_mm_destroy(mm);
+}
+
 /**************************************
  * End of test_mm_sub_alloc functions *
  **************************************/
@@ -128,6 +151,7 @@ main (void)
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_mm_alloc),
 		cmocka_unit_test(test_mm_sub_alloc),
+		cmocka_unit_test(test_mm_sub_alloc_get_size),
 		cmocka_unit_test(test_mm_free),
 	};
 

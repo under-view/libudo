@@ -59,6 +59,21 @@ udo_mm_sub_alloc (struct udo_mm *mm, size_t size);
 
 
 /*
+ * @brief Returns size of an allocated heap
+ *        memory sub block.
+ *
+ * @param data - Must pass address returned after
+ *               call to udo_mm_sub_alloc(3).
+ *
+ * @returns
+ * 	on success: Size of allocated sub block
+ *      on failure: (size_t)-1
+ */
+size_t
+udo_mm_sub_alloc_get_size (const void *data);
+
+
+/*
  * @brief Wipes the bytes at a given subregion of memory.
  *        Shifts the memory after the subregion over to
  *        the start of the wiped subregion.
@@ -71,7 +86,9 @@ udo_mm_sub_alloc (struct udo_mm *mm, size_t size);
  *        of bounded buffer for strings is encouraged.
  *
  * @param mm   - Must pass a pointer to a struct udo_mm.
- * @param data - Address to the data caller wants to zero out.
+ * @param data - Address to the data caller wants to zero
+ *               out and move all data stored after to
+ *               start of provided address.
  */
 void
 udo_mm_free (struct udo_mm *mm, const void *data);

@@ -119,6 +119,17 @@ udo_mm_sub_alloc (struct udo_mm *mm, size_t size)
 }
 
 
+size_t
+udo_mm_sub_alloc_get_size (const void *data)
+{
+	if (!data)
+		return (size_t)-1;
+
+	return *((size_t *) ((char *) data - \
+		sizeof(size_t))) - sizeof(size_t);
+}
+
+
 void
 udo_mm_free (struct udo_mm *mm, const void *data)
 {

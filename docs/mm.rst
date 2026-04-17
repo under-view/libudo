@@ -32,6 +32,7 @@ Functions
 
 1. :c:func:`udo_mm_alloc`
 #. :c:func:`udo_mm_sub_alloc`
+#. :c:func:`udo_mm_sub_alloc_get_size`
 #. :c:func:`udo_mm_free`
 #. :c:func:`udo_mm_destroy`
 
@@ -140,6 +141,30 @@ udo_mm_sub_alloc
 	Returns:
 		| **on success:** Pointer to writable memory
 		| **on failure:** ``NULL``
+
+=========================================================================================================================================
+
+=========================
+udo_mm_sub_alloc_get_size
+=========================
+
+.. c:function:: void *udo_mm_sub_alloc_get_size(const void *data);
+
+| Returns size of an allocated heap
+| memory sub block.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - data
+		  - | Must pass address returned after
+		    | call to :c:func:`udo_mm_sub_alloc`.
+
+	Returns:
+		| **on success:** Size of allocated sub block
+		| **on failure:** (size_t)-1
 
 =========================================================================================================================================
 
