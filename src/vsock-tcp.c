@@ -87,13 +87,6 @@ p_set_sock_opts (struct udo_vsock_tcp *sock,
 		return -1;
 	}
 
-	err = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int));
-	if (err == -1) {
-		udo_log_set_error(sock, errno, "setsockopt: %s", strerror(errno));
-		close(sock_fd);
-		return -1;
-	}
-
 	return sock_fd;
 }
 
