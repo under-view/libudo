@@ -156,8 +156,6 @@ udo_vsock_udp_server_create
 		* - vsock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_vsock_udp_server_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_udp`
@@ -188,8 +186,8 @@ udo_vsock_udp_server_accept
 		  - | Must pass a pointer to a populated ``struct`` `sockaddr_vm`_.
 
 	Returns:
-		| **on success:** File descriptor to filtered socket
-		| **on failure:** ``NULL``
+		| **on success:** Open file descriptor to filtered socket
+		| **on failure:** -1
 
 =========================================================================================================================================
 
@@ -197,7 +195,7 @@ udo_vsock_udp_server_accept
 udo_vsock_udp_server_recv_data
 ==============================
 
-.. c:function:: ssize_t udo_vsock_udp_server_recv_data(struct udo_vsock_udp *vsock, void *data, const size_t size, struct sockaddr_vm *addr, const void *sock_info);
+.. c:function:: ssize_t udo_vsock_udp_server_recv_data(struct udo_vsock_udp *vsock, void *data, const size_t size, struct sockaddr_vm *addr, const void *vsock_info);
 
 | Receive data from server socket file descriptor.
 
@@ -267,8 +265,6 @@ udo_vsock_udp_client_create
 		* - vsock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_vsock_udp_client_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_vsock_udp`
@@ -464,7 +460,7 @@ udo_vsock_udp_recv_data
 		* - Param
 	          - Decription
 		* - sock_fd
-		  - Socket file descriptor to receive data from.
+		  - | Socket file descriptor to receive data from.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size

@@ -35,9 +35,7 @@ struct udo_vsock_udp_server_create_info
  *                     to store the newly created struct udo_vsock_udp
  *                     context.
  * @param vsock_info - Implementation uses a pointer to a
- *                     struct udo_vsock_udp_server_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_vsock_udp_server_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_vsock_udp
@@ -60,7 +58,7 @@ udo_vsock_udp_server_create (struct udo_vsock_udp *vsock,
  * @param addr  - Must pass a pointer to a populated struct sockaddr_vm.
  *
  * @returns
- *	on success: File descriptor to filtered socket
+ *	on success: Open file descriptor to filtered socket
  *	on failure: -1
  */
 UDO_API
@@ -117,9 +115,7 @@ struct udo_vsock_udp_client_create_info
  *                     to store the newly created struct udo_vsock_udp
  *                     context.
  * @param vsock_info - Implementation uses a pointer to a
- *                     struct udo_vsock_udp_client_create_info
- *                     no other implementation may be passed to
- *                     this parameter.
+ *                     struct udo_vsock_udp_client_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_vsock_udp
@@ -206,7 +202,7 @@ udo_vsock_udp_get_vcid (struct udo_vsock_udp *vsock);
  * @param vsock - Must pass a pointer to a struct udo_vsock_udp.
  *
  * @returns
- *	on success: UDP port connected to context
+ *	on success: Network port connected to context
  *	on failure: -1
  */
 UDO_API
