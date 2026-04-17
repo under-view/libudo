@@ -140,8 +140,6 @@ udo_sock_tcp_server_create
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_tcp_server_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_tcp`
@@ -155,8 +153,8 @@ udo_sock_tcp_server_accept
 
 .. c:function:: int udo_sock_tcp_server_accept(struct udo_sock_tcp *sock, struct sockaddr_in6 *addr);
 
-| Accepts client connections returns file descriptor
-| to the connected client.
+| Accepts client connections and returns the open
+| file descriptor to the connected client.
 
 	.. list-table::
 		:header-rows: 1
@@ -170,8 +168,8 @@ udo_sock_tcp_server_accept
 		    | If not NULL ``addr`` is filled in via `accept(2)`_ call.
 
 	Returns:
-		| **on success:** File descriptor to accepted client
-		| **on failure:** ``NULL``
+		| **on success:** Open file descriptor to accepted client
+		| **on failure:** -1
 
 =========================================================================================================================================
 
@@ -221,8 +219,6 @@ udo_sock_tcp_client_create
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_tcp_client_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_tcp`
@@ -402,7 +398,7 @@ udo_sock_tcp_recv_data
 		* - Param
 	          - Decription
 		* - sock_fd
-		  - Socket file descriptor to receive data from.
+		  - | Socket file descriptor to receive data from.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size

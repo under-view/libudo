@@ -41,9 +41,7 @@ struct udo_sock_tcp_server_create_info
  *                    to store the newly created struct udo_sock_tcp
  *                    context.
  * @param sock_info - Implementation uses a pointer to a
- *                    struct udo_sock_tcp_server_create_info
- *                    no other implementation may be passed to
- *                    this parameter.
+ *                    struct udo_sock_tcp_server_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_sock_tcp
@@ -56,15 +54,15 @@ udo_sock_tcp_server_create (struct udo_sock_tcp *sock,
 
 
 /*
- * @brief Accepts client connections returns file descriptor
- *        to the connected client.
+ * @brief Accepts client connections and returns the open
+ *        file descriptor to the connected client.
  *
  * @param sock - Must pass a pointer to a struct udo_sock_tcp.
  * @param addr - May be NULL or a pointer to a struct sockaddr_in6
  *               If not NULL @addr is filled in via accept(2) call.
  *
  * @returns
- *	on success: File descriptor to accepted client
+ *	on success: Open file descriptor to accepted client
  *	on failure: -1
  */
 UDO_API
@@ -99,9 +97,7 @@ struct udo_sock_tcp_client_create_info
  *                    to store the newly created struct udo_sock_tcp
  *                    context.
  * @param sock_info - Implementation uses a pointer to a
- *                    struct udo_sock_tcp_client_create_info
- *                    no other implementation may be passed to
- *                    this parameter.
+ *                    struct udo_sock_tcp_client_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_sock_tcp
