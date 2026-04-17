@@ -122,8 +122,6 @@ udo_usock_tcp_server_create
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_tcp_server_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_usock_tcp`
@@ -152,8 +150,8 @@ udo_usock_tcp_server_accept
 		    | If not NULL ``addr`` is filled in via `accept(2)`_ call.
 
 	Returns:
-		| **on success:** File descriptor to accepted client
-		| **on failure:** ``NULL``
+		| **on success:** Open file descriptor to accepted client
+		| **on failure:** -1
 
 =========================================================================================================================================
 
@@ -194,8 +192,6 @@ udo_usock_tcp_client_create
 		* - usock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_usock_tcp_client_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_usock_tcp`
@@ -352,7 +348,7 @@ udo_usock_tcp_recv_data
 		* - Param
 	          - Decription
 		* - sock_fd
-		  - Socket file descriptor to receive data from.
+		  - | Socket file descriptor to receive data from.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
