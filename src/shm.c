@@ -31,7 +31,7 @@
  *                   stored in front segment of shared memory.
  * @member wr_fux  - Pointer to a given process write futex
  *                   stored in front segment of shared memory.
- * @member data    - Pointer to a unsigned char storing location
+ * @member data    - Pointer to an unsigned char storing location
  *                   within shared memory. This pointer is a
  *                   given processes shared memory segment
  *                   staring address.
@@ -48,7 +48,8 @@ struct udo_shm_proc
 
 
 /*
- * @brief Structure defining the udo_shm context.
+ * @brief Structure defining the udo_shm
+ *        (UDO Shared Memory) context.
  *
  * @member err      - Stores information about the error that occured
  *                    for the given context and may later be retrieved

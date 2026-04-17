@@ -42,9 +42,7 @@ struct udo_shm_create_info
  *                   to store the newly created struct udo_shm
  *                   context.
  * @param shm_info - Implementation uses a pointer to a
- *                   struct udo_shm_create_info
- *                   no other implementation may be passed to
- *                   this parameter.
+ *                   struct udo_shm_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_shm
@@ -155,7 +153,7 @@ udo_shm_get_data (struct udo_shm *shm,
  *
  * @returns
  *	on success: Size of processes SHM segment
- *	on failure: Maximum size or -1
+ *	on failure: (size_t)-1
  */
 UDO_API
 size_t

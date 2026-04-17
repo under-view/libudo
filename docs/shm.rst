@@ -68,7 +68,7 @@ udo_shm_proc (private)
 		| stored in front segment of shared memory.
 
 	:c:member:`data`
-		| Pointer to a unsigned char storing location
+		| Pointer to an unsigned char storing location
 		| within shared memory. This pointer is a
 		| given processes shared memory segment
 		| staring address.
@@ -81,7 +81,8 @@ udo_shm_proc (private)
 udo_shm (private)
 =================
 
-| Structure defining the udo_shm context.
+| Structure defining the udo_shm
+| (UDO Shared Memory) context.
 
 .. c:struct:: udo_shm
 
@@ -219,8 +220,6 @@ udo_shm_create_info
 		* - shm_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_shm_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_shm`
@@ -376,7 +375,7 @@ udo_shm_get_data_size
 
 	Returns:
 		| **on success:** Size of processes SHM segment
-		| **on failure:** Maximum size or -1
+		| **on failure:** (size_t)-1
 
 =========================================================================================================================================
 
