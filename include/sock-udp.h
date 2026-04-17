@@ -37,9 +37,7 @@ struct udo_sock_udp_server_create_info
  *                    to store the newly created struct udo_sock_udp
  *                    context.
  * @param sock_info - Implementation uses a pointer to a
- *                    struct udo_sock_udp_server_create_info
- *                    no other implementation may be passed to
- *                    this parameter.
+ *                    struct udo_sock_udp_server_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_sock_udp
@@ -64,7 +62,7 @@ udo_sock_udp_server_create (struct udo_sock_udp *sock,
  *               socket or requires an ipv4-mapped-ipv6-address.
  *
  * @returns
- *	on success: File descriptor to accepted client
+ *	on success: Open file descriptor to accepted client
  *	on failure: -1
  */
 UDO_API
@@ -125,9 +123,7 @@ struct udo_sock_udp_client_create_info
  *                    to store the newly created struct udo_sock_udp
  *                    context.
  * @param sock_info - Implementation uses a pointer to a
- *                    struct udo_sock_udp_client_create_info
- *                    no other implementation may be passed to
- *                    this parameter.
+ *                    struct udo_sock_udp_client_create_info.
  *
  * @returns
  *	on success: Pointer to a struct udo_sock_udp
@@ -184,7 +180,7 @@ udo_sock_udp_client_send_data (struct udo_sock_udp *sock,
  * @param sock - Must pass a pointer to a struct udo_sock_udp.
  *
  * @returns
- *	on success: Socket file descriptor
+ *	on success: UDP socket file descriptor
  *	on failure: -1
  */
 UDO_API

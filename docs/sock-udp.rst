@@ -136,8 +136,6 @@ udo_sock_udp_server_create
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_udp_server_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_udp`
@@ -171,8 +169,8 @@ udo_sock_udp_server_accept
 		    | socket or requires an `ipv4-mapped-ipv6-address`_.
 
 	Returns:
-		| **on success:** File descriptor to filtered socket
-		| **on failure:** ``NULL``
+		| **on success:** Open file descriptor to filtered socket
+		| **on failure:** -1
 
 =========================================================================================================================================
 
@@ -255,8 +253,6 @@ udo_sock_udp_client_create
 		* - sock_info
 		  - | Implementation uses a pointer to a
 		    | ``struct`` :c:struct:`udo_sock_udp_client_create_info`.
-		    | no other implementation may be passed to
-		    | this parameter.
 
 	Returns:
 		| **on success:** Pointer to a ``struct`` :c:struct:`udo_sock_udp`
@@ -435,7 +431,7 @@ udo_sock_udp_recv_data
 		* - Param
 	          - Decription
 		* - sock_fd
-		  - Socket file descriptor to receive data from.
+		  - | Socket file descriptor to receive data from.
 		* - data
 		  - | Pointer to buffer to store data received from a socket.
 		* - size
