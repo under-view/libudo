@@ -56,13 +56,24 @@ libudo_a = static_library(
 
 pkg = import('pkgconfig')
 
-pkglibs = [libudo]
 pkgsubdirs = []
-pkg.generate(libraries: pkglibs,
+
+pkglibs_shared = [
+  libudo,
+  libudo_deps,
+]
+
+pkglibs_private = [
+  libudo_a,
+  libudo_deps,
+]
+
+pkg.generate(libraries: pkglibs_shared,
+             libraries_private: pkglibs_private,
              subdirs : pkgsubdirs,
              version : so_version,
              name : project_name,
-             filebase : 'udo',
+             filebase : project_name,
              description : 'A common utility library for C programs/libraries.')
 
 if get_option('tests')
