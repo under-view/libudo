@@ -1,5 +1,5 @@
 rt = cc.find_library('rt', required: shm.enabled())
-libpthread = cc.find_library('pthread', required: jpool.enabled())
+libpthread = dependency('threads', required: jpool.enabled())
 
 libudo_deps = [rt, libpthread]
 
