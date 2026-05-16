@@ -98,7 +98,7 @@ Build/Install (SDK)
 	# Yocto Project SDK Builds
 	$ meson setup \
 		--prefix="${SDKTARGETSYSROOT}/usr" \
-		--libdir="${SDKTARGETSYSROOT}/usr/lib64" \
+		--libdir="${SDKTARGETSYSROOT}/usr/${OECORE_BASELIB}" \
 		[options] \
 		build
 	$ ninja install -C build
@@ -107,7 +107,7 @@ Build/Install (SDK)
 
 	$ meson setup \
 		--prefix="${SDKTARGETSYSROOT}/usr" \
-		--libdir="${SDKTARGETSYSROOT}/usr/lib64" \
+		--libdir="${SDKTARGETSYSROOT}/usr/${OECORE_BASELIB}" \
 		-Dtests="true" \
 		-Ddocs="false" \
 		-Dfile-offset-bits=64 \
