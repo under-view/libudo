@@ -1,7 +1,7 @@
 project(
   'udo',
   'c',
-  version: '1.0.0',
+  version: '1.0.1',
   license: 'MIT',
   meson_version: '>=1.3.1',
   default_options: [
