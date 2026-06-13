@@ -24,7 +24,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -57,7 +56,7 @@
 struct udo_sock_udp
 {
 	struct udo_log_error_struct err;
-	bool                        free;
+	unsigned char               free;
 	int                         fd;
 	char                        ip_addr[INET6_ADDRSTRLEN];
 	int                         port;
@@ -78,7 +77,8 @@ struct udo_sock_udp_create_info
 
 
 static int
-p_create_sock_fd (struct udo_sock_udp *sock, const bool ipv6)
+p_create_sock_fd (struct udo_sock_udp *sock,
+                  const unsigned char ipv6)
 {
 	int sock_fd = -1, err = -1;
 
