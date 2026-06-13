@@ -23,7 +23,6 @@
  */
 
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -58,7 +57,7 @@
 struct udo_vsock_tcp
 {
 	struct udo_log_error_struct err;
-	bool                        free;
+	uint8_t                     free;
 	int                         fd;
 	uint32_t                    vcid;
 	int                         port;
@@ -118,7 +117,7 @@ p_set_sock_opts (struct udo_vsock_tcp *sock,
 static struct udo_vsock_tcp *
 p_create_vsock (struct udo_vsock_tcp *p_vsock,
                 const void *p_vsock_info,
-                const bool server)
+                const uint8_t server)
 {
 	int err = -1;
 
