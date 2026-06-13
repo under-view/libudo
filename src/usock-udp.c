@@ -24,7 +24,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -61,7 +60,7 @@
 struct udo_usock_udp
 {
 	struct udo_log_error_struct err;
-	bool                        free;
+	uint8_t                     free;
 	int                         fd;
 	struct sockaddr_un          addr;
 	struct sockaddr_un          saddr;
