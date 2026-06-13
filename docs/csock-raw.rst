@@ -64,7 +64,7 @@ udo_csock_raw (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		bool                        free;
+		unsigned char               free;
 		int                         fd;
 		char                        iface[IFNAMSIZ];
 

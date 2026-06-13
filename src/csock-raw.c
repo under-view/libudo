@@ -24,7 +24,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -58,7 +57,7 @@
 struct udo_csock_raw
 {
 	struct udo_log_error_struct err;
-	bool                        free;
+	unsigned char               free;
 	int                         fd;
 	char                        iface[IFNAMSIZ];
 };
