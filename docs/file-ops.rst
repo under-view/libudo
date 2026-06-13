@@ -60,7 +60,7 @@ udo_file_ops (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		bool                        free;
+		unsigned char               free;
 		int                         fd;
 		int                         pipe_fds[2];
 		size_t                      alloc_sz;
