@@ -58,7 +58,7 @@ udo_sock_tcp (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		bool                        free;
+		unsigned char               free;
 		int                         fd;
 		char                        ip_addr[INET6_ADDRSTRLEN];
 		int                         port;
