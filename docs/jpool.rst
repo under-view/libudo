@@ -128,7 +128,7 @@ udo_jpool (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		bool                        free;
+		uint8_t                     free;
 		uint32_t                    queue_sz;
 		void                        *queue_data;
 		udo_atomic_u32              *cur_thread;

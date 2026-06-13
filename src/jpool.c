@@ -24,7 +24,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include <inttypes.h>
 #include <unistd.h>
 #include <errno.h>
@@ -113,7 +112,7 @@ struct udo_jpool_thread
 struct udo_jpool
 {
 	struct udo_log_error_struct err;
-	bool                        free;
+	uint8_t                     free;
 	uint32_t                    queue_sz;
 	void                        *queue_data;
 	udo_atomic_u32              *cur_thread;
@@ -197,7 +196,7 @@ p_queue_sub_job_count (const struct udo_jpool_queue *queue)
 
 
 UDO_STATIC_INLINE
-bool
+uint8_t
 p_queue_can_get_job (const struct udo_jpool_queue *queue)
 {
 	return p_queue_get_rear(queue) > p_queue_get_front(queue);
@@ -205,7 +204,7 @@ p_queue_can_get_job (const struct udo_jpool_queue *queue)
 
 
 UDO_STATIC_INLINE
-bool
+uint8_t
 p_queue_empty (const struct udo_jpool_queue *queue)
 {
 	return !p_queue_get_rear(queue);
@@ -213,7 +212,7 @@ p_queue_empty (const struct udo_jpool_queue *queue)
 
 
 UDO_STATIC_INLINE
-bool
+uint8_t
 p_queue_full (const struct udo_jpool_queue *queue)
 {
 	return p_queue_get_rear(queue) >= \
@@ -222,7 +221,7 @@ p_queue_full (const struct udo_jpool_queue *queue)
 
 
 UDO_STATIC_INLINE
-bool
+uint8_t
 p_queue_can_loop (const struct udo_jpool_queue *queue)
 {
 	return p_queue_get_job_free(queue) != 0x66AFB55C;
