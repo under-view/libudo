@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <errno.h>
 #include <unistd.h>
 
@@ -91,7 +90,7 @@ struct udo_shm_proc
 struct udo_shm
 {
 	struct udo_log_error_struct err;
-	bool                        free;
+	uint8_t                     free;
 	int                         fd;
 	char                        shm_file[SHM_FILE_NAME_MAX];
 	void                        *data;
