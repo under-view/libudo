@@ -57,7 +57,7 @@ udo_usock_tcp (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		bool                        free;
+		uint8_t                     free;
 		int                         fd;
 		struct sockaddr_un          addr;
 
