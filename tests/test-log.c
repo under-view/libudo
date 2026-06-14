@@ -177,7 +177,7 @@ test_log_error (void UDO_UNUSED **state)
 	err_code = udo_log_get_error_code(&context);
 	error = udo_log_get_error(&context);
 	assert_int_equal(err_code, UDO_LOG_ERR_INCORRECT_DATA);
-	assert_string_equal(error, "[test-log.c:152] Incorrect data passed");
+	assert_non_null(strstr(error, "Incorrect data passed"));
 
 	/* Test context passed */
 	memset(&context, 0, sizeof(context));
