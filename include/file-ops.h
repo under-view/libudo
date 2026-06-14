@@ -52,12 +52,12 @@ struct udo_file_ops;
  */
 struct udo_file_ops_create_info
 {
-	const char    *fname;
-	size_t        size;
-	off_t         offset;
-	unsigned char create_pipe : 1;
-	unsigned char create_dir : 1;
-	unsigned char protect : 1;
+	const char *fname;
+	size_t     size;
+	off_t      offset;
+	uint8_t    create_pipe : 1;
+	uint8_t    create_dir : 1;
+	uint8_t    protect : 1;
 };
 
 

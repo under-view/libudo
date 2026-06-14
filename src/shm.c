@@ -261,7 +261,7 @@ udo_shm_create (struct udo_shm *p_shm,
  ***********************************/
 
 UDO_STATIC_INLINE
-unsigned char
+uint8_t
 p_check_proc_index (struct udo_shm *shm,
                     const uint32_t proc_index)
 {

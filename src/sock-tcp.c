@@ -57,7 +57,7 @@
 struct udo_sock_tcp
 {
 	struct udo_log_error_struct err;
-	unsigned char               free;
+	uint8_t                     free;
 	int                         fd;
 	char                        ip_addr[INET6_ADDRSTRLEN];
 	int                         port;
@@ -72,7 +72,7 @@ struct udo_sock_tcp
 static int
 p_set_sock_opts (struct udo_sock_tcp *sock,
                  const int sock_fd,
-                 const unsigned char ipv6)
+                 const uint8_t ipv6)
 {
 	int err = -1;
 
@@ -114,9 +114,9 @@ p_create_sock (struct udo_sock_tcp *p_sock,
 
 	const struct udo_sock_tcp_create_info
 	{
-		unsigned char ipv6 : 1;
-		const char    *ip_addr;
-		int           port;
+		uint8_t    ipv6 : 1;
+		const char *ip_addr;
+		int        port;
 	} *sock_info = p_sock_info;
 
 	if (!sock) {

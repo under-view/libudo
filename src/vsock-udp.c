@@ -57,7 +57,7 @@
 struct udo_vsock_udp
 {
 	struct udo_log_error_struct err;
-	unsigned char               free;
+	uint8_t                     free;
 	int                         fd;
 	uint32_t                    vcid;
 	int                         port;
@@ -130,7 +130,7 @@ p_create_sock_fd (struct udo_vsock_udp *vsock)
 static struct udo_vsock_udp *
 p_create_vsock (struct udo_vsock_udp *p_vsock,
                 const void *p_vsock_info,
-                const unsigned char server)
+                const uint8_t server)
 {
 	struct udo_vsock_udp *vsock = p_vsock;
 

@@ -59,7 +59,7 @@ udo_sock_udp (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		unsigned char               free;
+		uint8_t                     free;
 		int                         fd;
 		char                        ip_addr[INET6_ADDRSTRLEN];
 		int                         port;
@@ -100,9 +100,9 @@ udo_sock_udp_server_create_info
 .. c:struct:: udo_sock_udp_server_create_info
 
 	.. c:member::
-		unsigned char ipv6 : 1;
-		const char    *ip_addr;
-		int           port;
+		uint8_t    ipv6 : 1;
+		const char *ip_addr;
+		int        port;
 
 	:c:member:`ipv6`
 		| Boolean to determine if a socket is soley an ipv6
@@ -147,7 +147,7 @@ udo_sock_udp_server_create
 udo_sock_udp_server_accept
 ==========================
 
-.. c:function:: int udo_sock_udp_server_accept(struct udo_sock_udp *sock, const struct sockaddr_in6 *addr, const unsigned char ipv6);
+.. c:function:: int udo_sock_udp_server_accept(struct udo_sock_udp *sock, const struct sockaddr_in6 *addr, const uint8_t ipv6);
 
 | Creates file descriptor that can filter for
 | ``addr`` data comming to server file descriptor.
@@ -217,9 +217,9 @@ udo_sock_udp_client_create_info
 .. c:struct:: udo_sock_udp_client_create_info
 
 	.. c:member::
-		unsigned char ipv6 : 1;
-		const char    *ip_addr;
-		int           port;
+		uint8_t    ipv6 : 1;
+		const char *ip_addr;
+		int        port;
 
 	:c:member:`ipv6`
 		| Boolean to determine if a socket is soley an ipv6

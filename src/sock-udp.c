@@ -56,7 +56,7 @@
 struct udo_sock_udp
 {
 	struct udo_log_error_struct err;
-	unsigned char               free;
+	uint8_t                     free;
 	int                         fd;
 	char                        ip_addr[INET6_ADDRSTRLEN];
 	int                         port;
@@ -70,15 +70,15 @@ struct udo_sock_udp
 
 struct udo_sock_udp_create_info
 {
-	unsigned char ipv6 : 1;
-	const char    *ip_addr;
-	int           port;
+	uint8_t    ipv6 : 1;
+	const char *ip_addr;
+	int        port;
 };
 
 
 static int
 p_create_sock_fd (struct udo_sock_udp *sock,
-                  const unsigned char ipv6)
+                  const uint8_t ipv6)
 {
 	int sock_fd = -1, err = -1;
 
@@ -207,7 +207,7 @@ udo_sock_udp_server_create (struct udo_sock_udp *p_sock,
 int
 udo_sock_udp_server_accept (struct udo_sock_udp *sock,
                             const struct sockaddr_in6 *addr,
-                            const unsigned char ipv6)
+                            const uint8_t ipv6)
 {
 	const char *ip_addr = NULL;
 

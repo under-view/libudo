@@ -112,7 +112,7 @@ udo_futex_create (const void *p_futex_info)
  ********************************************/
 
 UDO_STATIC_INLINE
-unsigned char
+uint8_t
 p_is_futex_funlock (udo_atomic_u32 *fux)
 {
 	return __atomic_load_n(fux, __ATOMIC_ACQUIRE) == UDO_FUTEX_UNLOCK_FORCE;

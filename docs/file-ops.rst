@@ -60,7 +60,7 @@ udo_file_ops (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		unsigned char               free;
+		uint8_t                     free;
 		int                         fd;
 		int                         pipe_fds[2];
 		size_t                      alloc_sz;
@@ -113,12 +113,12 @@ udo_file_ops_create_info
 .. c:struct:: udo_file_ops_create_info
 
 	.. c:member::
-		const char    *fname;
-		size_t        size;
-		off_t         offset;
-		unsigned char create_pipe : 1;
-		unsigned char create_dir : 1;
-		unsigned char protect : 1;
+		const char *fname;
+		size_t     size;
+		off_t      offset;
+		uint8_t    create_pipe : 1;
+		uint8_t    create_dir : 1;
+		uint8_t    protect : 1;
 
 	:c:member:`fname`
 		| Full path to file caller wants to `open(2)`_ | `creat(2)`_.

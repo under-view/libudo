@@ -46,9 +46,9 @@ struct udo_sock_udp;
  */
 struct udo_sock_udp_server_create_info
 {
-	unsigned char ipv6 : 1;
-	const char    *ip_addr;
-	int           port;
+	uint8_t    ipv6 : 1;
+	const char *ip_addr;
+	int        port;
 };
 
 
@@ -93,7 +93,7 @@ UDO_API
 int
 udo_sock_udp_server_accept (struct udo_sock_udp *sock,
                             const struct sockaddr_in6 *addr,
-                            const unsigned char ipv6);
+                            const uint8_t ipv6);
 
 
 /*
@@ -132,9 +132,9 @@ udo_sock_udp_server_recv_data (struct udo_sock_udp *sock,
  */
 struct udo_sock_udp_client_create_info
 {
-	unsigned char ipv6 : 1;
-	const char    *ip_addr;
-	int           port;
+	uint8_t    ipv6 : 1;
+	const char *ip_addr;
+	int        port;
 };
 
 

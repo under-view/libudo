@@ -57,7 +57,7 @@
 struct udo_csock_raw
 {
 	struct udo_log_error_struct err;
-	unsigned char               free;
+	uint8_t                     free;
 	int                         fd;
 	char                        iface[IFNAMSIZ];
 };

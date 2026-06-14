@@ -347,7 +347,7 @@ UDO_ATOMIC_DEF
 
 		/* Atomic Types */
 		UDO_ATOMIC_DEF(udo_atomic_int, int)
-		UDO_ATOMIC_DEF(udo_atomic_bool, unsigned char)
+		UDO_ATOMIC_DEF(udo_atomic_bool, uint8_t)
 		UDO_ATOMIC_DEF(udo_atomic_u32, unsigned int)
 		UDO_ATOMIC_DEF(udo_atomic_addr, unsigned char *)
 

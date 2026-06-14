@@ -84,7 +84,7 @@ udo_vsock_udp (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		unsigned char               free;
+		uint8_t                     free;
 		int                         fd;
 		uint32_t                    vcid;
 		int                         port;

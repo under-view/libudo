@@ -66,7 +66,7 @@
 struct udo_file_ops
 {
 	struct udo_log_error_struct err;
-	unsigned char               free;
+	uint8_t                     free;
 	int                         fd;
 	int                         pipe_fds[2];
 	size_t                      alloc_sz;

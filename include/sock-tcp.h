@@ -49,10 +49,10 @@ struct udo_sock_tcp;
  */
 struct udo_sock_tcp_server_create_info
 {
-	unsigned char ipv6 : 1;
-	const char    *ip_addr;
-	int           port;
-	int           connections;
+	uint8_t    ipv6 : 1;
+	const char *ip_addr;
+	int        port;
+	int        connections;
 };
 
 
@@ -106,9 +106,9 @@ udo_sock_tcp_server_accept (struct udo_sock_tcp *sock,
  */
 struct udo_sock_tcp_client_create_info
 {
-	unsigned char ipv6 : 1;
-	const char    *ip_addr;
-	int           port;
+	uint8_t    ipv6 : 1;
+	const char *ip_addr;
+	int        port;
 };
 
 

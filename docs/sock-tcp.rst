@@ -58,7 +58,7 @@ udo_sock_tcp (private)
 
 	.. c:member::
 		struct udo_log_error_struct err;
-		unsigned char               free;
+		uint8_t                     free;
 		int                         fd;
 		char                        ip_addr[INET6_ADDRSTRLEN];
 		int                         port;
@@ -99,10 +99,10 @@ udo_sock_tcp_server_create_info
 .. c:struct:: udo_sock_tcp_server_create_info
 
 	.. c:member::
-		unsigned char ipv6 : 1;
-		const char    *ip_addr;
-		int           port;
-		int           connections;
+		uint8_t    ipv6 : 1;
+		const char *ip_addr;
+		int        port;
+		int        connections;
 
 	:c:member:`ipv6`
 		| Boolean to determine if a socket is soley an ipv6
@@ -183,9 +183,9 @@ udo_sock_tcp_client_create_info
 .. c:struct:: udo_sock_tcp_client_create_info
 
 	.. c:member::
-		unsigned char ipv6 : 1;
-		const char    *ip_addr;
-		int           port;
+		uint8_t    ipv6 : 1;
+		const char *ip_addr;
+		int        port;
 
 	:c:member:`ipv6`
 		| Boolean to determine if a socket is soley an ipv6
