@@ -15,7 +15,8 @@ main_headers = [
   'futex.h',
   'log.h',
   'macros.h',
-  'mm.h'
+  'mm.h',
+  'version.h'
 ]
 
 if file_ops.enabled()

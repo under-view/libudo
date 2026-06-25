@@ -32,7 +32,12 @@ vsock_udp = get_option('vsock-udp')
 
 inc = include_directories('include')
 
-pargs += ['-D_FILE_OFFSET_BITS=@0@'.format(file_offset_bits)]
+pargs += [
+  '-DUDO_VERSION_MAJOR=@0@'.format(so_version.split('.')[0]),
+  '-DUDO_VERSION_MINOR=@0@'.format(so_version.split('.')[1]),
+  '-DUDO_VERSION_PATCH=@0@'.format(so_version.split('.')[2]),
+  '-D_FILE_OFFSET_BITS=@0@'.format(file_offset_bits)
+]
 
 subdir('include')
 subdir('src')
