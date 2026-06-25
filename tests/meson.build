@@ -5,6 +5,7 @@ progs = [
   'test-log.c',
   'test-macros.c',
   'test-mm.c',
+  'test-version.c',
 ]
 
 if file_ops.enabled()
