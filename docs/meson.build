@@ -14,6 +14,7 @@ docs_src = files([
   'sock-udp.rst',
   'usock-tcp.rst',
   'usock-udp.rst',
+  'version.rst',
   'vsock-tcp.rst',
   'vsock-udp.rst',
 ])

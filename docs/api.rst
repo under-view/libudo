@@ -17,5 +17,6 @@
 	csock-raw
 	usock-tcp
 	usock-udp
+	version
 	vsock-tcp
 	vsock-udp
