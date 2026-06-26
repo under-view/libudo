@@ -68,6 +68,15 @@
 
 
 /*
+ * @brief Converts object-like macro value to string.
+ *
+ * @param m - Must pass object-like macro.
+ */
+#define UDO_STR(m) #m
+#define UDO_STRINGIFY(m) UDO_STR(m)
+
+
+/*
  * @brief Returns the maximum value between @a and @b.
  *
  * @param a - Must pass an integer value.
