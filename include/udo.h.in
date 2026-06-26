@@ -29,6 +29,7 @@
 #include "futex.h"
 #include "log.h"
 #include "mm.h"
+#include "version.h"
 @FILE_OPS_INTERFACE@
 @SHM_INTERFACE@
 @SOCK_TCP_INTERFACE@
