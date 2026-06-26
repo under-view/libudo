@@ -19,6 +19,7 @@ Macros
 #. :c:macro:`UDO_DIR_NAME_MAX`
 #. :c:macro:`UDO_FILE_NAME_MAX`
 #. :c:macro:`UDO_FILE_PATH_MAX`
+#. :c:macro:`UDO_STRINGIFY`
 #. :c:macro:`UDO_MAX`
 #. :c:macro:`UDO_MIN`
 #. :c:macro:`UDO_BYTE_ALIGN`
@@ -160,6 +161,29 @@ UDO_FILE_PATH_MAX
 	.. code-block::
 
 		#define UDO_FILE_PATH_MAX (UDO_DIR_NAME_MAX + UDO_FILE_NAME_MAX)
+
+=========================================================================================================================================
+
+=============
+UDO_STRINGIFY
+=============
+
+.. c:macro:: UDO_STRINGIFY
+
+| Converts object-like macro value to string.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - m
+		  - | Must pass object-like macro.
+
+	.. code-block::
+
+		#define UDO_STR(m) #m
+		#define UDO_STRINGIFY(m) UDO_STR(m)
 
 =========================================================================================================================================
 
