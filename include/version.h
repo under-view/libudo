@@ -33,7 +33,7 @@
  * @returns
  * 	Library version
  */
-#define udo_version() \
+#define udo_version_get() \
 	UDO_STRINGIFY(UDO_VERSION_MAJOR) "." \
 	UDO_STRINGIFY(UDO_VERSION_MINOR) "." \
 	UDO_STRINGIFY(UDO_VERSION_PATCH)

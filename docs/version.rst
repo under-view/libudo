@@ -12,7 +12,7 @@ Table of contents (click to go)
 Macros
 ======
 
-1. :c:macro:`udo_version`
+1. :c:macro:`udo_version_get`
 #. :c:macro:`udo_version_get_major`
 #. :c:macro:`udo_version_get_minor`
 #. :c:macro:`udo_version_get_patch`
@@ -36,17 +36,17 @@ Functions
 API Documentation
 ~~~~~~~~~~~~~~~~~
 
-===========
-udo_version
-===========
+===============
+udo_version_get
+===============
 
-.. c:macro:: udo_version
+.. c:macro:: udo_version_get
 
 | Returns version of library in C string format.
 
 	.. code-block::
 
-		#define udo_version() \
+		#define udo_version_get() \
 			UDO_STRINGIFY(UDO_VERSION_MAJOR) "." \
 			UDO_STRINGIFY(UDO_VERSION_MINOR) "." \
 			UDO_STRINGIFY(UDO_VERSION_PATCH)

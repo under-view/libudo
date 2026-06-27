@@ -35,12 +35,12 @@
 
 #include "version.h"
 
-/***********************************
- * Start of test_version functions *
- ***********************************/
+/***************************************
+ * Start of test_version_get functions *
+ ***************************************/
 
 static void UDO_UNUSED
-test_version (void UDO_UNUSED **state)
+test_version_get (void UDO_UNUSED **state)
 {
 	char buf[64];
 
@@ -51,7 +51,7 @@ test_version (void UDO_UNUSED **state)
 		UDO_VERSION_MINOR, \
 		UDO_VERSION_PATCH);
 
-	assert_string_equal(buf, udo_version());
+	assert_string_equal(buf, udo_version_get());
 }
 
 
@@ -75,15 +75,15 @@ test_version_get_patch (void UDO_UNUSED **state)
 	assert_uint_equal(UDO_VERSION_PATCH, udo_version_get_patch());
 }
 
-/*********************************
- * End of test_version functions *
- *********************************/
+/*************************************
+ * End of test_version_get functions *
+ *************************************/
 
 int
 main (void)
 {
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test(test_version),
+		cmocka_unit_test(test_version_get),
 		cmocka_unit_test(test_version_get_major),
 		cmocka_unit_test(test_version_get_minor),
 		cmocka_unit_test(test_version_get_patch),
