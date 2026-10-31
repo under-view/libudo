@@ -22,6 +22,7 @@ Macros
 #. :c:macro:`UDO_STRINGIFY`
 #. :c:macro:`UDO_MAX`
 #. :c:macro:`UDO_MIN`
+#. :c:macro:`UDO_ARRAY_SIZE`
 #. :c:macro:`UDO_BYTE_ALIGN`
 #. :c:macro:`UDO_PAGE_SIZE`
 #. :c:macro:`UDO_PAGE_GET`
@@ -239,6 +240,29 @@ UDO_MIN
 
 	Returns:
 		| Minimum value between ``2`` numbers
+
+=========================================================================================================================================
+
+==============
+UDO_ARRAY_SIZE
+==============
+
+.. c:macro:: UDO_ARRAY_SIZE
+
+| Returns the array size of ``a``.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - a
+		  - | Must pass an array variable.
+
+	.. code-block::
+
+		#define UDO_ARRAY_SIZE(a) \
+			(sizeof(a) / sizeof(*a))
 
 =========================================================================================================================================
 

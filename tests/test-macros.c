@@ -133,6 +133,39 @@ test_macro_udo_strtou (void UDO_UNUSED **state)
  * End of test_macro_udo_strtou functions *
  ******************************************/
 
+
+/************************************************
+ * Start of test_macro_udo_array_size functions *
+ ************************************************/
+
+static void UDO_UNUSED
+test_macro_udo_array_size (void UDO_UNUSED **state)
+{
+	int size = -1;
+
+	const char *char_arr[] = { "1", "2", "3" };
+	const uint32_t uint_arr[] = { 0, 1, 2, 3, 4 };
+
+	const float float_arr[] = {
+		0.69f, 1.56f, 2.13f,
+		3.45f, 4.87f, 5.25f,
+		6.00f, 7.88f, 8.55f
+	};
+
+	size = UDO_ARRAY_SIZE(char_arr);
+	assert_int_equal(size, 3);
+
+	size = UDO_ARRAY_SIZE(uint_arr);
+	assert_int_equal(size, 5);
+
+	size = UDO_ARRAY_SIZE(float_arr);
+	assert_int_equal(size, 9);
+}
+
+/**********************************************
+ * End of test_macro_udo_array_size functions *
+ **********************************************/
+
 int
 main (void)
 {
@@ -141,6 +174,7 @@ main (void)
 		cmocka_unit_test(test_macro_udo_byte_align),
 		cmocka_unit_test(test_macro_udo_page),
 		cmocka_unit_test(test_macro_udo_strtou),
+		cmocka_unit_test(test_macro_udo_array_size),
 	};
 
 	return cmocka_run_group_tests(tests, NULL, NULL);

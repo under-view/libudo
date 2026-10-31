@@ -106,6 +106,18 @@
 
 
 /*
+ * @brief Returns the array size of @a.
+ *
+ * @param a - Must pass an array variable.
+ *
+ * @returns
+ * 	Amount of elements in array pased to @a
+ */
+#define UDO_ARRAY_SIZE(a) \
+	(sizeof(a) / sizeof(*a))
+
+
+/*
  * @brief Returns the upper bound byte alignment value.
  *        Alignment value must be a power of 2 number.
  *
