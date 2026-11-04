@@ -27,6 +27,7 @@ Macros
 #. :c:macro:`UDO_PAGE_SIZE`
 #. :c:macro:`UDO_PAGE_GET`
 #. :c:macro:`UDO_STRTOU`
+#. :c:macro:`UDO_STRTOU_UTOC`
 #. :c:macro:`UDO_ATOMIC_DEF`
 
 =====
@@ -361,6 +362,45 @@ UDO_STRTOU
 				if (!str) goto __out; \
 				const char *s = str; \
 				while (*s) hash += *s++; \
+				__out: hash; \
+			})
+
+	Returns:
+		| ``unsigned`` integer representing string
+
+=========================================================================================================================================
+
+===============
+UDO_STRTOU_UTOC
+===============
+
+.. c:macro:: UDO_STRTOU_UTOC
+
+| Converts string to an unsigned integer
+| ``up to`` **(UTO)** a caller given ``character`` **(C)**.
+| Caller given character not included in
+| the hash. Simple one way hash function.
+
+	.. list-table::
+		:header-rows: 1
+
+		* - Param
+	          - Decription
+		* - str
+		  - | Pointer to string to hash.
+		* - c
+		  - | Character to stop hash calculation at.
+
+	.. code-block::
+
+		#define UDO_STRTOU_UTOC(str, c) \
+			__extension__ \
+			({ \
+				__label__ __out; \
+				uint32_t hash=0; \
+				if (!str) goto __out; \
+				const char *s = str; \
+				while (*s!=c) hash+=*s++; \
 				__out: hash; \
 			})
 

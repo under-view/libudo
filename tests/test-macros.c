@@ -129,6 +129,25 @@ test_macro_udo_strtou (void UDO_UNUSED **state)
 	assert_int_equal(hash, 663);
 }
 
+
+static void UDO_UNUSED
+test_macro_udo_strtou_utoc (void UDO_UNUSED **state)
+{
+	uint32_t hash;
+
+	hash = UDO_STRTOU_UTOC(NULL, '<');
+	assert_int_equal(hash, 0);
+
+	hash = UDO_STRTOU_UTOC("--my-string=testing", '=');
+	assert_int_equal(hash, 1028);
+
+	hash = UDO_STRTOU_UTOC("--my-string-two?findME", '?');
+	assert_int_equal(hash, 1419);
+
+	hash = UDO_STRTOU_UTOC("tester", 's');
+	assert_int_equal(hash, 217);
+}
+
 /******************************************
  * End of test_macro_udo_strtou functions *
  ******************************************/
@@ -174,6 +193,7 @@ main (void)
 		cmocka_unit_test(test_macro_udo_byte_align),
 		cmocka_unit_test(test_macro_udo_page),
 		cmocka_unit_test(test_macro_udo_strtou),
+		cmocka_unit_test(test_macro_udo_strtou_utoc),
 		cmocka_unit_test(test_macro_udo_array_size),
 	};
 

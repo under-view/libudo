@@ -171,6 +171,30 @@
 
 
 /*
+ * @brief Converts string to an unsigned integer
+ *        up to (UTO) a caller given character (C).
+ *        Caller given character not included in
+ *        the hash. Simple one way hash function.
+ *
+ * @param str - Pointer to string to hash.
+ * @param c   - Character to stop hash calculation at.
+ *
+ * @returns
+ * 	unsigned integer representing string
+ */
+#define UDO_STRTOU_UTOC(str, c) \
+	__extension__ \
+	({ \
+		__label__ __out; \
+		uint32_t hash=0; \
+		if (!str) goto __out; \
+		const char *s = str; \
+		while (*s!=c) hash+=*s++; \
+		__out: hash; \
+	})
+
+
+/*
  * @brief Create atomic variable type of a
  *        caller defined data type.
  *
