@@ -146,6 +146,9 @@ test_macro_udo_strtou_utoc (void UDO_UNUSED **state)
 
 	hash = UDO_STRTOU_UTOC("tester", 's');
 	assert_int_equal(hash, 217);
+
+	hash = UDO_STRTOU_UTOC("tester", 'y');
+	assert_int_equal(hash, 663);
 }
 
 /******************************************

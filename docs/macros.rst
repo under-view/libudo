@@ -380,7 +380,11 @@ UDO_STRTOU_UTOC
 | Converts string to an unsigned integer
 | ``up to`` **(UTO)** a caller given ``character`` **(C)**.
 | Caller given character not included in
-| the hash. Simple one way hash function.
+| the hash. If caller given character not
+| found the entire string gets included into
+| the hash.
+|
+| Macro is a simple one way hash function.
 
 	.. list-table::
 		:header-rows: 1
@@ -401,7 +405,7 @@ UDO_STRTOU_UTOC
 				uint32_t hash=0; \
 				if (!str) goto __out; \
 				const char *s = str; \
-				while (*s!=c) hash+=*s++; \
+				while (*s&&*s!=c) hash+=*s++; \
 				__out: hash; \
 			})
 

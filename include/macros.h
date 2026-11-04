@@ -174,7 +174,11 @@
  * @brief Converts string to an unsigned integer
  *        up to (UTO) a caller given character (C).
  *        Caller given character not included in
- *        the hash. Simple one way hash function.
+ *        the hash. If caller given character not
+ *        found the entire string gets included into
+ *        the hash.
+ *
+ *        Macro is a Simple one way hash function.
  *
  * @param str - Pointer to string to hash.
  * @param c   - Character to stop hash calculation at.
@@ -189,7 +193,7 @@
 		uint32_t hash=0; \
 		if (!str) goto __out; \
 		const char *s = str; \
-		while (*s!=c) hash+=*s++; \
+		while (*s&&*s!=c) hash+=*s++; \
 		__out: hash; \
 	})
 
