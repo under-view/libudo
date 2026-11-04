@@ -215,8 +215,12 @@ UDO_ATOMIC_DEF(udo_atomic_addr, unsigned char *)
 
 
 /*
- * Shamefully stolen from
- * https://github.com/googlearchive/android-audio-high-performance/blob/master/SimpleSynth/app/src/main/cpp/cpu_relax.h
+ * @brief Macro used inside busy-wait loops or spinlocks to
+ *        lower CPU power consumption, improve performance
+ *        on multiple cores, and act as a compiler barrier.
+ *
+ *        NOTE: Shamefully stolen from
+ *        https://github.com/googlearchive/android-audio-high-performance/blob/master/SimpleSynth/app/src/main/cpp/cpu_relax.h
  */
 #if defined(__i386__) || defined(__x86_64__)
 #define UDO_CPU_RELAX() asm volatile("rep; nop" ::: "memory")
