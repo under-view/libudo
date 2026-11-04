@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+#include <stddef.h>
 #include <inttypes.h>
 #include <sys/mman.h>
 
@@ -168,20 +169,26 @@ test_macro_udo_strtou_utoc (void UDO_UNUSED **state)
 {
 	uint32_t hash;
 
-	hash = UDO_STRTOU_UTOC(NULL, '<');
+	ptrdiff_t index = 0;
+
+	hash = UDO_STRTOU_UTOC(NULL, '<', &index);
 	assert_int_equal(hash, 0);
+	assert_int_equal(index, 0);
 
-	hash = UDO_STRTOU_UTOC("--my-string=testing", '=');
+	hash = UDO_STRTOU_UTOC("--my-string=testing", '=', &index);
 	assert_int_equal(hash, 1028);
+	assert_int_equal(index, 11);
 
-	hash = UDO_STRTOU_UTOC("--my-string-two?findME", '?');
+	hash = UDO_STRTOU_UTOC("--my-string-two?findME", '?', NULL);
 	assert_int_equal(hash, 1419);
 
-	hash = UDO_STRTOU_UTOC("tester", 's');
+	hash = UDO_STRTOU_UTOC("tester", 's', &index);
 	assert_int_equal(hash, 217);
+	assert_int_equal(index, 2);
 
-	hash = UDO_STRTOU_UTOC("tester", 'y');
+	hash = UDO_STRTOU_UTOC("tester", 'y', &index);
 	assert_int_equal(hash, 663);
+	assert_int_equal(index, 6);
 }
 
 /******************************************

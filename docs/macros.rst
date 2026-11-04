@@ -395,17 +395,23 @@ UDO_STRTOU_UTOC
 		  - | Pointer to string to hash.
 		* - c
 		  - | Character to stop hash calculation at.
+		* - ci
+		  - Must pass a pointer to a ``ptrdiff_t``. Value
+		    returned will be the character index(ci)
+		    of the last character hashed in caller
+		    passed string ``str``.
 
 	.. code-block::
 
-		#define UDO_STRTOU_UTOC(str, c) \
+		#define UDO_STRTOU_UTOC(str, c, ci) \
 			__extension__ \
 			({ \
 				__label__ __out; \
 				uint32_t hash=0; \
 				if (!str) goto __out; \
 				const char *s = str; \
-				while (*s&&*s!=c) hash+=*s++; \
+				while (*s&&*s!=c) {hash+=*s++;} \
+				if (ci!=NULL) {*((char*)ci)=(char*)s-(char*)str;} \
 				__out: hash; \
 			})
 
