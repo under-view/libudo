@@ -25,7 +25,8 @@
 #ifndef UDO_MACROS_H
 #define UDO_MACROS_H
 
-#include <stdint.h>   /* For uintptr_t */
+#include <stdint.h> /* For uintptr_t */
+#include <stddef.h> /* ptrdiff_t */
 
 /*
  * Used to prevent C++ name mangling when
@@ -198,7 +199,7 @@
 		if (!str) goto __out; \
 		const char *s = str; \
 		while (*s&&*s!=c) {hash+=*s++;} \
-		if (ci!=NULL) {*((char*)ci)=(char*)s-(char*)str;} \
+		if (ci!=NULL) {*((ptrdiff_t*)ci)=(char*)s-(char*)str;} \
 		__out: hash; \
 	})
 
