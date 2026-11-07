@@ -171,6 +171,8 @@ test_macro_udo_strtou_utoc (void UDO_UNUSED **state)
 
 	ptrdiff_t index = 0;
 
+	const char *test_flags[] = { "exec", "--my-flag", "some-arg" };
+
 	hash = UDO_STRTOU_UTOC(NULL, '<', &index);
 	assert_int_equal(hash, 0);
 	assert_int_equal(index, 0);
@@ -189,6 +191,14 @@ test_macro_udo_strtou_utoc (void UDO_UNUSED **state)
 	hash = UDO_STRTOU_UTOC("tester", 'y', &index);
 	assert_int_equal(hash, 663);
 	assert_int_equal(index, 6);
+
+	hash = UDO_STRTOU_UTOC(test_flags[1], '=', &index);
+	assert_int_equal(hash, 775);
+	assert_int_equal(index, 9);
+
+	hash = UDO_STRTOU_UTOC(test_flags[2], '-', &index);
+	assert_int_equal(hash, 436);
+	assert_int_equal(index, 4);
 }
 
 /******************************************
