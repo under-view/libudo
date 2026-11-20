@@ -67,7 +67,7 @@ udo_file_ops (private)
 		size_t                      data_sz;
 		void                        *data;
 		uint16_t                    fname_off;
-		char                        full_path[FILE_PATH_MAX];
+		char                        full_path[UDO_FILE_PATH_MAX];
 
 	:c:member:`err`
 		| Stores information about the error that occured
