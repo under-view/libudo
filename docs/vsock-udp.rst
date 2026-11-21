@@ -97,7 +97,7 @@ udo_vsock_udp (private)
 
 	:c:member:`free`
 		| If structure allocated with `calloc(3)`_ member will be
-		| set to true so that, we know to call `free(3)`_ when
+		| set to true. So that the api knows to call `free(3)`_ when
 		| destroying the context.
 
 	:c:member:`fd`

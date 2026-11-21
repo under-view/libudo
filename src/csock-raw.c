@@ -49,7 +49,7 @@
  *                 for the given context and may later be retrieved
  *                 by caller.
  * @member free  - If structure allocated with calloc(3) member will be
- *                 set to true so that, we know to call free(3) when
+ *                 set to true. So that the api knows to call free(3) when
  *                 destroying the context.
  * @member fd    - File descriptor to the open CAN socket.
  * @member iface - Textual CAN interface name in string format to bind(2) to.

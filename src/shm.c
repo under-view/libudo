@@ -78,7 +78,7 @@ struct udo_shm_proc
  *                    for the given context and may later be retrieved
  *                    by caller.
  * @member free     - If structure allocated with calloc(3) member will be
- *                    set to true so that, we know to call free(3) when
+ *                    set to true. So that the api knows to call free(3) when
  *                    destroying the context.
  * @member fd       - Open file descriptor to POSIX shared memory.
  * @member shm_file - Name of the POSIX shared memory file starting with '/'.
