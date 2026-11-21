@@ -150,6 +150,10 @@ udo_shm_create_info
 		| write to and from the shared memory
 		| block.
 
+==============
+udo_shm_create
+==============
+
 .. c:function:: struct udo_shm *udo_shm_create(struct udo_shm *shm, const void *shm_info);
 
 | Creates POSIX shared memory and futexes.
