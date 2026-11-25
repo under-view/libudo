@@ -18,6 +18,10 @@ Macros
 #. :c:macro:`udo_log_warning`
 #. :c:macro:`udo_log_error`
 #. :c:macro:`udo_log_print`
+#. :c:macro:`udo_log_print_success`
+#. :c:macro:`udo_log_print_info`
+#. :c:macro:`udo_log_print_warning`
+#. :c:macro:`udo_log_print_error`
 #. :c:macro:`udo_log_set_error`
 
 =====
@@ -461,6 +465,86 @@ udo_log_print
 
 		#define udo_log_print(log_type, fmt, ...) \
 			udo_log_notime(log_type, fmt, ##__VA_ARGS__)
+
+=====================
+udo_log_print_success
+=====================
+
+.. c:macro:: udo_log_print_success(fmt, ...)
+
+| Log format
+|
+| NONE
+|
+| Prints to ``stdout`` with ansi color codes the color **GREEN**.
+|
+| Caller may change the open file in which logs are printed to via
+| a call to :c:func:`udo_log_set_write_fd`.
+
+	.. code-block::
+
+		#define udo_log_print(fmt, ...) \
+			udo_log_notime(UDO_LOG_SUCCESS, fmt, ##__VA_ARGS__)
+
+==================
+udo_log_print_info
+==================
+
+.. c:macro:: udo_log_print_info(fmt, ...)
+
+| Log format
+|
+| NONE
+|
+| Prints to ``stdout`` with ansi color codes the color **BLUE**.
+|
+| Caller may change the open file in which logs are printed to via
+| a call to :c:func:`udo_log_set_write_fd`.
+
+	.. code-block::
+
+		#define udo_log_print(fmt, ...) \
+			udo_log_notime(UDO_LOG_INFO, fmt, ##__VA_ARGS__)
+
+=====================
+udo_log_print_warning
+=====================
+
+.. c:macro:: udo_log_print_warning(fmt, ...)
+
+| Log format
+|
+| NONE
+|
+| Prints to ``stdout`` with ansi color codes the color **YELLOW**.
+|
+| Caller may change the open file in which logs are printed to via
+| a call to :c:func:`udo_log_set_write_fd`.
+
+	.. code-block::
+
+		#define udo_log_print(fmt, ...) \
+			udo_log_notime(UDO_LOG_WARNING, fmt, ##__VA_ARGS__)
+
+===================
+udo_log_print_error
+===================
+
+.. c:macro:: udo_log_print_error(fmt, ...)
+
+| Log format
+|
+| NONE
+|
+| Prints to ``stdout`` with ansi color codes the color **RED**.
+|
+| Caller may change the open file in which logs are printed to via
+| a call to :c:func:`udo_log_set_write_fd`.
+
+	.. code-block::
+
+		#define udo_log_print(fmt, ...) \
+			udo_log_notime(UDO_LOG_ERROR, fmt, ##__VA_ARGS__)
 
 =================
 udo_log_set_error
