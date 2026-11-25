@@ -104,10 +104,10 @@ test_log_print (void UDO_UNUSED **state)
 	udo_log_print(UDO_LOG_WARNING, "WARNING\n");
 
 	udo_log_set_level(UDO_LOG_SUCCESS|UDO_LOG_WARNING);
-	udo_log_print(UDO_LOG_SUCCESS, "SUCCESS: After log level set\n");
-	udo_log_print(UDO_LOG_ERROR, "DANGER: After log level set\n");
-	udo_log_print(UDO_LOG_INFO, "INFO: After log level set\n");
-	udo_log_print(UDO_LOG_WARNING, "WARNING: After log level set\n");
+	udo_log_print_success("SUCCESS: After log level set\n");
+	udo_log_print_error("DANGER: After log level set\n");
+	udo_log_print_info("INFO: After log level set\n");
+	udo_log_print_warning("WARNING: After log level set\n");
 }
 
 /***********************************

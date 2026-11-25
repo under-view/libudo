@@ -262,6 +262,18 @@ udo_log_get_tcolor (enum udo_log_level_type type);
 #define udo_log_print(log_type, fmt, ...) \
 	udo_log_notime(log_type, fmt, ##__VA_ARGS__)
 
+#define udo_log_print_success(fmt, ...) \
+	udo_log_notime(UDO_LOG_SUCCESS, fmt, ##__VA_ARGS__)
+
+#define udo_log_print_info(fmt, ...) \
+	udo_log_notime(UDO_LOG_INFO, fmt, ##__VA_ARGS__)
+
+#define udo_log_print_warning(fmt, ...) \
+	udo_log_notime(UDO_LOG_WARNING, fmt, ##__VA_ARGS__)
+
+#define udo_log_print_error(fmt, ...) \
+	udo_log_notime(UDO_LOG_ERROR, fmt, ##__VA_ARGS__)
+
 #define udo_log_set_error(ptr, code, fmt, ...) \
 	udo_log_set_error_struct(ptr, code, "[%s:%d] " fmt, \
 	                         __FILE_NAME__, __LINE__, ##__VA_ARGS__)
